@@ -1,15 +1,17 @@
 package com.wolfTungsten.vcampus.repository;
 
-import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.support.ConnectionSource;
 
 public abstract class CurdRepository<E> {
-	private Connection conn;
-	private String tableName;
+
+	protected Dao<E, String> dao;
 	
-	public CurdRepository(Connection conn, String tableName) {
-		this.conn = conn;
-		this.tableName = tableName;
+	public CurdRepository(ConnectionSource conn, Class<E> entityClass) throws SQLException {
+		dao =  DaoManager.createDao(conn, entityClass);
 	}
-	
-	
+		
 }

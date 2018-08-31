@@ -1,25 +1,40 @@
 package com.wolfTungsten.vcampus.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import java.sql.SQLException;
 
+import com.wolfTungsten.vcampus.utils.Request;
+import com.wolfTungsten.vcampus.utils.Response;
 
-@Controller    // This means that this class is a Controller
-@RequestMapping(path="/user") // This means URL's start with /demo (after Application path)
-public class UserController {
+public class UserController extends BaseController{
 
-
-	@GetMapping(path="/add") // Map ONLY GET Requests
-	public @ResponseBody String addNewUser (@RequestParam String name
-			, @RequestParam String cardnum) {
-		// @ResponseBody means the returned String is the response, not a view name
-		// @RequestParam means it is a parameter from the GET or POST request
-
-		return "Saved";
+	public UserController() {
+		super();
+		this.addHandle("addUser", addUserHandle);
 	}
+	
+	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
+		
+		@Override
+		public Response work(Request request) {
+			Response response = new Response();
+			String username = (String) request.getParams().get("username");
+			String cardnum = (String) request.getParams().get("cardnum");
+			try {
+				orm.userRepository.AddUser(username, cardnum);
+				response.setSuccess(true);
+				System.out.println(String.format("用户名：%s - 一卡通号：%s", username, cardnum));
+				return response;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "数据库读写出错");
+				return response;
+			}
+			
+		}
+		
+	};
 
 	
 }

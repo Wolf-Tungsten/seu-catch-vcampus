@@ -1,40 +1,33 @@
-package com.wolfTungsten.vcampus;
+﻿package com.wolfTungsten.vcampus;
 
-import java.io.IOException;
 import java.sql.SQLException;
 
-import com.j256.ormlite.dao.Dao;
-import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
-import com.wolfTungsten.vcampus.entity.User;
+import com.wolfTungsten.vcampus.repository.UserRepository;
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
 
 // 
 public class ORM {
 	
+	private ConnectionSource conn;
+	
+	public UserRepository userRepository;
+	
     private ORM(){
-    	try {
-    		DatabaseType databaseType = new AccessDatabaseType();
-			ConnectionSource connectionSource =
-					  new JdbcConnectionSource("jdbc:ucanaccess://d:/vCampus.accdb;memory=false", databaseType);
-			Dao<User, String> userDao =
-					  DaoManager.createDao(connectionSource, User.class);
-			User user = new User();
-			user.setCardnum("22222222");
-			user.setUsername("宋kk");
-			userDao.create(user);
-			try {
-				connectionSource.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+    	
+    	DatabaseType databaseType = new AccessDatabaseType();
+		try {
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://d:/vCampus.accdb;memory=false", databaseType);
+			// initialize repositories
+			userRepository = new UserRepository(conn);	
+			
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
     }
     
     private static class ORMHolder{
