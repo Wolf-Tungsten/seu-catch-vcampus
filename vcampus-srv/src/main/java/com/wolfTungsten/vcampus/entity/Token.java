@@ -9,14 +9,21 @@ import com.j256.ormlite.table.DatabaseTable;
 public class Token
 {
 	
-	@DatabaseField(generatedId = true)
+	public static final String UUID = "uuid";
+	public static final String TOKEN = "token";
+	public static final String TIMESTAMP ="timestamp";
+	public static final String USERUUID = "userUuid";
+	
+	
+	
+	@DatabaseField(generatedId = true,columnName = Token.UUID)
 	private UUID uuid;
-	@DatabaseField
+	@DatabaseField(columnName = Token.TOKEN)
 	private String token ;
-	@DatabaseField
+	@DatabaseField(columnName = Token.USERUUID)
 	private String userUuid;
-	@DatabaseField
-	private int createTime;
+	@DatabaseField(columnName = Token.TIMESTAMP)
+	private int timestamp;
 	public Token() {
 		
 	}
@@ -44,13 +51,13 @@ public class Token
 	{
 		this.userUuid = userUuid;
 	}
-	public int getCreateTime()
+	public int getTimestamp()
 	{
-		return createTime;
+		return timestamp;
 	}
-	public void setCreateTime(int createTime)
+	public void setTimestamp(int createTime)
 	{
-		this.createTime = createTime;
+		this.timestamp = createTime;
 	}
 	
 }
