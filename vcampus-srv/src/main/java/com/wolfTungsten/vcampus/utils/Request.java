@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Request {
 	
 	private String path;
-	private String uuid;
+	private String token;
 	private HashMap<String, Object> params;
 	
 	public Request() {
@@ -17,11 +17,11 @@ public class Request {
 	public void setPath(String path) {
 		this.path = path;
 	}
-	public String getUuid() {
-		return uuid;
+	public String getToken() {
+		return token;
 	}
-	public void setUuid(String uuid) {
-		this.uuid = uuid;
+	public void setToken(String token) {
+		this.token = token;
 	}
 	public HashMap<String, Object> getParams() {
 		return params;

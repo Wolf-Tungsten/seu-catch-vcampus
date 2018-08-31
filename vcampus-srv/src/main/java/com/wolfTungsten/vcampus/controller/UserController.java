@@ -10,6 +10,8 @@ public class UserController extends BaseController{
 	public UserController() {
 		super();
 		this.addHandle("addUser", addUserHandle);
+		
+		
 	}
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
@@ -35,6 +37,19 @@ public class UserController extends BaseController{
 		}
 		
 	};
-
+	
+	private BaseController.BaseHandle loginHandle = new BaseController.BaseHandle() 
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			String cardnum = (String) request.getParams().get("cardnum");
+			String password = (String) request.getParams().get("password");
+			
+			// TODO Auto-generated method stub
+			return null;
+		}
+	};
 	
 }

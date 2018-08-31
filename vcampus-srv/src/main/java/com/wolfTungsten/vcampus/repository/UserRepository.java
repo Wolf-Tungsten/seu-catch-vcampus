@@ -1,7 +1,9 @@
 package com.wolfTungsten.vcampus.repository;
 
 import java.sql.SQLException;
+import java.util.UUID;
 
+import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.User;
 
@@ -17,5 +19,15 @@ public class UserRepository extends CurdRepository<User> {
 		user.setUsername(username);
 		dao.create(user);
 	}
+	
+	public UUID login(String cardnum,String password) throws SQLException {
+		User user = new User();
+		 dao.queryBuilder().where().eq("cardnum", cardnum);
+		return null;
+		
+		
+	}
+	
+	
 
 }
