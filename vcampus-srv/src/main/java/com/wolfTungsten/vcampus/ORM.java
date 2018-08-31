@@ -22,8 +22,8 @@ public class ORM {
 			Dao<User, String> userDao =
 					  DaoManager.createDao(connectionSource, User.class);
 			User user = new User();
-			user.setCardnum("213162317");
-			user.setUsername("高睿昊");
+			user.setCardnum("22222222");
+			user.setUsername("宋kk");
 			userDao.create(user);
 			try {
 				connectionSource.close();
