@@ -50,10 +50,9 @@
 
 
         <dependency>
-        	<groupId>access</groupId>
-        	<artifactId>access</artifactId>
-        	<version>0.0.1-SNAPSHOT</version>
-        </dependency>
+		  <groupId>com.google.code.gson</groupId>
+		  <artifactId>gson</artifactId>
+		 </dependency>
 	</dependencies>
 
 	<build>
