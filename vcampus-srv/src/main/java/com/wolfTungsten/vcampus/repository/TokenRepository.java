@@ -28,7 +28,7 @@ public class TokenRepository extends CurdRepository<Token>
 				dao.query((PreparedQuery<Token>) dao.queryBuilder().where().eq(Token.UUID, uuid)
 						.prepare());
 		
-		if(userList.get(0).getToken()==token)
+		if(userList.get(0).getToken().equals(token))
 			return userList.get(0).getTimestamp();;
 		
 		

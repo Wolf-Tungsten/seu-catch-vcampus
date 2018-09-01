@@ -11,7 +11,7 @@ public class UserController extends BaseController{
 	public UserController() {
 		super();
 		this.addHandle("addUser", addUserHandle);
-		
+		this.addHandle("login", loginHandle);
 		
 	}
 	
@@ -79,13 +79,16 @@ public class UserController extends BaseController{
 				e.printStackTrace();
 				response.setSuccess(false);
 				response.getBody().put("result", "登陆失败!");
+				return response;
 			}
 			catch(Exception e) {
 				System.out.println(e.getMessage());
-				//e.printStackTrace();
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				return response;
 			}
-			// TODO Auto-generated method stub
-			return null;
+			
 		}
 	};
 	
