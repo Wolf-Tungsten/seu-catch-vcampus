@@ -15,8 +15,7 @@ public class VCampusServer {
 	public VCampusServer() {
 		
 		pathMap = new HashMap<>();
-		pathMap.put("user", new UserController());
-		
+		pathMap.put("user", new UserController());	
 	}
 	
 	public HashMap<String, BaseController> getPathMap() {
@@ -37,7 +36,6 @@ public class VCampusServer {
 				// 为每个客户端连接开启一个线程
 				new Thread(new VCampusServerThread(client, server)).start();
 			}
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {

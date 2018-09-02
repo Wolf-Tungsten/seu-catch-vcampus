@@ -38,6 +38,7 @@ public class TokenRepository extends CurdRepository<Token>
 		
 	}
 	public void addToken(String token , String userUuid , long timestamp) throws SQLException {
+		
 		Token t = new Token();
 		t.setToken(token);
 		t.setTimestamp(timestamp);
