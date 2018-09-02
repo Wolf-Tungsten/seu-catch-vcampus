@@ -20,7 +20,8 @@ public class UserRepository extends CurdRepository<User> {
 		user.setUsername(username);
 		dao.create(user);
 	}
-	public void addUser(String username,String cardnum,String hash_password,int identity,int privilege ,String photo) throws SQLException {
+	public void addUser(String username,String cardnum,String hash_password,int identity,
+			int privilege ,String photo,String idcardNum,long birthdate,String address) throws SQLException {
 		
 		List<User> userList = dao.query((PreparedQuery<User>)dao.queryBuilder()
 				.where().eq(User.CARDNUM, cardnum).prepare());
@@ -32,6 +33,9 @@ public class UserRepository extends CurdRepository<User> {
 		user.setIdentity(identity);
 		user.setPrivilege(privilege);
 		user.setPhoto(photo);
+		user.setAddress(address);
+		user.setBirthdate(birthdate);
+		user.setIdcardNum(idcardNum);
 		dao.create(user);
 		}else
 		{

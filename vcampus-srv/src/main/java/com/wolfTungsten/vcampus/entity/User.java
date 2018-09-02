@@ -16,7 +16,10 @@ public class User
 	public static final String IDENTITY = "identity";
 	public static final String PRIVILEGE = "privilege";
 	public static final String PHOTO = "photo";
-
+	public static final String IDCARDNUM = "idcardNum";
+	public static final String BIRTHDATE = "birthdate";
+	public static final String ADDRESS = "address";
+	
 	@DatabaseField(generatedId = true, columnName = User.UUID)
 	private UUID uuid;
 	@DatabaseField(columnName = User.USERNAME)
@@ -31,10 +34,45 @@ public class User
 	private int privilege;
 	@DatabaseField(columnName = User.PHOTO)
 	private String photo;
-
+	@DatabaseField(columnName = User.IDCARDNUM)
+	private String idcardNum;
+	@DatabaseField(columnName = User.BIRTHDATE)
+	private long birthdate;
+	@DatabaseField(columnName = User.ADDRESS)
+	private String address;
 	public User()
 	{
 
+	}
+
+	public String getIdcardNum()
+	{
+		return idcardNum;
+	}
+
+	public void setIdcardNum(String idcardNum)
+	{
+		this.idcardNum = idcardNum;
+	}
+
+	public long getBirthdate()
+	{
+		return birthdate;
+	}
+
+	public void setBirthdate(long birthdate)
+	{
+		this.birthdate = birthdate;
+	}
+
+	public String getAddress()
+	{
+		return address;
+	}
+
+	public void setAddress(String address)
+	{
+		this.address = address;
 	}
 
 	public String getHash_password()

@@ -55,9 +55,13 @@ public class UserController extends BaseController{
 			String photo = (String)request.getParams().get(User.PHOTO);
 			int identity = (int)(double)request.getParams().get(User.IDENTITY);
 			int privilege = (int)(double)request.getParams().get(User.PRIVILEGE);
+			long birthdate = (long)(double)request.getParams().get(User.BIRTHDATE);
+			String address = (String)request.getParams().get(User.ADDRESS);
+			String idcardNum = (String)request.getParams().get(User.IDCARDNUM);
 			try
 			{
-				orm.userRepository.addUser(username, cardnum, hash_password, identity, privilege, photo);
+				orm.userRepository.addUser(username, cardnum, hash_password, identity, privilege
+						, photo,idcardNum,birthdate,address);
 				response.setSuccess(true);		
 				//System.out.println(String.format("用户名：%s - 一卡通号：%s", username, cardnum));
 				return response;	

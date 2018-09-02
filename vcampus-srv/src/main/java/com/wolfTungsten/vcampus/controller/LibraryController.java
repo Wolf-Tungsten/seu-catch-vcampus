@@ -3,6 +3,7 @@ package com.wolfTungsten.vcampus.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampus.entity.Book;
@@ -17,6 +18,9 @@ public class LibraryController extends BaseController
 		this.addHandle("addBook", addBookHandle);
 		this.addHandle("updateBook", updateBookHandle);
 		this.addHandle("deleteBook", deleteBookHandle);
+		this.addHandle("queryAllBooks", queryAllHandle);
+		this.addHandle("queryByFlag", queryByFlagHandle);
+	
 	}
 
 	private BaseController.BaseHandle addBookHandle = new BaseHandle()
@@ -97,12 +101,58 @@ public class LibraryController extends BaseController
 					e.printStackTrace();
 					return response;
 				}
-				
-
 			}
 			response.setSuccess(true);
 			return response;
 		}
 	};
+	private BaseController.BaseHandle queryAllHandle = new BaseHandle()
+	{
+	
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
+			try
+			{
+				booksinfoList = orm.bookRepository.inquireAllBook();
+				response.getBody().put("booksInfoMapList", booksinfoList);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}
+		}
+	};
+	//
+	private BaseController.BaseHandle queryByFlagHandle = new BaseHandle()
+	{
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
+			String columnName = (String)request.getParams().get("flag");
+			Object value = request.getParams().get(columnName);
+			try
+			{
+				booksinfoList = orm.bookRepository.inquireByFlag(columnName, value);
+				response.getBody().put("booksInfoMapList", booksinfoList);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}
+		}
+	};
+
+	
 
 }
