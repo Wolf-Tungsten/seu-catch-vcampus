@@ -21,7 +21,8 @@ public class UserController extends BaseController{
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
 		
-		@Override
+		@Override//覆写报错
+		//重载
 		public Response work(Request request) {
 			Response response = new Response();
 			String username = (String) request.getParams().get("username");
@@ -94,7 +95,7 @@ public class UserController extends BaseController{
 				
 				throw new Exception("不存在此用户");
 			}
-			//登陆成功
+			//登录成功
 			long timestamp =  System.currentTimeMillis()/1000;
 			System.out.println(timestamp);
 			//生成token 存表

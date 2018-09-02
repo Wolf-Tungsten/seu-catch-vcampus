@@ -16,6 +16,7 @@ public class VCampusServer {
 		
 		pathMap = new HashMap<>();
 		pathMap.put("user", new UserController());	
+		pathMap.put("bank", new BankController());
 	}
 	
 	public HashMap<String, BaseController> getPathMap() {
