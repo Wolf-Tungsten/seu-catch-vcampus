@@ -99,7 +99,6 @@ public class UserController extends BaseController{
 			System.out.println(timestamp);
 			//生成token 存表
 			String token = getMD5(Useruuid.toString()+Long.toString(timestamp));
-			if(orm == null) System.out.println("orm 为空");
 			orm.tokenRepository.addToken(token, Useruuid.toString(), timestamp);//***空指针异常
 			response.setSuccess(true);
 			response.getBody().put("token", token);
