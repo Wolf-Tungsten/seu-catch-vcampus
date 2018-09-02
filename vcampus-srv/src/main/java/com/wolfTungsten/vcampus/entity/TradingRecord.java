@@ -23,7 +23,7 @@ public class TradingRecord
 	@DatabaseField(columnName = TradingRecord.VALUE)
 	private String value;
 	@DatabaseField(columnName = TradingRecord.CREATETIME)
-	private int createTime;
+	private long createTime;
 	
 	public TradingRecord() {
 		
@@ -69,12 +69,12 @@ public class TradingRecord
 		this.value = value;
 	}
 
-	public int getCreateTime()
+	public long getCreateTime()
 	{
 		return createTime;
 	}
 
-	public void setCreateTime(int createTime)
+	public void setCreateTime(long createTime)
 	{
 		this.createTime = createTime;
 	}

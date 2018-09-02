@@ -24,9 +24,9 @@ public class Course
 	@DatabaseField(columnName = Course.LECTURER)
 	private String lecturer;
 	@DatabaseField(columnName = Course.CREATETIME)
-	private int createTime;
+	private long createTime;
 	@DatabaseField(columnName = Course.UPDATETIME)
-	private int updateTime;
+	private long updateTime;
 	public Course()
 	{
 		
@@ -63,19 +63,19 @@ public class Course
 	{
 		this.lecturer = lecturer;
 	}
-	public int getCreateTime()
+	public long getCreateTime()
 	{
 		return createTime;
 	}
-	public void setCreateTime(int createTime)
+	public void setCreateTime(long createTime)
 	{
 		this.createTime = createTime;
 	}
-	public int getUpdateTime()
+	public long getUpdateTime()
 	{
 		return updateTime;
 	}
-	public void setUpdateTime(int updateTime)
+	public void setUpdateTime(long updateTime)
 	{
 		this.updateTime = updateTime;
 	}

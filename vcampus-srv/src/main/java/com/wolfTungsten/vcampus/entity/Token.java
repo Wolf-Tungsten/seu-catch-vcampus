@@ -23,7 +23,7 @@ public class Token
 	@DatabaseField(columnName = Token.USERUUID)
 	private String userUuid;
 	@DatabaseField(columnName = Token.TIMESTAMP)
-	private int timestamp;
+	private long timestamp;
 	public Token() {
 		
 	}
@@ -51,11 +51,11 @@ public class Token
 	{
 		this.userUuid = userUuid;
 	}
-	public int getTimestamp()
+	public long getTimestamp()
 	{
 		return timestamp;
 	}
-	public void setTimestamp(int createTime)
+	public void setTimestamp(long createTime)
 	{
 		this.timestamp = createTime;
 	}

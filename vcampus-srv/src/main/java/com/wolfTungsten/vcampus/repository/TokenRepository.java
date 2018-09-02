@@ -6,7 +6,7 @@ import java.util.List;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Token;
-import com.wolfTungsten.vcampus.entity.User;
+
 
 public class TokenRepository extends CurdRepository<Token>
 {
@@ -35,6 +35,14 @@ public class TokenRepository extends CurdRepository<Token>
 			
 		return 0;
 		
+		
+	}
+	public void addToken(String token , String userUuid , long timestamp) throws SQLException {
+		Token t = new Token();
+		t.setToken(token);
+		t.setTimestamp(timestamp);
+		t.setUserUuid(userUuid);	
+		dao.create(t);
 		
 	}
 }

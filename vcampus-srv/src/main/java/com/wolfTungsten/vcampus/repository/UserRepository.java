@@ -21,14 +21,27 @@ public class UserRepository extends CurdRepository<User> {
 		user.setUsername(username);
 		dao.create(user);
 	}
+	public void addUser(String username,String cardnum,String hash_password,int identity,int privilege ,String photo) throws SQLException {
+		User user = new User();
+		user.setUsername(username);
+		user.setCardnum(cardnum);
+		user.setHash_password(hash_password);
+		user.setIdentity(identity);
+		user.setPrivilege(privilege);
+		user.setPhoto(photo);
+		dao.create(user);
+		
+	}
 	
 	public UUID login(String cardnum,String password) throws SQLException {
 		//根据cardnum和password查询用户
 		List<User> userList = 
-				dao.query((PreparedQuery<User>) dao.queryBuilder().where().eq(User.CARDNUM, cardnum)
+				dao.query((PreparedQuery<User>) dao.queryBuilder().where().eq(User.CARDNUM, cardnum).and()
 						.eq(User.PASSWORD, password).prepare());
-		if(userList.size()!=0)
+		if(userList.size()!=0) {
+			System.out.println("userlist size = 0");
 			return userList.get(0).getUuid();
+		}
 		else	
 			return null;	
 		 

@@ -20,15 +20,15 @@ public class Exam
 	@DatabaseField(columnName = Exam.NAME)
 	private String name;
 	@DatabaseField(columnName = Exam.STARTTIME)
-	private int startTime ;
+	private long startTime ;
 	@DatabaseField(columnName = Exam.DURATION)
 	private int duration ;
 	@DatabaseField(columnName = Exam.LOCATION)
 	private String location;
 	@DatabaseField(columnName = Exam.CREATETIME)
-	private int createTime;
+	private long createTime;
 	@DatabaseField(columnName = Exam.UPDATETIME)
-	private int updateTime;
+	private long updateTime;
 	
 	public Exam() {
 		
@@ -54,12 +54,12 @@ public class Exam
 		this.name = name;
 	}
 
-	public int getStartTime()
+	public long getStartTime()
 	{
 		return startTime;
 	}
 
-	public void setStartTime(int startTime)
+	public void setStartTime(long startTime)
 	{
 		this.startTime = startTime;
 	}
@@ -84,22 +84,22 @@ public class Exam
 		this.location = location;
 	}
 
-	public int getCreateTime()
+	public long getCreateTime()
 	{
 		return createTime;
 	}
 
-	public void setCreateTime(int createTime)
+	public void setCreateTime(long createTime)
 	{
 		this.createTime = createTime;
 	}
 
-	public int getUpdateTime()
+	public long getUpdateTime()
 	{
 		return updateTime;
 	}
 
-	public void setUpdateTime(int updateTime)
+	public void setUpdateTime(long updateTime)
 	{
 		this.updateTime = updateTime;
 	}
