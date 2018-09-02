@@ -18,7 +18,56 @@ public class BankController extends BaseController{
 		this.addHandle("pay", payHandle);//转账（包括支付）
 		this.addHandle("balance", balanceHandle);//查询余额
 		this.addHandle("bill", billHandle);//查询账单
-		this.addHandle("payPassword", payPasswordHandle);//修改支付密码
+		this.addHandle("secretPassword", payPasswordHandle);//修改支付密码
 	}
 
+	private BaseController.BaseHandle depositHandle = new BaseController.BaseHandle() {
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			return null;
+		}
+		
+	};
+    private BaseController.BaseHandle withdrawalHandle = new BaseController.BaseHandle() {
+    	@Override
+    	public Response work(Request request)
+		{
+    		Response response = new Response();
+    		return null;
+		}
+	};
+	private BaseController.BaseHandle payHandle = new BaseController.BaseHandle() {
+    	@Override
+    	public Response work(Request request)
+		{
+    		Response response = new Response();
+    		return null;
+		}
+	};
+	private BaseController.BaseHandle balanceHandle = new BaseController.BaseHandle() {
+    	@Override
+    	public Response work(Request request)
+		{
+    		Response response = new Response();
+    		return null;
+		}
+	};
+	private BaseController.BaseHandle billHandle = new BaseController.BaseHandle() {
+    	@Override
+    	public Response work(Request request)
+		{
+    		Response response = new Response();
+    		return null;
+		}
+	};
+	private BaseController.BaseHandle payPasswordHandle = new BaseController.BaseHandle() {
+    	@Override
+    	public Response work(Request request)
+		{
+    		Response response = new Response();
+    		return null;
+		}
+	};
 }
