@@ -16,6 +16,7 @@ public class ORM {
 	
 	public UserRepository userRepository;
 	public TokenRepository tokenRepository;
+	
     private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
@@ -23,7 +24,7 @@ public class ORM {
 			conn = new JdbcConnectionSource("jdbc:ucanaccess://d:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
-			
+			tokenRepository = new TokenRepository(conn);
 
 		} catch (SQLException e) {
 			e.printStackTrace();

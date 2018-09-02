@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.j256.ormlite.stmt.PreparedQuery;
-import com.j256.ormlite.stmt.Where;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.User;
 
@@ -22,6 +21,10 @@ public class UserRepository extends CurdRepository<User> {
 		dao.create(user);
 	}
 	public void addUser(String username,String cardnum,String hash_password,int identity,int privilege ,String photo) throws SQLException {
+		
+		List<User> userList = dao.query((PreparedQuery<User>)dao.queryBuilder()
+				.where().eq(User.CARDNUM, cardnum).prepare());
+		if(userList.size()==0) {
 		User user = new User();
 		user.setUsername(username);
 		user.setCardnum(cardnum);
@@ -30,6 +33,11 @@ public class UserRepository extends CurdRepository<User> {
 		user.setPrivilege(privilege);
 		user.setPhoto(photo);
 		dao.create(user);
+		}else
+		{
+			throw new SQLException("该卡号已注册");
+		}
+		
 		
 	}
 	

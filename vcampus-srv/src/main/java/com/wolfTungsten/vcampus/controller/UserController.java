@@ -32,7 +32,7 @@ public class UserController extends BaseController{
 				System.out.println(String.format("用户名：%s - 一卡通号：%s", username, cardnum));
 				return response;
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				e.printStackTrace();
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错");
@@ -54,22 +54,19 @@ public class UserController extends BaseController{
 			String cardnum = (String)request.getParams().get(User.CARDNUM);
 			String hash_password = (String)request.getParams().get(User.PASSWORD);
 			String photo = (String)request.getParams().get(User.PHOTO);
-			int identity = (int) request.getParams().get(User.IDENTITY);
-			int privilege = (int) request.getParams().get(User.PRIVILEGE);
+			int identity = (int)(double)request.getParams().get(User.IDENTITY);
+			int privilege = (int)(double)request.getParams().get(User.PRIVILEGE);
 			try
 			{
 				orm.userRepository.addUser(username, cardnum, hash_password, identity, privilege, photo);
-				UUID useruuid = orm.userRepository.login(cardnum, hash_password);
 				response.setSuccess(true);		
-				response.getBody().put("uuid", useruuid.toString());
 				//System.out.println(String.format("用户名：%s - 一卡通号：%s", username, cardnum));
-				return response;
-				
+				return response;	
 			} catch (SQLException e)
 			{	
 				e.printStackTrace();
 				response.setSuccess(false);
-				response.getBody().put("result", "数据库读写出错");
+				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
 				return response;
 			
 			}
@@ -93,12 +90,16 @@ public class UserController extends BaseController{
 			
 			UUID Useruuid = orm.userRepository.login(cardnum, password);
 			//不存在该用户，-- 这样抛感觉不好
-			if(Useruuid==null) throw new Exception("不存在此用户");
+			if(Useruuid==null) {
+				
+				throw new Exception("不存在此用户");
+			}
 			//登陆成功
 			long timestamp =  System.currentTimeMillis()/1000;
 			System.out.println(timestamp);
 			//生成token 存表
 			String token = getMD5(Useruuid.toString()+Long.toString(timestamp));
+			if(orm == null) System.out.println("orm 为空");
 			orm.tokenRepository.addToken(token, Useruuid.toString(), timestamp);//***空指针异常
 			response.setSuccess(true);
 			response.getBody().put("token", token);
