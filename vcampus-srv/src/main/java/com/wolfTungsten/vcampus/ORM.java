@@ -22,7 +22,7 @@ public class ORM {
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
-			conn = new JdbcConnectionSource("jdbc:ucanaccess://d:/vCampus.accdb;memory=false", databaseType);
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://E:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
