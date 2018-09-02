@@ -1,8 +1,12 @@
 ## 后端接口文档
 
+
+
+
+
 ### User
 
-#### user/register
+#### Path :  user/register
 
 用户注册
 
@@ -15,7 +19,16 @@
 | identity      | int      | 用户身份            |
 | privilege     | int      | 用户特权值          |
 
-### user/login 
+#### 返回Response 里的内容
+
+| 属性名称 | 类型                   | 备注                         |
+| -------- | ---------------------- | ---------------------------- |
+| success  | Boolean                | true:注册成功,false:注册失败 |
+| body     | HashMap<String,Object> | null                         |
+
+
+
+#### Path:user/login
 
 用户登录
 
@@ -23,6 +36,13 @@
 | ------------- | -------- | ----------------- |
 | cardnum       | String   | 用户一卡通号      |
 | hash_password | String   | 用户登陆密码MD5值 |
+
+#### 返回Response里的内容
+
+| 属性名称 | 类型                   | 备注                               |
+| -------- | ---------------------- | ---------------------------------- |
+| success  | Boolean                | true注册成功 ,false登录失败        |
+| body     | HashMap<String,Object> | <"token",token> token为String 类型 |
 
 
 
