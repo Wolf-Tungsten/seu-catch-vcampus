@@ -37,8 +37,6 @@ public class UserRepository extends CurdRepository<User> {
 		{
 			throw new SQLException("该卡号已注册");
 		}
-		
-		
 	}
 	
 	public UUID login(String cardnum,String password) throws SQLException {
@@ -52,10 +50,7 @@ public class UserRepository extends CurdRepository<User> {
 		}
 		else	
 			return null;	
-		 
-		 
-		
-		
+		 	
 		
 	}
 	
