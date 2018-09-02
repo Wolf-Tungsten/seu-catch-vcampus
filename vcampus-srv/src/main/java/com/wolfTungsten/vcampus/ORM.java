@@ -8,6 +8,7 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.repository.BookRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
 import com.wolfTungsten.vcampus.repository.UserRepository;
+import com.wolfTungsten.vcampus.repository.TradingRecordRepository;
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
 
 // 
@@ -18,6 +19,7 @@ public class ORM {
 	public UserRepository userRepository;
 	public TokenRepository tokenRepository;
 	public BookRepository bookRepository;
+	public TradingRecordRepository tradingRecordRepository;
     private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
@@ -27,6 +29,7 @@ public class ORM {
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
 			bookRepository = new BookRepository(conn);
+			tradingRecordRepository=new TradingRecordRepository(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
