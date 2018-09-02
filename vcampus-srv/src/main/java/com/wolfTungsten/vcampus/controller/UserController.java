@@ -31,8 +31,7 @@ public class UserController extends BaseController{
 				response.setSuccess(true);
 				System.out.println(String.format("用户名：%s - 一卡通号：%s", username, cardnum));
 				return response;
-			} catch (SQLException e) {
-				
+			} catch (SQLException e) {			
 				e.printStackTrace();
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错");

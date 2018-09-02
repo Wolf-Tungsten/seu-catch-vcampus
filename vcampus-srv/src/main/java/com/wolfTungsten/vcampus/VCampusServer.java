@@ -6,6 +6,7 @@ import java.net.Socket;
 import java.util.HashMap;
 
 import com.wolfTungsten.vcampus.controller.BaseController;
+import com.wolfTungsten.vcampus.controller.LibraryController;
 import com.wolfTungsten.vcampus.controller.UserController;
 
 public class VCampusServer {
@@ -16,6 +17,8 @@ public class VCampusServer {
 		
 		pathMap = new HashMap<>();
 		pathMap.put("user", new UserController());	
+		pathMap.put("book", new LibraryController());
+		
 	}
 	
 	public HashMap<String, BaseController> getPathMap() {
