@@ -166,6 +166,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			}
 		}
 	}
+	
+	
  
 	@Override
 	public void mousePressed(MouseEvent e) {
