@@ -17,6 +17,7 @@ import com.wolfTungsten.vcampus.entity.Token;
 public class BankController extends BaseController{
 	public BankController() {
 		super();
+		this.addHandle("register", registerHandle);//注册银行账户（设置支付密码）
 		this.addHandle("trade", tradeHandle);//存款,取款，转账
 		this.addHandle("balance", balanceHandle);//查询余额
 		this.addHandle("bill", billHandle);//查询总账单
@@ -25,6 +26,28 @@ public class BankController extends BaseController{
 		this.addHandle("secretPassword", secretPasswordHandle);//修改支付密码
 	}
 
+	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle() {
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+			try
+			{
+				orm.accountBalanceRepository.check(userid, secretPassword);
+				response.setSuccess(true);		
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				return response;
+			
+			}
+		}
+	}
 	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
 		@Override
 		public Response work(Request request)
@@ -153,7 +176,21 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		return null;
+    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+			try
+			{
+    			orm.accountBalanceRepository.changeSecretPassword(userid, secretPassword, secretPassword);
+				response.setSuccess(true);		
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				return response;
+			
+			}
 		}
 	};
 }

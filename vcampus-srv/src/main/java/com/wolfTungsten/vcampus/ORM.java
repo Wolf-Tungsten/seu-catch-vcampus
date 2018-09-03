@@ -24,10 +24,8 @@ public class ORM {
 	public UserRepository userRepository;
 	public TokenRepository tokenRepository;
 	public BookRepository bookRepository;
-
 	public TradingRecordRepository tradingRecordRepository;
 	public AccountBalanceRepository accountBalanceRepository;
-    
 	public UserXBookRepository userXBookRepository;
     private ORM(){
     	

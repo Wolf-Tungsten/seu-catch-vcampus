@@ -19,6 +19,7 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		// TODO Auto-generated constructor stub
 	}
 	
+	
 	//身份核对
 	public Boolean check(String userid,String secretPassword)throws SQLException{
 		List<AccountBalance> accountBalanceList = dao.query((PreparedQuery<AccountBalance>)dao.queryBuilder()
@@ -29,6 +30,16 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 			return true;
 		}else {
 			return false;
+		}
+	}
+	
+	public Boolean changeSecretPassword(String userid,String oldPassword,String newPassword)throws SQLException{
+		if(check(userid,oldPassword))
+		{
+			new AccountBalance().setSecretPassword(newPassword);
+			return true;
+		}else {
+			throw new SQLException("用户名或支付密码错误！");
 		}
 	}
 	
