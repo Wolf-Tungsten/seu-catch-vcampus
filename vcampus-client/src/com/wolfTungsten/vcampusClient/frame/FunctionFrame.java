@@ -24,13 +24,6 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JPanel panel_info,panel_jwc,panel_lib,panel_shop,panel_bank;
 	JButton button_info,button_jwc,button_lib,button_shop,button_bank;	
 	
-	
-		
-	
-	
-	
-	
-	
 	CardLayout cardLayout = new CardLayout();
 	
 	public static void main(String[] args) {
@@ -116,39 +109,37 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//银行系统
 		button_bank = new JButton();
 		button_bank.setBounds(0, 320, 64, 64);
-		
 		button_bank.setIcon(imageIcon_bank);
 		buttonSet(button_bank);
 		button_bank.addMouseListener(this);
 		contentPane.add(button_bank);
 		
+		//右侧卡片面板
 		panel_right = new JPanel(cardLayout);
 		panel_right.setBounds(64, 0, 736, 600);
 		contentPane.add(panel_right);
 		
+		//个人信息
 		panel_info = new JPanel();
 		panel_info.setBackground(new Color(255, 255, 204));
-		panel_right.add("1", panel_info);
-		
-		panel_jwc=new JPanel();
-		panel_jwc.setBackground(new Color(255, 255, 153));
-		panel_right.add("2", panel_jwc);
-		
-		//
+		panel_right.add("1", panel_info);		
+		//图书馆
 		panel_lib = new JPanel();
 		panel_lib.setBackground(new Color(153, 255, 255));
-		panel_right.add("3", panel_lib);
-		
-		//�·�����Ҳ�ġ����С����
+		panel_right.add("2", panel_lib);
+		//教务处
+		panel_jwc=new JPanel();
+		panel_jwc.setBackground(new Color(255, 255, 153));
+		panel_right.add("3", panel_jwc);			
+	    //购物系统
 		panel_shop = new JPanel();
 		panel_shop.setBackground(new Color(255, 204, 255));
-		panel_right.add("4", panel_shop);
-		
-		//�·�����Ҳ�ġ�ͼ��ݡ����
+		panel_right.add("4", panel_shop);	
+		//银行系统
 		panel_bank = new JPanel();
 		panel_bank.setBackground(Color.WHITE);
 		panel_right.add("5", panel_bank);
-		
+		//默认为卡片1
 		cardLayout.show(panel_right, "1");
 	}
 	
@@ -157,9 +148,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		if (e.getClickCount() == 1) {
 			if (e.getSource() ==button_info) {
 				cardLayout.show(panel_right, "1");
-			} else if (e.getSource() == button_jwc) {
-				cardLayout.show(panel_right, "2");
 			} else if (e.getSource() == button_lib) {
+				cardLayout.show(panel_right, "2");
+			} else if (e.getSource() == button_jwc) {
 				cardLayout.show(panel_right, "3");
 			} else if (e.getSource() == button_shop) {
 				 cardLayout.show(panel_right, "4");
