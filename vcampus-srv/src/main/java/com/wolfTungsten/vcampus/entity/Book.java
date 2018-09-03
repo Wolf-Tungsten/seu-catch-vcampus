@@ -11,7 +11,7 @@ public class Book
 	public static final String UUID = "uuid";
 	public static final String NAME = "name";
 	public static final String ISBN = "isbn";
-	public static final String AMOUNT ="amount";
+	public static final String AUTHOR ="author";
 	public static final String CREATETIME = "createTime";
 	public static final String UPDATETIME = "updateTime";
 	
@@ -22,16 +22,29 @@ public class Book
 	private String name;
 	@DatabaseField(columnName = Book.ISBN)
 	private String isbn;
-	@DatabaseField(columnName = Book.AMOUNT)
-	private int amount;
 	@DatabaseField(columnName = Book.CREATETIME)
 	private long createTime ;
+	@DatabaseField(columnName = Book.AUTHOR)
+	private String author;
 	@DatabaseField(columnName = Book.UPDATETIME)
 	private long updateTime;
 	
 	public Book() {
 		
 	}
+	
+	
+	public String getAuthor()
+	{
+		return author;
+	}
+
+
+	public void setAuthor(String author)
+	{
+		this.author = author;
+	}
+
 
 	public UUID getUuid()
 	{
@@ -63,15 +76,7 @@ public class Book
 		this.isbn = isbn;
 	}
 
-	public int getAmount()
-	{
-		return amount;
-	}
 
-	public void setAmount(int amount)
-	{
-		this.amount = amount;
-	}
 
 	public long getCreateTime()
 	{

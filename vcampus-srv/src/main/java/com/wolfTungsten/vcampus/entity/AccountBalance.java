@@ -10,13 +10,26 @@ public class AccountBalance
 {
 	public static final String UUID = "uuid";
 	public static final String SECRETPASSWORD = "secretPassword";
-	
+	public static final String USER_ID="user_id";
 	@DatabaseField(generatedId = true, columnName = AccountBalance.UUID)
 	private UUID uuid;
 	@DatabaseField(columnName = AccountBalance.SECRETPASSWORD)
 	private String secretPassword;
+	@DatabaseField(columnName = AccountBalance.USER_ID)
+	private String userid;
 	
-	
+	public String getUserid()
+	{
+		return userid;
+	}
+
+
+	public void setUserid(String userid)
+	{
+		this.userid = userid;
+	}
+
+
 	public AccountBalance() {
 		
 	}

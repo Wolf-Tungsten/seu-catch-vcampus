@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.wolfTungsten.vcampus.repository.BookRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
 import com.wolfTungsten.vcampus.repository.UserRepository;
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
@@ -16,16 +17,16 @@ public class ORM {
 	
 	public UserRepository userRepository;
 	public TokenRepository tokenRepository;
-	
+	public BookRepository bookRepository;
     private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
-			conn = new JdbcConnectionSource("jdbc:ucanaccess://d:/vCampus.accdb;memory=false", databaseType);
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://E:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
-
+			bookRepository = new BookRepository(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

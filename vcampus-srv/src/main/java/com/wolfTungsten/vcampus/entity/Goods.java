@@ -25,7 +25,7 @@ public class Goods
 	@DatabaseField(columnName = Goods.SELLER)
 	private String seller;
 	@DatabaseField(columnName = Goods.PRICE)
-	private String price ; 
+	private Double price ; 
 	@DatabaseField(columnName = Goods.AMOUNT)
 	private int amount;
 	@DatabaseField(columnName = Goods.IMAGE)
@@ -75,12 +75,12 @@ public class Goods
 		this.seller = seller;
 	}
 
-	public String getPrice()
+	public Double getPrice()
 	{
 		return price;
 	}
 
-	public void setPrice(String price)
+	public void setPrice(Double price)
 	{
 		this.price = price;
 	}
