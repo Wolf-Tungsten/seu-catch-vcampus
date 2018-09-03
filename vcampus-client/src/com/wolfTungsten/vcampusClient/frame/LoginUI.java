@@ -97,10 +97,11 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 	 //Create the frame.
 	public LoginUI() {
 		this.setResizable(false);
-		this.setSize(640,480);
+		this.setSize(800,600);
 		this.setLocationRelativeTo(null);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -108,7 +109,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		
 
 		loginButton= new RButton("登录");
-		loginButton.setBounds(468, 304, 83, 26);
+		loginButton.setBounds(604, 350, 83, 26);
 		loginButton.addActionListener(this);
 		loginButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -118,7 +119,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		
 
 		registerButton= new RButton2("注册");
-		registerButton.setBounds(386, 306, 66, 23);
+		registerButton.setBounds(522, 352, 66, 23);
 		registerButton.addActionListener(this);
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -128,7 +129,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		
 
 	    exitButton = new JButton("×");
-	    exitButton.setBounds(564, 10, 66, 23);
+	    exitButton.setBounds(724, 10, 66, 23);
 		exitButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		exitButton.setForeground(Color.WHITE);
 		exitButton.addActionListener(this);
@@ -143,7 +144,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		textField_card = new JTextField("用户名/一卡通号");
 		textField_card.setForeground(Color.GRAY);
 		textField_card.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_card.setBounds(386, 206, 165, 26);
+		textField_card.setBounds(522, 252, 165, 26);
 		textSet2(textField_card);
 		textField_card.addFocusListener (this);
 		contentPane.add(textField_card);
@@ -153,7 +154,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		passwordField = new JPasswordField("********");
 		passwordField.setForeground(Color.GRAY);
 		passwordField.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		passwordField.setBounds(386, 252, 165, 26);
+		passwordField.setBounds(522, 298, 165, 26);
 		textSet2(passwordField);
 		textField_card.addFocusListener (this);
 		contentPane.add(passwordField);
@@ -162,7 +163,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		JLabel bgLabel = new JLabel();
 		bgLabel.setBounds(0, 0, 640, 480);
 
-		URL resource=LoginUI.class.getResource("BeautifulStars.JPG");
+		URL resource=LoginUI.class.getResource("Stars.JPG");
 		ImageIcon imageIcon=new ImageIcon(resource);
 		bgLabel.setIcon(imageIcon);
 		getLayeredPane().add(bgLabel, new Integer(Integer.MIN_VALUE));
@@ -175,23 +176,23 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		label.setBackground(Color.WHITE);
 		label.setForeground(new Color(0, 102, 51));
 		label.setFont(new Font("微软雅黑", Font.BOLD, 16));
-		label.setBounds(386, 158, 108, 26);
+		label.setBounds(522, 204, 108, 26);
 		contentPane.add(label);
 		
 		label_1 = new JLabel("\u865A\u62DF\u6821\u56ED\u4FE1\u606F\u7CFB\u7EDF");
 		label_1.setForeground(Color.WHITE);
-		label_1.setFont(new Font("微软雅黑", Font.BOLD, 30));
-		label_1.setBounds(61, 200, 249, 51);
+		label_1.setFont(new Font("微软雅黑", Font.BOLD, 44));
+		label_1.setBounds(77, 252, 381, 51);
 		contentPane.add(label_1);
 		
 		lblNewLabel = new JLabel("V1.0.0");
 		lblNewLabel.setForeground(Color.WHITE);
-		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 12));
-		lblNewLabel.setBounds(247, 257, 48, 15);
+		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 22));
+		lblNewLabel.setBounds(353, 313, 83, 26);
 		contentPane.add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("New label");
-		lblNewLabel_1.setBounds(361, 118, 218, 240);
+		lblNewLabel_1.setBounds(497, 168, 218, 240);
 		URL resource_1=LoginUI.class.getResource("white.JPG");
 		ImageIcon imageIcon_1=new ImageIcon(resource_1);
 		lblNewLabel_1.setIcon(imageIcon_1);
@@ -275,7 +276,7 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
      {
     	 String userStr = textField_card.getText();
 		 String passStr=new String(passwordField.getPassword());
-		 if(userStr.equals("�û���/һ��ͨ��")) {
+		 if(userStr.equals("用户名/一卡通号")) {
 			 textField_card.setText("");
 		 }
 		 if(passStr.equals("********")) {
@@ -294,8 +295,8 @@ public class LoginUI extends JFrame implements ActionListener,MouseListener,Focu
 		 if(passStr.equals("")) {
         	passwordField.setText("********");
 		 }*/
-		if((userStr.equals("�û���/һ��ͨ��")&& passStr.equals("********"))||(userStr.equals("")&& passStr.equals(""))){
-			textField_card.setText("�û���/һ��ͨ��");
+		if((userStr.equals("用户名/一卡通号")&& passStr.equals("********"))||(userStr.equals("")&& passStr.equals(""))){
+			textField_card.setText("用户名/一卡通号");
         	passwordField.setText("********");
 		}
      }

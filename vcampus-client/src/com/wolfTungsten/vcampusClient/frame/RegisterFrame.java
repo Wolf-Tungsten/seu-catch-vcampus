@@ -1,6 +1,5 @@
 package com.wolfTungsten.vcampusClient.frame;
 
-
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
@@ -8,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
+
+
 
 import com.wolfTungsten.vcampusClient.component.RButton;
 import com.wolfTungsten.vcampusClient.component.RoundBorder;
@@ -68,7 +69,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 	}
 	public RegisterFrame() {
 		this.setResizable(false);
-		this.setSize(640,480);
+		this.setSize(800,600);
 		this.setLocationRelativeTo(null);
 		setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -126,6 +127,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		contentPane.add(cardNumField);
 		textSet(cardNumField);
 		cardNumField.setColumns(10);
+		
 		
 		identityField = new JTextField();
 		identityField.setForeground(Color.WHITE);
@@ -208,7 +210,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		contentPane.add(cancelButton);
 		
 		exitButton = new JButton("×");
-	    exitButton.setBounds(564, 10, 66, 23);
+	    exitButton.setBounds(724, 10, 66, 23);
 		exitButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		exitButton.setForeground(Color.WHITE);
 		exitButton.addActionListener(this);
@@ -222,7 +224,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 
 		JLabel bgLabel = new JLabel();
 		bgLabel.setBounds(0, 0, 640, 480);
-		URL resource=LoginUI.class.getResource("/Rainbow.JPG");
+		URL resource=LoginUI.class.getResource("Rainbow.JPG");
 		ImageIcon imageIcon=new ImageIcon(resource);
 		bgLabel.setIcon(imageIcon);
 		getLayeredPane().add(bgLabel, new Integer(Integer.MIN_VALUE));
