@@ -22,10 +22,15 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	private JPanel contentPane;
 	JPanel panel_right;
 	JPanel panel_info,panel_jwc,panel_lib,panel_shop,panel_bank;
-	JButton button_info,button_jwc,button_lib,button_shop,button_bank;
+	JButton button_info,button_jwc,button_lib,button_shop,button_bank;	
 	
-	//JLabel Label_info,Label_jwc,Label_lib,Label_shop,Label_bank;
-	JSplitPane jsp = null;
+	
+		
+	
+	
+	
+	
+	
 	CardLayout cardLayout = new CardLayout();
 	
 	public static void main(String[] args) {
@@ -70,51 +75,48 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		cp.setLayout(null);
 		((JPanel)cp).setOpaque(false);
 		
+		URL resource_info=FunctionFrame.class.getResource("info-normal.jpg");
+		ImageIcon imageIcon_info=new ImageIcon(resource_info);
+		URL resource_lib=FunctionFrame.class.getResource("lib-normal.jpg");
+		ImageIcon imageIcon_lib=new ImageIcon(resource_lib);
+		URL resource_jwc=FunctionFrame.class.getResource("jwc-normal.jpg");
+		ImageIcon imageIcon_jwc=new ImageIcon(resource_jwc);
+		URL resource_shop=FunctionFrame.class.getResource("shop-normal.jpg");
+		ImageIcon imageIcon_shop=new ImageIcon(resource_shop);
+		URL resource_bank=FunctionFrame.class.getResource("bank-normal.jpg");
+		ImageIcon imageIcon_bank=new ImageIcon(resource_bank);
 		//个人信息
 		button_info = new JButton();
-		button_info.setBounds(17, 60, 30,30);
-		URL resource_info=FunctionFrame.class.getResource("inf-normal.jpg");
-		ImageIcon imageIcon_info=new ImageIcon(resource_info);
+		button_info.setBounds(0, 64, 64,64);
 		button_info.setIcon(imageIcon_info);
 		buttonSet(button_info);
 		button_info.addMouseListener(this);
-		contentPane.add(button_info);
-		
+		contentPane.add(button_info);	
 		//图书馆管理系统
 		button_lib = new JButton();
-		button_lib.setBounds(17, 120, 30, 30);
-		URL resource_lib=FunctionFrame.class.getResource("lib-normal.jpg");
-		ImageIcon imageIcon_lib=new ImageIcon(resource_lib);
+		button_lib.setBounds(0, 128, 64, 64);	
 		button_lib.setIcon(imageIcon_lib);
 		buttonSet(button_lib);
 		button_lib.addMouseListener(this);
-		contentPane.add(button_lib);
-		
+		contentPane.add(button_lib);	
 		//教务系统
 		button_jwc = new JButton();
-		button_jwc.setBounds(17, 180, 30, 30);
-		URL resource_jwc=FunctionFrame.class.getResource("jwc-normal.jpg");
-		ImageIcon imageIcon_jwc=new ImageIcon(resource_jwc);
+		button_jwc.setBounds(0, 192, 64, 64);	
 		button_jwc.setIcon(imageIcon_jwc);
 		buttonSet(button_jwc);
 		button_jwc.addMouseListener(this);
-		contentPane.add(button_jwc);
-		
+		contentPane.add(button_jwc);	
 		//购物系统
 		button_shop = new JButton();
-		button_shop.setBounds(17, 240, 30, 30);
-		URL resource_shop=FunctionFrame.class.getResource("shopnormal.jpg");
-		ImageIcon imageIcon_shop=new ImageIcon(resource_shop);
+		button_shop.setBounds(0, 256, 64, 64);
 		button_shop.setIcon(imageIcon_shop);
 		buttonSet(button_shop);
 		button_shop.addMouseListener(this);
-		contentPane.add(button_shop);
-		
+		contentPane.add(button_shop);	
 		//银行系统
 		button_bank = new JButton();
-		button_bank.setBounds(17, 300, 30, 30);
-		URL resource_bank=FunctionFrame.class.getResource("bank-normal.jpg");
-		ImageIcon imageIcon_bank=new ImageIcon(resource_bank);
+		button_bank.setBounds(0, 320, 64, 64);
+		
 		button_bank.setIcon(imageIcon_bank);
 		buttonSet(button_bank);
 		button_bank.addMouseListener(this);
@@ -182,41 +184,67 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	// �����
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		URL resource_info_active=FunctionFrame.class.getResource("inf-active.jpg");
+		URL resource_info_active=FunctionFrame.class.getResource("info-active.jpg");
 		ImageIcon imageIcon_info_active=new ImageIcon(resource_info_active);
-		if (e.getSource() ==button_info) {
-			button_info.setIcon(imageIcon_info_active);
-			buttonSet(button_info);
-			contentPane.add(button_info);
-		}
-		/*URL resource_lib_active=FunctionFrame.class.getResource("lib-active.jpg");
+		URL resource_lib_active=FunctionFrame.class.getResource("lib-active.jpg");
 		ImageIcon imageIcon_lib_active=new ImageIcon(resource_lib_active);
-		
-		URL resource_jwc_active=FunctionFrame.class.getResource("jwc-activel.jpg");
+		URL resource_jwc_active=FunctionFrame.class.getResource("jwc-active.jpg");
 		ImageIcon imageIcon_jwc_active=new ImageIcon(resource_jwc_active);
-		
 		URL resource_shop_active=FunctionFrame.class.getResource("shop-active.jpg");
 		ImageIcon imageIcon_shop_active=new ImageIcon(resource_shop_active);
-		
 		URL resource_bank_active=FunctionFrame.class.getResource("bank-active.jpg");
 		ImageIcon imageIcon_bank_active=new ImageIcon(resource_bank_active);
 		if (e.getSource() ==button_info) {
 			button_info.setIcon(imageIcon_info_active);
-		} else if (e.getSource() == button_jwc) {
-			button_jwc.setIcon(imageIcon_jwc_active);
-		} else if (e.getSource() == button_lib) {
+			contentPane.add(button_info);
+		}else if(e.getSource() == button_lib){
 			button_lib.setIcon(imageIcon_lib_active);
-		} else if (e.getSource() == button_shop) {
+			contentPane.add(button_lib);
+		}else if (e.getSource() == button_jwc) {
+			button_jwc.setIcon(imageIcon_jwc_active);
+			contentPane.add(button_jwc);
+		}else if (e.getSource() == button_shop) {
 			button_shop.setIcon(imageIcon_shop_active);
+			contentPane.add(button_shop);
 		}else if (e.getSource() == button_bank) {
 			button_bank.setIcon(imageIcon_bank_active);
-		}*/
+			contentPane.add(button_bank);
+		}
 	}
  
 	// ����˳�
 	@Override
 	public void mouseExited(MouseEvent e) {
-		
+		URL resource_info=FunctionFrame.class.getResource("info-normal.jpg");
+		ImageIcon imageIcon_info=new ImageIcon(resource_info);
+		URL resource_lib=FunctionFrame.class.getResource("lib-normal.jpg");
+		ImageIcon imageIcon_lib=new ImageIcon(resource_lib);
+		URL resource_jwc=FunctionFrame.class.getResource("jwc-normal.jpg");
+		ImageIcon imageIcon_jwc=new ImageIcon(resource_jwc);
+		URL resource_shop=FunctionFrame.class.getResource("shop-normal.jpg");
+		ImageIcon imageIcon_shop=new ImageIcon(resource_shop);
+		URL resource_bank=FunctionFrame.class.getResource("bank-normal.jpg");
+		ImageIcon imageIcon_bank=new ImageIcon(resource_bank);
+		if (e.getSource() ==button_info) {
+			button_info.setIcon(imageIcon_info);
+			contentPane.add(button_info);
+		}
+		else if(e.getSource() == button_lib){
+			button_lib.setIcon(imageIcon_lib);
+			contentPane.add(button_lib);
+		}
+		else if(e.getSource() == button_jwc){
+			button_jwc.setIcon(imageIcon_jwc);
+			contentPane.add(button_jwc);
+		}
+		else if(e.getSource() == button_shop){
+			button_shop.setIcon(imageIcon_shop);
+			contentPane.add(button_shop);
+		}
+		else if(e.getSource() == button_bank){
+			button_bank.setIcon(imageIcon_bank);
+			contentPane.add(button_bank);
+		}
 	}
 	
 }
