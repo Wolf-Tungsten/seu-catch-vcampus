@@ -18,6 +18,9 @@
 | photo         | String   | 用户注册上传的图片  |
 | identity      | int      | 用户身份            |
 | privilege     | int      | 用户特权值          |
+| address       | String   | 用户地址            |
+| idcardNum     | String   | 身份证号            |
+| birthdate     | long     | 出生日期时间戳      |
 
 #### 返回Response 里的内容
 
@@ -46,7 +49,62 @@
 
 
 
+## Book
+
+#### Path: book/addBook
+
+添加书籍
+
+| 字段名称 | 字段类型 | 备注                  |
+| -------- | -------- | --------------------- |
+| name     | String   | 书名                  |
+| isbn     | String   | 书的isbn base64之类的 |
+| author   | String   | 作者                  |
+
+返回Response的内容
+
+| 属性名称 | 类型    | 备注                      |
+| -------- | ------- | ------------------------- |
+| sucess   | Boolean | 添加成功(true)失败(false) |
+
+#### Path: book/deleteBook
+
+删除书籍(可批量)
+
+| 字段名称 | 字段类型 | 备注     |
+| -------- | -------- | -------- |
+| uuid     | String   | 书的uuid |
+
+request.setPath("book/deleteBook")
+
+ArrayList<String>BookuuidList =....
+
+BookuuidList.add("uuid1")
+
+BookuuidList.add("uuid2")
+
+request.getParams().put("uuidList",BookuuidList);
+
+返回Response里的内容
+
+| 属性名称 | 类型    | 备注              |
+| -------- | ------- | ----------------- |
+| success  | Boolean | 成功true失败false |
 
 
 
+#### Path:book/queryAllBook
+
+查询全部书籍
+
+setPath即可
+
+返回Response里的内容
+
+| 属性名称 | 类型                   | 备注         |
+| -------- | ---------------------- | ------------ |
+| success  | Boolean                | 请求是否成功 |
+| body     | HashMap<String,Object> |              |
+
+HashMap<String,Object>={"booksInfoMapList":LinkedTreeMap<String,Object>}
 

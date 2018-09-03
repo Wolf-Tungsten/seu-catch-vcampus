@@ -20,7 +20,8 @@ public class UserRepository extends CurdRepository<User> {
 		user.setUsername(username);
 		dao.create(user);
 	}
-	public void addUser(String username,String cardnum,String hash_password,int identity,int privilege ,String photo) throws SQLException {
+	public void addUser(String username,String cardnum,String hash_password,int identity,
+			int privilege ,String photo,String idcardNum,long birthdate,String address) throws SQLException {
 		
 		List<User> userList = dao.query((PreparedQuery<User>)dao.queryBuilder()
 				.where().eq(User.CARDNUM, cardnum).prepare());
@@ -32,13 +33,14 @@ public class UserRepository extends CurdRepository<User> {
 		user.setIdentity(identity);
 		user.setPrivilege(privilege);
 		user.setPhoto(photo);
+		user.setAddress(address);
+		user.setBirthdate(birthdate);
+		user.setIdcardNum(idcardNum);
 		dao.create(user);
 		}else
 		{
 			throw new SQLException("该卡号已注册");
 		}
-		
-		
 	}
 	
 	public UUID login(String cardnum,String password) throws SQLException {
@@ -52,10 +54,7 @@ public class UserRepository extends CurdRepository<User> {
 		}
 		else	
 			return null;	
-		 
-		 
-		
-		
+		 	
 		
 	}
 	
