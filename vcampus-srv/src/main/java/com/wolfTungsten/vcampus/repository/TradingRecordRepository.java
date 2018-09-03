@@ -16,7 +16,7 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		super(conn, TradingRecord.class);	
 	}
 	
-	public void addTradingRecord(String from, String to,String value,long createTime )throws SQLException {
+	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
 		TradingRecord tradingRecord=new TradingRecord();
 		tradingRecord.setFrom(from);
 		tradingRecord.setTo(to);
@@ -25,5 +25,26 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		dao.create(tradingRecord);
 	}//增加一条记录
 	
+	public double calculateFrom(String from)throws SQLException{
+		double fromSum=0;
+		List<TradingRecord> tradingRecordList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, from).prepare());
+		for(int i=0;i<tradingRecordList.size();i++)
+		{
+			fromSum+=tradingRecordList.get(i).getValue();
+		}
+		return fromSum;
+	}
+	
+	public double calculateTo(String to)throws SQLException{
+		double toSum=0;
+		List<TradingRecord> tradingRecordList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, to).prepare());
+		for(int i=0;i<tradingRecordList.size();i++)
+		{
+			toSum+=tradingRecordList.get(i).getValue();
+		}
+		return toSum;
+	}
 
 }

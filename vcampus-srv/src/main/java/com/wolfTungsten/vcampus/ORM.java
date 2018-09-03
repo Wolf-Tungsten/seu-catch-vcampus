@@ -5,6 +5,7 @@ import java.sql.SQLException;
 import com.j256.ormlite.db.DatabaseType;
 import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
+import com.wolfTungsten.vcampus.repository.AccountBalanceRepository;
 import com.wolfTungsten.vcampus.repository.BookRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
 import com.wolfTungsten.vcampus.repository.UserRepository;
@@ -20,7 +21,9 @@ public class ORM {
 	public TokenRepository tokenRepository;
 	public BookRepository bookRepository;
 	public TradingRecordRepository tradingRecordRepository;
-    private ORM(){
+	public AccountBalanceRepository accountBalanceRepository;
+    
+	private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
@@ -30,6 +33,8 @@ public class ORM {
 			tokenRepository = new TokenRepository(conn);
 			bookRepository = new BookRepository(conn);
 			tradingRecordRepository=new TradingRecordRepository(conn);
+			accountBalanceRepository=new AccountBalanceRepository(conn);
+		
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

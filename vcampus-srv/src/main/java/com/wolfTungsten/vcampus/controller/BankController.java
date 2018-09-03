@@ -6,10 +6,10 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.UUID;
 
-import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.utils.Request;
 import com.wolfTungsten.vcampus.utils.Response;
 import com.wolfTungsten.vcampus.entity.TradingRecord;
+import com.wolfTungsten.vcampus.entity.AccountBalance;
 
 public class BankController extends BaseController{
 	public BankController() {
@@ -29,7 +29,7 @@ public class BankController extends BaseController{
 			Response response = new Response();
 			String from=(String)request.getParams().get(TradingRecord.FROM);
 			String to=(String)request.getParams().get(TradingRecord.TO);
-			String value=(String)request.getParams().get(TradingRecord.VALUE);
+			double value=(double)request.getParams().get(TradingRecord.VALUE);
 			long createTime=(long)request.getParams().get(TradingRecord.CREATETIME);
 			try
 			{
@@ -69,7 +69,24 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		return null;
+    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+    		String to=(String)request.getParams().get(TradingRecord.TO);
+			double value=(double)request.getParams().get(TradingRecord.VALUE);
+			try
+			{
+				orm.tradingRecordRepository.calculateFrom(from);
+				orm.tradingRecordRepository.calculateTo(to);
+				response.setSuccess(true);		
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				return response;
+			
+			}
+		}
 		}
 	};
 	private BaseController.BaseHandle billHandle = new BaseController.BaseHandle() {

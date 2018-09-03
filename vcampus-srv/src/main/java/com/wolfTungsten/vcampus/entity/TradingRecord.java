@@ -21,7 +21,7 @@ public class TradingRecord
 	@DatabaseField(columnName = TradingRecord.TO)
 	private String to;
 	@DatabaseField(columnName = TradingRecord.VALUE)
-	private String value;
+	private double value;
 	@DatabaseField(columnName = TradingRecord.CREATETIME)
 	private long createTime;
 	
@@ -59,12 +59,12 @@ public class TradingRecord
 		this.to = to;
 	}
 
-	public String getValue()
+	public double getValue()
 	{
 		return value;
 	}
 
-	public void setValue(String value)
+	public void setValue(double value)
 	{
 		this.value = value;
 	}
