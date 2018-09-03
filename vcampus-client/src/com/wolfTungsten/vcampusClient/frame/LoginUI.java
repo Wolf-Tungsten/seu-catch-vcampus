@@ -22,6 +22,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -235,6 +236,8 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 				this.dispose();
 				FunctionFrame frame_1 = new FunctionFrame();
 				frame_1.setVisible(true);
+			} else {
+				 JOptionPane.showMessageDialog(null, "登录失败，请检查用户名和密码是否正确", "登录失败",JOptionPane.ERROR_MESSAGE);  
 			}
 			
 		}
