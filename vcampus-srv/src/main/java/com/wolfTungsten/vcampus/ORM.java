@@ -9,7 +9,11 @@ import com.wolfTungsten.vcampus.repository.AccountBalanceRepository;
 import com.wolfTungsten.vcampus.repository.BookRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
 import com.wolfTungsten.vcampus.repository.UserRepository;
+
 import com.wolfTungsten.vcampus.repository.TradingRecordRepository;
+
+import com.wolfTungsten.vcampus.repository.UserXBookRepository;
+
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
 
 // 
@@ -20,21 +24,23 @@ public class ORM {
 	public UserRepository userRepository;
 	public TokenRepository tokenRepository;
 	public BookRepository bookRepository;
+
 	public TradingRecordRepository tradingRecordRepository;
 	public AccountBalanceRepository accountBalanceRepository;
     
-	private ORM(){
+	public UserXBookRepository userXBookRepository;
+    private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
-			conn = new JdbcConnectionSource("jdbc:ucanaccess://E:/vCampus.accdb;memory=false", databaseType);
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://D:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
 			bookRepository = new BookRepository(conn);
 			tradingRecordRepository=new TradingRecordRepository(conn);
 			accountBalanceRepository=new AccountBalanceRepository(conn);
-		
+			userXBookRepository = new UserXBookRepository(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

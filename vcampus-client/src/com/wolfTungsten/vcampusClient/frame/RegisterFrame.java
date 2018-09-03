@@ -8,8 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
-
-
+import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.component.RButton;
 import com.wolfTungsten.vcampusClient.component.RoundBorder;
 
@@ -22,6 +21,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 
@@ -31,7 +33,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 	private JTextField cardNumField;
 	private JTextField identityField;
 	private JTextField idCardNumField;
-	private JTextField birthdateField;
+	//private JTextField birthdateField;
 	private JTextField addressField;
 	private JPasswordField passwordField;
 	private JPasswordField rePassField;
@@ -143,12 +145,12 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		textSet(idCardNumField);
 		idCardNumField.setColumns(10);
 		
-		birthdateField = new JTextField();
-		birthdateField.setForeground(Color.WHITE);
-		birthdateField.setBounds(200, 230, 140, 21);
-		contentPane.add(birthdateField);
-		textSet(birthdateField);
-		birthdateField.setColumns(10);
+//		birthdateField = new JTextField();
+//		birthdateField.setForeground(Color.WHITE);
+//		birthdateField.setBounds(200, 230, 140, 21);
+//		contentPane.add(birthdateField);
+//		textSet(birthdateField);
+//		birthdateField.setColumns(10);
 		
 		addressField = new JTextField();
 		addressField.setForeground(Color.WHITE);
@@ -237,15 +239,15 @@ public class RegisterFrame extends JFrame implements ActionListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == okButton) {
-			String cardNameStr = cardNumField.getText();
+			String cardNameStr = new String(cardNumField.getText());
 			String identityStr = new String(identityField.getText());
 			String idCardNumStr = new String(idCardNumField.getText());
-			String birthdateStr = new String(birthdateField.getText());
+			//String birthdateStr = new String(birthdateField.getText());
 			String addressStr = new String(addressField.getText());
 			String passwordStr = new String(passwordField.getPassword());
 			String rePassStr = new String(rePassField.getPassword());
-			String studPrivilege=new String(studentRadioButton.getText());
-			String teachPrivilege=new String(teacherRadioButton.getText());
+			String studPrivilege = new String(studentRadioButton.getText());
+			String teachPrivilege = new String(teacherRadioButton.getText());
 			
 			if (cardNameStr==null||cardNameStr.equals("")) {
 		    	   JOptionPane.showMessageDialog(null, "一卡通号不可为空~", "Tips",JOptionPane.ERROR_MESSAGE);  
@@ -257,10 +259,6 @@ public class RegisterFrame extends JFrame implements ActionListener{
 			}
 		    else if (idCardNumStr==null||idCardNumStr.equals("")) {
 		    	   JOptionPane.showMessageDialog(null, "身份证号不可为空~", "Tips",JOptionPane.ERROR_MESSAGE);  
-		    	   return;
-			}
-		    else if (birthdateStr==null||birthdateStr.equals("")) {
-		    	   JOptionPane.showMessageDialog(null, "出生日期不可为空~", "Tips",JOptionPane.ERROR_MESSAGE);  
 		    	   return;
 			}
 		    else if (addressStr==null||addressStr.equals("")) {
@@ -281,9 +279,45 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		    	   return;
 			}
 		    else {
-		    	this.setVisible(false);
-				LoginUI login_frame = new LoginUI();
-				login_frame.setVisible(true);
+		    	Client.Request request = new Client.Request();
+		    	request.setPath("user/register");
+		    	request.getParams().put("username", identityStr);
+		    	request.getParams().put("cardnum", cardNameStr);
+		    	request.getParams().put("hash_password", Client.getMD5(passwordStr));
+		    	request.getParams().put("photo", "");
+		    	if (studentRadioButton.isSelected()) {
+		    		request.getParams().put("privilege", 0);
+		    		request.getParams().put("identity", 0);
+		    	} else {
+		    		request.getParams().put("privilege", 1);
+		    		request.getParams().put("identity", 1);
+		    	}
+		    	request.getParams().put("address", addressStr);
+		    	request.getParams().put("idcardNum", idCardNumStr);
+
+		        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		        // 指定一个日期
+		        try {
+					Date date = dateFormat.parse(idCardNumStr.substring(6, 13));
+					request.getParams().put("birthdate", date.getTime() / 1000);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		        
+		        Client.Response response = Client.fetch(request);
+		        
+		        if (response.getSuccess()) {
+		        	// 注册成功
+		        	JOptionPane.showMessageDialog(null, "注册成功，将跳转到登录界面", "提示", JOptionPane.DEFAULT_OPTION);  
+		        	this.setVisible(false);
+					LoginUI login_frame = new LoginUI();
+					login_frame.setVisible(true);
+		        } else {
+		        	 JOptionPane.showMessageDialog(null, "请检查网络及服务器状态", "注册失败", JOptionPane.ERROR_MESSAGE);  
+		        }
+		        
+		    	
 		    }
 		}
 		if(e.getSource() == cancelButton) {

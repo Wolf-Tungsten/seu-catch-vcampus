@@ -76,29 +76,18 @@ public class BookRepository extends CurdRepository<Book>
 				
 	}
 	/**
-	 * 根据就字段和值查书
+	 * 根据书名查书
 	 * @param colName
 	 * @param value
 	 * @return
 	 * @throws SQLException
 	 */
-	public ArrayList<HashMap<String,Object>> inquireByFlag(String colName,Object value) throws SQLException {
+	public ArrayList<HashMap<String,Object>> inquireByName(String value) throws SQLException {
 		//反射找匹配的字段名 然后执行查询
 		ArrayList<Book> booksList = new ArrayList<>();
-		Book book = new Book();
-		Class clz = book.getClass();
-		Field[] fields = clz.getDeclaredFields();
-		String columnName ="";
-		for(Field field:fields) {
-			field.setAccessible(true);
-			columnName=field.getAnnotation(DatabaseField.class).columnName();
-		if(columnName.equals(colName)) {
-			columnName=colName;
-			break;
-			}		
-		}
+		
 		ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>(); 
-		booksList = (ArrayList<Book>)dao.queryForEq(columnName, value);
+		booksList = (ArrayList<Book>)dao.queryForEq(Book.NAME, value);
 		for(Book b:booksList) {
 			HashMap<String,Object> bookinfo = new HashMap<>();
 			bookinfo.put(Book.UUID, b.getUuid().toString());
@@ -108,8 +97,25 @@ public class BookRepository extends CurdRepository<Book>
 			bookinfo.put(Book.AUTHOR,b.getAuthor());
 			booksinfoList.add(bookinfo);
 		}	
-		return booksinfoList;
-		
+		return booksinfoList;	
 	}
+	//按作者名查书
+	public ArrayList<HashMap<String,Object>> inquireByAuthor(String author) throws SQLException
+	{
+		ArrayList<Book> booksList = new ArrayList<>();
+		ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
+		booksList = (ArrayList<Book>)dao.queryForEq(Book.AUTHOR,author);
+		for(Book b:booksList) {
+			HashMap<String,Object>bookinfo = new HashMap<>();
+			bookinfo.put(Book.UUID, b.getUuid().toString());
+			bookinfo.put(Book.NAME, b.getName());
+			bookinfo.put(Book.ISBN,b.getIsbn());
+			bookinfo.put(Book.CREATETIME,b.getCreateTime());
+			bookinfo.put(Book.AUTHOR, b.getAuthor());
+			booksinfoList.add(bookinfo);			
+		}
+		return booksinfoList;	
+	}
+	
 	
 }

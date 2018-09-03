@@ -10,7 +10,6 @@ import com.wolfTungsten.vcampus.entity.User;
 
 public class TradingRecordRepository extends CurdRepository<TradingRecord>
 {
-
 	public TradingRecordRepository(ConnectionSource conn) throws SQLException
 	{
 		super(conn, TradingRecord.class);	
@@ -46,5 +45,24 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		}
 		return toSum;
 	}
+	
+	public List<TradingRecord> getFromBill(String from)throws SQLException{
+		List<TradingRecord> tradingRecordList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, from).prepare());
+		return tradingRecordList;
+	}//支出账单
+	
+	public List<TradingRecord> getToBill(String to)throws SQLException{
+		List<TradingRecord> tradingRecordList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, to).prepare());
+		return tradingRecordList;
+	}//收入账单
+	
+	public List<TradingRecord> getBill(String userid)throws SQLException{
+		List<TradingRecord> tradingRecordList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid)
+						.or().eq(TradingRecord.FROM, userid).prepare());
+		return tradingRecordList;
+	}//总账单
 
 }
