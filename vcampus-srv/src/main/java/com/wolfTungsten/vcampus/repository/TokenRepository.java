@@ -10,30 +10,33 @@ import com.wolfTungsten.vcampus.entity.Token;
 
 public class TokenRepository extends CurdRepository<Token>
 {
-
+	public static long duration =30*60; 
 	public TokenRepository(ConnectionSource conn) throws SQLException
 	{
 		super(conn, Token.class);
 
 	}
 	/**
-	 * 检查是否为合法请求和返回上一次操作的时间戳
+	 * 检查是否为合法请求和返回boolean
 	 * @param token
 	 * @param uuid
 	 * @param timestamp
 	 * @return
 	 */
-	public long checkToken(String token,String uuid) throws SQLException{
+	//未测试
+	public boolean Token(String token,String uuid) throws SQLException{
 		List<Token> userList = 
 				dao.query((PreparedQuery<Token>) dao.queryBuilder().where().eq(Token.UUID, uuid)
 						.prepare());
 		
-		if(userList.get(0).getToken().equals(token))
-			return userList.get(0).getTimestamp();;
-		
-		
-			
-		return 0;
+		if(userList.get(0).getToken().equals(token)) {
+			if(userList.get(0).getTimestamp()+duration<System.currentTimeMillis()/1000) {
+				return true;
+			}else {
+				return false;
+			}
+	
+		}else return false;	
 		
 		
 	}

@@ -19,8 +19,9 @@ public class LibraryController extends BaseController
 		this.addHandle("updateBook", updateBookHandle);
 		this.addHandle("deleteBook", deleteBookHandle);
 		this.addHandle("queryAllBooks", queryAllHandle);
-		this.addHandle("queryByFlag", queryByFlagHandle);
-	
+		this.addHandle("queryByName", queryByNameHandle);
+		this.addHandle("queryByAuthor", queryByAuthorHandle);
+		this.addHandle("borrowBook", borrowBookHandle);
 	}
 
 	private BaseController.BaseHandle addBookHandle = new BaseHandle()
@@ -107,6 +108,7 @@ public class LibraryController extends BaseController
 		}
 	};
 	private BaseController.BaseHandle queryAllHandle = new BaseHandle()
+
 	{
 	
 		@Override
@@ -128,19 +130,20 @@ public class LibraryController extends BaseController
 			}
 		}
 	};
-	//
-	private BaseController.BaseHandle queryByFlagHandle = new BaseHandle()
+	//未测试
+	//未测试
+	private BaseController.BaseHandle queryByNameHandle = new BaseHandle()
 	{
 		@Override
 		public Response work(Request request)
 		{
 			Response response = new Response();
 			ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
-			String columnName = (String)request.getParams().get("flag");
-			Object value = request.getParams().get(columnName);
+			String value = (String)request.getParams().get(Book.NAME);
+			
 			try
 			{
-				booksinfoList = orm.bookRepository.inquireByFlag(columnName, value);
+				booksinfoList = orm.bookRepository.inquireByName(value);
 				response.getBody().put("booksInfoMapList", booksinfoList);
 				response.setSuccess(true);
 				return response;
@@ -152,7 +155,75 @@ public class LibraryController extends BaseController
 			}
 		}
 	};
-
-	
+	//未测试
+	private BaseController.BaseHandle queryByAuthorHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
+			String author = (String)request.getParams().get(Book.AUTHOR);
+			
+			try
+			{
+				booksinfoList = orm.bookRepository.inquireByAuthor(author);
+				response.getBody().put("booksInfoMapList", booksinfoList);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e)
+			{
+				e.printStackTrace();
+				response.setSuccess(false);
+				return response;
+				
+			}
+			
+		}
+	};
+	/**
+	 * 借书
+	 */
+	//未测试
+	private BaseController.BaseHandle borrowBookHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String useruuid =(String) request.getParams().get("user_id");
+			String bookuuid = (String)request.getParams().get("book_id");
+			boolean isReturn = false;
+			try
+			{
+				orm.userXBookRepository.addUserXBook(useruuid, bookuuid, isReturn);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}
+			
+		}
+	};
+	//未测试
+	/**
+	 * 还书,前端传书的uuid即可
+	 */
+	private BaseController.BaseHandle returnBookHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response reponse = new Response();
+			
+			return null;
+		}
+	};
 
 }

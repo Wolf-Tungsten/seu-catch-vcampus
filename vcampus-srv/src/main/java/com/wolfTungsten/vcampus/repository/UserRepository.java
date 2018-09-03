@@ -1,6 +1,7 @@
 package com.wolfTungsten.vcampus.repository;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,14 +44,17 @@ public class UserRepository extends CurdRepository<User> {
 		}
 	}
 	
-	public UUID login(String cardnum,String password) throws SQLException {
+	public HashMap<String,Object> login(String cardnum,String password) throws SQLException {
 		//根据cardnum和password查询用户
+		HashMap<String,Object> loginreturn = new HashMap<>();
 		List<User> userList = 
 				dao.query((PreparedQuery<User>) dao.queryBuilder().where().eq(User.CARDNUM, cardnum).and()
 						.eq(User.PASSWORD, password).prepare());
 		if(userList.size()!=0) {
 			System.out.println("userlist size = 0");
-			return userList.get(0).getUuid();
+			loginreturn.put("uuid",userList.get(0).getUuid() );
+			loginreturn.put("privilege", userList.get(0).getPrivilege());
+			return loginreturn;
 		}
 		else	
 			return null;	

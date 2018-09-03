@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.UUID;
 
 import com.wolfTungsten.vcampus.entity.User;
@@ -91,9 +92,9 @@ public class UserController extends BaseController{
 			String password = (String) request.getParams().get("hash_password");
 			try {
 			
-			UUID Useruuid = orm.userRepository.login(cardnum, password);
+			HashMap<String,Object> loginreturn = orm.userRepository.login(cardnum, password);
 			//不存在该用户，-- 这样抛感觉不好
-			if(Useruuid==null) {
+			if(loginreturn==null) {
 				
 				throw new Exception("不存在此用户");
 			}
@@ -101,10 +102,13 @@ public class UserController extends BaseController{
 			long timestamp =  System.currentTimeMillis()/1000;
 			System.out.println(timestamp);
 			//生成token 存表
-			String token = getMD5(Useruuid.toString()+Long.toString(timestamp));
-			orm.tokenRepository.addToken(token, Useruuid.toString(), timestamp);//***空指针异常
+			UUID useruuid = (UUID)loginreturn.get("uuid");
+			int privilege = (int)loginreturn.get("privilege");
+			String token = getMD5(useruuid.toString()+Long.toString(timestamp));
+			orm.tokenRepository.addToken(token, useruuid.toString(), timestamp);//***空指针异常
 			response.setSuccess(true);
 			response.getBody().put("token", token);
+			response.getBody().put("privilege", privilege);
 			return response;
 					
 			}catch(SQLException e) {
