@@ -12,6 +12,8 @@ public class UserXBook
 	public static final String USER_ID = "user_id";
 	public static final String BOOK_ID ="book_id";
 	public static final String ISRETURN ="isReturn";
+	public static final String BORROWDATE = "borrowdate";
+	public static final String RETURNDATE = "returndate";
 	
 	@DatabaseField(generatedId = true, columnName = UserXBook.UUID)
 	private UUID uuid;
@@ -20,8 +22,31 @@ public class UserXBook
 	@DatabaseField(columnName= UserXBook.BOOK_ID)
 	private String book_id;
 	@DatabaseField(columnName= UserXBook.ISRETURN)
-	private boolean isReturn;
-	
+	private int isReturn;
+	@DatabaseField(columnName = UserXBook.BORROWDATE)
+	private long borrowdate;
+	@DatabaseField(columnName = UserXBook.RETURNDATE)
+	private long returndate;
+	public long getBorrowdate()
+	{
+		return borrowdate;
+	}
+
+	public void setBorrowdate(long borrowdate)
+	{
+		this.borrowdate = borrowdate;
+	}
+
+	public long getReturndate()
+	{
+		return returndate;
+	}
+
+	public void setReturndate(long returndate)
+	{
+		this.returndate = returndate;
+	}
+
 	public UserXBook() {
 		
 	}
@@ -56,12 +81,12 @@ public class UserXBook
 		this.book_id = book_id;
 	}
 
-	public boolean isReturn()
+	public int getIsReturn()
 	{
 		return isReturn;
 	}
 
-	public void setReturn(boolean isReturn)
+	public void setReturn(int isReturn)
 	{
 		this.isReturn = isReturn;
 	}

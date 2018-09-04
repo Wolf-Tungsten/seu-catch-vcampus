@@ -14,7 +14,9 @@ public class Book
 	public static final String AUTHOR ="author";
 	public static final String CREATETIME = "createTime";
 	public static final String UPDATETIME = "updateTime";
-	
+	public static final String AMOUNT ="amount";
+	public static final String SURPLUS = "surplus";
+	public static final String PUBLISHER = "publisher";
 	
 	@DatabaseField(generatedId = true, columnName = Book.UUID)
 	private UUID uuid;
@@ -28,12 +30,53 @@ public class Book
 	private String author;
 	@DatabaseField(columnName = Book.UPDATETIME)
 	private long updateTime;
-	
+	@DatabaseField(columnName = Book.AMOUNT)
+	private int amount=0;
+	@DatabaseField(columnName = Book.SURPLUS)
+	private int surplus = 0;
+	@DatabaseField(columnName = Book.PUBLISHER)
+	private String publisher;
 	public Book() {
 		
 	}
 	
 	
+	public String getPublisher()
+	{
+		return publisher;
+	}
+
+
+	public void setPublisher(String publisher)
+	{
+		this.publisher = publisher;
+	}
+
+
+	public int getSurplus()
+	{
+		return surplus;
+	}
+
+
+	public void setSurplus(int surplus)
+	{
+		this.surplus = surplus;
+	}
+
+
+	public int getAmount()
+	{
+		return amount;
+	}
+
+
+	public void setAmount(int amount)
+	{
+		this.amount = amount;
+	}
+
+
 	public String getAuthor()
 	{
 		return author;

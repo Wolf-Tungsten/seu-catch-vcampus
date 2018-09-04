@@ -47,7 +47,7 @@ public class BankController extends BaseController{
 			
 			}
 		}
-	}
+	};
 	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
 		@Override
 		public Response work(Request request)

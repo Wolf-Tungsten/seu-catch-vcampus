@@ -17,6 +17,7 @@ import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.User;
+import com.wolfTungsten.vcampus.entity.UserXBook;
 
 public class BookRepository extends CurdRepository<Book>
 {
@@ -26,13 +27,16 @@ public class BookRepository extends CurdRepository<Book>
 		super(conn, Book.class);
 		
 	}
-	public void addBook(String name,String isbn,String author,long createTime,long updateTime) throws SQLException {
+	public void addBook(String name,String isbn,String author,String publisher,long createTime,long updateTime,int amount) throws SQLException {
 		Book book = new Book();
 		book.setName(name);
 		book.setIsbn(isbn);
 		book.setCreateTime(createTime);
 		book.setUpdateTime(updateTime);
 		book.setAuthor(author);
+		book.setAmount(amount);
+		book.setSurplus(amount);
+		book.setPublisher(publisher);
 		dao.create(book);
 		
 	}
@@ -70,41 +74,19 @@ public class BookRepository extends CurdRepository<Book>
 			bookinfo.put(Book.ISBN,book.getIsbn());
 			bookinfo.put(Book.CREATETIME,book.getCreateTime());
 			bookinfo.put(Book.AUTHOR,book.getAuthor());
+			bookinfo.put(Book.SURPLUS, book.getSurplus());
+			bookinfo.put(Book.PUBLISHER, book.getPublisher());
 			booksinfoList.add(bookinfo);
 		}
 		return booksinfoList;
 				
 	}
-	/**
-	 * 根据书名查书
-	 * @param colName
-	 * @param value
-	 * @return
-	 * @throws SQLException
-	 */
-	public ArrayList<HashMap<String,Object>> inquireByName(String value) throws SQLException {
-		//反射找匹配的字段名 然后执行查询
-		ArrayList<Book> booksList = new ArrayList<>();
-		
-		ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>(); 
-		booksList = (ArrayList<Book>)dao.queryForEq(Book.NAME, value);
-		for(Book b:booksList) {
-			HashMap<String,Object> bookinfo = new HashMap<>();
-			bookinfo.put(Book.UUID, b.getUuid().toString());
-			bookinfo.put(Book.NAME, b.getName());
-			bookinfo.put(Book.ISBN,b.getIsbn());
-			bookinfo.put(Book.CREATETIME,b.getCreateTime());
-			bookinfo.put(Book.AUTHOR,b.getAuthor());
-			booksinfoList.add(bookinfo);
-		}	
-		return booksinfoList;	
-	}
-	//按作者名查书
-	public ArrayList<HashMap<String,Object>> inquireByAuthor(String author) throws SQLException
-	{
+	
+	//根据字段和值找对应书籍
+	public ArrayList<HashMap<String,Object>> inquireByFlag(String flag, Object value) throws SQLException {
 		ArrayList<Book> booksList = new ArrayList<>();
 		ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
-		booksList = (ArrayList<Book>)dao.queryForEq(Book.AUTHOR,author);
+		booksList = (ArrayList<Book>)dao.queryForEq(flag,value);
 		for(Book b:booksList) {
 			HashMap<String,Object>bookinfo = new HashMap<>();
 			bookinfo.put(Book.UUID, b.getUuid().toString());
@@ -112,10 +94,35 @@ public class BookRepository extends CurdRepository<Book>
 			bookinfo.put(Book.ISBN,b.getIsbn());
 			bookinfo.put(Book.CREATETIME,b.getCreateTime());
 			bookinfo.put(Book.AUTHOR, b.getAuthor());
+			bookinfo.put(Book.SURPLUS, b.getSurplus());
+			bookinfo.put(Book.PUBLISHER, b.getPublisher());
 			booksinfoList.add(bookinfo);			
 		}
-		return booksinfoList;	
+		return booksinfoList;		
+				
+		}
+		/**
+		 * 根据uuid查书
+		 * @param uuid
+		 * @return
+		 * @throws SQLException
+		 */
+	public Book inquireById(String uuid) throws SQLException {
+		Book book = new Book();
+		List<Book> books = dao.queryForEq(Book.UUID, UUID.fromString(uuid));
+		if(books==null)throw new SQLException("没找到这本书");
+		
+		return books.get(0);
+		
 	}
+	public void updateByflag(String uuid,String column,Object value) throws SQLException {
+		dao.update((PreparedUpdate<Book>)dao.updateBuilder()
+				.updateColumnValue(column,value )
+				.where().eq(UserXBook.UUID, UUID.fromString(uuid)).prepare());
+		
+	}
+		
 	
 	
+
 }

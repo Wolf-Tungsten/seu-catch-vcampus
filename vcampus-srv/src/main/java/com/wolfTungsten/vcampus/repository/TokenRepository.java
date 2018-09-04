@@ -10,7 +10,7 @@ import com.wolfTungsten.vcampus.entity.Token;
 
 public class TokenRepository extends CurdRepository<Token>
 {
-	public static long duration =30*60; 
+	public static long duration =System.currentTimeMillis()/1000;//30*60; 
 	public TokenRepository(ConnectionSource conn) throws SQLException
 	{
 		super(conn, Token.class);
@@ -24,19 +24,19 @@ public class TokenRepository extends CurdRepository<Token>
 	 * @return
 	 */
 	//未测试
-	public boolean Token(String token,String uuid) throws SQLException{
+	public String checkToken(String token) throws SQLException{
 		List<Token> userList = 
-				dao.query((PreparedQuery<Token>) dao.queryBuilder().where().eq(Token.UUID, uuid)
+				dao.query((PreparedQuery<Token>) dao.queryBuilder().where().eq(Token.TOKEN, token)
 						.prepare());
 		
 		if(userList.get(0).getToken().equals(token)) {
-			if(userList.get(0).getTimestamp()+duration<System.currentTimeMillis()/1000) {
-				return true;
+			if(userList.get(0).getTimestamp()+duration > System.currentTimeMillis()/1000) {
+				return userList.get(0).getUserUuid();
 			}else {
-				return false;
+				return null;
 			}
 	
-		}else return false;	
+		}else return null;	
 		
 		
 	}
