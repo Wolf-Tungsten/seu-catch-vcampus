@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.component.RButton;
 import com.wolfTungsten.vcampusClient.component.RoundBorder;
@@ -20,15 +22,19 @@ import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Point;
 
 public class RegisterFrame extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
+	static Point origin = new Point();
 	private JPanel contentPane;
 	private JTextField cardNumField;
 	private JTextField identityField;
@@ -49,6 +55,8 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.frameBorderStyle.osLookAndFeelDecorated;
+				    org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
 					RegisterFrame frame = new RegisterFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -132,6 +140,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		
 		
 		identityField = new JTextField();
+		identityField.setOpaque(false);
 		identityField.setForeground(Color.WHITE);
 		identityField.setBounds(200, 140, 140, 21);
 		contentPane.add(identityField);
@@ -234,6 +243,28 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		Container cp=getContentPane();  
 		cp.setLayout(null);   	  
 		((JPanel)cp).setOpaque(false);
+		
+		//实现鼠标拖拽窗口的功能
+				this.addMouseListener(new MouseAdapter(){
+			    	public void mousePressed(MouseEvent e) {
+			    		origin.x = e.getX();   //记录鼠标按下时的坐标
+			    		origin.y = e.getY();
+			    	}
+			    	
+			    	public void mouseClicked(MouseEvent e){
+			    		setExtendedState(JFrame.ICONIFIED);
+			    	}
+			    });
+				
+				this.addMouseMotionListener(new MouseAdapter() {
+					public void mouseDragged(MouseEvent e) {
+						int xOnScreen = e.getXOnScreen();
+						int yOnScreen = e.getYOnScreen();
+						int xNew = xOnScreen - origin.x ;
+						int yNew = yOnScreen - origin.y;
+						setLocation(xNew, yNew);  
+					}
+				});
 	}
 
 	@Override
