@@ -23,6 +23,10 @@ import javax.swing.border.EmptyBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
+import com.wolfTungsten.vcampusClient.panel.JwcExam;
+import com.wolfTungsten.vcampusClient.panel.JwcExperiment;
+import com.wolfTungsten.vcampusClient.panel.JwcSelectCourses;
 import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
 
 public class FunctionFrame extends JFrame implements MouseListener{
@@ -33,6 +37,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JPanel panel_info,panel_jwc,panel_lib,panel_shop,panel_bank;
 	JButton button_info,button_jwc,button_lib,button_shop,button_bank;	
 	JButton button_lib_select;
+	JPanel panel_jwc_select,panel_jwc_curriculum,panel_jwc_exam,panel_jwc_experiment;
+	JButton button_jwc_select,button_jwc_curriculum,button_jwc_exam,button_jwc_experiment;
 	static Point origin = new Point();
 	CardLayout cardLayout = new CardLayout();
 	
@@ -41,7 +47,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			public void run() {
 				try {
 					BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.frameBorderStyle.osLookAndFeelDecorated;
-					org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
+				org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
 					FunctionFrame frame = new FunctionFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -133,13 +139,37 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_info.setBackground(Color.PINK);
 		panel_message_info.setVisible(false); 
 		
-		//教务处提示面板
+		//教务处提示面板=================================
 		panel_message_jwc = new JPanel();
 		panel_message_jwc.setBounds(64, 0,100, 600);
 		panel_message_jwc.setBackground(Color.BLACK);
+		//”学生选课“按钮，管理JwcSelectCourse面板
+		button_jwc_select=new JButton("学生选课");
+		button_jwc_select.setBounds(64, 0,100, 90);
+		button_jwc_select.addMouseListener(this);
+		panel_message_jwc.add(button_jwc_select);
+		
+		//”课表查询“按钮，管理JwcCurriculum面板
+		button_jwc_curriculum=new JButton("课表查询");
+		button_jwc_curriculum.setBounds(64, 100,100, 90);
+		button_jwc_curriculum.addMouseListener(this);
+		panel_message_jwc.add(button_jwc_curriculum);
+		
+		//”考试助手“按钮，管理JwcExam面板
+		button_jwc_exam=new JButton("考试助手");
+		button_jwc_exam.setBounds(64, 200,100, 90);
+		button_jwc_exam.addMouseListener(this);
+		panel_message_jwc.add(button_jwc_exam);
+		
+		//”考试助手“按钮，管理JwcExperiment面板
+		button_jwc_experiment=new JButton("实验助手");
+		button_jwc_experiment.setBounds(64, 300,100, 90);
+		button_jwc_experiment.addMouseListener(this);
+		panel_message_jwc.add(button_jwc_experiment);
+		
 		panel_message_jwc.setVisible(false); 
 		
-		//图书馆提示面板
+		//图书馆提示面板=================================
 		panel_message_lib = new JPanel();
 		panel_message_lib.setBounds(64, 0,100, 600);
 		panel_message_lib.setBackground(Color.RED);
@@ -148,6 +178,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		button_lib_select.setBounds(64, 0,100, 90);
 		button_lib_select.addMouseListener(this);
 		panel_message_lib.add(button_lib_select);
+		
 		panel_message_lib.setVisible(false); 
 		
 		//购物系统提示面板
@@ -181,12 +212,24 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//panel_lib = new JPanel();
 		panel_lib = new LibFindBooksPanel();
 		panel_lib.setBackground(new Color(255, 255, 255));
-		//panel_lib.setBackground(new Color(153, 255, 255));
+//		panel_lib.setBackground(new Color(153, 255, 255));
 		panel_right.add("2", panel_lib);
-		//教务处
-		panel_jwc=new JPanel();
-		panel_jwc.setBackground(new Color(255, 255, 153));
-		panel_right.add("3", panel_jwc);			
+		//教务处============skk四个面板在这里被新建，背景色太丑，你自己改一下哈
+		panel_jwc_select=new JwcSelectCourses();
+		panel_jwc_select.setBackground(new Color(255, 255, 153));
+		panel_right.add("jwc_1", panel_jwc_select);		
+		
+		panel_jwc_curriculum=new JwcCurriculum();
+		panel_jwc_curriculum.setBackground(Color.PINK);
+		panel_right.add("jwc_2", panel_jwc_curriculum);	
+		
+		panel_jwc_exam=new JwcExam();
+		panel_jwc_exam.setBackground(Color.GREEN);
+		panel_right.add("jwc_3", panel_jwc_exam);	
+		
+		panel_jwc_experiment=new JwcExperiment();
+		panel_jwc_experiment.setBackground(Color.RED);
+		panel_right.add("jwc_4", panel_jwc_experiment);	
 	    //购物系统
 		panel_shop = new JPanel();
 		panel_shop.setBackground(new Color(255, 204, 255));
@@ -237,10 +280,31 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
-			} else if (e.getSource() == button_jwc) {
-				cardLayout.show(panel_right, "3");
+			} else if (e.getSource() == button_jwc_select) {
+				cardLayout.show(panel_right, "jwc_1");
 				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(true); 
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
+			} else if (e.getSource() == button_jwc_curriculum) {
+				cardLayout.show(panel_right, "jwc_2");
+				panel_message_info.setVisible(false); 
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
+			}  else if (e.getSource() == button_jwc_exam) {
+				cardLayout.show(panel_right, "jwc_3");
+				panel_message_info.setVisible(false); 
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
+			} else if (e.getSource() == button_jwc_experiment) {
+				cardLayout.show(panel_right, "jwc_4");
+				panel_message_info.setVisible(false); 
+				panel_message_jwc.setVisible(false); 
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
