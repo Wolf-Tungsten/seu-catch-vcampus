@@ -197,19 +197,27 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 		lblNewLabel_1.setIcon(imageIcon_1);
 		contentPane.add(lblNewLabel_1);
 
-		addMouseListener((MouseListener) new MouseAdapter() {
-			public void mousePresseded(MouseEvent e) {
-				origin.x = e.getX();
-				origin.y = e.getY();
-			}
-		});
-
-		addMouseMotionListener((MouseMotionListener) new MouseMotionAdapter() {
-			public void mouseDragged(MouseEvent e) {
-				Point p = getLocation();
-				setLocation(p.x + e.getX() - origin.x, p.y + e.getY() - origin.y);
-			}
-		});
+		//实现鼠标拖拽窗口的功能
+				this.addMouseListener(new MouseAdapter(){
+			    	public void mousePressed(MouseEvent e) {
+			    		origin.x = e.getX();   //记录鼠标按下时的坐标
+			    		origin.y = e.getY();
+			    	}
+			    	
+			    	public void mouseClicked(MouseEvent e){
+			    		setExtendedState(JFrame.ICONIFIED);
+			    	}
+			    });
+				
+				this.addMouseMotionListener(new MouseAdapter() {
+					public void mouseDragged(MouseEvent e) {
+						int xOnScreen = e.getXOnScreen();
+						int yOnScreen = e.getYOnScreen();
+						int xNew = xOnScreen - origin.x ;
+						int yNew = yOnScreen - origin.y;
+						setLocation(xNew, yNew);  
+					}
+				});
 
 	}
 

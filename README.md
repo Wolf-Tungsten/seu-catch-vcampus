@@ -51,15 +51,15 @@
 
 ## Book
 
-#### Path: book/addBook
+#### Path: book/addBook 添加书籍
 
-添加书籍
-
-| 字段名称 | 字段类型 | 备注                  |
-| -------- | -------- | --------------------- |
-| name     | String   | 书名                  |
-| isbn     | String   | 书的isbn base64之类的 |
-| author   | String   | 作者                  |
+| 字段名称  | 字段类型 | 备注                  |
+| --------- | -------- | --------------------- |
+| name      | String   | 书名                  |
+| isbn      | String   | 书的isbn base64之类的 |
+| author    | String   | 作者                  |
+| publisher | String   | 出版社                |
+| amount    | int      | 数量                  |
 
 返回Response的内容
 
@@ -67,9 +67,7 @@
 | -------- | ------- | ------------------------- |
 | sucess   | Boolean | 添加成功(true)失败(false) |
 
-#### Path: book/deleteBook
-
-删除书籍(可批量)
+#### Path: book/deleteBook 删除书籍(可批量)
 
 | 字段名称 | 字段类型 | 备注     |
 | -------- | -------- | -------- |
@@ -91,11 +89,26 @@ request.getParams().put("uuidList",BookuuidList);
 | -------- | ------- | ----------------- |
 | success  | Boolean | 成功true失败false |
 
+#### path:book/updateBook 改书本信息 
+
+| 字段名称  | 字段类型               | 备注             |
+| --------- | ---------------------- | ---------------- |
+| booksList | HashMap<String,Object> | 一本书待更新信息 |
 
 
-#### Path:book/queryAllBook
 
-查询全部书籍
+key:booksList  ,  value :HashMap<String,Object>  booksinfo
+
+booksinfo里的内容
+
+| 字段名称       | 字段类型 | 备注 |
+| -------------- | -------- | ---- |
+| uuid           | String   | 书   |
+| entity里的属性 |          |      |
+
+可更新书内任意数量字段的信息(除了uuid).
+
+#### Path:book/queryAllBook 查询全部书籍
 
 setPath即可
 
@@ -108,3 +121,95 @@ setPath即可
 
 HashMap<String,Object>={"booksInfoMapList":LinkedTreeMap<String,Object>}
 
+LinkedTreeMap 里的字段有
+
+| Key(String) | valueType | 备注     |
+| ----------- | --------- | -------- |
+| uuid        | String    | 书的uuid |
+| name        | String    | 书名     |
+| isbn        | String    | isbn码   |
+| author      | String    | 作者     |
+| surplus     | int       | 余量     |
+| publisher   | String    | 出版社   |
+
+#### path:book/queryByName    book/queryByAuthor
+
+通过名字查询，通过作者查询相关书籍
+
+| 字段名称 | 字段类型 | 备注 |
+| -------- | -------- | ---- |
+| name     | String   | 书名 |
+| token    | String   |      |
+
+queryByAuthor  name -> author(String)
+
+返回LinkedTreeMap<String,Object>,其中有   <"sucess": true/false> ,
+		                 <"booksInfoMapList": ArrayList<LinkedTreeMap<String,Object>>
+
+LinkedTreeMap 里的字段有
+
+| Key(String) | valueType | 备注     |
+| ----------- | --------- | -------- |
+| uuid        | String    | 书的uuid |
+| name        | String    | 书名     |
+| isbn        | String    | isbn码   |
+| author      | String    | 作者     |
+| surplus     | int       | 余量     |
+| publisher   | String    | 出版社   |
+
+
+
+#### Path:book/borrowBook
+
+借书  一本
+
+| 字段名称 | 字段类型 | 备注     |
+| -------- | -------- | -------- |
+| uuid     | String   | 书的uuid |
+| token    | String   |          |
+
+response    {"success":boolean,"body":{}}
+
+#### Path:book/borrowRecord
+
+用户借阅信息
+
+| 字段名称 | 字段类型 | 备注 |
+| -------- | -------- | ---- |
+| token    | String   |      |
+
+response    {"success":boolean , "body": { "recordMaplist":ArrayList<HashMap<String,Object>>}
+
+备注:"body"对应的键值类型为LinkedTreeMap
+
+inkedTreeMap 里的字段有
+
+| Key(String) | valueType | 备注               |
+| ----------- | --------- | ------------------ |
+| uuid        | String    | 借阅记录的uuid     |
+| name        | String    | 书名               |
+| author      | String    | 作者名             |
+| publisher   | String    | 出版社             |
+| borrowdate  | int       | 借书日期时间戳     |
+| returndate  | int       | 应当归还日期时间戳 |
+| isreturn    | int       | 0没还 ,1 还了      |
+
+#### Path:book/renewBook
+
+续借
+
+| 字段名称 | 字段类型 | 备注           |
+| -------- | -------- | -------------- |
+| uuid     | String   | 借阅记录的uuid |
+| token    | String   |                |
+
+response  {"success":boolean,"body":{}}
+
+#### Path:book/returnBook
+
+| 字段名称 | 字段类型 | 备注           |
+| -------- | -------- | -------------- |
+| uuid     | String   | 借阅记录的uuid |
+| token    | String   |                |
+
+response  {"success":boolean,"body":{}}

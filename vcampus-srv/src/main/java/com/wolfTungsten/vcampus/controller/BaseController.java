@@ -1,5 +1,6 @@
 package com.wolfTungsten.vcampus.controller;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import com.wolfTungsten.vcampus.ORM;
@@ -10,6 +11,14 @@ public abstract class BaseController {
 	
 	protected ORM orm;
 	protected HashMap<String, BaseHandle> pathMap;
+	
+	public String checkToken(String token)throws SQLException {
+		String userUuid = "0";
+		userUuid=orm.tokenRepository.checkToken(token);
+		if(userUuid.equals("0"))throw new SQLException("401");
+		return userUuid;
+		
+	}
 	
 	public BaseController() {
 		this.orm = ORM.getInstance();

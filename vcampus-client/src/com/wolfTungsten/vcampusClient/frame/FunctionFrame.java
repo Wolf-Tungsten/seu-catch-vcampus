@@ -4,8 +4,12 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseMotionListener;
 import java.net.URL;
 
 
@@ -17,19 +21,27 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
+import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
+
 public class FunctionFrame extends JFrame implements MouseListener{
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	JPanel panel_right;
+	JPanel panel_right,panel_message;
+	JPanel panel_message_info,panel_message_jwc,panel_message_lib,panel_message_shop,panel_message_bank;
 	JPanel panel_info,panel_jwc,panel_lib,panel_shop,panel_bank;
 	JButton button_info,button_jwc,button_lib,button_shop,button_bank;	
-	
+	JButton button_lib_select;
+	static Point origin = new Point();
 	CardLayout cardLayout = new CardLayout();
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.frameBorderStyle.osLookAndFeelDecorated;
+					org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
 					FunctionFrame frame = new FunctionFrame();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -78,7 +90,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		ImageIcon imageIcon_shop=new ImageIcon(resource_shop);
 		URL resource_bank=FunctionFrame.class.getResource("bank-normal.jpg");
 		ImageIcon imageIcon_bank=new ImageIcon(resource_bank);
-		//个人信息
+		//个人信息======================================================================================
 		button_info = new JButton();
 		button_info.setBounds(0, 64, 64,64);
 		button_info.setIcon(imageIcon_info);
@@ -114,7 +126,49 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		button_bank.addMouseListener(this);
 		contentPane.add(button_bank);
 		
-		//右侧卡片面板
+		//提示面板
+		//个人信息提示面板===================================================================================
+		panel_message_info = new JPanel();
+		panel_message_info.setBounds(64, 0,100, 600);
+		panel_message_info.setBackground(Color.PINK);
+		panel_message_info.setVisible(false); 
+		
+		//教务处提示面板
+		panel_message_jwc = new JPanel();
+		panel_message_jwc.setBounds(64, 0,100, 600);
+		panel_message_jwc.setBackground(Color.BLACK);
+		panel_message_jwc.setVisible(false); 
+		
+		//图书馆提示面板
+		panel_message_lib = new JPanel();
+		panel_message_lib.setBounds(64, 0,100, 600);
+		panel_message_lib.setBackground(Color.RED);
+		
+		button_lib_select=new JButton("图书借阅");
+		button_lib_select.setBounds(64, 0,100, 90);
+		button_lib_select.addMouseListener(this);
+		panel_message_lib.add(button_lib_select);
+		panel_message_lib.setVisible(false); 
+		
+		//购物系统提示面板
+		panel_message_shop = new JPanel();
+		panel_message_shop.setBounds(64, 0,100, 600);
+		panel_message_shop.setBackground(Color.YELLOW);
+		panel_message_shop.setVisible(false); 
+		
+		//银行系统提示面板
+		panel_message_bank = new JPanel(cardLayout);
+		panel_message_bank.setBounds(64, 0,100, 600);
+		panel_message_bank.setBackground(Color.GREEN);
+		panel_message_bank.setVisible(false); 
+	    //把提示信息面板加到contentPane
+		contentPane.add(panel_message_info);
+		contentPane.add(panel_message_jwc);
+		contentPane.add(panel_message_lib);
+		contentPane.add(panel_message_shop);
+		contentPane.add(panel_message_bank);
+		
+		//右侧卡片面板==================================================================================
 		panel_right = new JPanel(cardLayout);
 		panel_right.setBounds(64, 0, 736, 600);
 		contentPane.add(panel_right);
@@ -124,8 +178,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_info.setBackground(new Color(255, 255, 204));
 		panel_right.add("1", panel_info);		
 		//图书馆
-		panel_lib = new JPanel();
-		panel_lib.setBackground(new Color(153, 255, 255));
+		//panel_lib = new JPanel();
+		panel_lib = new LibFindBooksPanel();
+		panel_lib.setBackground(new Color(255, 255, 255));
+		//panel_lib.setBackground(new Color(153, 255, 255));
 		panel_right.add("2", panel_lib);
 		//教务处
 		panel_jwc=new JPanel();
@@ -141,6 +197,27 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("5", panel_bank);
 		//默认为卡片1
 		cardLayout.show(panel_right, "1");
+		//实现鼠标拖拽窗口的功能
+		this.addMouseListener(new MouseAdapter(){
+	    	public void mousePressed(MouseEvent e) {
+	    		origin.x = e.getX();   //记录鼠标按下时的坐标
+	    		origin.y = e.getY();
+	    	}
+	    	
+	    	public void mouseClicked(MouseEvent e){
+	    		setExtendedState(JFrame.ICONIFIED);
+	    	}
+	    });
+		
+		this.addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				int xOnScreen = e.getXOnScreen();
+				int yOnScreen = e.getYOnScreen();
+				int xNew = xOnScreen - origin.x ;
+				int yNew = yOnScreen - origin.y;
+				setLocation(xNew, yNew);  
+			}
+		});
 	}
 	
 	@Override
@@ -148,14 +225,39 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		if (e.getClickCount() == 1) {
 			if (e.getSource() ==button_info) {
 				cardLayout.show(panel_right, "1");
-			} else if (e.getSource() == button_lib) {
+				panel_message_info.setVisible(true); 
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
+			} else if (e.getSource() == button_lib_select) {
 				cardLayout.show(panel_right, "2");
+				panel_message_info.setVisible(false); 
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
 			} else if (e.getSource() == button_jwc) {
 				cardLayout.show(panel_right, "3");
+				panel_message_info.setVisible(false); 
+				panel_message_jwc.setVisible(true); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
 			} else if (e.getSource() == button_shop) {
 				 cardLayout.show(panel_right, "4");
+				 panel_message_info.setVisible(false); 
+				 panel_message_jwc.setVisible(false); 
+				 panel_message_lib.setVisible(false); 
+				 panel_message_shop.setVisible(true); 
+				 panel_message_bank.setVisible(false); 
 			}else if (e.getSource() == button_bank) {
-				 cardLayout.show(panel_right, "5");
+				cardLayout.show(panel_right, "5");
+				panel_message_info.setVisible(false); 
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(true); 
 			}
 		}
 	}
@@ -190,18 +292,43 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		if (e.getSource() ==button_info) {
 			button_info.setIcon(imageIcon_info_active);
 			contentPane.add(button_info);
+			panel_message_info.setVisible(true); 
+			panel_message_jwc.setVisible(false); 
+			panel_message_lib.setVisible(false); 
+			panel_message_shop.setVisible(false); 
+			panel_message_bank.setVisible(false); 
 		}else if(e.getSource() == button_lib){
 			button_lib.setIcon(imageIcon_lib_active);
 			contentPane.add(button_lib);
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(false); 
+			panel_message_lib.setVisible(true); 
+			panel_message_shop.setVisible(false); 
+			panel_message_bank.setVisible(false); 
 		}else if (e.getSource() == button_jwc) {
 			button_jwc.setIcon(imageIcon_jwc_active);
 			contentPane.add(button_jwc);
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(true); 
+			panel_message_lib.setVisible(false); 
+			panel_message_shop.setVisible(false); 
+			panel_message_bank.setVisible(false); 
 		}else if (e.getSource() == button_shop) {
 			button_shop.setIcon(imageIcon_shop_active);
 			contentPane.add(button_shop);
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(false); 
+			panel_message_lib.setVisible(false); 
+			panel_message_shop.setVisible(true); 
+			panel_message_bank.setVisible(false); 
 		}else if (e.getSource() == button_bank) {
 			button_bank.setIcon(imageIcon_bank_active);
 			contentPane.add(button_bank);
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(false); 
+			panel_message_lib.setVisible(false); 
+			panel_message_shop.setVisible(false); 
+			panel_message_bank.setVisible(true); 
 		}
 	}
  
@@ -239,5 +366,4 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			contentPane.add(button_bank);
 		}
 	}
-	
 }
