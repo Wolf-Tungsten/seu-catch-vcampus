@@ -25,5 +25,4 @@ public class GoodsRepository extends CurdRepository<Goods>
 		dao.create(goods);
 	}
 	
-	
 }

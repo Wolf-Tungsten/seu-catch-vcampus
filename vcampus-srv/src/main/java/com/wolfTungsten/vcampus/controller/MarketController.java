@@ -31,8 +31,13 @@ public class MarketController extends BaseController {
 			String image = (String)request.getParams().get(Goods.IMAGE);
 			
 		
-				//在这里用ormlite的方法给数据库写入数据
+			//在这里用ormlite的方法给数据库写入数据
+			try {
+				orm.goodsRepository.addGoods(name, description, seller, price, amount, image);
+			}catch(SQLException e)
+			{
 				
+			}
 			
 			return null;
 		}
