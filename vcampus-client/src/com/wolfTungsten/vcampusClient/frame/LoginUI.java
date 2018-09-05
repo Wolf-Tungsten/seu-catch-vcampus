@@ -43,11 +43,9 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 	JButton loginButton;
 	JButton registerButton;
 	JButton exitButton;
-	// RButton registerButton;
 
 	static Point origin = new Point();
 	private JTextField textField_card;
-	private JTextField textField_pass;
 	private JPasswordField passwordField;
 	private JLabel label;
 	private JLabel label_1;
@@ -161,7 +159,6 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 
 		JLabel bgLabel = new JLabel();
 		bgLabel.setBounds(0, 0, 640, 480);
-
 		URL resource = LoginUI.class.getResource("Stars.JPG");
 		ImageIcon imageIcon = new ImageIcon(resource);
 		bgLabel.setIcon(imageIcon);

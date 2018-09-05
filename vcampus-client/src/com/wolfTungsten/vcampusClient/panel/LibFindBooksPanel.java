@@ -49,13 +49,12 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		
 		
 		
-		String[] columnNames= {"编号","书名","作者","出版社"};//定义表格列名的数组
+		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点"};//定义表格列名的数组
 		//定义表格数据数组
 		String[][] tableValues= {};
 		JTable table=new JTable(tableValues,columnNames);//创建指定列名和数据的表格
 		JScrollPane scrollPane = new JScrollPane(table);//创建显示表格的滚动面板
 		scrollPane.setBounds(68, 183, 600, 366);
-		add(scrollPane,BorderLayout.CENTER);
 		add(scrollPane);
 		
 	}
