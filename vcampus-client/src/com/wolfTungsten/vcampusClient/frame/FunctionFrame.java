@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
@@ -34,7 +35,7 @@ import java.awt.Font;
 
 public class FunctionFrame extends JFrame implements MouseListener{
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	private JLayeredPane contentPane;
 	JPanel panel_right,panel_message;
 	JPanel panel_message_info,panel_message_jwc,panel_message_lib,panel_message_shop,panel_message_bank;
 	JPanel panel_info,panel_jwc,panel_lib,panel_shop,panel_bank;
@@ -68,6 +69,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		button.setBorderPainted(false);
 		//button.setBackground(Color.green);
 	}
+	@SuppressWarnings("deprecation")
 	public FunctionFrame() {
 		super();
 		this.setResizable(false);
@@ -76,7 +78,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	    setUndecorated(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		contentPane = new JPanel();
+		contentPane = new JLayeredPane();
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -86,12 +88,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		URL resource_left=FunctionFrame.class.getResource("siderbar-background0.JPG");
 		ImageIcon imageIcon_left=new ImageIcon(resource_left);
 		bgLabel_left.setIcon(imageIcon_left);
-		getLayeredPane().add(bgLabel_left,new Integer(Integer.MIN_VALUE));
+		contentPane.add(bgLabel_left,new Integer(Integer.MIN_VALUE));
 		bgLabel_left.setBounds(0,0,imageIcon_left.getIconWidth(), imageIcon_left.getIconHeight());
-		Container cp=getContentPane();
-		cp.setLayout(null);
-		((JPanel)cp).setOpaque(false);
+
 		
+
 		//空白标签
 		label_blank2 = new JLabel();
 		label_blank2.setBounds(0,0,64,64);
@@ -118,35 +119,35 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		button_info.setIcon(imageIcon_info);
 		buttonSet(button_info);
 		button_info.addMouseListener(this);
-		contentPane.add(button_info);	
+		contentPane.add(button_info,new Integer(10));	//个人信息按钮设置在10层
 		//图书馆管理系统===========图书管理系统按钮==================================
 		button_lib = new JButton();
 		button_lib.setBounds(0, 128, 64, 64);	
 		button_lib.setIcon(imageIcon_lib);
 		buttonSet(button_lib);
 		button_lib.addMouseListener(this);
-		contentPane.add(button_lib);	
+		contentPane.add(button_lib,new Integer(10));	//图书管理系统按钮设置在10层
 		//教务系统===========教务处系统按钮==================================
 		button_jwc = new JButton();
 		button_jwc.setBounds(0, 192, 64, 64);	
 		button_jwc.setIcon(imageIcon_jwc);
 		buttonSet(button_jwc);
 		button_jwc.addMouseListener(this);
-		contentPane.add(button_jwc);	
+		contentPane.add(button_jwc,new Integer(10));	//教务处系统按钮设置在10层
 		//购物系统===========购物系统按钮==================================
 		button_shop = new JButton();
 		button_shop.setBounds(0, 256, 64, 64);
 		button_shop.setIcon(imageIcon_shop);
 		buttonSet(button_shop);
 		button_shop.addMouseListener(this);
-		contentPane.add(button_shop);	
+		contentPane.add(button_shop,new Integer(10));	//购物系统按钮设置在10层
 		//银行系统===========银行系统按钮==================================
 		button_bank = new JButton();
 		button_bank.setBounds(0, 320, 64, 64);
 		button_bank.setIcon(imageIcon_bank);
 		buttonSet(button_bank);
 		button_bank.addMouseListener(this);
-		contentPane.add(button_bank);
+		contentPane.add(button_bank,new Integer(10));	//银行系统按钮设置在10层
 		
 		//提示面板
 		//个人信息提示面板==========================个人信息提示面板===========================================
@@ -154,26 +155,27 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_info.setBounds(64, 0,150, 600);
 		panel_message_info.setBackground(new Color(230,230,230));
 		panel_message_info.setVisible(false); 
+		
 		//图书馆提示面板==============================图书馆提示面板===================================
 		panel_message_lib = new JPanel();
 		panel_message_lib.setBounds(64, 0,150, 600);
 		panel_message_lib.setBackground(new Color(230,230,230));
 		panel_message_lib.setLayout(null);
-		//“图书检索”按钮，关联LibFindBooksPanel	面板
+		//“图书检索”按钮（标签），关联LibFindBooksPanel	面板
 		label_lib_select=new JLabel("图书检索",JLabel.CENTER);
 		label_lib_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_lib_select.setForeground(new Color(59,120,103));
 		label_lib_select.setBounds(0, 40,150, 50);
 		label_lib_select.addMouseListener(this);
 		panel_message_lib.add(label_lib_select);
-		//“借还信息”按钮，关联LibMessage面板
+		//“借还信息”按钮（标签），关联LibMessage面板
 		label_lib_message=new JLabel("借还信息",JLabel.CENTER);
 		label_lib_message.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_lib_message.setForeground(new Color(59,120,103));
 		label_lib_message.setBounds(0, 90,150, 50);
 		label_lib_message.addMouseListener(this);
 		panel_message_lib.add(label_lib_message);
-		//“管理员”按钮，关联LibManager面板==============有权限的人才能看到这个按钮？？？？？？？？？？？？？？？？
+		//“管理员”按钮（标签），关联LibManager面板==============有权限的人才能看到这个按钮？？？？？？？？？？？？？？？？
 		label_lib_manager=new JLabel("管理员",JLabel.CENTER);
 		label_lib_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_lib_manager.setForeground(new Color(59,120,103));
@@ -192,6 +194,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_jwc = new JPanel();
 		panel_message_jwc.setBounds(64, 0,150, 600);
 		panel_message_jwc.setBackground(new Color(230,230,230));
+
 		panel_message_jwc.setLayout(null);
 		//”学生选课“按钮，关联JwcSelectCourse面板
 		label_jwc_select=new JLabel("学生选课",JLabel.CENTER);
@@ -201,7 +204,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_jwc_select.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_select);
 		
-		//”课表查询“按钮，关联JwcCurriculum面板
+		//”课表查询“按钮（标签），关联JwcCurriculum面板
 		label_jwc_curriculum=new JLabel("课表查询",JLabel.CENTER);
 		label_jwc_curriculum.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_jwc_curriculum.setForeground(new Color(59,120,103));
@@ -209,15 +212,15 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_jwc_curriculum.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_curriculum);
 		
-		//”考试助手“按钮，关联JwcExam面板
+		//”考试助手“按钮（标签），关联JwcExam面板
 		label_jwc_exam=new JLabel("考试助手",JLabel.CENTER);
-		label_jwc_exam.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_exam.setFont(new Font("微软雅黑", Font.BOLD, 14));		
 		label_jwc_exam.setForeground(new Color(59,120,103));
 		label_jwc_exam.setBounds(0, 140,150, 50);
 		label_jwc_exam.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_exam);
 		
-		//”考试助手“按钮，关联JwcExperiment面板
+		//”考试助手“按钮（标签），关联JwcExperiment面板
 		label_jwc_experiment=new JLabel("实验助手",JLabel.CENTER);
 		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_jwc_experiment.setForeground(new Color(59,120,103));
@@ -243,19 +246,73 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_bank = new JPanel(cardLayout);
 		panel_message_bank.setBounds(64, 0,150, 600);
 		panel_message_bank.setBackground(Color.GREEN);
+/*		
+		//”“按钮，关联JwcSelectCourse面板
+		label_jwc_select=new JLabel("学生选课",JLabel.CENTER);
+		label_jwc_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_select.setForeground(new Color(59,120,103));
+		label_jwc_select.setBounds(0, 40,150, 50);
+		label_jwc_select.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_select);
+				
+		//”课表查询“按钮，关联JwcCurriculum面板
+		label_jwc_curriculum=new JLabel("课表查询",JLabel.CENTER);
+		label_jwc_curriculum.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_curriculum.setForeground(new Color(59,120,103));
+		label_jwc_curriculum.setBounds(0, 90,150, 50);
+		label_jwc_curriculum.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_curriculum);
+				
+		//”考试助手“按钮，关联JwcExam面板
+		label_jwc_exam=new JLabel("考试助手",JLabel.CENTER);
+		label_jwc_exam.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_exam.setForeground(new Color(59,120,103));
+		label_jwc_exam.setBounds(0, 140,150, 50);
+		label_jwc_exam.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_exam);
+				
+		//”考试助手“按钮，关联JwcExperiment面板
+		label_jwc_experiment=new JLabel("实验助手",JLabel.CENTER);
+		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_experiment.setForeground(new Color(59,120,103));
+		label_jwc_experiment.setBounds(0, 190,150, 50);
+		label_jwc_experiment.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_experiment);
+				
+		//虚假的空白标签
+		label_bank_exit= new JLabel();
+		label_bank_exit.setBounds(0,240,150,360);
+		label_bank_exit.addMouseListener(this);
+		panel_message_bank.add(label_bank_exit);
+	*/		
+		
 		panel_message_bank.setVisible(false); 
 	    //把提示信息面板加到contentPane
-		contentPane.add(panel_message_info);
-		contentPane.add(panel_message_jwc);
-		contentPane.add(panel_message_lib);
-		contentPane.add(panel_message_shop);
-		contentPane.add(panel_message_bank);
+		
+		contentPane.add(panel_message_info,new Integer(5));
+		contentPane.add(panel_message_jwc,new Integer(6));
+		contentPane.add(panel_message_lib,new Integer(7));
+		contentPane.add(panel_message_shop,new Integer(8));
+		contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 		
 		//右侧卡片面板==================================================================================
+		//空白标签
+		label_blank1=new JLabel();
+		label_blank1.setBounds(214, 0,586, 600);////假如提示面板宽度不是150了这里要变动，800-64-宽=右边空白标签的宽
+		label_blank1.addMouseListener(this);
+		contentPane.add(label_blank1);
+		label_blank2 = new JLabel();
+		label_blank2.setBounds(0,0,64,64);
+		label_blank2.addMouseListener(this);
+		contentPane.add(label_blank2);
+		label_blank3 = new JLabel();
+        label_blank3.setBounds(0,384,64,216);
+        label_blank3.addMouseListener(this);
+		contentPane.add(label_blank3);		
 		panel_right = new JPanel(cardLayout);
 		panel_right.setBounds(64, 0, 736, 600);
-		panel_right.addMouseListener(this);
-		contentPane.add(panel_right);
+		contentPane.add(panel_right,new Integer(10));//将右边面板放置在10层
+
 		
 		//个人信息=================================个人信息板块的面板们=======================================
 		panel_info = new JPanel();
@@ -278,16 +335,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		///教务处================================教务处板块的面板们=======================================
 		//教务处============skk四个面板在这里被新建，背景色太丑，你自己改一下哈
 		panel_jwc_select=new JwcSelectCourses();
-		panel_jwc_select.setBackground(new Color(255, 255, 153));
+		panel_jwc_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_1", panel_jwc_select);		
 		
 		panel_jwc_curriculum=new JwcCurriculum();
-		panel_jwc_curriculum.setBackground(Color.PINK);
+		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_2", panel_jwc_curriculum);	
 		
 		panel_jwc_exam=new JwcExam();
 		panel_jwc_exam.setBackground(Color.GREEN);
 		panel_right.add("jwc_3", panel_jwc_exam);	
+		
 		
 		panel_jwc_experiment=new JwcExperiment();
 		panel_jwc_experiment.setBackground(Color.RED);
@@ -301,8 +359,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_bank.setBackground(Color.WHITE);
 		panel_right.add("5", panel_bank);
 		
-		//默认为卡片1
-		cardLayout.show(panel_right, "1");
+
+		contentPane.getParent().getParent();
+
 			
 		//实现鼠标拖拽窗口的功能
 		this.addMouseListener(new MouseAdapter(){
@@ -327,6 +386,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		});
 	}
 	//==========================================鼠标点击==========================================
+	@SuppressWarnings("deprecation")
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 1) {
@@ -337,6 +397,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.setLayer(panel_message_info,new Integer(11));//将panel_message_info放置在比10层高的地方
+				
 			} else if (e.getSource() == label_lib_select) {
 				cardLayout.show(panel_right, "lib_1");
 				panel_message_info.setVisible(false); 
@@ -344,6 +406,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 			} else if (e.getSource() == label_lib_message) {
 				cardLayout.show(panel_right, "lib_2");
 				panel_message_info.setVisible(false); 
@@ -351,6 +418,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 			}else if (e.getSource() == label_lib_manager) {
 				cardLayout.show(panel_right, "lib_3");
 				panel_message_info.setVisible(false); 
@@ -358,6 +430,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.setLayer(panel_message_info,new Integer(11));
 			}else if (e.getSource() == label_jwc_select) {
 				cardLayout.show(panel_right, "jwc_1");
 				panel_message_info.setVisible(false); 
@@ -365,6 +438,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 			} else if (e.getSource() == label_jwc_curriculum) {
 				cardLayout.show(panel_right, "jwc_2");
 				panel_message_info.setVisible(false); 
@@ -372,6 +450,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 			}  else if (e.getSource() == label_jwc_exam) {
 				cardLayout.show(panel_right, "jwc_3");
 				panel_message_info.setVisible(false); 
@@ -379,6 +462,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 			} else if (e.getSource() == label_jwc_experiment) {
 				cardLayout.show(panel_right, "jwc_4");
 				panel_message_info.setVisible(false); 
@@ -386,13 +474,20 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 			} else if (e.getSource() == button_shop) {
 				 cardLayout.show(panel_right, "4");
 				 panel_message_info.setVisible(false); 
 				 panel_message_jwc.setVisible(false); 
 				 panel_message_lib.setVisible(false); 
 				 panel_message_shop.setVisible(true); 
-				 panel_message_bank.setVisible(false); 
+				 panel_message_bank.setVisible(false);  
+				 contentPane.setLayer(panel_message_shop,new Integer(11));
+
 			}else if (e.getSource() == button_bank) {
 				cardLayout.show(panel_right, "5");
 				panel_message_info.setVisible(false); 
@@ -400,6 +495,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(true); 
+				contentPane.setLayer(panel_message_bank,new Integer(11));
+
 			}
 		}
 	}
@@ -439,6 +536,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			panel_message_lib.setVisible(false); 
 			panel_message_shop.setVisible(false); 
 			panel_message_bank.setVisible(false); 
+			contentPane.setLayer(panel_message_info,new Integer(11));
+
 		}else if(e.getSource() == button_lib){
 			button_lib.setIcon(imageIcon_lib_active);
 			contentPane.add(button_lib);
@@ -447,6 +546,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			panel_message_lib.setVisible(true); 
 			panel_message_shop.setVisible(false); 
 			panel_message_bank.setVisible(false); 
+			contentPane.setLayer(panel_message_lib,new Integer(11));
+
 		}else if (e.getSource() == button_jwc) {
 			button_jwc.setIcon(imageIcon_jwc_active);
 			contentPane.add(button_jwc);
@@ -455,6 +556,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			panel_message_lib.setVisible(false); 
 			panel_message_shop.setVisible(false); 
 			panel_message_bank.setVisible(false); 
+			contentPane.setLayer(panel_message_jwc,new Integer(11));
+
 		}else if (e.getSource() == button_shop) {
 			button_shop.setIcon(imageIcon_shop_active);
 			contentPane.add(button_shop);
@@ -463,6 +566,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			panel_message_lib.setVisible(false); 
 			panel_message_shop.setVisible(true); 
 			panel_message_bank.setVisible(false); 
+			contentPane.setLayer(panel_message_shop,new Integer(11));
+
 		}else if (e.getSource() == button_bank) {
 			button_bank.setIcon(imageIcon_bank_active);
 			contentPane.add(button_bank);
@@ -471,6 +576,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			panel_message_lib.setVisible(false); 
 			panel_message_shop.setVisible(false); 
 			panel_message_bank.setVisible(true); 
+			contentPane.setLayer(panel_message_bank,new Integer(11));
+
 		}
 		
 		 if (e.getSource() == label_lib_select) {
@@ -497,19 +604,44 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(Color.WHITE);
 		 } 
-         if(e.getSource() == label_lib_exit) {
-        	 panel_message_lib.setVisible(false); 
-         }else if(e.getSource() == label_jwc_exit) {
-        	 panel_message_jwc.setVisible(false);
-         }
-		 if (e.getSource() == label_blank2 || e.getSource() == label_blank3 || e.getSource() == panel_right ) {
+
+
+		 if (e.getSource() == label_blank1) {
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(false); 
+			panel_message_lib.setVisible(false); 
+			panel_message_shop.setVisible(false); 
+			panel_message_bank.setVisible(false); 
+			contentPane.add(panel_message_info,new Integer(5));
+			contentPane.add(panel_message_jwc,new Integer(6));
+			contentPane.add(panel_message_lib,new Integer(7));
+			contentPane.add(panel_message_shop,new Integer(8));
+			contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+		 }else if (e.getSource() == label_blank2) {
+
 				panel_message_info.setVisible(false);
 				panel_message_jwc.setVisible(false); 
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
-		}
-		 System.out.print(e.getSource().toString());
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+			}else if (e.getSource() == label_blank3) {
+				panel_message_info.setVisible(false);
+				panel_message_jwc.setVisible(false); 
+				panel_message_lib.setVisible(false); 
+				panel_message_shop.setVisible(false); 
+				panel_message_bank.setVisible(false); 
+				contentPane.add(panel_message_info,new Integer(5));
+				contentPane.add(panel_message_jwc,new Integer(6));
+				contentPane.add(panel_message_lib,new Integer(7));
+				contentPane.add(panel_message_shop,new Integer(8));
+				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+			}
+
 	}
  
 	//==========================================鼠标离开区域==========================================
