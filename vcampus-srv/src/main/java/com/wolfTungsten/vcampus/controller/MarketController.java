@@ -7,12 +7,10 @@ import java.util.HashMap;
 import java.util.Set;
 
 import com.google.gson.internal.LinkedTreeMap;
-<<<<<<< HEAD
+
 import com.wolfTungsten.vcampus.repository.GoodsRepository;
 import com.wolfTungsten.vcampus.entity.Book;
-=======
 import com.wolfTungsten.vcampus.entity.AccountBalance;
->>>>>>> 65ab878b7cfdd328f1fc3ca44a9cfa5a8e0aeb87
 import com.wolfTungsten.vcampus.entity.Goods;
 import com.wolfTungsten.vcampus.entity.Token;
 import com.wolfTungsten.vcampus.utils.Request;
@@ -23,16 +21,14 @@ public class MarketController extends BaseController {
 	public MarketController() {
 		super();
 		this.addHandle("addGoods", addGoodsHandle);
-<<<<<<< HEAD
+
 		this.addHandle("queryByName",queryByNameHandle);
 		this.addHandle("queryAll", queryAllHandle);
-=======
+
 
 		this.addHandle("purchase", purchaseHandle);
 
-		this.addHandle("findByName", findByNameHandle);
 
->>>>>>> 65ab878b7cfdd328f1fc3ca44a9cfa5a8e0aeb87
 	}
 	
 	//添加商品的Handle
@@ -59,7 +55,6 @@ public class MarketController extends BaseController {
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
 				return response;
-<<<<<<< HEAD
 			}	
 		}
 		
@@ -107,15 +102,11 @@ public class MarketController extends BaseController {
 				e.printStackTrace();
 				return response;
 			}
-=======
->>>>>>> 65ab878b7cfdd328f1fc3ca44a9cfa5a8e0aeb87
 			
 
 			}	
-		}
-<<<<<<< HEAD
-	};//end of queryByNameHandle
-	
+		};
+
 private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 		
 		@Override
@@ -134,8 +125,10 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				response.setSuccess(false);
 				e.printStackTrace();
 				return response;
-=======
+			}
+		}
 	};
+
 		private BaseController.BaseHandle purchaseHandle = new BaseHandle() {
 			
 			@Override
@@ -152,7 +145,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				try
 				{
 					orm.tradingRecordRepository.addTradingRecord(buyer, seller, price, createTime);
-//					orm.goodsRepository.updateGood(uuid, name, seller);
+
 					response.setSuccess(true);
 					return response;	
 				} catch (SQLException e)
@@ -181,17 +174,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 //		}
 //	};
 //	
-	//
-	private BaseController.BaseHandle findByNameHandle = new BaseHandle() {
-			@Override
-			public Response work(Request request) {
-				
-				return null;
->>>>>>> 65ab878b7cfdd328f1fc3ca44a9cfa5a8e0aeb87
-			}
-			
-		}
-	};//end of queryByNameHandle
+
 
 
 			
