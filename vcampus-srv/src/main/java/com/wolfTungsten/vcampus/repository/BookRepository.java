@@ -27,15 +27,14 @@ public class BookRepository extends CurdRepository<Book>
 		super(conn, Book.class);
 		
 	}
-	public void addBook(String name,String isbn,String author,String publisher,long createTime,long updateTime,int amount) throws SQLException {
+	public void addBook(String name,String isbn,String author,String publisher,String location ,long createTime,long updateTime) throws SQLException {
 		Book book = new Book();
 		book.setName(name);
 		book.setIsbn(isbn);
 		book.setCreateTime(createTime);
 		book.setUpdateTime(updateTime);
 		book.setAuthor(author);
-		book.setAmount(amount);
-		book.setSurplus(amount);
+		book.setLocation(location);
 		book.setPublisher(publisher);
 		dao.create(book);
 		
@@ -74,12 +73,11 @@ public class BookRepository extends CurdRepository<Book>
 			bookinfo.put(Book.ISBN,book.getIsbn());
 			bookinfo.put(Book.CREATETIME,book.getCreateTime());
 			bookinfo.put(Book.AUTHOR,book.getAuthor());
-			bookinfo.put(Book.SURPLUS, book.getSurplus());
+			bookinfo.put(Book.LOCATION, book.getLocation());
 			bookinfo.put(Book.PUBLISHER, book.getPublisher());
 			booksinfoList.add(bookinfo);
 		}
-		return booksinfoList;
-				
+		return booksinfoList;				
 	}
 	
 	//根据字段和值找对应书籍
@@ -94,7 +92,7 @@ public class BookRepository extends CurdRepository<Book>
 			bookinfo.put(Book.ISBN,b.getIsbn());
 			bookinfo.put(Book.CREATETIME,b.getCreateTime());
 			bookinfo.put(Book.AUTHOR, b.getAuthor());
-			bookinfo.put(Book.SURPLUS, b.getSurplus());
+			bookinfo.put(Book.LOCATION, b.getLocation());
 			bookinfo.put(Book.PUBLISHER, b.getPublisher());
 			booksinfoList.add(bookinfo);			
 		}
@@ -121,7 +119,6 @@ public class BookRepository extends CurdRepository<Book>
 				.where().eq(UserXBook.UUID, UUID.fromString(uuid)).prepare());
 		
 	}
-		
 	
 	
 

@@ -61,7 +61,11 @@ public class UserRepository extends CurdRepository<User> {
 		 	
 		
 	}
-	
+	public User inquireById(String uuid) throws SQLException {
+		List<User> userlist = dao.queryForEq(User.UUID, UUID.fromString(uuid));
+		return userlist.get(0);
+		
+	}
 	
 
 }

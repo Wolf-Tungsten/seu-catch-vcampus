@@ -24,6 +24,8 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 	}
 	
 	public void addUserXBook(String useruuid,String bookuuid,int isReturn,long borrowdate) throws SQLException {
+		List<UserXBook> list = dao.queryForEq(UserXBook.BOOK_ID, bookuuid);
+		if(list.size()!=0)throw new SQLException("该书已被借！");
 		UserXBook uxb= new UserXBook();
 		uxb.setUser_id(useruuid);
 		uxb.setBook_id(bookuuid);
@@ -56,12 +58,12 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 //						.eq(User.PASSWORD, password).prepare());
 		return relationlist.size();
 	}
+	
 	public void deleteUserXBook(String bookUuid) throws SQLException {
 		dao.deleteById(bookUuid);
 	}
-	//判断是否可以续借，返回到期时间
 	
-	
+	//判断是否可以续借，如果可以返回新到期时间
 	
 	public long checkRenew(String uuid) throws Exception {
 		List<UserXBook> booklist =dao.queryForEq(UserXBook.UUID, UUID.fromString(uuid));
@@ -90,12 +92,20 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 			recordmap.put(UserXBook.RETURNDATE, record.getReturndate());
 			recordMaplist.add(recordmap);
 		}
-		return recordMaplist;
-		
-		
-		
-			
+		return recordMaplist;			
 				
 		}
+	// 0 没还 1 还了
+	public boolean checkBorrow(String uuid) throws SQLException {
+		List<UserXBook> list = dao.queryForEq(UserXBook.BOOK_ID, uuid);
+		
+		if(list.size()==0)return true;
+		else {
+			UserXBook  uxb = list.get(0);
+			if(uxb.getIsReturn()==1) return true;
+			else return false;
+		}
+	
+	}
 	
 }

@@ -7,6 +7,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.repository.AccountBalanceRepository;
 import com.wolfTungsten.vcampus.repository.BookRepository;
+import com.wolfTungsten.vcampus.repository.CourseRepository;
 import com.wolfTungsten.vcampus.repository.ExamRepository;
 import com.wolfTungsten.vcampus.repository.ExperimentRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
@@ -36,6 +37,7 @@ public class ORM {
 	public ExamRepository examRepository;
 	public ExperimentRepository experimentRepository;
 	public UserXExperimentRepository userXExperimentRepository;
+	public CourseRepository courseRepository;
     private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
@@ -53,6 +55,7 @@ public class ORM {
 			examRepository = new ExamRepository(conn);
 			experimentRepository = new ExperimentRepository(conn);
 			userXExperimentRepository = new UserXExperimentRepository(conn);
+			courseRepository = new CourseRepository(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

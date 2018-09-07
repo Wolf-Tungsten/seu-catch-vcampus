@@ -10,7 +10,7 @@ public class Course
 {
 	public static final String UUID = "uuid";
 	public static final String NAME = "name";
-	public static final String CAPCITY = "capcity";
+	public static final String CAPCITY = "capacity";
 	public static final String LECTURER ="lecturer";
 	public static final String CREATETIME ="createTime";
 	public static final String UPDATETIME  ="updateTime";
@@ -20,7 +20,7 @@ public class Course
 	@DatabaseField(columnName = Course.NAME)
 	private String name;
 	@DatabaseField(columnName = Course.CAPCITY)
-	private int capcity;
+	private int capacity;
 	@DatabaseField(columnName = Course.LECTURER)
 	private String lecturer;
 	@DatabaseField(columnName = Course.CREATETIME)
@@ -49,11 +49,11 @@ public class Course
 	}
 	public int getCapcity()
 	{
-		return capcity;
+		return capacity;
 	}
 	public void setCapcity(int capcity)
 	{
-		this.capcity = capcity;
+		this.capacity = capcity;
 	}
 	public String getLecturer()
 	{
