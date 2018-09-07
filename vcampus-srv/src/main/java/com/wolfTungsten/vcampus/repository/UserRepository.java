@@ -62,6 +62,19 @@ public class UserRepository extends CurdRepository<User> {
 		
 	}
 	
+	//用于银行系统注册时检测卡号是否存在
+	public Boolean checkExist(String cardnum,String idCardnum) throws SQLException {
+		List<User> userList = 
+				dao.query((PreparedQuery<User>) dao.queryBuilder().where().eq(User.CARDNUM, cardnum).and()
+						.eq(User.IDCARDNUM, idCardnum).prepare());
+		if(userList.size()!=0) {
+			return true;
+		}
+		else	
+			throw new SQLException("该卡号不存在");
+		 	
+	}
+	
 	
 
 }
