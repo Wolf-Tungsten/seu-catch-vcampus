@@ -243,6 +243,46 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_bank = new JPanel(cardLayout);
 		panel_message_bank.setBounds(64, 0,150, 600);
 		panel_message_bank.setBackground(Color.GREEN);
+/*		
+		//”“按钮，关联JwcSelectCourse面板
+		label_jwc_select=new JLabel("学生选课",JLabel.CENTER);
+		label_jwc_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_select.setForeground(new Color(59,120,103));
+		label_jwc_select.setBounds(0, 40,150, 50);
+		label_jwc_select.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_select);
+				
+		//”课表查询“按钮，关联JwcCurriculum面板
+		label_jwc_curriculum=new JLabel("课表查询",JLabel.CENTER);
+		label_jwc_curriculum.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_curriculum.setForeground(new Color(59,120,103));
+		label_jwc_curriculum.setBounds(0, 90,150, 50);
+		label_jwc_curriculum.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_curriculum);
+				
+		//”考试助手“按钮，关联JwcExam面板
+		label_jwc_exam=new JLabel("考试助手",JLabel.CENTER);
+		label_jwc_exam.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_exam.setForeground(new Color(59,120,103));
+		label_jwc_exam.setBounds(0, 140,150, 50);
+		label_jwc_exam.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_exam);
+				
+		//”考试助手“按钮，关联JwcExperiment面板
+		label_jwc_experiment=new JLabel("实验助手",JLabel.CENTER);
+		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_experiment.setForeground(new Color(59,120,103));
+		label_jwc_experiment.setBounds(0, 190,150, 50);
+		label_jwc_experiment.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_experiment);
+				
+		//虚假的空白标签
+		label_bank_exit= new JLabel();
+		label_bank_exit.setBounds(0,240,150,360);
+		label_bank_exit.addMouseListener(this);
+		panel_message_bank.add(label_bank_exit);
+	*/		
+		
 		panel_message_bank.setVisible(false); 
 	    //把提示信息面板加到contentPane
 		contentPane.add(panel_message_info);
