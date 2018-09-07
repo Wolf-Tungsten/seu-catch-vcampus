@@ -1,15 +1,129 @@
-//æ•™åŠ¡å¤„â€”â€”æŸ¥è¯¢è¯¾è¡¨é¢æ¿
+//½ÌÎñ´¦¡ª¡ª¿Î±í²éÑ¯Ãæ°å
 package com.wolfTungsten.vcampusClient.panel;
 
-import javax.swing.JPanel;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Font;
 
-public class JwcCurriculum extends JPanel {
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+public class JwcCurriculum extends JPanel implements MouseListener  {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int weekNumber = 1; //³õÊ¼»¯ÖÜÊıÎª1
+	JPanel panel;
+	//´´½¨ËÄ¸öÃæ°å·Ö±ğ±íÊ¾1-8ÖÜµ¥ÖÜ 1-8ÖÜË«ÖÜ 9-16ÖÜµ¥ÖÜ 9-16ÖÜË«ÖÜ µÄ¿Î³Ì±í
+	JPanel cardPanel1,cardPanel2,cardPanel3,cardPanel4 = new JPanel();
+	//´´½¨ÁËÁ½¸öÃæ°åÊı×é ÓÃÀ´·Ö±ğ´ú±í16ÖÜµÄÃæ°å
+	//´´½¨ÁËÒ»¸ö×Ö·ûÊı×é ÓÃÀ´·½±ãÌí¼ÓÃæ°åµ½¿¨Æ¬ÀàÖĞ
+	JPanel infoPanel1,infoPanel2,infoPanel3,infoPanel4,infoPanel5,infoPanel6,infoPanel7,infoPanel8
+	,infoPanel9,infoPanel10,infoPanel11,infoPanel12,infoPanel13,infoPanel14,infoPanel15,infoPanel16;
+	JPanel[] infoPanel = new JPanel[] {infoPanel1,infoPanel2,infoPanel3,infoPanel4,infoPanel5,infoPanel6,infoPanel7,infoPanel8
+			,infoPanel9,infoPanel10,infoPanel11,infoPanel12,infoPanel13,infoPanel14,infoPanel15,infoPanel16};
+	JPanel splitPanel1,splitPanel2,splitPanel3,splitPanel4,splitPanel5,splitPanel6
+	,splitPanel7,splitPanel8,splitPanel9,splitPanel10,splitPanel11,splitPanel12
+	,splitPanel13,splitPanel14,splitPanel15,splitPanel16;
+	JPanel[] splitPanel = new JPanel[] {splitPanel1,splitPanel2,splitPanel3,splitPanel4,splitPanel5,splitPanel6
+			,splitPanel7,splitPanel8,splitPanel9,splitPanel10,splitPanel11,splitPanel12,splitPanel13,splitPanel14,splitPanel15,splitPanel16};
+	String[] week = new String[] {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"};
 
 	/**
 	 * Create the panel.
 	 */
-	public JwcCurriculum() {
 
+	public JwcCurriculum() {
+		setSize(736,600);
+		setLayout(null);
+		
+		CardLayout layout = new CardLayout(); //ÉèÖÃ¿¨Æ¬²¼¾Ö
+		panel = new JPanel(layout);
+		panel.setBounds(38, 30, 660, 540);
+		panel.setBackground(new Color(255,211,222));
+		add(panel);
+		for (int i = 0;i<16;i++) {
+			splitPanel[i] = new JPanel();
+			splitPanel[i].setBackground(Color.BLACK);
+			splitPanel[i].setLayout(null);
+			infoPanel[i] = new JPanel();
+			splitPanel[i].add(infoPanel[i]);			
+			
+			
+			infoPanel[i].setBounds(0,0,660,75);
+			infoPanel[i].setBackground(new Color(230,230,230));
+			if(i==0 && i==4 && i==8 && i==12) {
+				splitPanel[i].add(cardPanel1);
+				cardPanel1.setBounds(0,75,666,390);
+			}else if(i==1 && i==5 && i==9 && i==13) {
+				splitPanel[i].add(cardPanel2);
+				cardPanel2.setBounds(0,75,666,390);
+			}else if(i==2 && i==6 && i==10 && i==14) {
+				splitPanel[i].add(cardPanel3);
+				cardPanel3.setBounds(0,75,666,390);
+			}else if(i==3 && i==7 && i==11 && i==15) {
+				splitPanel[i].add(cardPanel4);
+				cardPanel4.setBounds(0,75,666,390);
+			}
+			panel.add(week[i],splitPanel[i]);
+			
+			//infoÃæ°åÉèÖÃ
+			JLabel label_nextWeek = new JLabel("ÏÂÒ»ÖÜ");
+			JLabel label_lastWeek = new JLabel("ÉÏÒ»ÖÜ");
+			label_nextWeek.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD,14));
+			label_lastWeek.setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD,14)); 
+			label_lastWeek.setBounds(10,10,50,55);
+			label_nextWeek.setBounds(600,10,50,55);
+			label_lastWeek.addMouseListener(this);
+
+	
+			layout.show(panel,"1");
+
+		}	
+
+
+
+
+
+
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		
 	}
 
 }
