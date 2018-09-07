@@ -8,18 +8,22 @@ import java.awt.event.MouseListener;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener {
+public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField textField_select;
 	JButton button_select;
+	CardLayout cardLayout=new CardLayout();
 	
 	// Create the panel.
 	public LibFindBooksPanel() {
@@ -45,17 +49,28 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		});
 		button_select.setBounds(493, 93, 93, 24);
 		button_select.addActionListener(this);
-		add(button_select);
+		add(button_select);		
 		
+		JPanel panel = new JPanel(cardLayout);
+		panel.setBounds(58, 161, 620, 401);
+		add(panel);
 		
+		JPanel panel_book_table=new JPanel();
+		panel_book_table.setLayout(null);
+		panel.add("1",panel_book_table);
 		
-		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点"};//定义表格列名的数组
+		JScrollPane scrollPane = new JScrollPane();//创建显示表格的滚动面板
+		scrollPane.setBounds(10, 10, 600, 381);
+		panel_book_table.add(scrollPane);
+		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
 		//定义表格数据数组
-		String[][] tableValues= {};
-		JTable table=new JTable(tableValues,columnNames);//创建指定列名和数据的表格
-		JScrollPane scrollPane = new JScrollPane(table);//创建显示表格的滚动面板
-		scrollPane.setBounds(68, 183, 600, 366);
-		add(scrollPane);
+		String[][] tableValues= {{"B612","java","xxx","seu","jlh","未借出"}};
+		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
+		JTable table=new JTable(tableModel);
+		scrollPane.setViewportView(table);
+		
+		JPanel panel_borrow=new JPanel();
+		panel.add("2",panel_borrow);
 		
 	}
 	

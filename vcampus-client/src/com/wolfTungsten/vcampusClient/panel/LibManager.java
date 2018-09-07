@@ -184,12 +184,12 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_buttom.add("delete",panel_delete);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(86, 31, 322, 21);
+		textField_2.setBounds(77, 31, 442, 21);
 		panel_delete.add(textField_2);
 		textField_2.setColumns(10);
 		
 		btnNewButton = new JButton("搜索");
-		btnNewButton.setBounds(431, 30, 93, 23);
+		btnNewButton.setBounds(565, 30, 93, 23);
 		panel_delete.add(btnNewButton);
 		
 		String[] columnNames_1= {"编号","书名","作者","出版社","馆藏地点","入库日期","借阅状态","删除"};//定义表格列名的数组
@@ -222,6 +222,7 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_top.add(button_delete);
 		//退出管理员模式
 		button_exit = new JButton("退出管理");
+		button_exit.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		button_exit.setBounds(561, 12, 100, 26);
 		panel_top.add(button_exit);
 	}
