@@ -1,6 +1,11 @@
 package com.wolfTungsten.vcampus.repository;
 
 import java.sql.SQLException;
+import java.util.UUID;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Goods;
@@ -25,5 +30,9 @@ public class GoodsRepository extends CurdRepository<Goods>
 		dao.create(goods);
 	}
 	
-	
+	public void updateGood(String uuid,int newAmount) throws SQLException{
+		List
+		newAmount=tradingGood.getAmount()-1;
+		tradingGood.setAmount(newAmount);
+	}
 }

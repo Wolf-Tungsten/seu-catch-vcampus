@@ -7,7 +7,7 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.repository.AccountBalanceRepository;
 import com.wolfTungsten.vcampus.repository.BookRepository;
-//import com.wolfTungsten.vcampus.repository.ExamRepository;
+import com.wolfTungsten.vcampus.repository.ExamRepository;
 import com.wolfTungsten.vcampus.repository.ExperimentRepository;
 import com.wolfTungsten.vcampus.repository.GoodsRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
@@ -34,7 +34,7 @@ public class ORM {
 	public UserXBookRepository userXBookRepository;
 	public UserXCourseRepository userXCourseRepository;
 	public UserXExamRepository userXExamRepository;
-	//public ExamRepository examRepository;
+	public ExamRepository examRepository;
 	public ExperimentRepository experimentRepository;
 	public UserXExperimentRepository userXExperimentRepository;
 	public GoodsRepository goodsRepository;
@@ -52,7 +52,7 @@ public class ORM {
 			userXBookRepository = new UserXBookRepository(conn);
 			userXCourseRepository = new UserXCourseRepository(conn);
 			userXExamRepository = new UserXExamRepository(conn);
-			//examRepository = new ExamRepository(conn);
+			examRepository = new ExamRepository(conn);
 			experimentRepository = new ExperimentRepository(conn);
 			userXExperimentRepository = new UserXExperimentRepository(conn);
 			goodsRepository =new GoodsRepository(conn);
