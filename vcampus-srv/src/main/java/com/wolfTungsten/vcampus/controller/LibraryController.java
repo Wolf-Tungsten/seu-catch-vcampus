@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.UUID;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampus.entity.Book;
@@ -40,18 +41,17 @@ public class LibraryController extends BaseController
 			String name = (String) request.getParams().get(Book.NAME);
 			String isbn = (String) request.getParams().get(Book.ISBN);
 			String author = (String) request.getParams().get(Book.AUTHOR);
-			int amount = (int) (double) request.getParams().get(Book.AMOUNT);
 			String publisher = (String) request.getParams().get(Book.PUBLISHER);
 			long createTime = System.currentTimeMillis() / 1000;
 			long updateTime = createTime;
-
-			// String token = (String) request.getParams().get(Token.TOKEN);
+			String location = (String)request.getParams().get(Book.LOCATION);
+			 String token = request.getToken();
 
 			try
 			{
 				// 检查token
-				// checkToken(token);
-				orm.bookRepository.addBook(name, isbn, author, publisher, createTime, updateTime, amount);
+				 checkToken(token);
+				orm.bookRepository.addBook(name, isbn, author, publisher, location,createTime, updateTime);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -114,6 +114,8 @@ public class LibraryController extends BaseController
 					orm.bookRepository.updateBook(booksMap.get(i));
 
 				}
+				response.setSuccess(true);
+				return response;
 			} catch (SQLException e)
 			{
 				response.setSuccess(false);
@@ -121,8 +123,7 @@ public class LibraryController extends BaseController
 				e.printStackTrace();
 				return response;
 			}
-			response.setSuccess(true);
-			return response;
+			
 		}
 	};
 	private BaseController.BaseHandle queryAllHandle = new BaseHandle()
@@ -139,8 +140,11 @@ public class LibraryController extends BaseController
 			{
 				checkToken(token);
 				booksinfoList = orm.bookRepository.inquireAllBook();
+				for(HashMap<String,Object> bookinfo:booksinfoList) {
+					boolean isreturn = orm.userXBookRepository.checkBorrow((String)bookinfo.get(Book.UUID));
+					bookinfo.put(UserXBook.ISRETURN, isreturn==true?true:false);		
+				}
 				response.getBody().put("booksInfoMapList", booksinfoList);
-
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -160,10 +164,15 @@ public class LibraryController extends BaseController
 			Response response = new Response();
 			ArrayList<HashMap<String, Object>> booksinfoList = new ArrayList<>();
 			String value = (String) request.getParams().get(Book.NAME);
-
+			String token = request.getToken();
 			try
 			{
+				checkToken(token);
 				booksinfoList = orm.bookRepository.inquireByFlag(Book.NAME, value);
+				for(HashMap<String,Object> bookinfo:booksinfoList) {
+					boolean isreturn = orm.userXBookRepository.checkBorrow((String)bookinfo.get(Book.UUID));
+					bookinfo.put(UserXBook.ISRETURN, isreturn==true?true:false);		
+				}
 				response.getBody().put("booksInfoMapList", booksinfoList);
 				response.setSuccess(true);
 				return response;
@@ -189,6 +198,10 @@ public class LibraryController extends BaseController
 			try
 			{
 				booksinfoList = orm.bookRepository.inquireByFlag(Book.AUTHOR, author);
+				for(HashMap<String,Object> bookinfo:booksinfoList) {
+					boolean isreturn = orm.userXBookRepository.checkBorrow((String)bookinfo.get(Book.UUID));
+					bookinfo.put(UserXBook.ISRETURN, isreturn==true?true:false);		
+				}
 				response.getBody().put("booksInfoMapList", booksinfoList);
 				response.setSuccess(true);
 				return response;
@@ -205,7 +218,8 @@ public class LibraryController extends BaseController
 	/**
 	 * 借书
 	 */
-	// 欧德K
+	
+	//重写
 	private BaseController.BaseHandle borrowBookHandle = new BaseHandle()
 	{
 
@@ -215,22 +229,17 @@ public class LibraryController extends BaseController
 			Response response = new Response();
 
 			String bookuuid = (String) request.getParams().get(Book.UUID);
-			String token = (String) request.getParams().get("token");
+			String token = request.getToken();
 
 			int isReturn = 0;
 			try
 			{
 				String useruuid = checkToken(token);
 				// 找到这本书
-				Book book = orm.bookRepository.inquireById(bookuuid);
-				if (book.getSurplus() == 0)
-					throw new Exception("此书已被借光");
+	
 				LinkedTreeMap<String, Object> booksinfo = new LinkedTreeMap<>();
-				booksinfo.put(Book.UUID, bookuuid);
-				booksinfo.put(Book.SURPLUS, book.getSurplus() - 1);
-				orm.bookRepository.updateBook(booksinfo);
+				booksinfo.put(Book.UUID, bookuuid);				
 				orm.userXBookRepository.addUserXBook(useruuid, bookuuid, isReturn, System.currentTimeMillis() / 1000);
-
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -261,13 +270,11 @@ public class LibraryController extends BaseController
 		{
 			Response response = new Response();
 			String uxbuuid = (String) request.getParams().get(UserXBook.UUID);
-			String token = (String) request.getParams().get("token");
+			String token = request.getToken();
 			try
 			{
 				checkToken(token);
-				String bookuuid = orm.userXBookRepository.updateUserXBook(uxbuuid, UserXBook.ISRETURN, 1);
-				Book book = orm.bookRepository.inquireById(bookuuid);
-				orm.bookRepository.updateByflag(uxbuuid, Book.SURPLUS, book.getSurplus() + 1);
+				orm.userXBookRepository.updateUserXBook(uxbuuid, UserXBook.ISRETURN, 1);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -322,7 +329,7 @@ public class LibraryController extends BaseController
 		public Response work(Request request)
 		{
 			Response response = new Response();
-			String token = (String) request.getParams().get("token");
+			String token = request.getToken();
 			// 拿user_id
 			try
 			{
