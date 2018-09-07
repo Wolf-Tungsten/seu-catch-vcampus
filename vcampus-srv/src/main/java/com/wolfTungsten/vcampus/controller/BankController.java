@@ -59,10 +59,7 @@ public class BankController extends BaseController{
 			}
 		}
 	};
-<<<<<<< HEAD
-	
-=======
->>>>>>> 3250d2baade4a7f891dd780198a0f6d750227c53
+
 
 	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
 		@Override

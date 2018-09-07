@@ -1,6 +1,7 @@
 package com.wolfTungsten.vcampus.repository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -61,13 +62,16 @@ public class UserRepository extends CurdRepository<User> {
 		 	
 		
 	}
-<<<<<<< HEAD
+
 	public User inquireById(String uuid) throws SQLException {
 		List<User> userlist = dao.queryForEq(User.UUID, UUID.fromString(uuid));
 		return userlist.get(0);
-		
 	}
-=======
+	public ArrayList<User> inquireByIds(String uuid) throws SQLException{
+		List<User> userlist = dao.queryForEq(User.UUID, UUID.fromString(uuid));
+		return (ArrayList<User>) userlist;
+	}
+	
 	
 	//用于银行系统注册时检测卡号是否存在
 	public Boolean checkExist(String cardnum,String idCardnum) throws SQLException {
@@ -82,7 +86,7 @@ public class UserRepository extends CurdRepository<User> {
 		 	
 	}
 	
->>>>>>> 59e1f183a98e74671da33c6138b37c3c3bcd1935
+
 	
 
 }

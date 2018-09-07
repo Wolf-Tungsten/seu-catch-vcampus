@@ -23,6 +23,7 @@ public class EduAdminController extends BaseController
 		this.pathMap.put("selCourse", selCourseHandle);
 		this.pathMap.put("schedule", scheduleHandle);
 		this.pathMap.put("dropCourse", dropCourseHandle);
+		this.pathMap.put("studentlist", studentlistHandle);
 		
 	}
 	//已测试
@@ -215,9 +216,11 @@ public class EduAdminController extends BaseController
 			try
 			{
 				String useruuid = checkToken(token);
+				//根据用户uuid 获取 userxcourse 信息hashmap链表
 				ArrayList<HashMap<String, Object>> uxcList = 
 						orm.userXCourseRepository.inquireByFlag(UserXCourse.USER_ID, useruuid);
 				for(HashMap<String,Object> record : uxcList) {
+					//根据关系的courseuuid 去查相应课程信息
 					Course course = 
 							orm.courseRepository.inquireById((String)record.get(UserXCourse.COURSE_ID));
 					record.remove(UserXCourse.COURSE_ID);
@@ -240,6 +243,7 @@ public class EduAdminController extends BaseController
 			
 		}
 	};
+	//未测试
 	public BaseController.BaseHandle studentlistHandle = new BaseHandle()
 	{
 		
@@ -249,39 +253,43 @@ public class EduAdminController extends BaseController
 			Response response = new Response();
 			String token = request.getToken();
 		
-			String courseuuid = (String)request.getParams().get(Course.UUID);
+			//String courseuuid = (String)request.getParams().get(Course.UUID);
 			String teachername = (String)request.getParams().get(Course.LECTURER);
 			String courseName = (String)request.getParams().get(Course.NAME);
 			
 			try
 			{
 				checkToken(token);
-				ArrayList<Course> courselist = orm.courseRepository.inquireByFlags(teachername, courseName);
+				Course course = orm.courseRepository.inquireByFlags(teachername, courseName);
 				ArrayList<HashMap<String, Object>> studentMaplist = new ArrayList<>();
-				for(Course course : courselist) {
-					ArrayList<HashMap<String, Object>> coursemaplist 
-					= orm.userXCourseRepository.inquireByFlag(Course.UUID, course.getUuid().toString());
-					for(HashMap<String,Object> record:coursemaplist) {
-						HashMap<String,Object> studentList = new HashMap<>();
-						User user = orm.userRepository.inquireById((String)record.get(UserXCourse.USER_ID));
-						
-						
+
+				ArrayList<HashMap<String, Object>> coursemaplist = orm.userXCourseRepository
+						.inquireByFlag(UserXCourse.COURSE_ID,course.getUuid());// 课程信息Map表
+				for (HashMap<String, Object> record : coursemaplist)
+				{
+					HashMap<String, Object> student = new HashMap<>(); // 学生信息
+					ArrayList<User> userlist = orm.userRepository
+							.inquireByIds((String) record.get(UserXCourse.USER_ID));
+					for (User user : userlist)
+					{
+						student.put(User.USERNAME, user.getUsername());
+						student.put(User.CARDNUM, user.getCardnum());
 					}
-					
+					studentMaplist.add(student);
 				}
-				
-				
+				response.getBody().put("studentMaplist", studentMaplist);
+				response.setSuccess(true);
+				return response;
+		
 				
 			} catch (SQLException e)
 			{
-				
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
+				return response;
 			}
 			
-			
-			
-			
-			return null;
 		}
 	};
 	

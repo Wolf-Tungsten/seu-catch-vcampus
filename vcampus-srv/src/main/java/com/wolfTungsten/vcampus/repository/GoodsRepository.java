@@ -2,15 +2,15 @@ package com.wolfTungsten.vcampus.repository;
 
 
 import java.sql.SQLException;
-<<<<<<< HEAD
+
 import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
-=======
+
 import java.util.List;
->>>>>>> 3250d2baade4a7f891dd780198a0f6d750227c53
+
 
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
@@ -37,13 +37,13 @@ public class GoodsRepository extends CurdRepository<Goods>
 		dao.create(goods);
 	}
 	
-<<<<<<< HEAD
-	public void updateGood(String uuid,int newAmount) throws SQLException{
-		List
-		newAmount=tradingGood.getAmount()-1;
-		tradingGood.setAmount(newAmount);
+
+	public void updateGood(String uuid,int newAmount,String seller) throws SQLException{
+//		List
+//		newAmount=tradingGood.getAmount()-1;
+//		tradingGood.setAmount(newAmount);
 	}
-=======
+
 	//
 	public List<Goods> findByName(String name) throws SQLException {
 		//
@@ -56,5 +56,5 @@ public class GoodsRepository extends CurdRepository<Goods>
 			return goodsList;
 	}
 	
->>>>>>> 3250d2baade4a7f891dd780198a0f6d750227c53
+
 }

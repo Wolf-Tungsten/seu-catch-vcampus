@@ -84,15 +84,14 @@ public class CourseRepository	extends CurdRepository<Course>
 		Book book = new Book();
 		List<Course> books = dao.queryForEq(Course.UUID, UUID.fromString(uuid));	
 		return books.get(0);
-		
 	}
 	//根据老师和课程
-		public ArrayList<Course> inquireByFlags(String teacher,String courseName) throws SQLException{
+		public Course inquireByFlags(String teacher,String courseName) throws SQLException{
 			ArrayList<Course> courselist = (ArrayList<Course>) dao.query((PreparedQuery<Course>)dao.queryBuilder()
-					.where().eq(Course.LECTURER, teacher)
+					.where().eq(Course.LECTURER, teacher).and()
 					.eq(Course.NAME, courseName).prepare());
 
-			return courselist;
+			return courselist.get(0);
 			
 		}
 	
