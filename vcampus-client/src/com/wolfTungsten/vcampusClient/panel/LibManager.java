@@ -6,8 +6,12 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JTextField;
+
+import com.wolfTungsten.vcampusClient.component.DateChooser;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -21,16 +25,24 @@ public class LibManager extends JPanel implements ActionListener {
 	JPanel panel_all,panel_add,panel_delete;
 	JButton button_all,button_add,button_delete,button_exit,button_select;
 	CardLayout cardLayout=new CardLayout();
-	private JTextField textField;
+	private JTextField textField_select;
 	private JScrollPane scrollPane;
-	private JTextField textField_1;
-	private JLabel label_4;
-	private JLabel label_5;
+	private JLabel label_num;
+	private JLabel label_location;
+	private JLabel label_station;
+	private JTextField textField_num;
 	private JTextField textField_name;
 	private JTextField textField_author;
 	private JTextField textField_publisher;
 	private JTextField textField_2;
-	private JButton btnNewButton;
+	private JButton okbutton,cancelbutton,btnNewButton;
+
+	JRadioButton rdbtnNewRadioButton = new JRadioButton("四牌楼");
+	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("丁家桥");
+	JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("九龙湖");
+	JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("未借出");
+	JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("已借出");
+	private JTextField textField_time;
 	/**
 	 * Create the panel.
 	 */
@@ -54,11 +66,11 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_buttom.add("all",panel_all);
 		panel_all.setLayout(null);
 		
-		textField = new JTextField();
-		textField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		textField.setBounds(70, 23, 476, 21);
-		panel_all.add(textField);
-		textField.setColumns(10);
+		textField_select = new JTextField();
+		textField_select.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		textField_select.setBounds(70, 23, 476, 21);
+		panel_all.add(textField_select);
+		textField_select.setColumns(10);
 		
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -81,15 +93,15 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_buttom.add("add",panel_add);
 		panel_add.setLayout(null);
 		
-		textField_1 = new JTextField("");
-		textField_1.setBounds(241, 60, 291, 21);
-		panel_add.add(textField_1);
-		textField_1.setColumns(10);
+		JTextField textField_num = new JTextField("");
+		textField_num.setBounds(241, 60, 291, 21);
+		panel_add.add(textField_num);
+		textField_num.setColumns(10);
 		
-		JLabel lblNewLabel = new JLabel("图书编号：");
-		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel.setBounds(85, 62, 77, 15);
-		panel_add.add(lblNewLabel);
+		JLabel label_num = new JLabel("图书编号：");
+		label_num.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_num.setBounds(85, 62, 77, 15);
+		panel_add.add(label_num);
 		
 		JLabel label_name = new JLabel("书名：");
 		label_name.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -106,31 +118,28 @@ public class LibManager extends JPanel implements ActionListener {
 		label_publisher.setBounds(85, 184, 74, 15);
 		panel_add.add(label_publisher);
 		
-		JLabel label_3 = new JLabel("入库时间：");
-		label_3.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_3.setBounds(82, 277, 74, 15);
-		panel_add.add(label_3);
+		JLabel label_time = new JLabel("入库时间：");
+		label_time.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_time.setBounds(82, 277, 74, 15);
+		panel_add.add(label_time);
 		
-		label_4 = new JLabel("馆藏地点：");
-		label_4.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_4.setBounds(82, 234, 77, 15);
-		panel_add.add(label_4);
+		label_location = new JLabel("馆藏地点：");
+		label_location.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_location.setBounds(82, 234, 77, 15);
+		panel_add.add(label_location);
 		
-		label_5 = new JLabel("借阅状态：");
-		label_5.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_5.setBounds(82, 312, 74, 15);
-		panel_add.add(label_5);
+		label_station = new JLabel("借阅状态：");
+		label_station.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_station.setBounds(82, 312, 74, 15);
+		panel_add.add(label_station);
 		
-		JButton okbutton = new JButton("添加");
+		okbutton = new JButton("添加");
 		okbutton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		okbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		okbutton.addActionListener(this);
 		okbutton.setBounds(188, 440, 93, 23);
 		panel_add.add(okbutton);
 		
-		JButton cancelbutton = new JButton("取消");
+		cancelbutton = new JButton("取消");
 		cancelbutton.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		cancelbutton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -154,30 +163,49 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_add.add(textField_publisher);
 		textField_publisher.setColumns(10);
 		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("四牌楼");
+		//"四牌楼"
 		rdbtnNewRadioButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton.setBounds(241, 230, 82, 23);
 		panel_add.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("丁家桥");
+		//"丁家桥"
 		rdbtnNewRadioButton_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton_1.setBounds(355, 230, 77, 23);
 		panel_add.add(rdbtnNewRadioButton_1);
-		
-		JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("九龙湖");
+		//"九龙湖"
 		rdbtnNewRadioButton_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton_2.setBounds(450, 230, 82, 23);
 		panel_add.add(rdbtnNewRadioButton_2);
 		
-		JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("借出");
+		ButtonGroup locationGroup=new ButtonGroup();
+		locationGroup.add(rdbtnNewRadioButton);
+		locationGroup.add(rdbtnNewRadioButton_1);
+		locationGroup.add(rdbtnNewRadioButton_2);
+		rdbtnNewRadioButton.setSelected(true);
+		
+		//"已借出"
 		rdbtnNewRadioButton_3.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		rdbtnNewRadioButton_3.setBounds(241, 308, 66, 23);
+		rdbtnNewRadioButton_3.setBounds(241, 308, 82, 23);
 		panel_add.add(rdbtnNewRadioButton_3);
 		
-		JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("未借\r\n");
+		//"未借出"
 		rdbtnNewRadioButton_4.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton_4.setBounds(355, 308, 77, 23);
 		panel_add.add(rdbtnNewRadioButton_4);
+		
+		ButtonGroup stationGroup=new ButtonGroup();
+		stationGroup.add(rdbtnNewRadioButton_3);
+		stationGroup.add(rdbtnNewRadioButton_4);
+		rdbtnNewRadioButton_3.setSelected(true);
+		
+		DateChooser dateChooser = DateChooser.getInstance("yyyy-MM-dd");
+		textField_time = new JTextField("单击以选择日期");
+		textField_time.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		dateChooser.register(textField_time);
+		textField_time.setBounds(241, 275, 291, 21);
+		panel_add.add(textField_time);
+//		textField_time.setColumns(10);
+		
+		
 		//”图书出库“面板
 		panel_delete=new JPanel();
 		panel_delete.setLayout(null);
