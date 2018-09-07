@@ -3,6 +3,7 @@ package com.wolfTungsten.vcampusClient.panel;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
@@ -19,7 +20,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener{
+public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField textField_select;
 	JButton button_select;
@@ -35,8 +36,9 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		textField_select.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_select.setForeground(Color.LIGHT_GRAY);
 		textField_select.setText("书名/作者");
-		textField_select.setBounds(153, 93, 319, 24);
+		textField_select.setBounds(20, 20, 560, 36);
 		textField_select.addFocusListener(this);
+		textField_select.addMouseListener(this);
 		
 		add(textField_select);
 		textField_select.setColumns(10);
@@ -47,22 +49,24 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		button_select.setBounds(493, 93, 93, 24);
+		button_select.setBounds(590, 20, 126, 36);
 		button_select.addActionListener(this);
 		add(button_select);		
 		
 		JPanel panel = new JPanel(cardLayout);
-		panel.setBounds(58, 161, 620, 401);
+		panel.setBounds(20, 66, 696, 514);
 		add(panel);
 		
 		JPanel panel_book_table=new JPanel();
 		panel_book_table.setLayout(null);
 		panel.add("1",panel_book_table);
+		panel_book_table.addMouseListener(this);
 		
 		JScrollPane scrollPane = new JScrollPane();//创建显示表格的滚动面板
-		scrollPane.setBounds(10, 10, 600, 381);
+		scrollPane.setBounds(0, 0, 696, 514);
 		panel_book_table.add(scrollPane);
 		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
+		scrollPane.addMouseListener(this);
 		//定义表格数据数组
 		String[][] tableValues= {{"B612","java","xxx","seu","jlh","未借出"}};
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
@@ -71,7 +75,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		
 		JPanel panel_borrow=new JPanel();
 		panel.add("2",panel_borrow);
-		
+		panel.addMouseListener(this);
 	}
 	
 	//文本框内显示提示内容
@@ -99,5 +103,13 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 			   //怎么检索？？？
 			}
 		}
+	}
+	
+	public void mouseEntered(MouseEvent e) {
+		dispatchEvent(e);
+	}
+	
+	public void mouseExited(MouseEvent e) {
+		
 	}
 }

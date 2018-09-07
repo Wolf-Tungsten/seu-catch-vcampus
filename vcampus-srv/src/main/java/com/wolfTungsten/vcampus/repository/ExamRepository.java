@@ -30,7 +30,6 @@ public class ExamRepository extends CurdRepository<Exam>
 		.setStartTime(startTime)
 		.setDuration(duration)
 		.setUpdateTime(timestamp());
-		
 	}
 	
 	
