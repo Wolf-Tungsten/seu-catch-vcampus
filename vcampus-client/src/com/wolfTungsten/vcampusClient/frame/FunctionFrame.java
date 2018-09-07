@@ -93,10 +93,6 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		((JPanel)cp).setOpaque(false);
 		
 		//空白标签
-		label_blank1=new JLabel();
-		label_blank1.setBounds(214, 0,586, 600);////假如提示面板宽度不是150了这里要变动，800-64-宽=右边空白标签的宽
-		label_blank1.addMouseListener(this);
-		contentPane.add(label_blank1);
 		label_blank2 = new JLabel();
 		label_blank2.setBounds(0,0,64,64);
 		label_blank2.addMouseListener(this);
@@ -166,40 +162,49 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//“图书检索”按钮，关联LibFindBooksPanel	面板
 		label_lib_select=new JLabel("图书检索",JLabel.CENTER);
 		label_lib_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_lib_select.setForeground(new Color(59,120,103));
 		label_lib_select.setBounds(0, 40,150, 50);
 		label_lib_select.addMouseListener(this);
 		panel_message_lib.add(label_lib_select);
 		//“借还信息”按钮，关联LibMessage面板
 		label_lib_message=new JLabel("借还信息",JLabel.CENTER);
 		label_lib_message.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_lib_message.setForeground(new Color(59,120,103));
 		label_lib_message.setBounds(0, 90,150, 50);
 		label_lib_message.addMouseListener(this);
 		panel_message_lib.add(label_lib_message);
 		//“管理员”按钮，关联LibManager面板==============有权限的人才能看到这个按钮？？？？？？？？？？？？？？？？
 		label_lib_manager=new JLabel("管理员",JLabel.CENTER);
 		label_lib_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_lib_manager.setForeground(new Color(59,120,103));
 		label_lib_manager.setBounds(0, 140,150, 50);
 		label_lib_manager.addMouseListener(this);
 		panel_message_lib.add(label_lib_manager);
-	
+	    //虚假的空白标签
+		label_lib_exit= new JLabel();
+		label_lib_exit.setBounds(0,190,150,410);
+		label_lib_exit.addMouseListener(this);
+		panel_message_lib.add(label_lib_exit);
+		
 		panel_message_lib.setVisible(false); 
 		
 		//教务处提示面板==============================教务处提示面板===================================
 		panel_message_jwc = new JPanel();
 		panel_message_jwc.setBounds(64, 0,150, 600);
 		panel_message_jwc.setBackground(new Color(230,230,230));
-		
+		panel_message_jwc.setLayout(null);
 		//”学生选课“按钮，关联JwcSelectCourse面板
 		label_jwc_select=new JLabel("学生选课",JLabel.CENTER);
 		label_jwc_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_select.setForeground(new Color(59,120,103));
 		label_jwc_select.setBounds(0, 40,150, 50);
 		label_jwc_select.addMouseListener(this);
-		panel_message_jwc.setLayout(null);
 		panel_message_jwc.add(label_jwc_select);
 		
 		//”课表查询“按钮，关联JwcCurriculum面板
 		label_jwc_curriculum=new JLabel("课表查询",JLabel.CENTER);
 		label_jwc_curriculum.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_curriculum.setForeground(new Color(59,120,103));
 		label_jwc_curriculum.setBounds(0, 90,150, 50);
 		label_jwc_curriculum.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_curriculum);
@@ -207,6 +212,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//”考试助手“按钮，关联JwcExam面板
 		label_jwc_exam=new JLabel("考试助手",JLabel.CENTER);
 		label_jwc_exam.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_exam.setForeground(new Color(59,120,103));
 		label_jwc_exam.setBounds(0, 140,150, 50);
 		label_jwc_exam.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_exam);
@@ -214,9 +220,16 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//”考试助手“按钮，关联JwcExperiment面板
 		label_jwc_experiment=new JLabel("实验助手",JLabel.CENTER);
 		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_experiment.setForeground(new Color(59,120,103));
 		label_jwc_experiment.setBounds(0, 190,150, 50);
 		label_jwc_experiment.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_experiment);
+		
+		//虚假的空白标签
+		label_jwc_exit= new JLabel();
+		label_jwc_exit.setBounds(0,240,150,360);
+		label_jwc_exit.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_exit);
 		
 		panel_message_jwc.setVisible(false); 
 		
@@ -241,6 +254,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//右侧卡片面板==================================================================================
 		panel_right = new JPanel(cardLayout);
 		panel_right.setBounds(64, 0, 736, 600);
+		panel_right.addMouseListener(this);
 		contentPane.add(panel_right);
 		
 		//个人信息=================================个人信息板块的面板们=======================================
@@ -483,26 +497,19 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(Color.WHITE);
 		 } 
-
-		 if (e.getSource() == label_blank1) {
-			panel_message_info.setVisible(false);
-			panel_message_jwc.setVisible(false); 
-			panel_message_lib.setVisible(false); 
-			panel_message_shop.setVisible(false); 
-			panel_message_bank.setVisible(false); 
-		 }else if (e.getSource() == label_blank2) {
+         if(e.getSource() == label_lib_exit) {
+        	 panel_message_lib.setVisible(false); 
+         }else if(e.getSource() == label_jwc_exit) {
+        	 panel_message_jwc.setVisible(false);
+         }
+		 if (e.getSource() == label_blank2 || e.getSource() == label_blank3 || e.getSource() == panel_right ) {
 				panel_message_info.setVisible(false);
 				panel_message_jwc.setVisible(false); 
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
-			}else if (e.getSource() == label_blank3) {
-				panel_message_info.setVisible(false);
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-			}
+		}
+		 System.out.print(e.getSource().toString());
 	}
  
 	//==========================================鼠标离开区域==========================================

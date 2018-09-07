@@ -43,8 +43,9 @@ public class UserController extends BaseController{
 		}
 		
 	};
+	//注册
 	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle()
-	{//注册
+	{
 				
 		@Override
 		public Response work(Request request)
@@ -73,12 +74,7 @@ public class UserController extends BaseController{
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
 				return response;
-			
-			}
-			
-			
-							
-			
+			}				
 		}
 	};
 	

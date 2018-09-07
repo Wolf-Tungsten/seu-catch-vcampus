@@ -7,14 +7,17 @@ import com.j256.ormlite.jdbc.JdbcConnectionSource;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.repository.AccountBalanceRepository;
 import com.wolfTungsten.vcampus.repository.BookRepository;
+<<<<<<< HEAD
 import com.wolfTungsten.vcampus.repository.CourseRepository;
+=======
+import com.wolfTungsten.vcampus.repository.GoodsRepository;
+>>>>>>> 59e1f183a98e74671da33c6138b37c3c3bcd1935
 import com.wolfTungsten.vcampus.repository.ExamRepository;
 import com.wolfTungsten.vcampus.repository.ExperimentRepository;
+import com.wolfTungsten.vcampus.repository.GoodsRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
 import com.wolfTungsten.vcampus.repository.UserRepository;
-
 import com.wolfTungsten.vcampus.repository.TradingRecordRepository;
-
 import com.wolfTungsten.vcampus.repository.UserXBookRepository;
 import com.wolfTungsten.vcampus.repository.UserXCourseRepository;
 import com.wolfTungsten.vcampus.repository.UserXExamRepository;
@@ -29,6 +32,7 @@ public class ORM {
 	public UserRepository userRepository;
 	public TokenRepository tokenRepository;
 	public BookRepository bookRepository;
+	public GoodsRepository goodsRepository;
 	public TradingRecordRepository tradingRecordRepository;
 	public AccountBalanceRepository accountBalanceRepository;
 	public UserXBookRepository userXBookRepository;
@@ -37,7 +41,11 @@ public class ORM {
 	public ExamRepository examRepository;
 	public ExperimentRepository experimentRepository;
 	public UserXExperimentRepository userXExperimentRepository;
+<<<<<<< HEAD
 	public CourseRepository courseRepository;
+=======
+	public GoodsRepository goodsRepository;
+>>>>>>> 59e1f183a98e74671da33c6138b37c3c3bcd1935
     private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
@@ -47,6 +55,7 @@ public class ORM {
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
 			bookRepository = new BookRepository(conn);
+			goodsRepository = new GoodsRepository(conn);
 			tradingRecordRepository=new TradingRecordRepository(conn);
 			accountBalanceRepository=new AccountBalanceRepository(conn);
 			userXBookRepository = new UserXBookRepository(conn);
@@ -55,7 +64,11 @@ public class ORM {
 			examRepository = new ExamRepository(conn);
 			experimentRepository = new ExperimentRepository(conn);
 			userXExperimentRepository = new UserXExperimentRepository(conn);
+<<<<<<< HEAD
 			courseRepository = new CourseRepository(conn);
+=======
+			goodsRepository =new GoodsRepository(conn);
+>>>>>>> 59e1f183a98e74671da33c6138b37c3c3bcd1935
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

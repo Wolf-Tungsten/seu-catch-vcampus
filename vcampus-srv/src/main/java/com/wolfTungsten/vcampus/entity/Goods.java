@@ -11,7 +11,7 @@ public class Goods
 	public static final String UUID = "uuid";
 	public static final String NAME = "name";
 	public static final String DESCRIPTION = "description";
-	public static final String SELLER = "seller";
+	public static final String SELLER = "seller";//卖家
 	public static final String PRICE = "price";
 	public static final String AMOUNT = "amount";
 	public static final String IMAGE  = "image";

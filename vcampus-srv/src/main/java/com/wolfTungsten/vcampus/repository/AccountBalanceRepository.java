@@ -8,7 +8,8 @@ import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.ORM;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
-import com.wolfTungsten.vcampus.entity.TradingRecord;;
+import com.wolfTungsten.vcampus.entity.TradingRecord;
+import com.wolfTungsten.vcampus.entity.User;;
 
 public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 {
@@ -19,9 +20,24 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		// TODO Auto-generated constructor stub
 	}
 	
-	
+	public void addAccountBalance(String cardnum,String idCardNum,String secretPassword) throws SQLException {
+		
+		List<AccountBalance> accountBalanceList = dao.query((PreparedQuery<AccountBalance>)dao.queryBuilder()
+				.where().eq(AccountBalance.CARDNUM, cardnum).and().eq(AccountBalance.IDCARDNUM, idCardNum).prepare());
+		if(accountBalanceList.size()==0) {
+		AccountBalance accountBalance=new AccountBalance();
+		accountBalance.setCardnum(cardnum);
+		accountBalance.setIdcardNum(idCardNum);
+		accountBalance.setSecretPassword(secretPassword);
+		dao.create(accountBalance);
+		}else
+		{
+			throw new SQLException("该用户已注册");
+		}
+	}
 	//身份核对
 	public Boolean check(String userid,String secretPassword)throws SQLException{
+		
 		List<AccountBalance> accountBalanceList = dao.query((PreparedQuery<AccountBalance>)dao.queryBuilder()
 				.where().eq(AccountBalance.USER_ID, userid).and()
 				.eq(AccountBalance.SECRETPASSWORD, secretPassword).prepare());
@@ -43,6 +59,7 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		}
 	}
 	
+/*
 	//查询余额
 	public double getBalance(String userid,String secretPassword) throws SQLException {
 		if(check(userid,secretPassword))
@@ -72,6 +89,7 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 			throw new SQLException("用户名或支付密码错误！");
 		}
 	}
+	
 	public List<TradingRecord> getBill(String userid,String secretPassword) throws SQLException {
 		if(check(userid,secretPassword))
 		{
@@ -80,4 +98,5 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 			throw new SQLException("用户名或支付密码错误！");
 		}
 	}
+	*/
 }
