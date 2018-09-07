@@ -125,6 +125,7 @@ public class LibraryController extends BaseController
 			return response;
 		}
 	};
+	
 	private BaseController.BaseHandle queryAllHandle = new BaseHandle()
 
 	{
