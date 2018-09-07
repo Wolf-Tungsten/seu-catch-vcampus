@@ -4,8 +4,13 @@ package com.wolfTungsten.vcampus.repository;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.UUID;
+
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
+import java.util.List;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.j256.ormlite.stmt.PreparedDelete;
@@ -42,11 +47,9 @@ public class GoodsRepository extends CurdRepository<Goods>
 		//新建名为goodlist的Goods类型的list和HashMap的list
 		ArrayList<Goods> goodslist = new ArrayList<>();
 		ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
-		//
-		goodslist = (ArrayList<Goods>) dao.queryForAll();
-		//
+		goodslist = (ArrayList<Goods>)dao.queryForAll();
 		for(Goods goods:goodslist) {
-			HashMap<String, Object> goodsinfo = new HashMap<>();
+			HashMap<String, Object>goodsinfo = new HashMap<>();
 			goodsinfo.put(Goods.UUID,goods.getUuid().toString());
 			goodsinfo.put(Goods.AMOUNT,goods.getAmount());
 			goodsinfo.put(Goods.DESCRIPTION, goods.getDescription());
@@ -57,7 +60,9 @@ public class GoodsRepository extends CurdRepository<Goods>
 			goodsinfolist.add(goodsinfo);
 		}
 		return goodsinfolist;
+		
 	}
+
 	
 	//
 	public ArrayList<HashMap<String,Object>> inquireByFlag(String flag,Object value) throws SQLException {
@@ -98,10 +103,9 @@ public class GoodsRepository extends CurdRepository<Goods>
 		dao.delete((PreparedDelete<Goods>)dao.deleteBuilder()
 				.where().eq(Goods.UUID, goodsUuid).prepare());
 	}
-	
-	
-	
-	
-	
-	
 };
+	
+	
+	
+	
+

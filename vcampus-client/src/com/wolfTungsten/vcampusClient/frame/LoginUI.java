@@ -200,10 +200,10 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 			    		origin.x = e.getX();   //记录鼠标按下时的坐标
 			    		origin.y = e.getY();
 			    	}
-			    	
-			    	public void mouseClicked(MouseEvent e){
-			    		setExtendedState(JFrame.ICONIFIED);
-			    	}
+			    	//瞎点就会缩小系列，这不就相当于缩小键吗？
+//			    	public void mouseClicked(MouseEvent e){
+//			    		setExtendedState(JFrame.ICONIFIED);
+//			    	}
 			    });
 				
 				this.addMouseMotionListener(new MouseAdapter() {

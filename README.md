@@ -60,12 +60,13 @@
 | author    | String   | 作者                  |
 | publisher | String   | 出版社                |
 | amount    | int      | 数量                  |
+| location  | String   | 馆藏地点              |
 
 返回Response的内容
 
 | 属性名称 | 类型    | 备注                      |
 | -------- | ------- | ------------------------- |
-| sucess   | Boolean | 添加成功(true)失败(false) |
+| success  | Boolean | 添加成功(true)失败(false) |
 
 #### Path: book/deleteBook 删除书籍(可批量)
 
@@ -106,7 +107,7 @@ booksinfo里的内容
 | uuid           | String   | 书   |
 | entity里的属性 |          |      |
 
-可更新书内任意数量字段的信息(除了uuid).
+可更新书内任意数量的字段对应的信息(除了uuid).
 
 #### Path:book/queryAllBook 查询全部书籍
 
@@ -123,14 +124,14 @@ HashMap<String,Object>={"booksInfoMapList":LinkedTreeMap<String,Object>}
 
 LinkedTreeMap 里的字段有
 
-| Key(String) | valueType | 备注     |
-| ----------- | --------- | -------- |
-| uuid        | String    | 书的uuid |
-| name        | String    | 书名     |
-| isbn        | String    | isbn码   |
-| author      | String    | 作者     |
-| surplus     | int       | 余量     |
-| publisher   | String    | 出版社   |
+| Key(String) | valueType | 备注                     |
+| ----------- | --------- | ------------------------ |
+| uuid        | String    | 书的uuid                 |
+| name        | String    | 书名                     |
+| isbn        | String    | isbn码                   |
+| author      | String    | 作者                     |
+| isReturn    | boolean   | true 已归还 false 未归还 |
+| publisher   | String    | 出版社                   |
 
 #### path:book/queryByName    book/queryByAuthor
 
@@ -148,14 +149,14 @@ queryByAuthor  name -> author(String)
 
 LinkedTreeMap 里的字段有
 
-| Key(String) | valueType | 备注     |
-| ----------- | --------- | -------- |
-| uuid        | String    | 书的uuid |
-| name        | String    | 书名     |
-| isbn        | String    | isbn码   |
-| author      | String    | 作者     |
-| surplus     | int       | 余量     |
-| publisher   | String    | 出版社   |
+| Key(String) | valueType | 备注                 |
+| ----------- | --------- | -------------------- |
+| uuid        | String    | 书的uuid             |
+| name        | String    | 书名                 |
+| isbn        | String    | isbn码               |
+| author      | String    | 作者                 |
+| isReturn    | boolean   | true 还了 false 未还 |
+| publisher   | String    | 出版社               |
 
 
 

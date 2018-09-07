@@ -43,8 +43,9 @@ public class UserController extends BaseController{
 		}
 		
 	};
+	//注册
 	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle()
-	{//注册
+	{
 				
 		@Override
 		public Response work(Request request)

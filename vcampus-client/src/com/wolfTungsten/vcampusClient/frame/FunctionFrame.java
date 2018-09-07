@@ -254,6 +254,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//右侧卡片面板==================================================================================
 		panel_right = new JPanel(cardLayout);
 		panel_right.setBounds(64, 0, 736, 600);
+		panel_right.addMouseListener(this);
 		contentPane.add(panel_right);
 		
 		//个人信息=================================个人信息板块的面板们=======================================
@@ -267,7 +268,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("lib_1", panel_lib_select);
 		//“借还信息”面板
 		panel_lib_message = new LibMessage();
-		panel_lib_message.setBackground(new Color(153, 255, 255));
+		panel_lib_message.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_2", panel_lib_message);
 		//“管理员”面板
 		panel_lib_manager = new LibManager();
@@ -501,19 +502,14 @@ public class FunctionFrame extends JFrame implements MouseListener{
          }else if(e.getSource() == label_jwc_exit) {
         	 panel_message_jwc.setVisible(false);
          }
-		 if (e.getSource() == label_blank2) {
+		 if (e.getSource() == label_blank2 || e.getSource() == label_blank3 || e.getSource() == panel_right ) {
 				panel_message_info.setVisible(false);
 				panel_message_jwc.setVisible(false); 
 				panel_message_lib.setVisible(false); 
 				panel_message_shop.setVisible(false); 
 				panel_message_bank.setVisible(false); 
-			}else if (e.getSource() == label_blank3) {
-				panel_message_info.setVisible(false);
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-			}
+		}
+		 System.out.print(e.getSource().toString());
 	}
  
 	//==========================================鼠标离开区域==========================================
