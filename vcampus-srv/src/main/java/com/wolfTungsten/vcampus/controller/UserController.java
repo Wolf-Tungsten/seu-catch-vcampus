@@ -73,12 +73,7 @@ public class UserController extends BaseController{
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
 				return response;
-			
-			}
-			
-			
-							
-			
+			}				
 		}
 	};
 	
