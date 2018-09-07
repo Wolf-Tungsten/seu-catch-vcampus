@@ -268,7 +268,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("lib_1", panel_lib_select);
 		//“借还信息”面板
 		panel_lib_message = new LibMessage();
-		panel_lib_message.setBackground(new Color(153, 255, 255));
+		panel_lib_message.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_2", panel_lib_message);
 		//“管理员”面板
 		panel_lib_manager = new LibManager();

@@ -260,9 +260,9 @@ public class RegisterFrame extends JFrame implements ActionListener{
 			    		origin.y = e.getY();
 			    	}
 			    	
-			    	public void mouseClicked(MouseEvent e){
-			    		setExtendedState(JFrame.ICONIFIED);
-			    	}
+	//		    	public void mouseClicked(MouseEvent e){
+	//		    		setExtendedState(JFrame.ICONIFIED);
+	//		    	}
 			    });
 				
 				this.addMouseMotionListener(new MouseAdapter() {
