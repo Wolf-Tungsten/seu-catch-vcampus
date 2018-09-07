@@ -8,10 +8,15 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.repository.AccountBalanceRepository;
 import com.wolfTungsten.vcampus.repository.BookRepository;
 import com.wolfTungsten.vcampus.repository.GoodsRepository;
+import com.wolfTungsten.vcampus.repository.ExamRepository;
+import com.wolfTungsten.vcampus.repository.ExperimentRepository;
 import com.wolfTungsten.vcampus.repository.TokenRepository;
 import com.wolfTungsten.vcampus.repository.UserRepository;
 import com.wolfTungsten.vcampus.repository.TradingRecordRepository;
 import com.wolfTungsten.vcampus.repository.UserXBookRepository;
+import com.wolfTungsten.vcampus.repository.UserXCourseRepository;
+import com.wolfTungsten.vcampus.repository.UserXExamRepository;
+import com.wolfTungsten.vcampus.repository.UserXExperimentRepository;
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
 
 // 
@@ -26,6 +31,11 @@ public class ORM {
 	public TradingRecordRepository tradingRecordRepository;
 	public AccountBalanceRepository accountBalanceRepository;
 	public UserXBookRepository userXBookRepository;
+	public UserXCourseRepository userXCourseRepository;
+	public UserXExamRepository userXExamRepository;
+	public ExamRepository examRepository;
+	public ExperimentRepository experimentRepository;
+	public UserXExperimentRepository userXExperimentRepository;
     private ORM(){
     	
     	DatabaseType databaseType = new AccessDatabaseType();
@@ -39,6 +49,11 @@ public class ORM {
 			tradingRecordRepository=new TradingRecordRepository(conn);
 			accountBalanceRepository=new AccountBalanceRepository(conn);
 			userXBookRepository = new UserXBookRepository(conn);
+			userXCourseRepository = new UserXCourseRepository(conn);
+			userXExamRepository = new UserXExamRepository(conn);
+			examRepository = new ExamRepository(conn);
+			experimentRepository = new ExperimentRepository(conn);
+			userXExperimentRepository = new UserXExperimentRepository(conn);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

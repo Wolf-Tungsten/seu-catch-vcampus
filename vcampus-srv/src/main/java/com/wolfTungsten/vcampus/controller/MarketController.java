@@ -14,7 +14,7 @@ public class MarketController extends BaseController {
 	public MarketController() {
 		super();
 		this.addHandle("addGoods", addGoodsHandle);
-		this.addHandle("sendMessage", sendMessageHandle);
+		this.addHandle("findByName", findByNameHandle);
 	}
 	
 	//添加商品的Handle

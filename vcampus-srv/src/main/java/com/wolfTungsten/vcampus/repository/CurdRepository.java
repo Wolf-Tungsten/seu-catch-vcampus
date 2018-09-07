@@ -13,5 +13,9 @@ public abstract class CurdRepository<E> {
 	public CurdRepository(ConnectionSource conn, Class<E> entityClass) throws SQLException {
 		dao =  DaoManager.createDao(conn, entityClass);
 	}
+	
+	public long timestamp() {
+		return System.currentTimeMillis() / 1000;
+	}
 		
 }

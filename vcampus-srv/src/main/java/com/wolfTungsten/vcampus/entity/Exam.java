@@ -9,6 +9,7 @@ public class Exam
 {
 	public static final String UUID = "uuid";
 	public static final String NAME = "name";
+	public static final String COURSE_UUID = "courseUUID";
 	public static final String STARTTIME = "startTime";
 	public static final String DURATION ="duration";
 	public static final String LOCATION ="location";
@@ -29,6 +30,8 @@ public class Exam
 	private long createTime;
 	@DatabaseField(columnName = Exam.UPDATETIME)
 	private long updateTime;
+	@DatabaseField(columnName = Exam.COURSE_UUID)
+	private String courseUUID;
 	
 	public Exam() {
 		
@@ -49,9 +52,10 @@ public class Exam
 		return name;
 	}
 
-	public void setName(String name)
+	public Exam setName(String name)
 	{
 		this.name = name;
+		return this;
 	}
 
 	public long getStartTime()
@@ -59,9 +63,10 @@ public class Exam
 		return startTime;
 	}
 
-	public void setStartTime(long startTime)
+	public Exam setStartTime(long startTime)
 	{
 		this.startTime = startTime;
+		return this;
 	}
 
 	public int getDuration()
@@ -69,9 +74,10 @@ public class Exam
 		return duration;
 	}
 
-	public void setDuration(int duration)
+	public Exam setDuration(int duration)
 	{
 		this.duration = duration;
+		return this;
 	}
 
 	public String getLocation()
@@ -79,9 +85,10 @@ public class Exam
 		return location;
 	}
 
-	public void setLocation(String location)
+	public Exam setLocation(String location)
 	{
 		this.location = location;
+		return this;
 	}
 
 	public long getCreateTime()
@@ -89,9 +96,10 @@ public class Exam
 		return createTime;
 	}
 
-	public void setCreateTime(long createTime)
+	public Exam setCreateTime(long createTime)
 	{
 		this.createTime = createTime;
+		return this;
 	}
 
 	public long getUpdateTime()
@@ -99,9 +107,19 @@ public class Exam
 		return updateTime;
 	}
 
-	public void setUpdateTime(long updateTime)
+	public Exam setUpdateTime(long updateTime)
 	{
 		this.updateTime = updateTime;
+		return this;
+	}
+
+	public String getCourseUUID() {
+		return courseUUID;
+	}
+
+	public Exam setCourseUUID(String courseUUID) {
+		this.courseUUID = courseUUID;
+		return this;
 	}
 	
 	
