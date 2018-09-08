@@ -16,7 +16,7 @@ public class TableDeleteButtonEditor extends DefaultCellEditor {
 	   private String label;
        private boolean isPushed; 
        private String selectId;
-       
+       String deleteID;
        public TableDeleteButtonEditor(JCheckBox checkBox) {
     	   super(checkBox);
            button = new JButton();
@@ -50,20 +50,20 @@ public class TableDeleteButtonEditor extends DefaultCellEditor {
            }
 
           //这里是点击button执行的操作 
-                 public Object getCellEditorValue() {
-             if (isPushed) {
-                                 int op = JOptionPane.showConfirmDialog(null,"请问是否要删除此书？", "提示",JOptionPane.YES_NO_OPTION); 
-                                 if(op==JOptionPane.YES_OPTION){  
-                                	 System.out.println(selectId+"删除");
-                                	 return new String("已删除");       //返回显示”已删除“          	
-                                 }else if(op==JOptionPane.NO_OPTION){    
-                                	 
-                                 } 
-             }
-             isPushed = false;
-             return new String(label);
+           public Object getCellEditorValue() {
+              if (isPushed) {
+                 int op = JOptionPane.showConfirmDialog(null,"请问是否要删除此书？", "提示",JOptionPane.YES_NO_OPTION); 
+                 if(op==JOptionPane.YES_OPTION){  
+                 System.out.println(selectId+"删除");
+                 deleteID=selectId;
+                 return new String("已删除");       //返回显示”已删除“          	
+              }else if(op==JOptionPane.NO_OPTION){    
+              } 
+              }
+              isPushed = false;
+              return new String(label);
            }
-
+         
            public boolean stopCellEditing() {
              isPushed = false;
              return super.stopCellEditing();
@@ -71,7 +71,5 @@ public class TableDeleteButtonEditor extends DefaultCellEditor {
 
            protected void fireEditingStopped() {
              super.fireEditingStopped();
-           }
-
-         
+           }      
 }

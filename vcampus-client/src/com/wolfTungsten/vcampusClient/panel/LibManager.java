@@ -42,7 +42,7 @@ public class LibManager extends JPanel implements ActionListener {
 	private JTextField textField_publisher;
 	private JTextField textField_2;
 	private JButton okbutton,cancelbutton,btnNewButton;
-
+	JCheckBox checkBox;
 	JRadioButton rdbtnNewRadioButton = new JRadioButton("四牌楼");
 	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("丁家桥");
 	JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("九龙湖");
@@ -247,10 +247,12 @@ public class LibManager extends JPanel implements ActionListener {
 		 table_1.setDefaultRenderer(Object.class, cr_1);
 		 
 		 //这个删除按钮的class在component的TableDeleteButtonEditor()里
-		 JCheckBox checkBox=new JCheckBox();
+		 checkBox=new JCheckBox();
+		
 		 table_1.getColumn("操作").setCellEditor(new TableDeleteButtonEditor(checkBox));
 		 //我这里无法获取更改后的“操作”列里的信息，界面上点击删除后“删除”按钮会变为不可点击的“已删除”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableDeleteButtonEditor()里有返回
+		 checkBox.addActionListener(this);
 		 scrollPane_1.setViewportView(table_1);
 		 
 		cardLayout.show(panel_buttom, "all");

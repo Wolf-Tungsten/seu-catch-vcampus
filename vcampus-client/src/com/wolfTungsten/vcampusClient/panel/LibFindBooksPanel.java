@@ -91,7 +91,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		 int rowCount=table.getRowCount(); 
 		 for(int i=0;i<rowCount;i++) {
 			Object statement=tableModel.getValueAt(i, 5);
-			System.out.println("statement:"+statement);
+//			System.out.println("statement:"+statement);
 			//假如这本书状态是“未借出“，就在这行最后一列为其添加可选择”借阅“按钮
 			if(statement.equals("未借出")) {
 				tableModel.setValueAt("借阅", i, 5);//重置名字
