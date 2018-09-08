@@ -24,6 +24,10 @@ import javax.swing.border.EmptyBorder;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.wolfTungsten.vcampusClient.panel.BankBill;
+import com.wolfTungsten.vcampusClient.panel.BankModifyPass;
+import com.wolfTungsten.vcampusClient.panel.BankSaveAndWithdraw;
+import com.wolfTungsten.vcampusClient.panel.BankTurnMoney;
 import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
 import com.wolfTungsten.vcampusClient.panel.JwcExam;
 import com.wolfTungsten.vcampusClient.panel.JwcExperiment;
@@ -46,6 +50,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JLabel label_blank1,label_blank2,label_blank3;
 	JPanel panel_jwc_select,panel_jwc_curriculum,panel_jwc_exam,panel_jwc_experiment;
 	JLabel label_jwc_select,label_jwc_curriculum,label_jwc_exam,label_jwc_experiment;
+	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass;
+	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass;
 	static Point origin = new Point();
 	CardLayout cardLayout = new CardLayout();
 	
@@ -194,8 +200,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_jwc = new JPanel();
 		panel_message_jwc.setBounds(64, 0,150, 600);
 		panel_message_jwc.setBackground(new Color(230,230,230));
-
 		panel_message_jwc.setLayout(null);
+		
 		//”学生选课“按钮，关联JwcSelectCourse面板
 		label_jwc_select=new JLabel("学生选课",JLabel.CENTER);
 		label_jwc_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -243,42 +249,43 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_message_shop.setVisible(false); 
 		
 		//银行系统提示面板==============================银行系统提示面板===================================
-		panel_message_bank = new JPanel(cardLayout);
+		panel_message_bank = new JPanel();
 		panel_message_bank.setBounds(64, 0,150, 600);
-		panel_message_bank.setBackground(Color.GREEN);
-/*		
-		//”“按钮，关联JwcSelectCourse面板
-		label_jwc_select=new JLabel("学生选课",JLabel.CENTER);
-		label_jwc_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_jwc_select.setForeground(new Color(59,120,103));
-		label_jwc_select.setBounds(0, 40,150, 50);
-		label_jwc_select.addMouseListener(this);
-		panel_message_jwc.add(label_jwc_select);
+		panel_message_bank.setBackground(new Color(230,230,230));
+		panel_message_bank.setLayout(null);
+         
+		//“存取款业务”，管理BankSaveAndWithdraw面板
+		//存款，从我输的到账户，取款，从账户取到银行
+		label_bank_save_withdraw=new JLabel("存取款业务",JLabel.CENTER);
+		label_bank_save_withdraw.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_bank_save_withdraw.setForeground(new Color(59,120,103));
+		label_bank_save_withdraw.setBounds(0, 40,150, 50);
+		label_bank_save_withdraw.addMouseListener(this);
+		panel_message_bank.add(label_bank_save_withdraw);
+		//”转账汇款“按钮，关联BankTurnMoney面板
+		//从我的账户到另一个账户,
+		label_bank_turn_money=new JLabel("转账汇款",JLabel.CENTER);
+		label_bank_turn_money.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_bank_turn_money.setForeground(new Color(59,120,103));
+		label_bank_turn_money.setBounds(0, 90,150, 50);
+		label_bank_turn_money.addMouseListener(this);
+		panel_message_bank.add(label_bank_turn_money);
+		//“交易明细“按钮	,关联BankBill面板		
+		label_bank_bill=new JLabel("交易明细",JLabel.CENTER);
+		label_bank_bill.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_bank_bill.setForeground(new Color(59,120,103));
+		label_bank_bill.setBounds(0, 140,150, 50);
+		label_bank_bill.addMouseListener(this);
+		panel_message_bank.add(label_bank_bill);
 				
-		//”课表查询“按钮，关联JwcCurriculum面板
-		label_jwc_curriculum=new JLabel("课表查询",JLabel.CENTER);
-		label_jwc_curriculum.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_jwc_curriculum.setForeground(new Color(59,120,103));
-		label_jwc_curriculum.setBounds(0, 90,150, 50);
-		label_jwc_curriculum.addMouseListener(this);
-		panel_message_jwc.add(label_jwc_curriculum);
-				
-		//”考试助手“按钮，关联JwcExam面板
-		label_jwc_exam=new JLabel("考试助手",JLabel.CENTER);
-		label_jwc_exam.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_jwc_exam.setForeground(new Color(59,120,103));
-		label_jwc_exam.setBounds(0, 140,150, 50);
-		label_jwc_exam.addMouseListener(this);
-		panel_message_jwc.add(label_jwc_exam);
-				
-		//”考试助手“按钮，关联JwcExperiment面板
-		label_jwc_experiment=new JLabel("实验助手",JLabel.CENTER);
-		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_jwc_experiment.setForeground(new Color(59,120,103));
-		label_jwc_experiment.setBounds(0, 190,150, 50);
-		label_jwc_experiment.addMouseListener(this);
-		panel_message_jwc.add(label_jwc_experiment);
-				
+		//”修改账户密码“按钮，关联BankModifyPass面板
+		label_bank_modify_pass=new JLabel("修改账户密码",JLabel.CENTER);
+		label_bank_modify_pass.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_bank_modify_pass.setForeground(new Color(59,120,103));
+		label_bank_modify_pass.setBounds(0, 190,150, 50);
+		label_bank_modify_pass.addMouseListener(this);
+		panel_message_bank.add(label_bank_modify_pass);
+/*			   			
 		//虚假的空白标签
 		label_bank_exit= new JLabel();
 		label_bank_exit.setBounds(0,240,150,360);
@@ -287,6 +294,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	*/		
 		
 		panel_message_bank.setVisible(false); 
+		
 	    //把提示信息面板加到contentPane
 		
 		contentPane.add(panel_message_info,new Integer(5));
@@ -309,6 +317,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
         label_blank3.setBounds(0,384,64,216);
         label_blank3.addMouseListener(this);
 		contentPane.add(label_blank3);		
+		
 		panel_right = new JPanel(cardLayout);
 		panel_right.setBounds(64, 0, 736, 600);
 		contentPane.add(panel_right,new Integer(10));//将右边面板放置在10层
@@ -355,13 +364,24 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_shop.setBackground(new Color(255, 204, 255));
 		panel_right.add("4", panel_shop);	
 		//银行系统================================银行板块的面板们=======================================
-		panel_bank = new JPanel();
-		panel_bank.setBackground(Color.WHITE);
-		panel_right.add("5", panel_bank);
+		panel_bank_save_withdraw=new BankSaveAndWithdraw();
+		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
+		panel_right.add("bank_1", panel_bank_save_withdraw);		
 		
-
+		panel_bank_turn_money=new BankTurnMoney();
+		panel_bank_turn_money.setBackground(new Color(255, 255, 255));
+		panel_right.add("bank_2", panel_bank_turn_money);	
+		
+		panel_bank_bill=new BankBill();
+		panel_bank_bill.setBackground(new Color(255, 255, 255));
+		panel_right.add("bank_3", panel_bank_bill);	
+		
+		
+		panel_bank_modify_pass=new BankModifyPass();
+		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
+		panel_right.add("bank_4", panel_bank_modify_pass);
+		
 		contentPane.getParent().getParent();
-
 			
 		//实现鼠标拖拽窗口的功能
 		this.addMouseListener(new MouseAdapter(){
@@ -386,6 +406,19 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		});
 	}
 	//==========================================鼠标点击==========================================
+	public void HideAllMessagePanel() {
+		panel_message_info.setVisible(false); 
+		panel_message_jwc.setVisible(false); 
+		panel_message_lib.setVisible(false); 
+		panel_message_shop.setVisible(false); 
+		panel_message_bank.setVisible(false); 
+		contentPane.add(panel_message_info,new Integer(5));
+		contentPane.add(panel_message_jwc,new Integer(6));
+		contentPane.add(panel_message_lib,new Integer(7));
+		contentPane.add(panel_message_shop,new Integer(8));
+		contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+	}
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -401,84 +434,27 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				
 			} else if (e.getSource() == label_lib_select) {
 				cardLayout.show(panel_right, "lib_1");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.add(panel_message_info,new Integer(5));
-				contentPane.add(panel_message_jwc,new Integer(6));
-				contentPane.add(panel_message_lib,new Integer(7));
-				contentPane.add(panel_message_shop,new Integer(8));
-				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+				HideAllMessagePanel();
 			} else if (e.getSource() == label_lib_message) {
 				cardLayout.show(panel_right, "lib_2");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.add(panel_message_info,new Integer(5));
-				contentPane.add(panel_message_jwc,new Integer(6));
-				contentPane.add(panel_message_lib,new Integer(7));
-				contentPane.add(panel_message_shop,new Integer(8));
-				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+				HideAllMessagePanel();
 			}else if (e.getSource() == label_lib_manager) {
 				cardLayout.show(panel_right, "lib_3");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.setLayer(panel_message_info,new Integer(11));
+				HideAllMessagePanel();
+				
 			}else if (e.getSource() == label_jwc_select) {
 				cardLayout.show(panel_right, "jwc_1");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.add(panel_message_info,new Integer(5));
-				contentPane.add(panel_message_jwc,new Integer(6));
-				contentPane.add(panel_message_lib,new Integer(7));
-				contentPane.add(panel_message_shop,new Integer(8));
-				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_curriculum) {
 				cardLayout.show(panel_right, "jwc_2");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.add(panel_message_info,new Integer(5));
-				contentPane.add(panel_message_jwc,new Integer(6));
-				contentPane.add(panel_message_lib,new Integer(7));
-				contentPane.add(panel_message_shop,new Integer(8));
-				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+				HideAllMessagePanel();
 			}  else if (e.getSource() == label_jwc_exam) {
 				cardLayout.show(panel_right, "jwc_3");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.add(panel_message_info,new Integer(5));
-				contentPane.add(panel_message_jwc,new Integer(6));
-				contentPane.add(panel_message_lib,new Integer(7));
-				contentPane.add(panel_message_shop,new Integer(8));
-				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_experiment) {
 				cardLayout.show(panel_right, "jwc_4");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(false); 
-				contentPane.add(panel_message_info,new Integer(5));
-				contentPane.add(panel_message_jwc,new Integer(6));
-				contentPane.add(panel_message_lib,new Integer(7));
-				contentPane.add(panel_message_shop,new Integer(8));
-				contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
+				HideAllMessagePanel();
+				
 			} else if (e.getSource() == button_shop) {
 				 cardLayout.show(panel_right, "4");
 				 panel_message_info.setVisible(false); 
@@ -488,16 +464,19 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				 panel_message_bank.setVisible(false);  
 				 contentPane.setLayer(panel_message_shop,new Integer(11));
 
-			}else if (e.getSource() == button_bank) {
-				cardLayout.show(panel_right, "5");
-				panel_message_info.setVisible(false); 
-				panel_message_jwc.setVisible(false); 
-				panel_message_lib.setVisible(false); 
-				panel_message_shop.setVisible(false); 
-				panel_message_bank.setVisible(true); 
-				contentPane.setLayer(panel_message_bank,new Integer(11));
-
-			}
+			}else if (e.getSource() == label_bank_save_withdraw) {
+				cardLayout.show(panel_right, "bank_1");
+				HideAllMessagePanel();
+			} else if (e.getSource() == label_bank_turn_money) {
+				cardLayout.show(panel_right, "bank_2");
+				HideAllMessagePanel();
+			}  else if (e.getSource() == label_bank_bill) {
+				cardLayout.show(panel_right, "bank_3");
+				HideAllMessagePanel();
+			} else if (e.getSource() == label_bank_modify_pass) {
+				cardLayout.show(panel_right, "bank_4");
+				HideAllMessagePanel();		
+			} 
 		}
 	}
 	
@@ -604,6 +583,20 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(Color.WHITE);
 		 } 
+		 
+		 if (e.getSource() == label_bank_save_withdraw) {
+			 label_bank_save_withdraw.setOpaque(true);
+			 label_bank_save_withdraw.setBackground(Color.WHITE);
+		 }else if (e.getSource() == label_bank_turn_money) {
+			 label_bank_turn_money.setOpaque(true);
+			 label_bank_turn_money.setBackground(Color.WHITE);
+		 }else if (e.getSource() == label_bank_bill) {
+			 label_bank_bill.setOpaque(true);
+			 label_bank_bill.setBackground(Color.WHITE);
+		 }else if (e.getSource() == label_bank_modify_pass) {
+			 label_bank_modify_pass.setOpaque(true);
+			 label_bank_modify_pass.setBackground(Color.WHITE);
+		 } 
 
 
 		 if (e.getSource() == label_blank1) {
@@ -700,6 +693,20 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_jwc_experiment) {
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(new Color(230,230,230));
+		 }
+		
+		if (e.getSource() == label_bank_save_withdraw) {
+			label_bank_save_withdraw.setOpaque(true);
+			label_bank_save_withdraw.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_bank_turn_money) {
+			 label_bank_turn_money.setOpaque(true);
+			 label_bank_turn_money.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_bank_bill) {
+			 label_bank_bill.setOpaque(true);
+			 label_bank_bill.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_bank_modify_pass) {
+			 label_bank_modify_pass.setOpaque(true);
+			 label_bank_modify_pass.setBackground(new Color(230,230,230));
 		 }
 	}
 }
