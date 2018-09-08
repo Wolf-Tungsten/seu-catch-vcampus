@@ -1,3 +1,4 @@
+//系统首页，放告示还是放图，看着办吧，就是一进来默认在这块面板上
 package com.wolfTungsten.vcampusClient.panel;
 
 import javax.swing.JPanel;

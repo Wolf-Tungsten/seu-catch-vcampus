@@ -29,6 +29,7 @@ import com.wolfTungsten.vcampusClient.panel.BankModifyPass;
 import com.wolfTungsten.vcampusClient.panel.BankSaveAndWithdraw;
 import com.wolfTungsten.vcampusClient.panel.BankTurnMoney;
 import com.wolfTungsten.vcampusClient.panel.InfoModify;
+import com.wolfTungsten.vcampusClient.panel.InfoPassword;
 import com.wolfTungsten.vcampusClient.panel.InfoSystemMain;
 import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
 import com.wolfTungsten.vcampusClient.panel.JwcExam;
@@ -55,8 +56,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JLabel label_lib_exit,label_jwc_exit;
 	JLabel label_blank1,label_blank2,label_blank3;
 	//个人信息面板们
-	JLabel label_info_main,label_info_modify;
-	JPanel panel_info_main,panel_info_modify;
+	JLabel label_info_main,label_info_modify,label_info_pass;
+	JPanel panel_info_main,panel_info_modify,panel_info_pass;
 	//图书馆面板们
 	JLabel label_lib_select,label_lib_message,label_lib_manager;
 	JPanel panel_lib_select,panel_lib_message,panel_lib_manager;
@@ -193,6 +194,13 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_info_modify.setBounds(0, 90,150, 50);
 		label_info_modify.addMouseListener(this);
 		panel_message_info.add(label_info_modify);
+		//“修改登录密码”按钮（标签），关联InfoPassword面板
+		label_info_pass=new JLabel("修改登录密码",JLabel.CENTER);
+		label_info_pass.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_info_pass.setForeground(new Color(59,120,103));
+		label_info_pass.setBounds(0, 140,150, 50);
+		label_info_pass.addMouseListener(this);
+		panel_message_info.add(label_info_pass);
 		
 		panel_message_info.setVisible(false); 
 		
@@ -393,10 +401,14 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_info_main = new InfoSystemMain();
 		panel_info_main.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_1", panel_info_main);		
-		
+		cardLayout.show(panel_right, "info_1");//默认显示“系统主页”
 		panel_info_modify = new InfoModify();
 		panel_info_modify.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_2", panel_info_modify);		
+		
+		panel_info_pass = new InfoPassword();
+		panel_info_pass.setBackground(new Color(255, 255, 255));
+		panel_right.add("info_3", panel_info_pass);		
 		//图书馆=================================图书馆板块的面板们=======================================
 		//”图书检索“面板
 		panel_lib_select = new LibFindBooksPanel();
@@ -519,6 +531,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	*/			
 			} else if (e.getSource() == label_info_modify) {
 				cardLayout.show(panel_right, "info_2");
+				HideAllMessagePanel();	
+			} else if (e.getSource() == label_info_pass) {
+				cardLayout.show(panel_right, "info_3");
 				HideAllMessagePanel();
 				
 			} else if (e.getSource() == label_lib_select) {
@@ -656,7 +671,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			 label_info_main.setBackground(Color.WHITE);
 		 }else if (e.getSource() == label_info_modify) {
 			 label_info_modify.setOpaque(true);
-			 label_info_modify.setBackground(Color.WHITE);
+			 label_info_modify.setBackground(Color.WHITE); 
+		 }else if (e.getSource() == label_info_pass) {
+			 label_info_pass.setOpaque(true);
+			 label_info_pass.setBackground(Color.WHITE);
 			 
 		 }else if (e.getSource() == label_lib_select) {
 			 label_lib_select.setOpaque(true);
@@ -789,6 +807,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_info_modify) {
 			 label_info_modify.setOpaque(true);
 			 label_info_modify.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_info_pass) {
+			 label_info_pass.setOpaque(true);
+			 label_info_pass.setBackground(new Color(230,230,230));
+			 
 		 }else if (e.getSource() == label_lib_select) {
 			label_lib_select.setOpaque(true);
 			 label_lib_select.setBackground(new Color(230,230,230));
