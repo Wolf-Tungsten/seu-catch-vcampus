@@ -93,6 +93,7 @@ public class BookRepository extends CurdRepository<Book>
 			bookinfo.put(Book.PUBLISHER, b.getPublisher());
 			booksinfoList.add(bookinfo);			
 		}
+		if(booksinfoList.size()==0) throw new SQLException("没有找到这本书");
 		return booksinfoList;		
 				
 		}

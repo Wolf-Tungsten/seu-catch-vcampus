@@ -48,7 +48,7 @@ public class TableReBorButtonEditor extends DefaultCellEditor{
              return button;
            }
 
-          //这里是点击button执行的操作 
+          //这里是点击借阅button执行的操作 
                  public Object getCellEditorValue() {
              if (isPushed) {
                

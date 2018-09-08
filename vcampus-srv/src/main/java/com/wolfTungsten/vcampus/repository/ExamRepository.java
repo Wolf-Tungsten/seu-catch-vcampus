@@ -64,6 +64,13 @@ public class ExamRepository extends CurdRepository<Exam>
 		return examinfoList;
 	}
 	
+	public ArrayList<Exam> queryByCourseUUID(String uuid) throws SQLException{
+		UUID euuid = UUID.fromString(uuid);
+		ArrayList<Exam> list = (ArrayList<Exam>) dao.queryForEq(Exam.COURSE_UUID, euuid);
+		return list;			
+	}
+	
+	
 //	public void updateBook(LinkedTreeMap<String,Object> booksinfo) throws SQLException {
 //		UpdateBuilder<Book,String> updateBuilder = dao.updateBuilder();
 //		String bookUuid = (String)booksinfo.get("uuid");
