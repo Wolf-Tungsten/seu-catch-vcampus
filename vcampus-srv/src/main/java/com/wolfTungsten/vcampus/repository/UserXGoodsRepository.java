@@ -14,4 +14,7 @@ public class UserXGoodsRepository extends CurdRepository<UserXGoods>
 		// TODO Auto-generated constructor stub
 	}
 	
+	//通过某个用户自己的uuid查询到自己拥有的商品
+	
+	
 }

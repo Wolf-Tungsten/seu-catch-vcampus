@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Set;
 
 import com.google.gson.internal.LinkedTreeMap;
-
 import com.wolfTungsten.vcampus.repository.GoodsRepository;
 import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
@@ -21,19 +20,17 @@ public class MarketController extends BaseController {
 	public MarketController() {
 		super();
 		this.addHandle("addGoods", addGoodsHandle);
-
 		this.addHandle("queryByName",queryByNameHandle);
 		this.addHandle("queryAll", queryAllHandle);
-
-
+		this.addHandle("queryBySeller", queryBySellerHandle);
 		this.addHandle("purchase", purchaseHandle);
-
+		this.addHandle("deleteGoods", deleteGoodsHandle);
 
 	}
 	
 	//添加商品的Handle
 	private BaseController.BaseHandle addGoodsHandle = new BaseHandle() {
-		
+		//测试成功
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
@@ -44,8 +41,10 @@ public class MarketController extends BaseController {
 			Double price = (Double)request.getParams().get(Goods.PRICE);
 			int amount = (int)(double)request.getParams().get(Goods.AMOUNT);
 			String image = (String)request.getParams().get(Goods.IMAGE);
+			//String token = (String) request.getParams().get("token");
 			try
 			{
+				//checkToken(token);
 				orm.goodsRepository.addGoods(name, description, seller, price, amount, image);
 				response.setSuccess(true);
 				return response;	
@@ -60,8 +59,9 @@ public class MarketController extends BaseController {
 		
 	};//end of addGoodHandle
 	
+	
 	private BaseController.BaseHandle queryAllHandle = new BaseHandle() {
-		
+		//注释掉token测试完成
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
@@ -102,15 +102,18 @@ public class MarketController extends BaseController {
 				e.printStackTrace();
 				return response;
 			}
-			
 
-			}	
-		};
+		}
+
+	};//end of queryByNameHandle
+	
+
 
 private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 		
 		@Override
-		public Response work(Request request) {
+		public Response work(Request request) 
+		{
 			Response response = new Response();
 			String value = (String) request.getParams().get(Goods.SELLER);
 			ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
@@ -125,6 +128,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				response.setSuccess(false);
 				e.printStackTrace();
 				return response;
+
 			}
 		}
 	};
@@ -132,7 +136,8 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 		private BaseController.BaseHandle purchaseHandle = new BaseHandle() {
 			
 			@Override
-			public Response work(Request request) {
+			public Response work(Request request)
+			{
 				Response response = new Response();
 				String uuid=(String)request.getParams().get(Goods.UUID);
 				String name = (String)request.getParams().get(Goods.NAME);
@@ -158,6 +163,32 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			}
 		};
 
+		
+		private BaseController.BaseHandle deleteGoodsHandle = new BaseHandle() {
+			//待测试
+			@Override
+			public Response work(Request request) {
+				Response response = new Response();
+				ArrayList<String> goodsUuidList = (ArrayList<String>) request.getParams().get("uuidList");
+				for(String uuid : goodsUuidList)
+				{
+					try {
+						orm.bookRepository.deleteBookByUuid(uuid);
+						//这里还要删除掉和用户有关的信息
+					}catch(SQLException e){
+						response.setSuccess(false);
+						e.printStackTrace();
+					}
+					response.setSuccess(true);
+					return response;
+				}
+				return response;
+			}
+		};
+};
+
+
+
 			//在这里用ormlite的方法给数据库写入数据
 //			try {
 //				orm.goodsRepository.addGoods(name, description, seller, price, amount, image);
@@ -177,8 +208,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 
 
 
-			
-	};
+
 	
 
 		
