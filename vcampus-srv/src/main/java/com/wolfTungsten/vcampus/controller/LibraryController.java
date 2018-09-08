@@ -29,6 +29,7 @@ public class LibraryController extends BaseController
 		this.addHandle("returnBook", returnBookHandle);
 		this.addHandle("renewBook", renewBookHandle);
 		this.addHandle("borrowRecord", borrowRecordHandle);
+		this.addHandle("queryByFlag", queryByFlagHandle);
 	}
 
 	private BaseController.BaseHandle addBookHandle = new BaseHandle()
@@ -155,6 +156,22 @@ public class LibraryController extends BaseController
 			}
 		}
 	};
+	private BaseController.BaseHandle queryByFlagHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response1 =  queryByNameHandle.work(request);
+			Response response2 = queryByAuthorHandle.work(request);
+			if(response1.getSuccess())
+				return response1;
+			else
+				return response2;
+		
+			
+		}
+	};
 
 	private BaseController.BaseHandle queryByNameHandle = new BaseHandle()
 	{
@@ -163,12 +180,13 @@ public class LibraryController extends BaseController
 		{
 			Response response = new Response();
 			ArrayList<HashMap<String, Object>> booksinfoList = new ArrayList<>();
-			String value = (String) request.getParams().get(Book.NAME);
+			String name = (String) request.getParams().get(Book.NAME);
+			
 			String token = request.getToken();
 			try
 			{
 				checkToken(token);
-				booksinfoList = orm.bookRepository.inquireByFlag(Book.NAME, value);
+				booksinfoList = orm.bookRepository.inquireByFlag(Book.NAME, name);
 				for(HashMap<String,Object> bookinfo:booksinfoList) {
 					boolean isreturn = orm.userXBookRepository.checkBorrow((String)bookinfo.get(Book.UUID));
 					bookinfo.put(UserXBook.ISRETURN, isreturn==true?true:false);		

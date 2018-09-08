@@ -8,7 +8,7 @@ import com.google.gson.Gson;
 
 import java.io.*;
 public class Client {
-	public static String host = "192.168.1.104";
+	public static String host = "223.3.99.173";
 	public static int port = 20006;
 	public static class Request {
 		
