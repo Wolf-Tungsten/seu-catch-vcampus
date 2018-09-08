@@ -5,6 +5,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -12,6 +14,10 @@ import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 
 import javax.swing.JButton;
@@ -53,6 +59,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//“搜索”按钮
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
+
 		button_select.setBounds(590, 20, 126, 36);
 		button_select.addActionListener(this);
 		add(button_select);		
@@ -62,6 +69,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		add(scrollPane);
 		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
 		scrollPane.addMouseListener(this);
+	
 		//定义表格数据数组
 		/**
 		 *aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -110,14 +118,20 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 			textField_select.setText("书名/作者");		
 		}
 	}
+	
+	
 	//检索按钮事件响应
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		
 		if(e.getSource()==button_select)
 		{
 			//点击“搜索”按钮，获取当前输入文本框中的文本（不获取"书名/作者"），进行检索
 			if(!textField_select.getText().equals("书名/作者")) {
 				String select_key=textField_select.getText();
+				
+				
+				
 			   //怎么检索？？？
 			//往表格中添加新的行
 			//String[] rowValues= {};
