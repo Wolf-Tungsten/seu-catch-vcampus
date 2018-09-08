@@ -105,7 +105,7 @@ public class LibraryController extends BaseController
 			Response response = new Response();
 			ArrayList<LinkedTreeMap<String, Object>> booksMap = (ArrayList<LinkedTreeMap<String, Object>>) request
 					.getParams().get("booksList");
-			String token = (String) request.getParams().get("token");
+			String token =request.getToken();
 			try
 			{
 				checkToken(token);

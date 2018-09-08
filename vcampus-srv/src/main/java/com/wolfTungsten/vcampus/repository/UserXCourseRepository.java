@@ -10,6 +10,7 @@ import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Book;
+import com.wolfTungsten.vcampus.entity.Course;
 import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.entity.UserXCourse;
 
@@ -61,7 +62,11 @@ public class UserXCourseRepository extends CurdRepository<UserXCourse>
 		return uxcMaplist ; 
 	}
 	
-	
+	public ArrayList<UserXCourse> queryByUUID(String column,Object value) throws SQLException{
+		ArrayList<UserXCourse> courselist = (ArrayList<UserXCourse>) dao.queryForEq(column, value);
+		
+		return courselist;
+	}
 	
 	
 	
