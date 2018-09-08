@@ -94,6 +94,39 @@ public class CourseRepository	extends CurdRepository<Course>
 			return courselist.get(0);
 			
 		}
+		/**
+		 * 根据flag 和value  返回相应课程信息表 
+		 * @param column
+		 * @param value
+		 * @return
+		 * @throws SQLException
+		 */
+	public ArrayList<HashMap<String,Object>> queryByFlag(String column , Object value) throws SQLException{
+		ArrayList<Course> courseList = new ArrayList<>();
+		ArrayList<HashMap<String,Object>> courseInfoList = new ArrayList<>();
+		courseList =(ArrayList<Course>) dao.queryForEq(column, value);
+		for(Course course:courseList) {
+			HashMap<String,Object> courseinfo = new HashMap<>();
+			courseinfo.put(Course.UUID, course.getUuid().toString());
+			courseinfo.put(Course.LECTURER,course.getLecturer());
+			courseinfo.put(Course.NAME, course.getName());
+			courseInfoList.add(courseinfo);
+		}
+		return courseInfoList;
+	
+		}	
+	//根据学生id  返回 课程list
+	/**
+	 * 根据学生uuid 返回所选课程实体表
+	 * @param column
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
+	
+		
+
+		
 	
 	
 	

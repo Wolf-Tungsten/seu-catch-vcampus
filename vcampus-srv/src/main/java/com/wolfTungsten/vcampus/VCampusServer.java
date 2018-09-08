@@ -8,6 +8,7 @@ import java.util.HashMap;
 import com.wolfTungsten.vcampus.controller.BankController;
 import com.wolfTungsten.vcampus.controller.BaseController;
 import com.wolfTungsten.vcampus.controller.EduAdminController;
+import com.wolfTungsten.vcampus.controller.HelperController;
 import com.wolfTungsten.vcampus.controller.LibraryController;
 import com.wolfTungsten.vcampus.controller.MarketController;
 import com.wolfTungsten.vcampus.controller.UserController;
@@ -25,6 +26,7 @@ public class VCampusServer {
 		pathMap.put("book", new LibraryController());
 		pathMap.put("EduAdmin", new EduAdminController());
 		pathMap.put("market",new MarketController());
+		pathMap.put("helper",new HelperController());
 	}
 	
 	public HashMap<String, BaseController> getPathMap() {

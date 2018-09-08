@@ -10,12 +10,13 @@ public class Experiment
 {
 	public static final String UUID = "uuid";
 	public static final String NAME = "name";
-	public static final String COURSEUUID="courseUUID";
+
 	public static final String STARTTIME = "startTime";
 	public static final String DURATION ="duration";
 	public static final String LOCATION ="location";
 	public static final String CREATETIME ="createTime";
 	public static final String UPDATETIME = "updateTime";
+	public static final String COURSE_UUID = "courseUUID";
 	
 	@DatabaseField(generatedId = true, columnName = Experiment.UUID)
 	private UUID uuid;
@@ -31,10 +32,20 @@ public class Experiment
 	private long createTime;
 	@DatabaseField(columnName = Experiment.UPDATETIME)
 	private long updateTime;
-	@DatabaseField(columnName = Experiment.COURSEUUID)
+	@DatabaseField(columnName = Experiment.COURSE_UUID)
 	private String courseUUID ;
 	public Experiment() {
 		
+	}
+
+	public String getCourseUUID()
+	{
+		return courseUUID;
+	}
+
+	public void setCourseUUID(String courseUUID)
+	{
+		this.courseUUID = courseUUID;
 	}
 
 	public UUID getUuid()

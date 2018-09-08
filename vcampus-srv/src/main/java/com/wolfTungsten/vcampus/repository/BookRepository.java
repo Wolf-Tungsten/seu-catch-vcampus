@@ -54,10 +54,7 @@ public class BookRepository extends CurdRepository<Book>
 		booksinfo.remove("uuid");
 		for(String columnName:booksinfo.keySet())
 		{
-			dao.update((PreparedUpdate<Book>)dao.updateBuilder()
-					.updateColumnValue(columnName, booksinfo.get(columnName)).where()
-					.eq(Book.UUID, UUID.fromString(bookUuid)).prepare());
-			updateBuilder.updateColumnValue(columnName, booksinfo.get(columnName));
+			updateBuilder.updateColumnValue(columnName, booksinfo.get(columnName)).update();
 		}
 
 	}
@@ -113,6 +110,7 @@ public class BookRepository extends CurdRepository<Book>
 		return books.get(0);
 		
 	}
+	
 	public void updateByflag(String uuid,String column,Object value) throws SQLException {
 		dao.update((PreparedUpdate<Book>)dao.updateBuilder()
 				.updateColumnValue(column,value )

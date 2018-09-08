@@ -25,6 +25,7 @@ public class MarketController extends BaseController {
 		this.addHandle("queryBySeller", queryBySellerHandle);
 		this.addHandle("purchase", purchaseHandle);
 		this.addHandle("deleteGoods", deleteGoodsHandle);
+
 	}
 	
 	//添加商品的Handle
@@ -101,10 +102,13 @@ public class MarketController extends BaseController {
 				e.printStackTrace();
 				return response;
 			}
+
 		}
 
 	};//end of queryByNameHandle
 	
+
+
 private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 		
 		@Override
@@ -127,11 +131,9 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 
 			}
 		}
-		};
+	};
 
-
-		private BaseController.BaseHandle purchaseHandle = new BaseHandle() 
-		{
+		private BaseController.BaseHandle purchaseHandle = new BaseHandle() {
 			
 			@Override
 			public Response work(Request request)
@@ -148,7 +150,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				try
 				{
 					orm.tradingRecordRepository.addTradingRecord(buyer, seller, price, createTime);
-//					orm.goodsRepository.updateGood(uuid, name, seller);
+
 					response.setSuccess(true);
 					return response;	
 				} catch (SQLException e)
@@ -160,6 +162,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				}
 			}
 		};
+
 		
 		private BaseController.BaseHandle deleteGoodsHandle = new BaseHandle() {
 			//待测试
@@ -183,6 +186,25 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			}
 		};
 };
+
+
+
+			//在这里用ormlite的方法给数据库写入数据
+//			try {
+//				orm.goodsRepository.addGoods(name, description, seller, price, amount, image);
+//				response.setSuccess(true);
+//				return response;
+//			}catch(SQLException e)
+//			{	
+//				e.printStackTrace();
+//				response.setSuccess(false);
+//				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+//				return response;
+//			}
+//			
+//		}
+//	};
+//	
 
 
 

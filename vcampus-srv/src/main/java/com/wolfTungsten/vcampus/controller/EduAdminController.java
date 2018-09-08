@@ -24,6 +24,7 @@ public class EduAdminController extends BaseController
 		this.pathMap.put("schedule", scheduleHandle);
 		this.pathMap.put("dropCourse", dropCourseHandle);
 		this.pathMap.put("studentlist", studentlistHandle);
+		this.pathMap.put("queryByName", queryByNameHandle);
 		
 	}
 	//已测试
@@ -81,11 +82,45 @@ public class EduAdminController extends BaseController
 			}
 		}
 	};
+	//未测试
+	/**
+	 * 搜索课程信息
+	 */
+	private BaseController.BaseHandle queryByNameHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String coursename = (String)request.getParams().get(Course.NAME);
+			String token = request.getToken();
+			
+			
+			try
+			{
+				checkToken(token);
+				ArrayList<HashMap<String,Object>> courseMaplist =
+						orm.courseRepository.queryByFlag(Course.NAME, coursename);
+				response.setSuccess(true);
+				response.getBody().put("courseMaplist", courseMaplist);
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+
+		}
+	};
 	
 	//删除课程 管理端功能
 	//已测试
 	//前端传token 课程的uuid 
-	public BaseController.BaseHandle deleteCourse = new BaseHandle()
+	private BaseController.BaseHandle deleteCourse = new BaseHandle()
 	{
 		
 		@Override
@@ -114,7 +149,7 @@ public class EduAdminController extends BaseController
     //更改课程信息 管理端功能
 	//已测试
 	//前端传token  ArrayList<LinkedTreeMap<String, Object>> courseMaplist
-	public BaseController.BaseHandle updateCourse = new BaseHandle()
+	private BaseController.BaseHandle updateCourse = new BaseHandle()
 	{
 		
 		@Override
@@ -145,8 +180,8 @@ public class EduAdminController extends BaseController
 	};
 	//选课请求
 	//前端传 token 和课程uuid 
-	//未测试
-	public BaseController.BaseHandle selCourseHandle = new BaseHandle()
+	//已测试
+	private BaseController.BaseHandle selCourseHandle = new BaseHandle()
 	{
 		
 		@Override
@@ -174,7 +209,7 @@ public class EduAdminController extends BaseController
 	};
 	//前端传token 和课程uuid 
 	//退课
-	public BaseController.BaseHandle dropCourseHandle = new BaseHandle()
+	private BaseController.BaseHandle dropCourseHandle = new BaseHandle()
 	{
 		
 		@Override
@@ -204,7 +239,7 @@ public class EduAdminController extends BaseController
 	//查学生课表
 	//传token 
 	//已测试
-	public BaseController.BaseHandle scheduleHandle = new BaseHandle()
+	private BaseController.BaseHandle scheduleHandle = new BaseHandle()
 	{
 		
 		@Override
@@ -243,8 +278,8 @@ public class EduAdminController extends BaseController
 			
 		}
 	};
-	//未测试
-	public BaseController.BaseHandle studentlistHandle = new BaseHandle()
+	//已测试
+	private BaseController.BaseHandle studentlistHandle = new BaseHandle()
 	{
 		
 		@Override
@@ -253,7 +288,7 @@ public class EduAdminController extends BaseController
 			Response response = new Response();
 			String token = request.getToken();
 		
-			//String courseuuid = (String)request.getParams().get(Course.UUID);
+			
 			String teachername = (String)request.getParams().get(Course.LECTURER);
 			String courseName = (String)request.getParams().get(Course.NAME);
 			
@@ -292,5 +327,6 @@ public class EduAdminController extends BaseController
 			
 		}
 	};
+	
 	
 }

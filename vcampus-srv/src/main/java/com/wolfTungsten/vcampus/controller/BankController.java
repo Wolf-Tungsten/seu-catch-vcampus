@@ -70,11 +70,12 @@ public class BankController extends BaseController{
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
 			String from=(String)request.getParams().get(TradingRecord.FROM);
 			String to=(String)request.getParams().get(TradingRecord.TO);
-			long createTime = System.currentTimeMillis() / 1000;
-			//String token = (String)request.getParams().get(Token.TOKEN);
+			long createTime = System.currentTimeMillis() / 1000;//时间戳
+			String token = (String)request.getParams().get(Token.TOKEN);
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
 			try
 			{
+				orm.tokenRepository.checkToken(token);
 				orm.accountBalanceRepository.check(userid, secretPassword);
 				orm.tradingRecordRepository.addTradingRecord(from,to,value,createTime);
 				response.setSuccess(true);		
@@ -98,9 +99,11 @@ public class BankController extends BaseController{
     		Response response = new Response();
     		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+    		String token = (String)request.getParams().get(Token.TOKEN);
     		double balance=0;
 			try
 			{
+				orm.tokenRepository.checkToken(token);
 				orm.accountBalanceRepository.check(userid, secretPassword);
 				balance=orm.tradingRecordRepository.calculateTo(userid)-orm.tradingRecordRepository.calculateFrom(userid);
 				response.getBody().put("balance", balance);
@@ -110,7 +113,7 @@ public class BankController extends BaseController{
 			{	
 				e.printStackTrace();
 				response.setSuccess(false);
-				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				response.getBody().put("result", "查询余额出错,"+e.getMessage());
 				return response;
 			
 			}
@@ -123,9 +126,11 @@ public class BankController extends BaseController{
     		Response response = new Response();
     		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+    		String token = (String)request.getParams().get(Token.TOKEN);
     		ArrayList<HashMap<String, Object>> toBill = new ArrayList<>();
     		try
 			{
+    			orm.tokenRepository.checkToken(token);
     			orm.accountBalanceRepository.check(userid,secretPassword);
     			orm.tradingRecordRepository.getBill(TradingRecord.TO, userid);
     			response.getBody().put("billMap", toBill);
@@ -135,7 +140,7 @@ public class BankController extends BaseController{
 			{	
 				e.printStackTrace();
 				response.setSuccess(false);
-				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				response.getBody().put("result", "查询收入账单出错,"+e.getMessage());
 				return response;
 			
 			}
@@ -149,9 +154,11 @@ public class BankController extends BaseController{
     		Response response = new Response();
     		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+    		String token = (String)request.getParams().get(Token.TOKEN);
     		ArrayList<HashMap<String, Object>> fromBill = new ArrayList<>();
     		try
 			{
+    			orm.tokenRepository.checkToken(token);
     			orm.accountBalanceRepository.check(userid,secretPassword);
     			orm.tradingRecordRepository.getBill(TradingRecord.FROM, userid);
     			response.getBody().put("billMap", fromBill);
@@ -161,7 +168,7 @@ public class BankController extends BaseController{
 			{	
 				e.printStackTrace();
 				response.setSuccess(false);
-				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				response.getBody().put("result", "查询支出账单出错,"+e.getMessage());
 				return response;
 			
 			}
@@ -175,9 +182,11 @@ public class BankController extends BaseController{
     		Response response = new Response();
     		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+    		String token = (String)request.getParams().get(Token.TOKEN);
     		ArrayList<TradingRecord> bill=new ArrayList<>();
     		try
 			{
+    			orm.tokenRepository.checkToken(token);
     			orm.accountBalanceRepository.check(userid, secretPassword);
     			bill=orm.tradingRecordRepository.getBill(userid);
     			response.getBody().put("bill", bill);
@@ -187,7 +196,7 @@ public class BankController extends BaseController{
 			{	
 				e.printStackTrace();
 				response.setSuccess(false);
-				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				response.getBody().put("result", "查询总账单出错,"+e.getMessage());
 				return response;
 			
 			}
@@ -201,8 +210,10 @@ public class BankController extends BaseController{
     		Response response = new Response();
     		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+			String token = (String)request.getParams().get(Token.TOKEN);
 			try
 			{
+				orm.tokenRepository.checkToken(token);
     			orm.accountBalanceRepository.changeSecretPassword(userid, secretPassword, secretPassword);
 				response.setSuccess(true);		
 				return response;	
@@ -210,7 +221,7 @@ public class BankController extends BaseController{
 			{	
 				e.printStackTrace();
 				response.setSuccess(false);
-				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
+				response.getBody().put("result", "修改密码出错,"+e.getMessage());
 				return response;
 			
 			}
