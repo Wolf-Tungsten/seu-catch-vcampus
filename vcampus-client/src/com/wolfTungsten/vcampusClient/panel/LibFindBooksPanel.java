@@ -32,7 +32,8 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	private JTextField textField_select;
 	JButton button_select;
 	CardLayout cardLayout=new CardLayout();
-	
+	DefaultTableModel tableModel;
+	JTable table;
 	// Create the panel.
 	public LibFindBooksPanel() {
 		setSize(736,600);
@@ -52,10 +53,6 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//“搜索”按钮
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_select.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
 		button_select.setBounds(590, 20, 126, 36);
 		button_select.addActionListener(this);
 		add(button_select);		
@@ -72,8 +69,8 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//==============这些值传过来的时候就带有“未借出”“已借出”的状态，方便下面判断是否加“借阅”按钮,yhd说偷偷摸摸加了
 		//==============测试数据===========================================
 		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
-		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		JTable table=new JTable(tableModel);
+		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
+		table=new JTable(tableModel);
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
@@ -122,6 +119,9 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 			if(!textField_select.getText().equals("书名/作者")) {
 				String select_key=textField_select.getText();
 			   //怎么检索？？？
+			//往表格中添加新的行
+			//String[] rowValues= {};
+		    //tableModel.addRow(rowValues);
 			}
 		}
 	}
