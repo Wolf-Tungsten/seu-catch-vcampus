@@ -47,7 +47,6 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	JTable table;
 	String token ;
 
-	
 
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
@@ -68,10 +67,6 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//“搜索”按钮
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
-
-		
-
-
 
 		button_select.setBounds(590, 20, 126, 36);
 		button_select.addActionListener(this);
