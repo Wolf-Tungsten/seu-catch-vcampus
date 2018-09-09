@@ -49,54 +49,9 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		}
 	}
 	
-	public Boolean changeSecretPassword(String userid,String oldPassword,String newPassword)throws SQLException{
-		if(check(userid,oldPassword))
-		{
+	public void changeSecretPassword(String newPassword)throws SQLException{
 			new AccountBalance().setSecretPassword(newPassword);
-			return true;
-		}else {
-			throw new SQLException("用户名或支付密码错误！");
-		}
 	}
 	
-/*
-	//查询余额
-	public double getBalance(String userid,String secretPassword) throws SQLException {
-		if(check(userid,secretPassword))
-		{
-			return orm.tradingRecordRepository.calculateTo(userid)-orm.tradingRecordRepository.calculateFrom(userid);
-		}else {
-			throw new SQLException("用户名或支付密码错误！");
-		}
-	}
-	
-	//查询支出账单
-	public List<TradingRecord> getFromBill(String userid,String secretPassword) throws SQLException {
-		if(check(userid,secretPassword))
-		{
-			return orm.tradingRecordRepository.getFromBill(userid);
-		}else {
-			throw new SQLException("用户名或支付密码错误！");
-		}
-	}
-	
-	//查询收入账单
-	public List<TradingRecord> getToBill(String userid,String secretPassword) throws SQLException {
-		if(check(userid,secretPassword))
-		{
-			return orm.tradingRecordRepository.getToBill(userid);
-		}else {
-			throw new SQLException("用户名或支付密码错误！");
-		}
-	}
-	
-	public List<TradingRecord> getBill(String userid,String secretPassword) throws SQLException {
-		if(check(userid,secretPassword))
-		{
-			return orm.tradingRecordRepository.getBill(userid);
-		}else {
-			throw new SQLException("用户名或支付密码错误！");
-		}
-	}
-	*/
+
 }

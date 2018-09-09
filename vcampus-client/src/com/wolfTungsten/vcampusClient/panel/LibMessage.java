@@ -12,7 +12,13 @@ import javax.swing.table.DefaultTableModel;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import com.wolfTungsten.vcampusClient.component.TableReBorButtonEditor;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
 
 public class LibMessage extends JPanel {
 	JLabel label_cardNum,label_name;
@@ -22,6 +28,9 @@ public class LibMessage extends JPanel {
 	String[][] tableValues;
 	String name;
 	String cardnum;
+	private JButton button_returnbook;
+	private JLabel lblTips;
+	private JTextArea textArea;
 	/**
 	 * Create the panel.
 	 */
@@ -34,7 +43,7 @@ public class LibMessage extends JPanel {
 		setLayout(null);//绝对布局
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 76, 696, 514);
+		scrollPane.setBounds(20, 76, 696, 428);
 		add(scrollPane);
 		
 		String[] columnNames= {"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","续借状态"};//定义表格列名的数组
@@ -60,6 +69,12 @@ public class LibMessage extends JPanel {
 		 table.getColumn("续借状态").setCellEditor(new TableReBorButtonEditor(new JCheckBox(),token));
 		//我这里无法获取更改后的“续借状态”列里的信息，界面上点击续借后“续借”按钮会变为不可点击的“不可续借”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableReBorButtonEditor()里有返回
+		 
+		 /*
+		  * yhd看过来，我从这里开始添加的
+		  */
+		 table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//设置表格的选择模式为单选
+		 
 		scrollPane.setViewportView(table);
 		
 		label_cardNum = new JLabel("一卡通号：");
@@ -89,5 +104,35 @@ public class LibMessage extends JPanel {
 		textField_name.setText(name);
 		add(textField_name);
 		textField_name.setColumns(10);
+		/*
+		 * 还书按钮在这里
+		 */
+		button_returnbook = new JButton("归还此书");
+		button_returnbook.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		button_returnbook.setBounds(620, 528, 96, 33);
+		button_returnbook.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int selectedRow=table.getSelectedRow();
+				if(selectedRow!=-1) {
+			//		tableModel.setValueAt("归还时间（我没有）", selectedRow, 5);
+					tableModel.setValueAt("已归还", selectedRow, 6);
+					tableModel.setValueAt("/", selectedRow, 7);
+					}
+				}
+		});
+		add(button_returnbook);
+		
+		lblTips = new JLabel("Tips：");
+		lblTips.setFont(new Font("微软雅黑", Font.BOLD, 12));
+		lblTips.setBounds(20, 514, 54, 15);
+		add(lblTips);
+		
+		textArea = new JTextArea();
+		textArea.setText("每本书的借阅期限为30天，在未过期时可续借一次，续借期限为30天。未过期前，选中要归还的书后点击”归还此书“，即可正常还书。");
+		textArea.setBounds(84, 514, 415, 47);
+		textArea.setLineWrap(true);
+		textArea.setOpaque(false);
+		textArea.setEditable(false);
+		add(textArea);
 	}
 }

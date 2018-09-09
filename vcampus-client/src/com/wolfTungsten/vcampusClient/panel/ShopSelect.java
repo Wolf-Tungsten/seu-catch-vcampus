@@ -34,7 +34,7 @@ public class ShopSelect extends JPanel implements ActionListener{
 		add(button_select);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(58, 100, 623, 360);
+		scrollPane.setBounds(58, 100, 623, 436);
 		add(scrollPane);
 	}
 
