@@ -7,6 +7,8 @@ import java.util.HashMap;
 
 import java.util.UUID;
 
+import org.mockito.internal.matchers.And;
+
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -30,7 +32,8 @@ public class GoodsRepository extends CurdRepository<Goods>
 	}
 	
 	public void addGoods(String name,String description,String seller,double price, int amount,String image) throws SQLException
-	{	//这里每次上架的商品都不一样
+	{	
+		//这里每次上架的商品都不一样
 		//是否要给上架的商品做检验
 		Goods goods = new Goods();
 		goods.setName(name);
@@ -39,6 +42,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		goods.setPrice(price);
 		goods.setSeller(seller);
 		goods.setImage(image);
+		goods.setSold(false);
 		dao.create(goods);
 	}
 	
@@ -47,7 +51,8 @@ public class GoodsRepository extends CurdRepository<Goods>
 		//新建名为goodlist的Goods类型的list和HashMap的list
 		ArrayList<Goods> goodslist = new ArrayList<>();
 		ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
-		goodslist = (ArrayList<Goods>)dao.queryForAll();
+		//这里会包括历史上所有卖掉的商品和仍然在市场里的商品
+		goodslist = (ArrayList<Goods>)dao.queryForEq(Goods.SOLD, false);
 		for(Goods goods:goodslist) {
 			HashMap<String, Object>goodsinfo = new HashMap<>();
 			goodsinfo.put(Goods.UUID,goods.getUuid().toString());
@@ -103,10 +108,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 				.where().eq(Goods.UUID, goodsUuid).prepare());
 	}
 	
-	//根据uuid购买商品
-	public void purchaseGoods(String uuid) {
-		
-	}
+
 	
 };
 	

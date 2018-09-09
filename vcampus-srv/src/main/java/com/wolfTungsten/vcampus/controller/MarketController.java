@@ -65,10 +65,10 @@ public class MarketController extends BaseController {
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
-			String token = (String) request.getParams().get("token");
+			//String token = request.getToken();
 			ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
 			try {
-				checkToken(token);
+				//checkToken(token);
 				goodsinfolist =  orm.goodsRepository.inquireAllGoods();
 				response.getBody().put("goodsInfoMapList", goodsinfolist);
 				

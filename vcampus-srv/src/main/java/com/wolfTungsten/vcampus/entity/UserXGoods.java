@@ -12,7 +12,7 @@ public class UserXGoods
 	public static final String USER_ID = "user_id";
 	public static final String GOOD_ID = "good_id";
 	public static final String COST = "cost";
-//	public static final String SOLD = "sold";
+	public static final String IN_CAR = "in_car";
 	
 	@DatabaseField(generatedId = true, columnName = UserXGoods.UUID)
 	private UUID uuid ;
@@ -22,9 +22,9 @@ public class UserXGoods
 	private String good_id;
 	@DatabaseField(columnName = UserXGoods.COST)
 	private int cost;
-//	//sold属性用于表示用户购买过的商品 这样的商品仍然在数据库里
-//	@DatabaseField(columnName = UserXGoods.SOLD)
-//	private boolean sold;
+	//in_car属性用于表示用户加入购物车的商品，如果不在购物车里则表示是用户已经购买的商品
+	@DatabaseField(columnName = UserXGoods.IN_CAR)
+	private boolean in_car;
 	
 	public UserXGoods() {
 		
