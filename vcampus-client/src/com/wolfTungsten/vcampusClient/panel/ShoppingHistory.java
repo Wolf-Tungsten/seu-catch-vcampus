@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class ShoppingHistory extends JPanel {
-	String[] columnNames= {"交易时间","交易物品","交易金额"};//定义表格列名的数组
+	String[] columnNames= {"时间","交易物品","数量","交易金额"};//定义表格列名的数组
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;

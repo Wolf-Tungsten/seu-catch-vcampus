@@ -25,7 +25,7 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 	
 	public void addUserXBook(String useruuid,String bookuuid,int isReturn,long borrowdate) throws SQLException {
 		List<UserXBook> list = dao.queryForEq(UserXBook.BOOK_ID, bookuuid);
-		if(list.size()!=0)throw new SQLException("该书已被借！");
+		if(list.size()!=0&&list.get(0).getIsReturn()==0)throw new SQLException("该书已被借！");
 		UserXBook uxb= new UserXBook();
 		uxb.setUser_id(useruuid);
 		uxb.setBook_id(bookuuid);
@@ -41,9 +41,9 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
 				.updateColumnValue(column, i)
 				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
-		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
-				.updateColumnValue(UserXBook.RETURNDATE, System.currentTimeMillis()/1000)
-				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
+//		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
+//				.updateColumnValue(UserXBook.RETURNDATE, System.currentTimeMillis()/1000)
+//				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
 		
 		List<UserXBook> uxblist = dao.query((PreparedQuery<UserXBook>)dao
 				.queryBuilder().where().eq(UserXBook.UUID, UUID.fromString(uuid)).prepare());
@@ -65,7 +65,10 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 	}
 	
 	public void deleteUserXBook(String bookUuid) throws SQLException {
-		dao.deleteById(bookUuid);
+		UUID bookuuid =UUID.fromString(bookUuid);
+		
+		dao.delete((PreparedDelete<UserXBook>)dao.deleteBuilder()
+				.where().eq(UserXBook.UUID, bookuuid).prepare());
 	}
 	
 	//判断是否可以续借，如果可以返回新到期时间
@@ -74,9 +77,9 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		List<UserXBook> booklist =dao.queryForEq(UserXBook.UUID, UUID.fromString(uuid));
 		if(booklist.size()==0)throw new SQLException("凉了，没得续借");
 		long borrowdate = booklist.get(0).getBorrowdate();
-		long returndate = booklist.get(0).getReturndate();
-		long newReturndate =returndate+duration;
-		if(returndate<System.currentTimeMillis()/1000)
+		long deadDate = booklist.get(0).getDeaddate();
+		long newReturndate =deadDate+duration;
+		if(deadDate<System.currentTimeMillis()/1000)
 			throw new Exception("超过规定时间未还书，请先还书!");
 		if(newReturndate-borrowdate >2*duration) {
 			throw new Exception("你已经续借过了，每人只能续借一次");
@@ -107,9 +110,10 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		
 		if(list.size()==0)return true;
 		else {
-			UserXBook  uxb = list.get(0);
-			if(uxb.getIsReturn()==1) return true;
-			else return false;
+			for(UserXBook uxb : list) {
+				if(uxb.getIsReturn()==0)return false;
+			}
+		return true;
 		}
 	
 	}

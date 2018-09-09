@@ -243,8 +243,7 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 				frame_1.setVisible(true);
 			} else {
 				 JOptionPane.showMessageDialog(null, "登录失败，请检查用户名和密码是否正确", "登录失败",JOptionPane.ERROR_MESSAGE);  
-			}
-			
+			}			
 		}
 		if (e.getSource() == registerButton) {
 			this.hide();

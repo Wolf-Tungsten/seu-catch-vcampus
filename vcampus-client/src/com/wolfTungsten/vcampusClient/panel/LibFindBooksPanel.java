@@ -40,13 +40,13 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	private JTextField textField_select;
 	JButton button_select;
 	CardLayout cardLayout=new CardLayout();
-
+	
 	String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
 	String token ;
-
+	JScrollPane scrollPane ;
 
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
@@ -72,7 +72,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		button_select.addActionListener(this);
 		add(button_select);		
 		
-		JScrollPane scrollPane = new JScrollPane();//创建显示表格的滚动面板
+		scrollPane = new JScrollPane();//创建显示表格的滚动面板
 		scrollPane.setBounds(20, 76, 696, 514);
 		add(scrollPane);
 		
@@ -139,6 +139,9 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 				Client.Response response = Client.fetch(request);
 				if(response.getSuccess())
 				{
+					
+					tableModel.setRowCount(0);
+					
 					ArrayList<LinkedTreeMap<String, Object>> booksinfoList =
 							(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("booksInfoMapList");
 //					String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"}
