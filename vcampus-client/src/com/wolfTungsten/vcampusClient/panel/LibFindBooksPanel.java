@@ -47,6 +47,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	JTable table;
 	String token ;
 
+
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
@@ -84,7 +85,9 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//==============这些值传过来的时候就带有“未借出”“已借出”的状态，方便下面判断是否加“借阅”按钮,yhd说偷偷摸摸加了
 		//==============测试数据===========================================
 
+
 		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
+
 
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
 		table=new JTable(tableModel);
@@ -130,7 +133,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 				String select_key=textField_select.getText();
 				Client.Request request = new Request();
 				request.setPath("book/queryByFlag");
-				request.setToken("5d9527a84c9350bfdba0e093985978cd");
+				request.setToken(token);
 				request.getParams().put("author", select_key);
 				request.getParams().put("name", select_key);
 				Client.Response response = Client.fetch(request);
@@ -162,7 +165,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 							}
 						 }
 						//”借阅“状态按钮添加，具体看component里的TableButtonEidtor
-						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox()));		
+						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));		
 				}else {
 					 JOptionPane.showMessageDialog(null, "没有找到此书", "查询失败",JOptionPane.ERROR_MESSAGE); 
 					

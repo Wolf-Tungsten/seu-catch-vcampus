@@ -15,6 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import java.util.List;
 
 import com.google.gson.internal.LinkedTreeMap;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.PreparedUpdate;
@@ -88,7 +89,16 @@ public class GoodsRepository extends CurdRepository<Goods>
 		return goodsinfolist;
 	}//end
 	
+	private void updateGoods(HashMap<String, Object> goodsinfo) throws SQLException {
+		//修改商品信息，通过传一个HashMap
+		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
+		String goodsUuid = (String)goodsinfo.get(Goods.UUID);
+		updateBuilder.where().eq("uuid", goodsUuid);
+	}
+	
+	//更改商品的信息？
 	private void updateGoods(LinkedTreeMap<String, Object> goodsinfo) throws SQLException {
+		
 		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
 		String goodsUuid = (String)goodsinfo.get("uuid");
 		updateBuilder.where().eq("uuid", goodsUuid);
@@ -101,14 +111,22 @@ public class GoodsRepository extends CurdRepository<Goods>
 			updateBuilder.updateColumnValue(columnName, goodsinfo.get(columnName));
 		}
 	}
-
+	
+	//那么前端怎么传给我这个uuid呢(用户登录后获取他的uuid）
 	public void deleteGoodsByUuid(String uuid) throws SQLException {
 		UUID goodsUuid = UUID.fromString(uuid);
 		dao.delete((PreparedDelete<Goods>)dao.deleteBuilder()
 				.where().eq(Goods.UUID, goodsUuid).prepare());
 	}
 	
-
+	public void deleteAllGoods() throws SQLException
+	{
+		//新建一个deletebuilder
+		//删除掉所有的uuid不是空的行
+		DeleteBuilder<Goods, String> deleteBuilder= dao.deleteBuilder();
+		deleteBuilder.where().isNotNull(Goods.UUID);
+		deleteBuilder.delete();
+	}
 	
 };
 	

@@ -31,7 +31,8 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		uxb.setBook_id(bookuuid);
 		uxb.setReturn(isReturn);
 		uxb.setBorrowdate(borrowdate);
-		uxb.setReturndate(borrowdate+duration);
+		uxb.setReturndate(0);
+		uxb.setDeaddate(borrowdate+duration);
 		dao.create(uxb);
 	}
 	//update isreturn to true or false
@@ -40,6 +41,10 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
 				.updateColumnValue(column, i)
 				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
+		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
+				.updateColumnValue(UserXBook.RETURNDATE, System.currentTimeMillis()/1000)
+				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
+		
 		List<UserXBook> uxblist = dao.query((PreparedQuery<UserXBook>)dao
 				.queryBuilder().where().eq(UserXBook.UUID, UUID.fromString(uuid)).prepare());
 		return uxblist.get(0).getBook_id();
@@ -90,6 +95,7 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 			recordmap.put(UserXBook.ISRETURN, record.getIsReturn());
 			recordmap.put(UserXBook.BORROWDATE, record.getBorrowdate());
 			recordmap.put(UserXBook.RETURNDATE, record.getReturndate());
+			recordmap.put(UserXBook.DEADDATE,record.getDeaddate());
 			recordMaplist.add(recordmap);
 		}
 		return recordMaplist;			

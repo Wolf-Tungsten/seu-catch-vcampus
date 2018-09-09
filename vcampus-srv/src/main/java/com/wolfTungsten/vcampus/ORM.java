@@ -22,6 +22,7 @@ import com.wolfTungsten.vcampus.repository.UserXBookRepository;
 import com.wolfTungsten.vcampus.repository.UserXCourseRepository;
 import com.wolfTungsten.vcampus.repository.UserXExamRepository;
 import com.wolfTungsten.vcampus.repository.UserXExperimentRepository;
+import com.wolfTungsten.vcampus.repository.UserXGoodsRepository;
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
 
 // 
@@ -41,6 +42,8 @@ public class ORM {
 	public ExamRepository examRepository;
 	public ExperimentRepository experimentRepository;
 	public UserXExperimentRepository userXExperimentRepository;
+	public UserXGoodsRepository userXGoodsRepository;
+	
 
 	public CourseRepository courseRepository;
 
