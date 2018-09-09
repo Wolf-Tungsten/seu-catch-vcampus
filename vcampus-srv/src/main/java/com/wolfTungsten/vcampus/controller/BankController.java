@@ -7,6 +7,7 @@ import com.wolfTungsten.vcampus.utils.Request;
 import com.wolfTungsten.vcampus.utils.Response;
 import com.wolfTungsten.vcampus.entity.TradingRecord;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
+import com.wolfTungsten.vcampus.entity.User;
 
 public class BankController extends BaseController{
 	public BankController() {
@@ -27,16 +28,17 @@ public class BankController extends BaseController{
 			Response response = new Response();
 			String cardnum=(String)request.getParams().get(AccountBalance.CARDNUM);
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
-			String idCardNum=(String)request.getParams().get(AccountBalance.IDCARDNUM);
+			String idcardNum=(String)request.getParams().get(AccountBalance.IDCARDNUM);
+			String user_id=(String)request.getParams().get(User.UUID);
 			String token = request.getToken();
 			try
 			{
 				checkToken(token);
-				if(orm.userRepository.checkExist(cardnum, idCardNum))//检测是否存在该卡号
+				if(orm.userRepository.checkExist(cardnum, idcardNum))//检测是否存在该卡号
 				{
-					orm.accountBalanceRepository.addAccountBalance(cardnum, idCardNum, secretPassword);
-				}
-				response.setSuccess(true);		
+					orm.accountBalanceRepository.addAccountBalance(user_id,cardnum, idcardNum, secretPassword);
+					response.setSuccess(true);
+				}		
 				return response;	
 			} catch (SQLException e)
 			{	
@@ -67,7 +69,10 @@ public class BankController extends BaseController{
 				checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-				   orm.tradingRecordRepository.addTradingRecord(from,to,value,createTime);
+					if(orm.userRepository.checkTrade(from)&&orm.userRepository.checkTrade(to))
+					{
+					  orm.tradingRecordRepository.addTradingRecord(from,to,value,createTime);
+					}
 				   response.setSuccess(true);		
 				}
 				return response;	
@@ -97,7 +102,7 @@ public class BankController extends BaseController{
 				checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-				  balance=orm.tradingRecordRepository.calculateTo(userid)-orm.tradingRecordRepository.calculateFrom(userid);
+				  balance=orm.tradingRecordRepository.calculateBalance(userid);
 				  response.getBody().put("balance", balance);
 				  response.setSuccess(true);
 				}
