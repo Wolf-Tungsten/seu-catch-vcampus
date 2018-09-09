@@ -24,6 +24,7 @@ import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
@@ -43,11 +44,12 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
+	String token ;
 	// Create the panel.
-	public LibFindBooksPanel() {
+	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
 		setLayout(null);//绝对布局
-		
+		token = Token;
 		//按书名/作者检索的输入文本框
 		textField_select= new JTextField();
 		textField_select.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -158,7 +160,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 						//”借阅“状态按钮添加，具体看component里的TableButtonEidtor
 						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox()));		
 				}else {
-					
+					 JOptionPane.showMessageDialog(null, "没有找到此书", "查询失败",JOptionPane.ERROR_MESSAGE); 
 					
 				}
 

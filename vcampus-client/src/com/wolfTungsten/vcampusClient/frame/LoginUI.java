@@ -239,7 +239,7 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 			System.out.println(String.format("token-%s", (String)response.getBody().get("token")));
 			if (response.getSuccess()) {
 				this.dispose();
-				FunctionFrame frame_1 = new FunctionFrame();
+				FunctionFrame frame_1 = new FunctionFrame((String)response.getBody().get("token"));
 				frame_1.setVisible(true);
 			} else {
 				 JOptionPane.showMessageDialog(null, "登录失败，请检查用户名和密码是否正确", "登录失败",JOptionPane.ERROR_MESSAGE);  

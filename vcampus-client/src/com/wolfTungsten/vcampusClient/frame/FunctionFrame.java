@@ -54,14 +54,14 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass;
 	static Point origin = new Point();
 	CardLayout cardLayout = new CardLayout();
-	
+	String token;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.frameBorderStyle.osLookAndFeelDecorated;
 				org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
-					FunctionFrame frame = new FunctionFrame();
+					FunctionFrame frame = new FunctionFrame("");
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -76,8 +76,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		//button.setBackground(Color.green);
 	}
 	@SuppressWarnings("deprecation")
-	public FunctionFrame() {
+	public FunctionFrame(String Token) {
+		
 		super();
+		token=Token;
 		this.setResizable(false);
 		this.setSize(800,600);
 		this.setLocationRelativeTo(null);
@@ -329,7 +331,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("1", panel_info);		
 		//图书馆=================================图书馆板块的面板们=======================================
 		//”图书检索“面板
-		panel_lib_select = new LibFindBooksPanel();
+		panel_lib_select = new LibFindBooksPanel(token);
 		panel_lib_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_1", panel_lib_select);
 		//“借还信息”面板
