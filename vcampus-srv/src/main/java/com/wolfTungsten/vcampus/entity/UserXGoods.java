@@ -12,6 +12,7 @@ public class UserXGoods
 	public static final String USER_ID = "user_id";
 	public static final String GOOD_ID = "good_id";
 	public static final String COST = "cost";
+//	public static final String SOLD = "sold";
 	
 	@DatabaseField(generatedId = true, columnName = UserXGoods.UUID)
 	private UUID uuid ;
@@ -21,6 +22,9 @@ public class UserXGoods
 	private String good_id;
 	@DatabaseField(columnName = UserXGoods.COST)
 	private int cost;
+//	//sold属性用于表示用户购买过的商品 这样的商品仍然在数据库里
+//	@DatabaseField(columnName = UserXGoods.SOLD)
+//	private boolean sold;
 	
 	public UserXGoods() {
 		

@@ -53,8 +53,9 @@ public class VCampusServer {
 			if (serverSocket != null) {
 				try {
 					serverSocket.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
+				} catch (IOException e) { 
+					// TODO Auto-generated catch 
+
 					e.printStackTrace();
 				}
 			}
