@@ -95,10 +95,11 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		//tips文本域
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		textArea.setText("银行账户在线充值并非实时到账，请耐心地等待1-2个工作日。账户\r\n密码将自动保存在本地浏览器，请勿在公共设备上使用此功能。");
-		textArea.setBounds(158, 414, 419, 49);
+		textArea.setText("银行账户在线充值并非实时到账，请耐心地等待1-2个工作日。账户密码将自动保存在本地浏览器，请勿在公共设备上使用此功能。");
+		textArea.setBounds(158, 414, 424, 49);
 		textArea.setOpaque(false);
 		textArea.setEditable(false);
+		textArea.setLineWrap(true);
 		add(textArea);
 	}
 	//按钮监听事件

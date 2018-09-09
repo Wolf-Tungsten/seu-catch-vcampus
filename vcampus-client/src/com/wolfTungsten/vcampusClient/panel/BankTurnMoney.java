@@ -79,10 +79,11 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 		
 		JTextArea txtrrn = new JTextArea();
 		txtrrn.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		txtrrn.setText("银行账户在线转账并非实时到账，请耐心地等待1-2个工作日。账户\r\n密码将自动保存在本地浏览器，请勿在公共设备上使用此功能。");
-		txtrrn.setBounds(158, 403, 427, 67);
+		txtrrn.setText("银行账户在线转账并非实时到账，请耐心地等待1-2个工作日。账户密码将自动保存在本地浏览器，请勿在公共设备上使用此功能。");
+		txtrrn.setBounds(158, 403, 431, 67);
 		txtrrn.setOpaque(false);
 		txtrrn.setEditable(false);
+		txtrrn.setLineWrap(true);
 		add(txtrrn);
 	}
 	@Override
