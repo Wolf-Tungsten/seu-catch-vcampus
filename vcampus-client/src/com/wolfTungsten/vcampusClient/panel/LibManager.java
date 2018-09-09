@@ -112,7 +112,7 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_add=new JPanel();
 		panel_buttom.add("add",panel_add);
 		panel_add.setLayout(null);
-		
+		/*		
 		textField_num = new JTextField("");
 		textField_num.setBounds(241, 60, 291, 21);
 		panel_add.add(textField_num);
@@ -121,7 +121,7 @@ public class LibManager extends JPanel implements ActionListener {
 		JLabel label_num = new JLabel("图书编号：");
 		label_num.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_num.setBounds(85, 62, 77, 15);
-		panel_add.add(label_num);
+		panel_add.add(label_num);*/
 		
 		JLabel label_name = new JLabel("书名：");
 		label_name.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -137,17 +137,18 @@ public class LibManager extends JPanel implements ActionListener {
 		label_publisher.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_publisher.setBounds(85, 184, 74, 15);
 		panel_add.add(label_publisher);
-		
-		JLabel label_time = new JLabel("入库时间：");
-		label_time.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_time.setBounds(82, 277, 74, 15);
-		panel_add.add(label_time);
-		
 		label_location = new JLabel("馆藏地点：");
 		label_location.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_location.setBounds(82, 234, 77, 15);
 		panel_add.add(label_location);
-/*		
+		
+		/*		JLabel label_time = new JLabel("入库时间：");
+		label_time.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_time.setBounds(82, 277, 74, 15);
+		panel_add.add(label_time);
+		
+		
+		
 		label_station = new JLabel("借阅状态：");
 		label_station.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_station.setBounds(82, 312, 74, 15);
@@ -226,13 +227,13 @@ public class LibManager extends JPanel implements ActionListener {
 		stationGroup.add(rdbtnNewRadioButton_3);
 		stationGroup.add(rdbtnNewRadioButton_4);
 		rdbtnNewRadioButton_3.setSelected(true);
-*/		
+	
 		DateChooser dateChooser = DateChooser.getInstance("yyyy-MM-dd");
 		textField_time = new JTextField("单击以选择日期");
 		textField_time.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		dateChooser.register(textField_time);
 		textField_time.setBounds(241, 275, 291, 21);
-		panel_add.add(textField_time);
+		panel_add.add(textField_time);*/	
 //		textField_time.setColumns(10);
 		
 		

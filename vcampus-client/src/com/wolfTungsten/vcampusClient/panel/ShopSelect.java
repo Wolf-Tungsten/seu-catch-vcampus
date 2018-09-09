@@ -12,10 +12,7 @@ import javax.swing.JScrollPane;
 
 public class ShopSelect extends JPanel implements ActionListener{
 	private JTextField textField_select;
-
-	/**
-	 * Create the panel.
-	 */
+	JButton button_select_goods ;
 	public ShopSelect() {
 		setSize(736,600);
 		setLayout(null);//绝对布局
@@ -27,11 +24,11 @@ public class ShopSelect extends JPanel implements ActionListener{
 		add(textField_select);
 		textField_select.setColumns(10);
 		
-		JButton button_select = new JButton("搜索");
-		button_select.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		button_select.setBounds(588, 38, 93, 23);
-		button_select.addActionListener(this);
-		add(button_select);
+		button_select_goods = new JButton("搜索");
+		button_select_goods.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		button_select_goods.setBounds(588, 38, 93, 23);
+		button_select_goods.addActionListener(this);
+		add(button_select_goods);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(58, 100, 623, 436);
@@ -39,8 +36,10 @@ public class ShopSelect extends JPanel implements ActionListener{
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==button_select_goods) {
+			
+		}
 		
 	}
 }
