@@ -23,7 +23,6 @@ public class JwcSelectCourses extends JPanel {
 	public JwcSelectCourses() {
 		setSize(736,600);
 		setLayout(null);
-		
 		String[][]tableValues= {};												   //表格数据数组
 		String[] columnNames = {"课程名称","任课老师","上课地点","上课时间","    "}; //表格列名 第五列空出来放置选课退课按钮
 		table = new JTable(tableValues,columnNames);

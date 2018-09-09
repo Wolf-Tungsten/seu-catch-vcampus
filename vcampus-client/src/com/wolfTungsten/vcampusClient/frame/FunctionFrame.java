@@ -31,6 +31,7 @@ import com.wolfTungsten.vcampusClient.panel.BankTurnMoney;
 import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
 import com.wolfTungsten.vcampusClient.panel.JwcExam;
 import com.wolfTungsten.vcampusClient.panel.JwcExperiment;
+import com.wolfTungsten.vcampusClient.panel.JwcManager;
 import com.wolfTungsten.vcampusClient.panel.JwcSelectCourses;
 import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
 import com.wolfTungsten.vcampusClient.panel.LibManager;
@@ -48,8 +49,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JPanel panel_lib_select,panel_lib_message,panel_lib_manager;
 	JLabel label_lib_exit,label_jwc_exit;
 	JLabel label_blank1,label_blank2,label_blank3;
-	JPanel panel_jwc_select,panel_jwc_curriculum,panel_jwc_exam,panel_jwc_experiment;
-	JLabel label_jwc_select,label_jwc_curriculum,label_jwc_exam,label_jwc_experiment;
+	JPanel panel_jwc_select,panel_jwc_curriculum,panel_jwc_exam,panel_jwc_experiment,panel_jwc_manager;
+	JLabel label_jwc_select,label_jwc_curriculum,label_jwc_exam,label_jwc_experiment,label_jwc_manager;
 	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass;
 	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass;
 	static Point origin = new Point();
@@ -234,9 +235,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_jwc_experiment.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_experiment);
 		
+		//”管理者“按钮（标签），关联JwcManager面板 ------------------------------权限
+		label_jwc_manager=new JLabel("管理者",JLabel.CENTER);
+		label_jwc_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_manager.setForeground(new Color(59,120,103));
+		label_jwc_manager.setBounds(0, 240,150, 50);
+		label_jwc_manager.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_manager);
+		
 		//虚假的空白标签
 		label_jwc_exit= new JLabel();
-		label_jwc_exit.setBounds(0,240,150,360);
+		label_jwc_exit.setBounds(0,290,150,310);
 		label_jwc_exit.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_exit);
 		
@@ -352,13 +361,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("jwc_2", panel_jwc_curriculum);	
 		
 		panel_jwc_exam=new JwcExam();
-		panel_jwc_exam.setBackground(Color.GREEN);
+		panel_jwc_exam.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_3", panel_jwc_exam);	
 		
 		
 		panel_jwc_experiment=new JwcExperiment();
-		panel_jwc_experiment.setBackground(Color.RED);
+		panel_jwc_experiment.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_4", panel_jwc_experiment);	
+		
+		panel_jwc_manager = new JwcManager();
+		panel_jwc_manager.setBackground(new Color(255, 255, 255));
+		panel_right.add("jwc_5", panel_jwc_manager);
 	    //购物系统================================购物系统板块的面板们=======================================
 		panel_shop = new JPanel();
 		panel_shop.setBackground(new Color(255, 204, 255));
@@ -453,8 +466,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_experiment) {
 				cardLayout.show(panel_right, "jwc_4");
-				HideAllMessagePanel();
-				
+				HideAllMessagePanel();	
+			} else if (e.getSource() == label_jwc_manager) {
+				cardLayout.show(panel_right, "jwc_5");
+				HideAllMessagePanel();	
 			} else if (e.getSource() == button_shop) {
 				 cardLayout.show(panel_right, "4");
 				 panel_message_info.setVisible(false); 
@@ -582,6 +597,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_jwc_experiment) {
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(Color.WHITE);
+		 } else if (e.getSource() == label_jwc_manager) {
+			 label_jwc_manager.setOpaque(true);
+			 label_jwc_manager.setBackground(Color.WHITE);
 		 } 
 		 
 		 if (e.getSource() == label_bank_save_withdraw) {
@@ -693,6 +711,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_jwc_experiment) {
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_jwc_manager) {
+			 label_jwc_manager.setOpaque(true);
+			 label_jwc_manager.setBackground(new Color(230,230,230));
 		 }
 		
 		if (e.getSource() == label_bank_save_withdraw) {

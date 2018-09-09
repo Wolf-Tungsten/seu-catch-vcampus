@@ -1,4 +1,4 @@
-﻿package com.wolfTungsten.vcampus;
+﻿package src.main.java.com.wolfTungsten.vcampus;
 
 import java.sql.SQLException;
 
