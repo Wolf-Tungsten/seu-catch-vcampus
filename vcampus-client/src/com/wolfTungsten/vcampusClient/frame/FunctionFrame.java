@@ -919,14 +919,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			Date dated = new Date(deaddate);
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd ");
 			tablevalue[i][4]= df.format(dateb);
-			if(returndate!=0)tablevalue[i][5]=df.format(dater);
+			if(returndate!=0) {
+				tablevalue[i][5]=df.format(dater);
+			}
 			else tablevalue[i][5] = "未归还";
 			tablevalue[i][6] = df.format(dated);
-			System.out.println(deaddate-borrowdate);
+			
 			if ((deaddate - borrowdate)/1000 < 59 * 24 * 3600)
 				tablevalue[i][7] = "可续借";
 			else
 				tablevalue[i][7] = "不可续借";
+			if(returndate!=0)tablevalue[i][7]="/";
 		}
 		borrowRecord.put("tablevalue", tablevalue);
 		borrowRecord.put("name", response.getBody().get("username"));

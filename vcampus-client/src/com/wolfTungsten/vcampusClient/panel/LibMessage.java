@@ -3,12 +3,18 @@ package com.wolfTungsten.vcampusClient.panel;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import com.wolfTungsten.vcampusClient.component.TableReBorButtonEditor;
 import java.awt.Font;
@@ -114,9 +120,25 @@ public class LibMessage extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int selectedRow=table.getSelectedRow();
 				if(selectedRow!=-1) {
+//					request.setPath("book/returnBook");
+//					request.getParams().put("uuid","c942a5d9-cc21-4d08-8847-ce94a68b2364");
+//					response = Client.fetch(request);
+					Client.Request request = new Request();
+					request.setPath("book/returnBook");
+					String uuid = (String) tableModel.getValueAt(selectedRow, 0);
+					request.setToken(token);
+					request.getParams().put("uuid", uuid);
+					Response response = Client.fetch(request);
+					if (response.getSuccess())
+					{
+						tableModel.setValueAt("已归还", selectedRow, 6);
+						tableModel.setValueAt("/", selectedRow, 7);
+					} else
+						JOptionPane.showMessageDialog(null, "归还失败", "失败", JOptionPane.ERROR_MESSAGE);
+						
 			//		tableModel.setValueAt("归还时间（我没有）", selectedRow, 5);
-					tableModel.setValueAt("已归还", selectedRow, 6);
-					tableModel.setValueAt("/", selectedRow, 7);
+					
+					
 					}
 				}
 		});
