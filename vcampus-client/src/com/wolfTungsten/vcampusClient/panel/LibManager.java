@@ -102,8 +102,8 @@ public class LibManager extends JPanel implements ActionListener {
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
-		 table.setDefaultRenderer(Object.class, cr);
-		 
+		table.setDefaultRenderer(Object.class, cr);
+		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(20, 68, 696, 443);
 		panel_all.add(scrollPane);

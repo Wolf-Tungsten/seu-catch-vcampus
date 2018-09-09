@@ -41,9 +41,9 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
 				.updateColumnValue(column, i)
 				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
-		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
-				.updateColumnValue(UserXBook.RETURNDATE, System.currentTimeMillis()/1000)
-				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
+//		dao.update((PreparedUpdate<UserXBook>)dao.updateBuilder()
+//				.updateColumnValue(UserXBook.RETURNDATE, System.currentTimeMillis()/1000)
+//				.where().eq(UserXBook.UUID,UUID.fromString(uuid) ).prepare());
 		
 		List<UserXBook> uxblist = dao.query((PreparedQuery<UserXBook>)dao
 				.queryBuilder().where().eq(UserXBook.UUID, UUID.fromString(uuid)).prepare());
@@ -74,9 +74,9 @@ public class UserXBookRepository extends CurdRepository<UserXBook>
 		List<UserXBook> booklist =dao.queryForEq(UserXBook.UUID, UUID.fromString(uuid));
 		if(booklist.size()==0)throw new SQLException("凉了，没得续借");
 		long borrowdate = booklist.get(0).getBorrowdate();
-		long returndate = booklist.get(0).getReturndate();
-		long newReturndate =returndate+duration;
-		if(returndate<System.currentTimeMillis()/1000)
+		long deadDate = booklist.get(0).getDeaddate();
+		long newReturndate =deadDate+duration;
+		if(deadDate<System.currentTimeMillis()/1000)
 			throw new Exception("超过规定时间未还书，请先还书!");
 		if(newReturndate-borrowdate >2*duration) {
 			throw new Exception("你已经续借过了，每人只能续借一次");

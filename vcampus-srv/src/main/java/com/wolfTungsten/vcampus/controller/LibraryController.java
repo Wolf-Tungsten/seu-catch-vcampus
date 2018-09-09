@@ -295,6 +295,7 @@ public class LibraryController extends BaseController
 			{
 				checkToken(token);
 				orm.userXBookRepository.updateUserXBook(uxbuuid, UserXBook.ISRETURN, 1);
+				orm.userXBookRepository.updateUserXBook(uxbuuid, UserXBook.RETURNDATE, System.currentTimeMillis()/1000);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -320,7 +321,7 @@ public class LibraryController extends BaseController
 		{
 			Response response = new Response();
 			String uuid = (String) request.getParams().get(UserXBook.UUID);
-			String token = (String) request.getParams().get("token");
+			String token = request.getToken();
 			try
 			{
 				checkToken(token);
