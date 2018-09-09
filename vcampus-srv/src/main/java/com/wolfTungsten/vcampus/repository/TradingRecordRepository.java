@@ -7,9 +7,7 @@ import java.util.List;
 
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
-import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.TradingRecord;
-import com.wolfTungsten.vcampus.entity.User;
 
 public class TradingRecordRepository extends CurdRepository<TradingRecord>
 {
@@ -19,37 +17,41 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 	}
 	
 	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
+		if(calculateBalance(from)>=value)
+		{
 		TradingRecord tradingRecord=new TradingRecord();
-		tradingRecord.setFrom(from);
-		tradingRecord.setTo(to);
+	    tradingRecord.setFrom(from);
+	    tradingRecord.setTo(to);
 		tradingRecord.setValue(value);
 		tradingRecord.setCreateTime(createTime);
 		dao.create(tradingRecord);
+		}else
+		{
+			throw new SQLException("该账户余额不足");
+		}
 	}//增加一条记录
 	
 	//计算某账户支出总额
-	public double calculateFrom(String from)throws SQLException{
+	public double calculateBalance(String userid)throws SQLException{
 		double fromSum=0;
-		List<TradingRecord> tradingRecordList = 
-				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, from).prepare());
-		for(int i=0;i<tradingRecordList.size();i++)
+		double toSum=0;
+		double balance=0;
+		List<TradingRecord> fromList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, userid).prepare());
+		for(int i=0;i<fromList.size();i++)
 		{
-			fromSum+=tradingRecordList.get(i).getValue();
+			fromSum+=fromList.get(i).getValue();
 		}
-		return fromSum;
+		List<TradingRecord> toList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid).prepare());
+		for(int i=0;i<toList.size();i++)
+		{
+			toSum+=toList.get(i).getValue();
+		}
+		balance=toSum-fromSum;
+		return balance;
 	}
 	
-	//计算某账户收入总额
-	public double calculateTo(String to)throws SQLException{
-		double toSum=0;
-		List<TradingRecord> tradingRecordList = 
-				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, to).prepare());
-		for(int i=0;i<tradingRecordList.size();i++)
-		{
-			toSum+=tradingRecordList.get(i).getValue();
-		}
-		return toSum;
-	}
 	
 	
 	public ArrayList<HashMap<String,Object>> getBill(String userid,long time)throws SQLException{
