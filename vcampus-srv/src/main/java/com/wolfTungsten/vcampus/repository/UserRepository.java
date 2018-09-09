@@ -82,9 +82,9 @@ public class UserRepository extends CurdRepository<User> {
 			return true;
 		}
 		else	
-			throw new SQLException("该卡号不存在");
-		 	
+			throw new SQLException("该卡号不存在");	 	
 	}
+	
 	
 
 	

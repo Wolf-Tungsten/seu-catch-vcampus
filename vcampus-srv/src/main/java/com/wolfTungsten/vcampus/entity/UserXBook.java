@@ -13,7 +13,8 @@ public class UserXBook
 	public static final String BOOK_ID ="book_id";
 	public static final String ISRETURN ="isReturn";
 	public static final String BORROWDATE = "borrowdate";
-	public static final String RETURNDATE = "returndate";
+	public static final String RETURNDATE = "returndate"; 
+	public static final String DEADDATE = "deaddate"; //到期时间
 	
 	@DatabaseField(generatedId = true, columnName = UserXBook.UUID)
 	private UUID uuid;
@@ -27,6 +28,20 @@ public class UserXBook
 	private long borrowdate;
 	@DatabaseField(columnName = UserXBook.RETURNDATE)
 	private long returndate;
+	@DatabaseField(columnName = UserXBook.DEADDATE)
+	private long deaddate;
+	
+	
+	public long getDeaddate()
+	{
+		return deaddate;
+	}
+
+	public void setDeaddate(long deaddate)
+	{
+		this.deaddate = deaddate;
+	}
+
 	public long getBorrowdate()
 	{
 		return borrowdate;

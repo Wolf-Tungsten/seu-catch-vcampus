@@ -40,16 +40,15 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	private JTextField textField_select;
 	JButton button_select;
 	CardLayout cardLayout=new CardLayout();
-<<<<<<< HEAD
+
 	String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
 	String token ;
-=======
-	DefaultTableModel tableModel;
-	JTable table;
->>>>>>> 75eede454c0c96884517624d78ae05f791aa1ddf
+
+	
+
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
@@ -69,11 +68,11 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//“搜索”按钮
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
-<<<<<<< HEAD
-		
-=======
 
->>>>>>> 75eede454c0c96884517624d78ae05f791aa1ddf
+		
+
+
+
 		button_select.setBounds(590, 20, 126, 36);
 		button_select.addActionListener(this);
 		add(button_select);		
@@ -90,11 +89,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		 */
 		//==============这些值传过来的时候就带有“未借出”“已借出”的状态，方便下面判断是否加“借阅”按钮,yhd说偷偷摸摸加了
 		//==============测试数据===========================================
-<<<<<<< HEAD
-		
-=======
-		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
->>>>>>> 75eede454c0c96884517624d78ae05f791aa1ddf
+
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
 		table=new JTable(tableModel);
 		 //设置表数据居中显示
@@ -139,7 +134,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 				String select_key=textField_select.getText();
 				Client.Request request = new Request();
 				request.setPath("book/queryByFlag");
-				request.setToken("5d9527a84c9350bfdba0e093985978cd");
+				request.setToken(token);
 				request.getParams().put("author", select_key);
 				request.getParams().put("name", select_key);
 				Client.Response response = Client.fetch(request);
@@ -171,7 +166,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 							}
 						 }
 						//”借阅“状态按钮添加，具体看component里的TableButtonEidtor
-						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox()));		
+						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));		
 				}else {
 					 JOptionPane.showMessageDialog(null, "没有找到此书", "查询失败",JOptionPane.ERROR_MESSAGE); 
 					

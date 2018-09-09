@@ -18,10 +18,18 @@ public class LibMessage extends JPanel {
 	JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum;
 	private JTextField textField_name;
+	String token ;
+	String[][] tableValues;
+	String name;
+	String cardnum;
 	/**
 	 * Create the panel.
 	 */
-	public LibMessage() {
+	public LibMessage(String Token,String[][] tableValue,String Name,String Cardnum) {
+		tableValues = tableValue;
+		token = Token;
+		name = Name;
+		cardnum = Cardnum;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -31,7 +39,7 @@ public class LibMessage extends JPanel {
 		
 		String[] columnNames= {"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","续借状态"};//定义表格列名的数组
 		//数据传到这里！
-		String[][] tableValues= {{"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","可续借"},{"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","不可续借"}};
+		
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
 		JTable table=new JTable(tableModel);
 		 //设置表数据居中显示
@@ -49,7 +57,7 @@ public class LibMessage extends JPanel {
 			}
 		 }
 		//”续借“状态按钮添加，具体看component里的TableReBorButtonEidtor
-		 table.getColumn("续借状态").setCellEditor(new TableReBorButtonEditor(new JCheckBox()));
+		 table.getColumn("续借状态").setCellEditor(new TableReBorButtonEditor(new JCheckBox(),token));
 		//我这里无法获取更改后的“续借状态”列里的信息，界面上点击续借后“续借”按钮会变为不可点击的“不可续借”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableReBorButtonEditor()里有返回
 		scrollPane.setViewportView(table);
@@ -69,6 +77,7 @@ public class LibMessage extends JPanel {
 		textField_cardNum.setBounds(403, 48, 96, 21);
 		textField_cardNum.setEditable(false);
 		textField_cardNum.setOpaque(false);
+		textField_cardNum.setText(cardnum);
 		add(textField_cardNum);
 		textField_cardNum.setColumns(10);
 		
@@ -77,6 +86,7 @@ public class LibMessage extends JPanel {
 		textField_name.setBounds(627, 45, 89, 21);
 		textField_name.setEditable(false);
 		textField_name.setOpaque(false);
+		textField_name.setText(name);
 		add(textField_name);
 		textField_name.setColumns(10);
 	}

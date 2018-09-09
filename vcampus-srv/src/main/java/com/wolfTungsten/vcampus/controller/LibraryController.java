@@ -9,6 +9,7 @@ import java.util.UUID;
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.Token;
+import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.entity.UserXBook;
 import com.wolfTungsten.vcampus.repository.UserXBookRepository;
 import com.wolfTungsten.vcampus.utils.Request;
@@ -324,7 +325,7 @@ public class LibraryController extends BaseController
 			{
 				checkToken(token);
 				long newReturndate = orm.userXBookRepository.checkRenew(uuid);
-				orm.userXBookRepository.updateUserXBook(uuid, UserXBook.RETURNDATE, newReturndate);
+				orm.userXBookRepository.updateUserXBook(uuid, UserXBook.DEADDATE, newReturndate);
 				response.setSuccess(true);
 				return response;
 			} catch (Exception e)
@@ -353,6 +354,7 @@ public class LibraryController extends BaseController
 			try
 			{
 				String user_id = checkToken(token);
+				User user = orm.userRepository.inquireById(user_id);
 				ArrayList<HashMap<String, Object>> recordMaplist = orm.userXBookRepository
 						.inquireByFlag(UserXBook.USER_ID, user_id);
 				for (HashMap<String, Object> record : recordMaplist)
@@ -363,8 +365,11 @@ public class LibraryController extends BaseController
 					record.put(Book.AUTHOR, book.getAuthor());
 					record.put(Book.NAME, book.getName());
 					record.put(Book.PUBLISHER, book.getPublisher());
+					
 				}
 				response.getBody().put("recordMaplist", recordMaplist);
+				response.getBody().put(User.USERNAME, user.getUsername());
+				response.getBody().put(User.CARDNUM, user.getCardnum());
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)

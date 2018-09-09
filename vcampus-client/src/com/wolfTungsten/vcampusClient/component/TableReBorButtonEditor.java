@@ -15,9 +15,10 @@ public class TableReBorButtonEditor extends DefaultCellEditor{
 	   private String label;
        private boolean isPushed; 
        private String selectId;
-       
-       public TableReBorButtonEditor(JCheckBox checkBox) {
+       private String token;
+       public TableReBorButtonEditor(JCheckBox checkBox,String Token) {
     	   super(checkBox);
+    	   token=Token;
            button = new JButton();
            button.setOpaque(true);
            button.addActionListener(new ActionListener() {
@@ -56,6 +57,7 @@ public class TableReBorButtonEditor extends DefaultCellEditor{
                                  //JOptionPane.showMessageDialog(parentComponent, message, title, messageType, icon);
                                  int op = JOptionPane.showConfirmDialog(null,"请问是否要续借此书？", "提示",JOptionPane.YES_NO_OPTION); 
                                  if(op==JOptionPane.YES_OPTION){  
+                                	 //续借请求
                                 	 System.out.println(selectId+"续借");
                                 	 return new String("不可续借");   //一本书只能续借一次        	
                                  }else if(op==JOptionPane.NO_OPTION){    

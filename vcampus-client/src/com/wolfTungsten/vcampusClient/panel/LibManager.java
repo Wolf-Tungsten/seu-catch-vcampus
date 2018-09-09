@@ -52,11 +52,15 @@ public class LibManager extends JPanel implements ActionListener {
 	JRadioButton rdbtnNewRadioButton_2 = new JRadioButton("九龙湖");
 	JRadioButton rdbtnNewRadioButton_3 = new JRadioButton("未借出");
 	JRadioButton rdbtnNewRadioButton_4 = new JRadioButton("已借出");
+	
+	String token;
 	private JTextField textField_time;
 	/**
 	 * Create the panel.
 	 */
-	public LibManager() {
+	public LibManager(String Token) {
+		token = Token ;
+		
 		setSize(736,600);
 		setLayout(null);
 		//面板管理=============================================================================
