@@ -42,7 +42,7 @@ public class MarketController extends BaseController {
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
-			
+			//如果是在这里测试，就是用人为构建了request的信息
 			String name = (String)request.getParams().get(Goods.NAME);
 			String description = (String)request.getParams().get(Goods.DESCRIPTION);
 			String seller = (String)request.getParams().get(Goods.SELLER);
@@ -147,18 +147,23 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			public Response work(Request request)
 			{
 				Response response = new Response();
-				String uuid=(String)request.getParams().get(Goods.UUID);
-				String name = (String)request.getParams().get(Goods.NAME);
+				String token = request.getToken();
+
+				
+				String goodsUuid=(String)request.getParams().get(Goods.UUID);
+				//String name = (String)request.getParams().get(Goods.NAME);
 				String seller = (String)request.getParams().get(Goods.SELLER);
 				String buyer=(String)request.getParams().get(AccountBalance.USER_ID);
 				double price=(double)request.getParams().get(Goods.PRICE);
 				long createTime = System.currentTimeMillis() / 1000;
 				int amount = (int)(double)request.getParams().get(Goods.AMOUNT);
-				
+				double cost = price*amount;
 				try
 				{
+					checkToken(token);
+					
 					orm.tradingRecordRepository.addTradingRecord(buyer, seller, price, createTime);
-
+					orm.userXGoodsRepository.addUserXGoods(buyer, goodsUuid ,cost);
 					response.setSuccess(true);
 					return response;	
 				} catch (SQLException e)
@@ -220,8 +225,11 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				return response;
 			}
 		};
+		
+		
 		public BaseController.BaseHandle queryShoopingCartHandle = new BaseHandle(){
 			//查询某个用户的购物车（通过用户的uuid
+			//这是一个不成熟的购物车
 			@Override
 			public Response work(Request request) {
 				Response response = new Response();
@@ -229,7 +237,8 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				//拿user_id
 				try {
 					String user_id = checkToken(token);
-					User user = orm.userRepository.inquireById(user_id);//其实是uuid
+					//String user_id = (String) request.getParams().get(User.UUID);
+					//User user = orm.userRepository.inquireById(user_id);//其实是uuid
 					ArrayList<HashMap<String,Object>> recordMapList = orm.userXGoodsRepository
 							.inqueryShoppingCart(user_id);
 					for(HashMap<String, Object> record:recordMapList)
@@ -243,7 +252,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 						record.put(Goods.PRICE,goods.getPrice());
 					}
 					response.getBody().put("recordMaplist", recordMapList);
-					response.getBody().put(User.USERNAME,user.getUsername());
+					//response.getBody().put(User.USERNAME,U.getUsername());
 					//response.getBody().put(User.USERNAME,user.getUsername());
 					response.setSuccess(true);
 					return response;

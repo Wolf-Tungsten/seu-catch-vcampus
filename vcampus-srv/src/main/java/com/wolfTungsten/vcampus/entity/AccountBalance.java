@@ -29,7 +29,6 @@ public class AccountBalance
 		return userid;
 	}
 
-
 	public void setUserid(String userid)
 	{
 		this.userid = userid;

@@ -18,7 +18,8 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 	}
 	
 	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
-		if((from=="72d1e945-a28f-4132-95b3-3d5992884c04"))
+		//
+		if((from=="72d1e945-a28f-4132-95b3-3d5992884c04"))//这个uuid后期是不是要改
 		{
 		TradingRecord tradingRecord=new TradingRecord();
 	    tradingRecord.setFrom(from);
