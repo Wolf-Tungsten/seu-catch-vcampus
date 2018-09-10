@@ -56,7 +56,15 @@ public class LibMessage extends JPanel {
 		//数据传到这里！
 		
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		JTable table=new JTable(tableModel);
+		JTable table=new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column)
+            {
+				if(column!=7) {
+                       return false;//表格不允许被编辑
+				}else
+					return true;
+            }
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
