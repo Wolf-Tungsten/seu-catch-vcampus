@@ -25,7 +25,7 @@ public class EduAdminController extends BaseController
 		this.pathMap.put("dropCourse", dropCourseHandle);
 		this.pathMap.put("studentlist", studentlistHandle);
 		this.pathMap.put("queryByName", queryByNameHandle);
-		
+		//this.pathMap.put("mark", value)
 	}
 	//已测试
 	private BaseController.BaseHandle addCourseHandle = new BaseHandle()
@@ -325,6 +325,36 @@ public class EduAdminController extends BaseController
 				return response;
 			}
 			
+		}
+	};
+	//前端传token 和课程 userXcourse的uuid
+	private BaseController.BaseHandle markHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String token = request.getToken();
+			String uuid = (String) request.getParams().get(UserXCourse.UUID);
+			String score = (String) request.getParams().get(UserXCourse.SCORE);
+			
+			
+			try
+			{
+				checkToken(token);
+				orm.userXCourseRepository.updateUserXCourse(uuid, UserXCourse.SCORE, score);
+				response.setSuccess(true);
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.getBody().put("result", e.getMessage());
+				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}
+
 		}
 	};
 	

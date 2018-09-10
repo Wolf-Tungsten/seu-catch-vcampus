@@ -20,12 +20,13 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		// TODO Auto-generated constructor stub
 	}
 	
-	public void addAccountBalance(String cardnum,String idCardNum,String secretPassword) throws SQLException {
+	public void addAccountBalance(String userid,String cardnum,String idCardNum,String secretPassword) throws SQLException {
 		
 		List<AccountBalance> accountBalanceList = dao.query((PreparedQuery<AccountBalance>)dao.queryBuilder()
 				.where().eq(AccountBalance.CARDNUM, cardnum).and().eq(AccountBalance.IDCARDNUM, idCardNum).prepare());
 		if(accountBalanceList.size()==0) {
 		AccountBalance accountBalance=new AccountBalance();
+		accountBalance.setUserid(userid);
 		accountBalance.setCardnum(cardnum);
 		accountBalance.setIdcardNum(idCardNum);
 		accountBalance.setSecretPassword(secretPassword);

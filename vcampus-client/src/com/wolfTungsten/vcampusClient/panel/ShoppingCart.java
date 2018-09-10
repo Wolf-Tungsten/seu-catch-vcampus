@@ -11,6 +11,8 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -40,33 +42,32 @@ public class ShoppingCart extends JPanel implements ActionListener{
 
    public void NewGoodPanel (JPanel panel,int x,int y,int width,int height,int gap,
     		 JCheckBox checkBox,JLabel label_photo,JLabel label_type,JLabel label_price,JTextField textField_number,
-    		 String goodName,String photo,String goodType,String price,String amount ) {
-	   
+    		 String []result ) {
 	          panel.setBounds(x,y+gap,width,height);
 	         
-             checkBox.setText(goodName);//"商品名称"
+	          checkBox.setText(result[0]);//"商品名称"
     		 checkBox.setBounds(x-4, y+35, width-571, height-95);//(6,45+gap,106,25)
     		 panel.add(checkBox);
-
+    		 
+    		 label_photo.setText(result[1]);
 //    		JLabel label_photo = new JLabel(image);//商品图片
-    		 label_photo.setText(photo);
     		 label_photo.setBounds(x+102, y, width-577, height-20);//(140, 10, 100, 100),像素100x100可以不
     		 panel.add(label_photo);
 
-    		 label_type.setText(goodType);//"（商品类别）"
+    		 label_type.setText(result[2]);//"（商品类别）"
     		 label_type.setBounds(x+268, y+30, width-550, height-105);//(278, 10, 54, 15)
     		 panel.add(label_type);
-
-    		 label_price.setText("¥："+price);//"（价格）"
+    		 
+    		 label_price.setText("¥："+result[3]);//"（价格）"
     		 label_price.setBounds(x+268, y+69, width-550, height-105);//(278, 79, 54, 15)
     		 panel.add(label_price);
 
-    		 textField_number.setText(amount);//购买数量
-    		 textField_number.setBounds(x+503, y+34,width-611, height-99);//(493, 48, 66, 21)
+    		 textField_number.setText(result[4]);//购买数量
+    		 textField_number.setBounds(x+503, y+34,width-552, height-99);//(493, 48, 125, 21)
     		 panel.add(textField_number);
     		 textField_number.setColumns(10);
     		
-    		 JLabel label=new JLabel("购买数量");
+    		 JLabel label=new JLabel("购买数量：");
     		 label.setBounds(x+401,  y+34, width-600, height-97);//(441, 47, 42, 23);
     		 panel.add(label);
     		 }
@@ -110,29 +111,19 @@ public class ShoppingCart extends JPanel implements ActionListener{
 	    /*
 	     * 测试数据
 	     */
-		 NewGoodPanel(goodPanel[0],10,10,677,120,0,checkBox[0],label_photo[0],label_type[0],label_price[0],textField_number[0],
-				 "yhd","photo","aaa","12","1"); //商品名称，商品照片，商品类别（e.g.生活百货），价格，购买数量
-		 panel.add(goodPanel[0]);
+
+		String [][]result=new String[][]{{"袁皓东","photo","生活用品","12","1"},{"袁皓西","photo","服饰配件","30","3"}}; //商品名称，商品照片，商品类别（e.g.生活百货），价格，购买数量
+		NewGoodPanel(goodPanel[0],10,10,677,120,0,checkBox[0],label_photo[0],label_type[0],label_price[0],textField_number[0],result[0]);
+		panel.add(goodPanel[0]);
 		 
-		 NewGoodPanel(goodPanel[1],10,10,677,120,gap*1,checkBox[1],label_photo[1],label_type[1],label_price[1],textField_number[1],
-				 "yhx","photo","aaa","10","0"); 
-		 panel.add(goodPanel[1]);
 		 //以这个为例，只要获取这是第几次添加，以及要传输的数据，就可以用这种愚蠢的方式添加商品信息到购物车。。。。。。。
-		 int i=2;
-		 NewGoodPanel(goodPanel[i],10,10,677,120,gap*i,checkBox[i],label_photo[i],label_type[i],label_price[i],textField_number[i],
-				 "yhn","photo","ccc","9","2"); 
-		 panel.add(goodPanel[i]);
-		 
-		 i++;
-		 NewGoodPanel(goodPanel[i],10,10,677,120,gap*i,checkBox[i],label_photo[i],label_type[i],label_price[i],textField_number[i],
-				 "yhn","photo","ccc","9","2"); 
-		 panel.add(goodPanel[i]);
-		 
-		 panel.setPreferredSize(new Dimension(716,130+gap*i));//panel的高度必须高于滚动面板
+	    int i=1;
+        NewGoodPanel(goodPanel[i],10,10,677,120,gap*i,checkBox[i],label_photo[i],label_type[i],label_price[i],textField_number[i],result[i]);
+		panel.add(goodPanel[i]);
+		panel.setPreferredSize(new Dimension(716,130+gap*i));//panel的高度必须高于滚动面板
 		
 	
 		scrollPane.setBounds(10, 35, 716, 490);
-		
 		add(scrollPane);
 		
 		JLabel label = new JLabel("我的购物车");
