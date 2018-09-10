@@ -415,11 +415,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_info_main.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_1", panel_info_main);		
 		cardLayout.show(panel_right, "info_1");//默认显示“系统主页”
-		panel_info_modify = new InfoModify();
+		panel_info_modify = new InfoModify(token);
 		panel_info_modify.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_2", panel_info_modify);		
 		
-		panel_info_pass = new InfoPassword();
+		panel_info_pass = new InfoPassword(token);
 		panel_info_pass.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_3", panel_info_pass);		
 		//图书馆=================================图书馆板块的面板们=======================================
@@ -943,6 +943,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		return borrowRecord;
 		
 	}
+	
 	
 	
 }

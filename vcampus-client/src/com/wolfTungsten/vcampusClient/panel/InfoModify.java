@@ -14,10 +14,12 @@ public class InfoModify extends JPanel implements ActionListener{
 	private JTextField textField_cardNum,textField_name,textField_IDnum,textField_birthdate,textField_address;
 	private JButton okButton;
 	private JButton cancelButton;
+	private String token;
 	/**
 	 * Create the panel.
 	 */
-	public InfoModify() {
+	public InfoModify(String Token) {
+		token = Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -113,6 +115,8 @@ public class InfoModify extends JPanel implements ActionListener{
 			textField_name.setEditable(true);
 			textField_birthdate.setEditable(true);
 			textField_address.setEditable(true);
+			
+			
 		}
 		String newNameStr=textField_name.getText();
 		String newBirthdateStr=textField_birthdate.getText();

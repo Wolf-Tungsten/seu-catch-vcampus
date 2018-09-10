@@ -19,6 +19,7 @@ public class UserController extends BaseController{
 		this.addHandle("login", loginHandle);
 		this.addHandle("register", registerHandle);
 		this.addHandle("update", updateHandle);
+		this.addHandle("modifyPwd", modifyPwdHandle);
 	}
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
@@ -156,6 +157,46 @@ public class UserController extends BaseController{
 			
 		}
 	};
+
+	
+	//前端传token 和旧密码
+	private BaseController.BaseHandle modifyPwdHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String oldpwd = (String)request.getParams().get("oldpwd"); //旧密码md5
+			String token =request.getToken();
+			String newpwd = (String)request.getParams().get("newpwd");
+			String cardnum = (String)request.getParams().get(User.CARDNUM);
+			try
+			{
+				String userid = checkToken(token);
+				User user = orm.userRepository.inquireById(userid);
+				if(oldpwd.equals(user.getHash_password())&&cardnum.equals(user.getCardnum())) {
+					
+					orm.userRepository.modifyByflag(userid, User.PASSWORD, newpwd);
+					response.setSuccess(true);
+					
+				}else {
+					response.setSuccess(false);
+					response.getBody().put("result", "旧密码或一卡通号错误");
+				}
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+	};
+	
 	
 	private static String getMD5(String info)
 	{
