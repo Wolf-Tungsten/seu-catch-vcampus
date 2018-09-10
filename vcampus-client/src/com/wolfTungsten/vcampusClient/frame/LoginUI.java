@@ -29,6 +29,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
+import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
+
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.component.RButton;
 import com.wolfTungsten.vcampusClient.component.RButton2;
@@ -87,6 +89,8 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					BeautyEyeLNFHelper.frameBorderStyle = BeautyEyeLNFHelper.frameBorderStyle.osLookAndFeelDecorated;
+					org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
 					LoginUI frame = new LoginUI();
 					frame.setVisible(true);
 				} catch (Exception e) {

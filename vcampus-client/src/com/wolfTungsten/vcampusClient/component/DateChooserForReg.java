@@ -176,7 +176,7 @@ public class DateChooserForReg extends JPanel {
 				if (showDate.isEnabled()) {
 					showDate.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 //					showDate.setForeground(Color.BLACK);
-					showDate.setForeground(Color.WHITE);//===============改显示字体在这里====================
+					showDate.setForeground(Color.BLACK);//===============改显示字体在这里====================
 				}
 			}
  
