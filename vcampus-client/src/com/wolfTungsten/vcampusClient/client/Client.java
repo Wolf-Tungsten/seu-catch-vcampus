@@ -8,11 +8,10 @@ import com.google.gson.Gson;
 
 import java.io.*;
 public class Client {
-<<<<<<< HEAD
+
 	public static String host = "223.3.104.45";
-=======
-	public static String host = "223.3.104.126";
->>>>>>> f450f97ce126101afc0ab79afa2b3b65d126a700
+
+
 	public static int port = 20006;
 	public static class Request {
 		
