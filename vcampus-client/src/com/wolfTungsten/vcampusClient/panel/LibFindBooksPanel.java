@@ -86,7 +86,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//==============测试数据===========================================
 
 
-		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
+		String[][] tableValues= {};
 
 
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
