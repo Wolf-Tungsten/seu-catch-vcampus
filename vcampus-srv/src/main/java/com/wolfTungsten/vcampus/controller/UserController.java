@@ -20,6 +20,8 @@ public class UserController extends BaseController{
 		this.addHandle("register", registerHandle);
 		this.addHandle("update", updateHandle);
 		this.addHandle("modifyPwd", modifyPwdHandle);
+		this.addHandle("userinfo", userinfoHandle);
+		this.addHandle("modifyuserinfo", modifyUserinfo);
 	}
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
@@ -197,6 +199,68 @@ public class UserController extends BaseController{
 		}
 	};
 	
+	private BaseController.BaseHandle userinfoHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			
+			String token = request.getToken();			
+			try
+			{
+				String userid = checkToken(token);
+				User user = orm.userRepository.inquireById(userid);
+				response.getBody().put(User.CARDNUM, user.getCardnum());
+				response.getBody().put(User.USERNAME, user.getUsername());
+				long birthdate = user.getBirthdate();			
+				response.getBody().put(User.BIRTHDATE, birthdate);
+				response.getBody().put(User.ADDRESS, user.getAddress());
+				response.getBody().put(User.IDCARDNUM, user.getIdcardNum());
+				response.setSuccess(true);
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+		
+		}
+	};
+	
+	private BaseController.BaseHandle modifyUserinfo = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String token = request.getToken();
+			
+			HashMap<String, Object> userinfo = request.getParams();
+//			String name = (String)request.getParams().get(User.USERNAME);
+//			String address = (String)request.getParams().get(User.ADDRESS);
+			try
+			{
+				String useruuid = checkToken(token);
+				orm.userRepository.updateUser2(userinfo,useruuid);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+		
+		}
+	};
+	
 	
 	private static String getMD5(String info)
 	{
@@ -243,5 +307,6 @@ public class UserController extends BaseController{
 		System.out.println(password);
 		
 	}
+	
 	
 }

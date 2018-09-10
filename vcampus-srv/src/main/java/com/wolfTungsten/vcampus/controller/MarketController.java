@@ -234,7 +234,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 							.inqueryShoppingCart(user_id);
 					for(HashMap<String, Object> record:recordMapList)
 					{
-						//根据商品id查这个人给购物车加了哪些商品
+						
 						Goods goods = orm.goodsRepository.inquireById(user_id);
 						record.remove(UserXGoods.GOOD_ID);
 						record.put(Goods.NAME,goods.getName());

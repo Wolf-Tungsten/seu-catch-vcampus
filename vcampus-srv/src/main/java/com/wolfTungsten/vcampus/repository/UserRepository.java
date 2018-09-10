@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
@@ -128,5 +129,15 @@ public class UserRepository extends CurdRepository<User> {
 		updateBuilder.where().eq(User.UUID, UUID.fromString(userid));
 		updateBuilder.updateColumnValue(column, value).update();
 	}
+	public void updateUser2(HashMap<String,Object> userinfo,String useruuid) throws SQLException {
+		UpdateBuilder<User, String> updateBuilder = dao.updateBuilder();
+		
+		updateBuilder.where().eq(User.UUID, UUID.fromString(useruuid));
+		userinfo.remove("uuid");
+		for(String columnName:userinfo.keySet())
+		{
+			updateBuilder.updateColumnValue(columnName, userinfo.get(columnName)).update();
+		}
 
+	}
 }

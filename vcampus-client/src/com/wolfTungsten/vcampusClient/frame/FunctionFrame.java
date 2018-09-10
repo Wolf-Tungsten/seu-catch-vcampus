@@ -415,9 +415,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_info_main.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_1", panel_info_main);		
 		cardLayout.show(panel_right, "info_1");//默认显示“系统主页”
-		panel_info_modify = new InfoModify(token);
-		panel_info_modify.setBackground(new Color(255, 255, 255));
-		panel_right.add("info_2", panel_info_modify);		
+//		panel_info_modify = new InfoModify(token);
+//		panel_info_modify.setBackground(new Color(255, 255, 255));
+//		panel_right.add("info_2", panel_info_modify);		
 		
 		panel_info_pass = new InfoPassword(token);
 		panel_info_pass.setBackground(new Color(255, 255, 255));
@@ -541,6 +541,12 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				contentPane.setLayer(panel_message_info,new Integer(11));//将panel_message_info放置在比10层高的地方
 	*/			
 			} else if (e.getSource() == label_info_modify) {
+				//传用户个人信息
+				HashMap<String,Object> userinfo = userinfo(token);
+				panel_info_modify = new InfoModify(token,userinfo);
+				panel_info_modify.setBackground(new Color(255, 255, 255));
+				panel_right.add("info_2", panel_info_modify);	
+				
 				cardLayout.show(panel_right, "info_2");
 				HideAllMessagePanel();	
 			} else if (e.getSource() == label_info_pass) {
@@ -944,6 +950,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		
 	}
 	
+	public static HashMap<String, Object> userinfo(String token) {
+		Client.Request request = new Request();
+		request.setToken(token);
+		request.setPath("user/userinfo");
+		Response response = Client.fetch(request);
+
+		if(response.getSuccess())
+			return response.getBody();
+		else
+			return new HashMap<>();
 	
+	}
 	
 }

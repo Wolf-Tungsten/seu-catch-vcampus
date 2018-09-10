@@ -4,10 +4,18 @@ import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+import com.wolfTungsten.vcampusClient.component.DateChooserForReg;
 
 public class InfoModify extends JPanel implements ActionListener{
 	JButton modifyButton;
@@ -15,11 +23,13 @@ public class InfoModify extends JPanel implements ActionListener{
 	private JButton okButton;
 	private JButton cancelButton;
 	private String token;
+	private HashMap<String, Object>userinfo = new HashMap<>();
 	/**
 	 * Create the panel.
 	 */
-	public InfoModify(String Token) {
+	public InfoModify(String Token, HashMap<String, Object> Userinfo) {
 		token = Token;
+		userinfo.putAll(Userinfo);
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -60,6 +70,7 @@ public class InfoModify extends JPanel implements ActionListener{
 		
 		//“一卡通号”本文框，不可编辑
 		textField_cardNum = new JTextField();
+		textField_cardNum.setText((String)userinfo.get("cardnum"));
 		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_cardNum.setBounds(257, 120, 290, 30);
 		textField_cardNum.setEditable(false);
@@ -68,6 +79,7 @@ public class InfoModify extends JPanel implements ActionListener{
 		textField_cardNum.setColumns(10);
 		//姓名”本文框，可编辑
 		textField_name = new JTextField();
+		textField_name.setText((String)userinfo.get("username"));
 		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_name.setBounds(257, 180, 290, 30);
 		textField_name.setEditable(false);
@@ -75,21 +87,26 @@ public class InfoModify extends JPanel implements ActionListener{
 		textField_name.setColumns(10);
 		//身份证号”本文框，不可编辑
 		textField_IDnum = new JTextField();
+		textField_IDnum.setText((String)userinfo.get("idcardNum"));
 		textField_IDnum.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_IDnum.setBounds(257, 240, 290, 30);
 		textField_IDnum.setEditable(false);
 		textField_IDnum.setOpaque(false);
 		add(textField_IDnum);
 		textField_IDnum.setColumns(10);
-		//“出生日期”本文框，可编辑
+		//“出生日期”本文框，bu可编辑
 		textField_birthdate = new JTextField();
+		String date_str = timestampToString((long)(double)userinfo.get("birthdate"), "yyyy-MM-dd");
+		textField_birthdate.setText(date_str);
 		textField_birthdate.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_birthdate.setBounds(257,300, 290, 30);
 		textField_birthdate.setEditable(false);
+		textField_birthdate.setOpaque(false);
 		add(textField_birthdate);
 		textField_birthdate.setColumns(10);
 		//“地址”本文框，可编辑
 		textField_address = new JTextField();
+		textField_address.setText((String)userinfo.get("address"));
 		textField_address.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_address.setBounds(257, 360, 290, 30);
 		textField_address.setEditable(false);
@@ -113,7 +130,7 @@ public class InfoModify extends JPanel implements ActionListener{
 		if(e.getSource()==modifyButton) {
 			//点击“编辑个人信息”
 			textField_name.setEditable(true);
-			textField_birthdate.setEditable(true);
+//			textField_birthdate.setEditable(true);
 			textField_address.setEditable(true);
 			
 			
@@ -127,9 +144,6 @@ public class InfoModify extends JPanel implements ActionListener{
 			if(newNameStr.equals("")||newNameStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入姓名！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}else if(newBirthdateStr.equals("")||newBirthdateStr==null) {
-				JOptionPane.showMessageDialog(null, "请输入出生日期！", "Tips",JOptionPane.ERROR_MESSAGE);
-				return;
 			}else if(newAddressStr.equals("")||newAddressStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入地址！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
@@ -137,9 +151,18 @@ public class InfoModify extends JPanel implements ActionListener{
 			int op=JOptionPane.showConfirmDialog(null, "是否保存此次修改？", "Tips", JOptionPane.YES_NO_OPTION);
 			{
 				if(op==JOptionPane.YES_OPTION) {
-					textField_name.setEditable(false);
-					textField_birthdate.setEditable(false);
-					textField_address.setEditable(false);
+					Client.Request request = new Request();
+					request.setToken(token);
+					request.setPath("user/modifyuserinfo");
+					request.getParams().put("username", textField_name.getText());
+					request.getParams().put("address", textField_address.getText());
+					Response response = Client.fetch(request);
+					if(response.getSuccess())
+						JOptionPane.showMessageDialog(null, "修改成功", "成功！",JOptionPane.INFORMATION_MESSAGE);
+					else
+						JOptionPane.showMessageDialog(null, "修改失败，请联系管理员", "失败！",JOptionPane.ERROR_MESSAGE);
+					
+					
 				}
 			}
 			
@@ -149,5 +172,17 @@ public class InfoModify extends JPanel implements ActionListener{
 			textField_birthdate.setEditable(false);
 			textField_address.setEditable(false);
 		}
+	}
+	
+	public String timestampToString(long timestamp,String format) {
+		try {  
+			
+            SimpleDateFormat sdf = new SimpleDateFormat(format);  
+            return sdf.format(new Date(timestamp*1000)) ; 
+        } catch (Exception e) {  
+            e.printStackTrace();  
+        }  
+        return ""; 
+		
 	}
 }
