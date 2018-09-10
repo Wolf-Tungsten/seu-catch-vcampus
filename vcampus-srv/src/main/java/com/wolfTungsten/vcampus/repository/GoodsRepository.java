@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import java.util.UUID;
 
-import org.mockito.internal.matchers.And;
+//import org.mockito.internal.matchers.And;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
