@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.wolfTungsten.vcampus.entity.AccountBalance;
 import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.utils.Request;
 import com.wolfTungsten.vcampus.utils.Response;

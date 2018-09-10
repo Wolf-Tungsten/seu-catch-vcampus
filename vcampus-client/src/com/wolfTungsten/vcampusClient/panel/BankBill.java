@@ -21,6 +21,7 @@ public class BankBill extends JPanel implements ItemListener{
 	JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum;
 	private JTextField textField_name;
+	private String token;
 	/**
 	 * Create the panel.
 	 */

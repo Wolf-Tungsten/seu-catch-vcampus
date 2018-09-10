@@ -483,7 +483,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("bank_3", panel_bank_bill);	
 		
 		
-		panel_bank_modify_pass=new BankModifyPass();
+		panel_bank_modify_pass=new BankModifyPass(token);
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_4", panel_bank_modify_pass);
 		

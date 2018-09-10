@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import java.io.*;
 public class Client {
 
-	public static String host = "223.3.104.45";
+	public static String host = "223.3.99.194";
 
 	public static int port = 20006;
 	public static class Request {
@@ -84,15 +84,15 @@ public class Client {
 	{
 		try
 		{
-			// 获取 MessageDigest 对象，参数为 MD5 字符串，表示这是一个 MD5 算法（其他还有 SHA1 算法等）：
+			// 鑾峰彇 MessageDigest 瀵硅薄锛屽弬鏁颁负 MD5 瀛楃涓诧紝琛ㄧず杩欐槸涓�涓� MD5 绠楁硶锛堝叾浠栬繕鏈� SHA1 绠楁硶绛夛級锛�
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			// update(byte[])方法，输入原数据
-			// 类似StringBuilder对象的append()方法，追加模式，属于一个累计更改的过程
+			// update(byte[])鏂规硶锛岃緭鍏ュ師鏁版嵁
+			// 绫讳技StringBuilder瀵硅薄鐨刟ppend()鏂规硶锛岃拷鍔犳ā寮忥紝灞炰簬涓�涓疮璁℃洿鏀圭殑杩囩▼
 			md5.update(info.getBytes("UTF-8"));
-			// digest()被调用后,MessageDigest对象就被重置，即不能连续再次调用该方法计算原数据的MD5值。可以手动调用reset()方法重置输入源。
-			// digest()返回值16位长度的哈希值，由byte[]承接
+			// digest()琚皟鐢ㄥ悗,MessageDigest瀵硅薄灏辫閲嶇疆锛屽嵆涓嶈兘杩炵画鍐嶆璋冪敤璇ユ柟娉曡绠楀師鏁版嵁鐨凪D5鍊笺�傚彲浠ユ墜鍔ㄨ皟鐢╮eset()鏂规硶閲嶇疆杈撳叆婧愩��
+			// digest()杩斿洖鍊�16浣嶉暱搴︾殑鍝堝笇鍊硷紝鐢眀yte[]鎵挎帴
 			byte[] md5Array = md5.digest();
-			// byte[]转化为十六进制的32位长度的字符串
+			// byte[]杞寲涓哄崄鍏繘鍒剁殑32浣嶉暱搴︾殑瀛楃涓�
 			return bytesToHex1(md5Array);
 		} catch (NoSuchAlgorithmException e)
 		{
@@ -107,10 +107,10 @@ public class Client {
 		StringBuilder strBuilder = new StringBuilder();
 		for (int i = 0; i < md5Array.length; i++)
 		{
-			int temp = 0xff & md5Array[i];// TODO:此处为什么添加 0xff & ？
+			int temp = 0xff & md5Array[i];// TODO:姝ゅ涓轰粈涔堟坊鍔� 0xff & 锛�
 			String hexString = Integer.toHexString(temp);
 			if (hexString.length() == 1)
-			{// 如果是十六进制的0f，默认只显示f，此时要补上0
+			{// 濡傛灉鏄崄鍏繘鍒剁殑0f锛岄粯璁ゅ彧鏄剧ずf锛屾鏃惰琛ヤ笂0
 				strBuilder.append("0").append(hexString);
 			} else
 			{
@@ -130,13 +130,13 @@ public class Client {
 		pw.write(jsonstr);
 		pw.flush();
 		socket.shutdownOutput();
-		//获取输入流
+		//鑾峰彇杈撳叆娴�
 		InputStream is = socket.getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		String responseStr ="";
 		boolean flag = true;
 		 while(flag){  
-             //接收从客户端发送过来的数据  
+             //鎺ユ敹浠庡鎴风鍙戦�佽繃鏉ョ殑鏁版嵁  
              String str = br.readLine();  
              if(str == null || "".equals(str)){  
                  flag = false;  
