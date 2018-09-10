@@ -36,19 +36,20 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+@SuppressWarnings("unused")
 public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField textField_select;
 	JButton button_select;
 	CardLayout cardLayout=new CardLayout();
-	
+
 	String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
 	String token ;
 	JScrollPane scrollPane ;
-	
+
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
@@ -182,7 +183,6 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 					 JOptionPane.showMessageDialog(null, "没有找到此书", "查询失败",JOptionPane.ERROR_MESSAGE); 
 					
 				}
-
 			   //怎么检索？？？
 			//往表格中添加新的行
 			//String[] rowValues= {};

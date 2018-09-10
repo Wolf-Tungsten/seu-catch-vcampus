@@ -147,7 +147,7 @@ public class LibManager extends JPanel implements ActionListener {
 		label_author.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_author.setBounds(85, 144, 54, 15);
 		panel_add.add(label_author);
-		
+	
 		JLabel label_publisher = new JLabel("出版社：");
 		label_publisher.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_publisher.setBounds(85, 184, 74, 15);
@@ -290,7 +290,7 @@ public class LibManager extends JPanel implements ActionListener {
 		 table_1.setDefaultRenderer(Object.class, cr_1);
 		 
 		 //这个删除按钮的class在component的TableDeleteButtonEditor()里
-		 checkBox=new JCheckBox();
+		 checkBox = new JCheckBox();
 		 checkBox.addActionListener(this);
 		 table_1.getColumn("操作").setCellEditor(new TableDeleteButtonEditor(checkBox,token));
 		 //我这里无法获取更改后的“操作”列里的信息，界面上点击删除后“删除”按钮会变为不可点击的“已删除”按钮，但我这里怎么接受返回的信息呢？
@@ -357,6 +357,7 @@ public class LibManager extends JPanel implements ActionListener {
 			}
 
 	}
+
 	//在库面板的搜索书
 	public void findbook() {
 		String select_key = textField_select.getText();
@@ -444,8 +445,7 @@ public class LibManager extends JPanel implements ActionListener {
 				if (statement.equals("未借出"))
 				{
 					tableModel_1.setValueAt("可借阅", i, 6);// 重置名字
-				}
-				
+				}				
 			}
 			}else
 			{
@@ -486,4 +486,5 @@ public class LibManager extends JPanel implements ActionListener {
 			return 0;
 		}
 	}
+
 }

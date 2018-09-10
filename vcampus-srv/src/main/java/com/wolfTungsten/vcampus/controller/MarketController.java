@@ -1,6 +1,7 @@
 
 package com.wolfTungsten.vcampus.controller;
 
+import java.lang.reflect.Array;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
 import com.wolfTungsten.vcampus.entity.Goods;
 import com.wolfTungsten.vcampus.entity.Token;
+import com.wolfTungsten.vcampus.entity.User;
+import com.wolfTungsten.vcampus.entity.UserXGoods;
 import com.wolfTungsten.vcampus.repository.UserXGoodsRepository;
 
 import com.wolfTungsten.vcampus.utils.Request;
@@ -222,12 +225,45 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			@Override
 			public Response work(Request request) {
 				Response response = new Response();
-				ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
-				//String uuid = request.
-					//goodsinfolist = orm.userXGoodsRepository.inqueryShoppingCart();
-				
-				return null;
+				String token = request.getToken();
+				//拿user_id
+				try {
+					String user_id = checkToken(token);
+					User user = orm.userRepository.inquireById(user_id);//其实是uuid
+					ArrayList<HashMap<String,Object>> recordMapList = orm.userXGoodsRepository
+							.inqueryShoppingCart(user_id);
+					for(HashMap<String, Object> record:recordMapList)
+					{
+<<<<<<< HEAD
+						//根据商品id查这个人给购物车加了哪些商品
+						//Goods goods = orm.goodsRepository.inquireById(user_id);
+						//record.remove(UserXGoods.GOOD_ID);
+						//record.put(Goods.NAME,goods.getName());
+						//record.put(Goods.DESCRIPTION,goods.getDescription());
+						//record.put(Goods.SELLER,goods.getSeller());
+						//record.put(Goods.PRICE,goods.getPrice());
+=======
+						
+						Goods goods = orm.goodsRepository.inquireById(user_id);
+						record.remove(UserXGoods.GOOD_ID);
+						record.put(Goods.NAME,goods.getName());
+						record.put(Goods.DESCRIPTION,goods.getDescription());
+						record.put(Goods.SELLER,goods.getSeller());
+						record.put(Goods.PRICE,goods.getPrice());
+>>>>>>> 0774ec65b65322664d067fc6ff564e20618431bd
+					}
+					response.getBody().put("recordMaplist", recordMapList);
+					response.getBody().put(User.USERNAME,user.getUsername());
+					//response.getBody().put(User.USERNAME,user.getUsername());
+					response.setSuccess(true);
+					return response;
+				}catch (SQLException e) {
+					response.setSuccess(false);
+					e.printStackTrace();
+					return response;
+				}
 			}
+			
 		};
 		
 		public BaseController.BaseHandle queryBoughtGoodsHandle = new BaseHandle() {

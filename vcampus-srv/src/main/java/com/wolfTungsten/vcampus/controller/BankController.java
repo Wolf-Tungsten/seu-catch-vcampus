@@ -15,12 +15,13 @@ public class BankController extends BaseController{
 	public BankController() {
 		super();
 		this.addHandle("register", registerHandle);//注册银行账户（设置支付密码）
-		this.addHandle("trade", tradeHandle);//存款,取款，转账
+		this.addHandle("trade", tradeHandle);//取款，转账
 		this.addHandle("balance", balanceHandle);//查询余额
 		this.addHandle("bill", billHandle);//查询总账单
 		this.addHandle("fromBill", fromBillHandle);//查询支出账单
 		this.addHandle("toBill", toBillHandle);//查询收入账单
 		this.addHandle("secretPassword", secretPasswordHandle);//修改支付密码
+		this.addHandle("deposit", depositHandle);
 	}
 
 	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle() {
@@ -54,6 +55,43 @@ public class BankController extends BaseController{
 	};
 
 
+
+	private BaseController.BaseHandle depositHandle = new BaseController.BaseHandle() {
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+			String from=(String)request.getParams().get(TradingRecord.FROM);
+			String to=(String)request.getParams().get(TradingRecord.TO);
+			long createTime = System.currentTimeMillis() / 1000;//时间戳
+			String token = request.getToken();
+			double value=(double)request.getParams().get(TradingRecord.VALUE);
+			value=value*100;
+			try
+			{
+				checkToken(token);
+				if(orm.accountBalanceRepository.check(userid, secretPassword))
+				{
+					if(orm.userRepository.checkTrade(from)&&orm.userRepository.checkTrade(to))
+					{
+					  orm.tradingRecordRepository.deposit(from,to,value,createTime);
+					}
+				   response.setSuccess(true);		
+				}
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "交易失败,"+e.getMessage());
+				return response;
+			
+			}
+		}
+		
+	};
 	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
 		@Override
 		public Response work(Request request)

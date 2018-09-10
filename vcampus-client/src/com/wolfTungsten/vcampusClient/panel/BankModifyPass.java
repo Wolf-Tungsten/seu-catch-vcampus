@@ -14,18 +14,29 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+
 public class BankModifyPass extends JPanel implements ActionListener{
 	private JTextField textField_cardNum;
 	private JPasswordField textField_originalPass;
 	private JPasswordField textField_newPass;
 	private JPasswordField textField_rePass;
 	JButton okButton,cancelButton;
+
 	private JTextField textField_ID;
+
+
+	private String token;
 
 	/**
 	 * Create the panel.
 	 */
-	public BankModifyPass() {
+	public BankModifyPass(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		//label横坐标x为158
@@ -155,6 +166,14 @@ public class BankModifyPass extends JPanel implements ActionListener{
 				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
 			}
+			
+			Client.Request request = new Request();
+			request.setPath("bank/secretPassword");
+			request.setToken(token);
+			request.getParams().put("user_id", "b18cccef-8114-4629-8cef-367e90920c27");
+			
+			
+			
 		}
 		if(e.getSource()==cancelButton) {
 			textField_cardNum.setText("");

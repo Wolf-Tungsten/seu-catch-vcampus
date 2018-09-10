@@ -11,16 +11,22 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 public class InfoPassword extends JPanel implements ActionListener{
 	private JTextField textField_cardNum;
 	private JPasswordField textField_originalPass;
 	private JPasswordField textField_newPass;
 	private JPasswordField textField_rePass;
 	JButton okButton,cancelButton;
+	String token;
 	/**
 	 * Create the panel.
 	 */
-	public InfoPassword() {
+	public InfoPassword(String Token) {
+		token = Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		JLabel label = new JLabel("一卡通号：");
@@ -113,6 +119,23 @@ public class InfoPassword extends JPanel implements ActionListener{
 				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
 			}
+			Client.Request request = new Request();
+			request.setPath("user/modifyPwd");
+			request.getParams().put("oldpwd", Client.getMD5(orPassStr));
+			request.getParams().put("newpwd", Client.getMD5(newPassStr));
+			request.getParams().put("cardnum", cardNumStr);
+			request.setToken(token);
+			Response response = Client.fetch(request);
+			if(response.getSuccess())
+				JOptionPane.showMessageDialog(null, "修改成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
+			else {
+				String result = (String) response.getBody().get("result");
+				JOptionPane.showMessageDialog(null,result , "错误",JOptionPane.ERROR_MESSAGE);	
+			}	
+			textField_cardNum.setText("");
+			textField_originalPass.setText("");
+			textField_newPass.setText("");
+			textField_rePass.setText("");
 		}
 		if(e.getSource()==cancelButton) {
 			textField_cardNum.setText("");

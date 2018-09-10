@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
@@ -102,7 +103,7 @@ public class UserRepository extends CurdRepository<User> {
 	public Boolean updateUser(String userid, String username,String cardnum,String hash_password,int identity,
 			int privilege ,String photo,String idcardNum,long birthdate,String address) throws SQLException {
 		UpdateBuilder<User, String> updateBuilder = dao.updateBuilder();
-		updateBuilder.where().eq("uuid", userid);
+		updateBuilder.where().eq("uuid", userid);//UUID.from(userid)
 		updateBuilder.updateColumnValue(User.USERNAME, username)
 					.updateColumnValue(User.CARDNUM, cardnum)
 					.updateColumnValue(User.PASSWORD, hash_password)
@@ -116,8 +117,27 @@ public class UserRepository extends CurdRepository<User> {
 		return true;
 	}
 	
-	
+	public void modifyOldPwd(String newPwd,String userid) throws SQLException {
+		
+		UpdateBuilder<User,String> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(User.UUID, UUID.fromString(userid));
+		updateBuilder.updateColumnValue(User.PASSWORD, newPwd).update();
+	} 
 
-	
+	public void modifyByflag(String userid,String column ,Object value) throws SQLException {
+		UpdateBuilder<User,String> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq(User.UUID, UUID.fromString(userid));
+		updateBuilder.updateColumnValue(column, value).update();
+	}
+	public void updateUser2(HashMap<String,Object> userinfo,String useruuid) throws SQLException {
+		UpdateBuilder<User, String> updateBuilder = dao.updateBuilder();
+		
+		updateBuilder.where().eq(User.UUID, UUID.fromString(useruuid));
+		userinfo.remove("uuid");
+		for(String columnName:userinfo.keySet())
+		{
+			updateBuilder.updateColumnValue(columnName, userinfo.get(columnName)).update();
+		}
 
+	}
 }

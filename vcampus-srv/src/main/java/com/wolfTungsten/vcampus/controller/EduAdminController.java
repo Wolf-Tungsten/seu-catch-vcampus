@@ -195,6 +195,7 @@ public class EduAdminController extends BaseController
 			{
 				String useruuid = checkToken(token);
 				orm.userXCourseRepository.addUserXCourse(useruuid, courseuuid);
+				
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -246,8 +247,7 @@ public class EduAdminController extends BaseController
 		public Response work(Request request)
 		{
 			Response response = new Response();
-			String token = (String)request.getToken();
-			
+			String token = (String)request.getToken();			
 			try
 			{
 				String useruuid = checkToken(token);
@@ -279,6 +279,7 @@ public class EduAdminController extends BaseController
 		}
 	};
 	//已测试
+	//学生名单
 	private BaseController.BaseHandle studentlistHandle = new BaseHandle()
 	{
 		

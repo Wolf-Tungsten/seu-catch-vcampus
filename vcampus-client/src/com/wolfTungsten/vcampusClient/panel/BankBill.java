@@ -21,6 +21,7 @@ public class BankBill extends JPanel implements ItemListener{
 	JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum;
 	private JTextField textField_name;
+
 	JComboBox comboBox_time,comboBox_bill_type;
 	JScrollPane scrollPane;
 	String[] columnNames= {"时间","对方姓名","对方账号","金额"};//定义表格列名的数组
@@ -28,6 +29,12 @@ public class BankBill extends JPanel implements ItemListener{
 	String[][] tableValues= {{"09-06 06:09","梅花餐厅","123455","-10.50"},{"09-06 12:08","东南大学","321282","+1000.00"}};;
 	DefaultTableModel tableModel;
 	JTable table;
+
+	private String token;
+	/**
+	 * Create the panel.
+	 */
+
 	public BankBill() {
 		setSize(736,600);
 		setLayout(null);//绝对布局
