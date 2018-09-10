@@ -21,7 +21,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
@@ -598,11 +600,21 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				cardLayout.show(panel_right, "bank_2");
 				HideAllMessagePanel();
 			}  else if (e.getSource() == label_bank_bill) {
-				cardLayout.show(panel_right, "bank_3");
-				HideAllMessagePanel();
+					String payPassword="123456";
+					//TODO 需要把用户消费密码传递过来
+					JPasswordField pwd = new JPasswordField();
+					Object[] message = {"请输入账号密码：", pwd};
+					JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+					String passStr=pwd.getText();//获取输入对话框中的密码
+					if(passStr.equals(payPassword)) {
+						cardLayout.show(panel_right, "bank_3");
+						HideAllMessagePanel();
+					}else {
+						JOptionPane.showMessageDialog(null, "密码错误！", "Tips",JOptionPane.ERROR_MESSAGE); 
+				}
 			} else if (e.getSource() == label_bank_modify_pass) {
-				cardLayout.show(panel_right, "bank_4");
-				HideAllMessagePanel();		
+					cardLayout.show(panel_right, "bank_4");
+					HideAllMessagePanel();			
 			} 
 		}
 	}

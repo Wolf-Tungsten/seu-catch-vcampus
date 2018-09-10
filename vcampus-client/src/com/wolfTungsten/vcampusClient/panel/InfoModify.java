@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class InfoModify extends JPanel implements ActionListener{
@@ -60,6 +61,7 @@ public class InfoModify extends JPanel implements ActionListener{
 		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_cardNum.setBounds(257, 120, 290, 30);
 		textField_cardNum.setEditable(false);
+		textField_cardNum.setOpaque(false);
 		add(textField_cardNum);
 		textField_cardNum.setColumns(10);
 		//姓名”本文框，可编辑
@@ -74,6 +76,7 @@ public class InfoModify extends JPanel implements ActionListener{
 		textField_IDnum.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_IDnum.setBounds(257, 240, 290, 30);
 		textField_IDnum.setEditable(false);
+		textField_IDnum.setOpaque(false);
 		add(textField_IDnum);
 		textField_IDnum.setColumns(10);
 		//“出生日期”本文框，可编辑
@@ -105,21 +108,39 @@ public class InfoModify extends JPanel implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if(e.getSource()==modifyButton) {
+			//点击“编辑个人信息”
 			textField_name.setEditable(true);
 			textField_birthdate.setEditable(true);
 			textField_address.setEditable(true);
 		}
+		String newNameStr=textField_name.getText();
+		String newBirthdateStr=textField_birthdate.getText();
+		String newAddressStr=textField_address.getText();
+		
 		if(e.getSource()==okButton) {
-			String newNameStr=textField_name.getText();
-			String newBirthdateStr=textField_birthdate.getText();
-			String newAddressStr=textField_address.getText();
-			textField_name.setEditable(false);
-			textField_birthdate.setEditable(false);
-			textField_address.setEditable(false);
+			//点击“确认”
+			if(newNameStr.equals("")||newNameStr==null) {
+				JOptionPane.showMessageDialog(null, "请输入姓名！", "Tips",JOptionPane.ERROR_MESSAGE);
+				return;
+			}else if(newBirthdateStr.equals("")||newBirthdateStr==null) {
+				JOptionPane.showMessageDialog(null, "请输入出生日期！", "Tips",JOptionPane.ERROR_MESSAGE);
+				return;
+			}else if(newAddressStr.equals("")||newAddressStr==null) {
+				JOptionPane.showMessageDialog(null, "请输入地址！", "Tips",JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			int op=JOptionPane.showConfirmDialog(null, "是否保存此次修改？", "Tips", JOptionPane.YES_NO_OPTION);
+			{
+				if(op==JOptionPane.YES_OPTION) {
+					textField_name.setEditable(false);
+					textField_birthdate.setEditable(false);
+					textField_address.setEditable(false);
+				}
+			}
+			
 		}else if(e.getSource()==cancelButton) {
-			//怎么恢复原来的数据？
+			//TODO 怎么恢复原来的数据？
 			textField_name.setEditable(false);
 			textField_birthdate.setEditable(false);
 			textField_address.setEditable(false);
