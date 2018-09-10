@@ -14,6 +14,8 @@ public class Course
 	public static final String LECTURER ="lecturer";
 	public static final String CREATETIME ="createTime";
 	public static final String UPDATETIME  ="updateTime";
+	public static final String WEEK = "week";
+	public static final String CLASSTIME = "classtime";
 	
 	@DatabaseField(generatedId = true, columnName = Course.UUID)
 	private UUID uuid;
@@ -27,10 +29,35 @@ public class Course
 	private long createTime;
 	@DatabaseField(columnName = Course.UPDATETIME)
 	private long updateTime;
+	@DatabaseField(columnName = Course.WEEK)
+	private String week;
+	@DatabaseField(columnName = Course.CLASSTIME)
+	private String classtime;
 	public Course()
 	{
 		
 	}
+	
+	public String getWeek()
+	{
+		return week;
+	}
+
+	public void setWeek(String week)
+	{
+		this.week = week;
+	}
+
+	public String getClasstime()
+	{
+		return classtime;
+	}
+
+	public void setClasstime(String classtime)
+	{
+		this.classtime = classtime;
+	}
+
 	public UUID getUuid()
 	{
 		return uuid;

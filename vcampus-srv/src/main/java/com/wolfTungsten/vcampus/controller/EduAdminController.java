@@ -25,6 +25,7 @@ public class EduAdminController extends BaseController
 		this.pathMap.put("dropCourse", dropCourseHandle);
 		this.pathMap.put("studentlist", studentlistHandle);
 		this.pathMap.put("queryByName", queryByNameHandle);
+		
 		//this.pathMap.put("mark", value)
 	}
 	//已测试
@@ -38,11 +39,14 @@ public class EduAdminController extends BaseController
 			String name = (String)request.getParams().get(Course.NAME);
 			int capacity = (int)(double)request.getParams().get(Course.CAPCITY);
 			String lecturer = (String)request.getParams().get(Course.LECTURER);
+			String week = (String)request.getParams().get(Course.WEEK);
+			String classtime =(String)request.getParams().get(Course.CLASSTIME);
 			String token = (String)request.getToken();
+			
 			try
 			{
 				checkToken(token);
-				orm.courseRepository.addCourse(name, capacity, lecturer);
+				orm.courseRepository.addCourse(name, capacity, lecturer,week,classtime);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -263,6 +267,8 @@ public class EduAdminController extends BaseController
 					record.put(Course.NAME, course.getName());
 					record.put(Course.LECTURER, course.getLecturer());
 					record.put(Course.UUID, course.getUuid().toString());
+					record.put(Course.CLASSTIME, course.getClasstime());
+					record.put(Course.WEEK, course.getWeek());
 				}
 				response.getBody().put("recordMaplist", uxcList);
 				response.setSuccess(true);
