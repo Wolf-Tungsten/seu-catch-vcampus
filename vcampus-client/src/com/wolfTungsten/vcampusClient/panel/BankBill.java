@@ -36,7 +36,12 @@ public class BankBill extends JPanel implements ItemListener{
 		//数据传到这里
 		String[][] tableValues= {{"09-06 06:09","梅花餐厅","-10.50"},{"09-06 12:08","账户转入","+1000.00"}};
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		JTable table=new JTable(tableModel);
+		JTable table=new JTable(tableModel) {
+		public boolean isCellEditable(int row, int column)
+        {
+			      return false;//表格不允许被编辑
+		}
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);

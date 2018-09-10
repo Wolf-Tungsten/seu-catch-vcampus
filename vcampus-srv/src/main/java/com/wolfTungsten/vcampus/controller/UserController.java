@@ -18,6 +18,7 @@ public class UserController extends BaseController{
 		this.addHandle("addUser", addUserHandle);
 		this.addHandle("login", loginHandle);
 		this.addHandle("register", registerHandle);
+		this.addHandle("update", updateHandle);
 	}
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
@@ -120,6 +121,37 @@ public class UserController extends BaseController{
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				return response;
+			}
+			
+		}
+	};
+	
+	private BaseController.BaseHandle updateHandle = new BaseController.BaseHandle() {
+		
+		@Override
+		public Response work(Request request) {
+			String uuid = (String)request.getParams().get("uuid");
+			String username =(String)request.getParams().get(User.USERNAME);
+			String cardnum = (String)request.getParams().get(User.CARDNUM);
+			String hash_password = (String)request.getParams().get(User.PASSWORD);
+			String photo = (String)request.getParams().get(User.PHOTO);
+			int identity = (int)(double)request.getParams().get(User.IDENTITY);
+			int privilege = (int)(double)request.getParams().get(User.PRIVILEGE);
+			long birthdate = (long)(double)request.getParams().get(User.BIRTHDATE);
+			String address = (String)request.getParams().get(User.ADDRESS);
+			String idcardNum = (String)request.getParams().get(User.IDCARDNUM);
+			
+			try {
+				orm.userRepository.updateUser(uuid, username, cardnum, hash_password, identity, privilege, photo, idcardNum, birthdate, address);
+				Response successRes = new Response();
+				successRes.setSuccess(true);
+				return successRes;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Response failRes = new Response();
+				failRes.setSuccess(false);
+				return failRes;
 			}
 			
 		}

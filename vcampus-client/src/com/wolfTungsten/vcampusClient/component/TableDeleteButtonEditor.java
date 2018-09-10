@@ -1,6 +1,7 @@
 //LibManager()“检索图书”中“删除“这列中用来删除书籍的按钮
 package com.wolfTungsten.vcampusClient.component;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

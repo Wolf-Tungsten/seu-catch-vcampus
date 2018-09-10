@@ -92,7 +92,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		comboBox_type.addItem("运动户外");
 		comboBox_type.addItem("服饰配件");
 		comboBox_type.addItem("生鲜水果");
-		comboBox_type.addItem("零食百货");
+		comboBox_type.addItem("零食美味");
 		comboBox_type.addItemListener(this);
 		add(comboBox_type);
 		
