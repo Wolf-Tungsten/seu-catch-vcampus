@@ -54,7 +54,7 @@ public class LibMessage extends JPanel {
 		
 		String[] columnNames= {"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","续借状态"};//定义表格列名的数组
 		//数据传到这里！
-		
+
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
 		JTable table=new JTable(tableModel) {
 			public boolean isCellEditable(int row, int column)
