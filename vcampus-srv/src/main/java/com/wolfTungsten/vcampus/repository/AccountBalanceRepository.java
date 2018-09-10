@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.UUID;
 
 import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.ORM;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
 import com.wolfTungsten.vcampus.entity.TradingRecord;
-import com.wolfTungsten.vcampus.entity.User;;
+import com.wolfTungsten.vcampus.entity.User;
+import com.wolfTungsten.vcampus.entity.UserXBook;;
 
 public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 {
@@ -50,8 +52,10 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		}
 	}
 	
-	public void changeSecretPassword(String newPassword)throws SQLException{
-			new AccountBalance().setSecretPassword(newPassword);
+	public void changeSecretPassword(String userid,String newPassword)throws SQLException{
+		dao.update((PreparedUpdate<AccountBalance>)dao.updateBuilder()
+				.updateColumnValue(AccountBalance.SECRETPASSWORD,newPassword)
+				.where().eq(AccountBalance.USER_ID,userid).prepare());
 	}
 	
 
