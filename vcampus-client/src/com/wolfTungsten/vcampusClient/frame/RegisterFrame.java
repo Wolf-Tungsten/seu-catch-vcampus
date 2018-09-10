@@ -134,7 +134,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		contentPane.add(rePassLabel);
 		
 		cardNumField = new JTextField();
-		cardNumField.setForeground(Color.WHITE);
+		cardNumField.setForeground(Color.BLACK);
 		cardNumField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		cardNumField.setBounds(200, 95, 140, 21);
 		contentPane.add(cardNumField);
@@ -144,7 +144,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		
 		identityField = new JTextField();
 //		identityField.setOpaque(false);
-		identityField.setForeground(Color.WHITE);
+		identityField.setForeground(Color.BLACK);
 		identityField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		identityField.setBounds(200, 140, 140, 21);
 		contentPane.add(identityField);
@@ -152,7 +152,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		identityField.setColumns(10);
 		
 		idCardNumField = new JTextField();
-		idCardNumField.setForeground(Color.WHITE);
+		idCardNumField.setForeground(Color.BLACK);
 		idCardNumField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		idCardNumField.setBounds(200, 185, 140, 21);
 		contentPane.add(idCardNumField);
@@ -161,14 +161,16 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		
 		DateChooserForReg dateChooser = DateChooserForReg.getInstance("yyyy-MM-dd");
 		birthdateField = new JTextField();
+		
 		birthdateField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		birthdateField.setBounds(200, 230, 140, 21);
 		dateChooser.register(birthdateField);
+		birthdateField.setForeground(Color.BLACK);
 //		textSet(birthdateField);	
 		contentPane.add(birthdateField);
 		
 		addressField = new JTextField();
-		addressField.setForeground(Color.WHITE);
+		addressField.setForeground(Color.BLACK);
 		addressField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		addressField.setBounds(200, 275, 140, 21);
 		contentPane.add(addressField);
@@ -176,7 +178,7 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		addressField.setColumns(10);
 		
 		passwordField = new JPasswordField();
-		passwordField.setForeground(Color.WHITE);
+		passwordField.setForeground(Color.BLACK);
 		passwordField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		passwordField.setBounds(200, 320, 140, 21);
 		contentPane.add(passwordField);
@@ -184,13 +186,13 @@ public class RegisterFrame extends JFrame implements ActionListener{
 		passwordField.setColumns(10);
 		
 		rePassField = new JPasswordField();
-		rePassField.setForeground(Color.WHITE);
+		rePassField.setForeground(Color.BLACK);
 		rePassField.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		rePassField.setBounds(200,365, 140, 21);
 		contentPane.add(rePassField);
 //		textSet(rePassField);
 		rePassField.setColumns(10);
-		studentRadioButton.setForeground(Color.WHITE);
+		studentRadioButton.setForeground(Color.BLACK);
 		studentRadioButton.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		
 		studentRadioButton.setBounds(84, 50, 80, 23);

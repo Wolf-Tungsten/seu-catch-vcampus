@@ -47,7 +47,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	JTable table;
 	String token ;
 	JScrollPane scrollPane ;
-
+	
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
@@ -90,7 +90,15 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 
 
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		table=new JTable(tableModel);
+		table=new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column)
+            {
+				if(column!=5) {
+                       return false;//表格不允许被编辑
+				}else
+					return true;
+            }
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);

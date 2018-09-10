@@ -160,7 +160,7 @@ public class DateChooser extends JPanel {
 				showDate.requestFocusInWindow();
 			}
 		});
-		this.setBackground(Color.WHITE);
+		this.setBackground(Color.BLACK);///////////////
 		this.add(showDate, BorderLayout.CENTER);
 		this.setPreferredSize(new Dimension(90, 25));
 		this.setBorder(BorderFactory.createLineBorder(Color.GRAY));
