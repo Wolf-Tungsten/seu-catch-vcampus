@@ -1,6 +1,8 @@
 package com.wolfTungsten.vcampus.controller;
 
+import java.sql.Date;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import com.wolfTungsten.vcampus.utils.Request;
@@ -64,6 +66,7 @@ public class BankController extends BaseController{
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
+			value=value*100;
 			try
 			{
 				checkToken(token);
@@ -96,6 +99,10 @@ public class BankController extends BaseController{
     		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
+    		long createTime = System.currentTimeMillis() / 1000;//时间戳
+    		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		Date date=new Date(createTime*1000);
+    		
     		double balance=0;
 			try
 			{
@@ -103,6 +110,7 @@ public class BankController extends BaseController{
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
 				  balance=orm.tradingRecordRepository.calculateBalance(userid);
+				  response.getBody().put("currentTime", time.format(date));
 				  response.getBody().put("balance", balance);
 				  response.setSuccess(true);
 				}
@@ -126,15 +134,34 @@ public class BankController extends BaseController{
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long currentTime = System.currentTimeMillis() / 1000;//时间戳
-    		long period=(long)request.getParams().get("period");
-    		ArrayList<HashMap<String, Object>> toBill = new ArrayList<>();
+    		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		long period=(long)(double)request.getParams().get("period");
+    		ArrayList<TradingRecord> toBill = new ArrayList<>();
+    		ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
     		try
 			{
     			checkToken(token);
     			if(orm.accountBalanceRepository.check(userid,secretPassword))
     			{
-    				orm.tradingRecordRepository.getToBill(userid,currentTime-period);
-    		        response.getBody().put("toBill", toBill);
+    				toBill=orm.tradingRecordRepository.getToBill(userid,currentTime-period);
+    				for(TradingRecord b:toBill) {
+    		    		Date date=new Date(b.getCreateTime()*1000);
+    					User userFrom=orm.userRepository.inquireById(b.getFrom());
+    					User userTo=orm.userRepository.inquireById(b.getTo());
+    					HashMap<String,Object>record = new HashMap<>();
+    					record.remove(TradingRecord.FROM);
+    					record.remove(TradingRecord.TO);
+    					record.remove(TradingRecord.UUID);
+    					record.remove(TradingRecord.VALUE);
+    					record.put("fromCardnum",userFrom.getCardnum());
+    					record.put("fromName",userFrom.getUsername());
+    					record.put("toCardnum",userTo.getCardnum());
+    					record.put("toName",userTo.getUsername());
+    					record.put(TradingRecord.VALUE, b.getValue()/100);
+    					record.put(TradingRecord.CREATETIME, time.format(date));
+    					tradingRecordList.add(record);
+    				}
+    		        response.getBody().put("toBill", tradingRecordList);
 				    response.setSuccess(true);	
     			}
 				return response;	
@@ -158,15 +185,35 @@ public class BankController extends BaseController{
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long currentTime = System.currentTimeMillis() / 1000;//时间戳
-    		long period=(long)request.getParams().get("period");
-    		ArrayList<HashMap<String, Object>> fromBill = new ArrayList<>();
+    		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		
+    		long period=(long)(double)request.getParams().get("period");
+    		ArrayList<TradingRecord> fromBill=new ArrayList<>();
+    		ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
     		try
 			{
     			checkToken(token);
     			if(orm.accountBalanceRepository.check(userid,secretPassword))
     			{
-    				orm.tradingRecordRepository.getFromBill(userid,currentTime-period);
-    			    response.getBody().put("fromBill", fromBill);
+    				fromBill=orm.tradingRecordRepository.getFromBill(userid,currentTime-period);
+    				for(TradingRecord b:fromBill) {
+    					Date date=new Date(b.getCreateTime()*1000);
+    					User userFrom=orm.userRepository.inquireById(b.getFrom());
+    					User userTo=orm.userRepository.inquireById(b.getTo());
+    					HashMap<String,Object>record = new HashMap<>();
+    					record.remove(TradingRecord.FROM);
+    					record.remove(TradingRecord.TO);
+    					record.remove(TradingRecord.UUID);
+    					record.remove(TradingRecord.VALUE);
+    					record.put("fromCardnum",userFrom.getCardnum());
+    					record.put("fromName",userFrom.getUsername());
+    					record.put("toCardnum",userTo.getCardnum());
+    					record.put("toName",userTo.getUsername());
+    					record.put(TradingRecord.VALUE, b.getValue()/100);
+    					record.put(TradingRecord.CREATETIME, time.format(date));
+    					tradingRecordList.add(record);
+    				}
+    			    response.getBody().put("fromBill", tradingRecordList);
 				    response.setSuccess(true);	
 				}	
 				return response;	
@@ -190,15 +237,34 @@ public class BankController extends BaseController{
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long currentTime = System.currentTimeMillis() / 1000;//时间戳
-    		long period=(long)request.getParams().get("period");
-    		ArrayList<HashMap<String, Object>> bill=new ArrayList<>();
+    		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    		long period=(long)(double)request.getParams().get("period");
+    		ArrayList<TradingRecord> bill=new ArrayList<>();
+    		ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
     		try
 			{
     			checkToken(token);
     			if(orm.accountBalanceRepository.check(userid, secretPassword))
     			{
     			    bill=orm.tradingRecordRepository.getBill(userid,currentTime-period);
-    			    response.getBody().put("bill", bill);
+    				for(TradingRecord b:bill) {
+    		    		Date date=new Date(b.getCreateTime()*1000);
+    					User userFrom=orm.userRepository.inquireById(b.getFrom());
+    					User userTo=orm.userRepository.inquireById(b.getTo());
+    					HashMap<String,Object>record = new HashMap<>();
+    					record.remove(TradingRecord.FROM);
+    					record.remove(TradingRecord.TO);
+    					record.remove(TradingRecord.UUID);
+    					record.remove(TradingRecord.VALUE);
+    					record.put("fromCardnum",userFrom.getCardnum());
+    					record.put("fromName",userFrom.getUsername());
+    					record.put("toCardnum",userTo.getCardnum());
+    					record.put("toName",userTo.getUsername());
+    					record.put(TradingRecord.VALUE, b.getValue()/100);
+    					record.put(TradingRecord.CREATETIME, time.format(date));
+    					tradingRecordList.add(record);
+    				}
+    			    response.getBody().put("bill", tradingRecordList);
 				    response.setSuccess(true);	
     			}
 				return response;	
@@ -227,7 +293,8 @@ public class BankController extends BaseController{
 				checkToken(token);
 				if(orm.accountBalanceRepository.check(userid,secretPassword))
     			{
-					orm.accountBalanceRepository.changeSecretPassword(newPassword);
+					orm.accountBalanceRepository.changeSecretPassword(userid,newPassword);
+					response.getBody().put("result", "修改密码成功:"+newPassword);
 					response.setSuccess(true);
     			}		
 				return response;	
