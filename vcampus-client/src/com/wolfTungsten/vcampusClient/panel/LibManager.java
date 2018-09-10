@@ -445,8 +445,7 @@ public class LibManager extends JPanel implements ActionListener {
 				if (statement.equals("未借出"))
 				{
 					tableModel_1.setValueAt("可借阅", i, 6);// 重置名字
-				}
-				
+				}				
 			}
 			}else
 			{

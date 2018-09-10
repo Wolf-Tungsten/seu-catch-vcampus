@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import com.wolfTungsten.vcampus.entity.AccountBalance;
 import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.utils.Request;
 import com.wolfTungsten.vcampus.utils.Response;
@@ -19,6 +20,9 @@ public class UserController extends BaseController{
 		this.addHandle("login", loginHandle);
 		this.addHandle("register", registerHandle);
 		this.addHandle("update", updateHandle);
+		this.addHandle("modifyPwd", modifyPwdHandle);
+		this.addHandle("userinfo", userinfoHandle);
+		this.addHandle("modifyuserinfo", modifyUserinfo);
 	}
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
@@ -156,6 +160,108 @@ public class UserController extends BaseController{
 			
 		}
 	};
+
+	
+	//前端传token 和旧密码
+	private BaseController.BaseHandle modifyPwdHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String oldpwd = (String)request.getParams().get("oldpwd"); //旧密码md5
+			String token =request.getToken();
+			String newpwd = (String)request.getParams().get("newpwd");
+			String cardnum = (String)request.getParams().get(User.CARDNUM);
+			try
+			{
+				String userid = checkToken(token);
+				User user = orm.userRepository.inquireById(userid);
+				if(oldpwd.equals(user.getHash_password())&&cardnum.equals(user.getCardnum())) {
+					
+					orm.userRepository.modifyByflag(userid, User.PASSWORD, newpwd);
+					response.setSuccess(true);
+					
+				}else {
+					response.setSuccess(false);
+					response.getBody().put("result", "旧密码或一卡通号错误");
+				}
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+			}
+
+			return null;
+		}
+	};
+	
+	private BaseController.BaseHandle userinfoHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			
+			String token = request.getToken();			
+			try
+			{
+				String userid = checkToken(token);
+				User user = orm.userRepository.inquireById(userid);
+				response.getBody().put(User.CARDNUM, user.getCardnum());
+				response.getBody().put(User.USERNAME, user.getUsername());
+				long birthdate = user.getBirthdate();			
+				response.getBody().put(User.BIRTHDATE, birthdate);
+				response.getBody().put(User.ADDRESS, user.getAddress());
+				response.getBody().put(User.IDCARDNUM, user.getIdcardNum());
+				response.setSuccess(true);
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+		
+		}
+	};
+	
+	private BaseController.BaseHandle modifyUserinfo = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String token = request.getToken();
+			
+			HashMap<String, Object> userinfo = request.getParams();
+//			String name = (String)request.getParams().get(User.USERNAME);
+//			String address = (String)request.getParams().get(User.ADDRESS);
+			try
+			{
+				String useruuid = checkToken(token);
+				orm.userRepository.updateUser2(userinfo,useruuid);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+		
+		}
+	};
+	
 	
 	private static String getMD5(String info)
 	{
@@ -202,5 +308,6 @@ public class UserController extends BaseController{
 		System.out.println(password);
 		
 	}
+	
 	
 }
