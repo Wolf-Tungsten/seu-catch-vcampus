@@ -97,6 +97,7 @@ public class BankModifyPass extends JPanel implements ActionListener{
 		textArea.setBounds(158, 494, 420, 31);
 		textArea.setOpaque(false);
 		textArea.setEditable(false);
+		textArea.setLineWrap(true);
 		add(textArea);
 	}
 

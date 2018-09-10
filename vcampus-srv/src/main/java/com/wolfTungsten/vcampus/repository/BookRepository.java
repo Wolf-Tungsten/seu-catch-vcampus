@@ -16,6 +16,7 @@ import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Book;
+import com.wolfTungsten.vcampus.entity.Goods;
 import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.entity.UserXBook;
 

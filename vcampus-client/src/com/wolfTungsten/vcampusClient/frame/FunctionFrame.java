@@ -11,7 +11,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.event.MouseMotionListener;
 import java.net.URL;
-
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -21,9 +24,15 @@ import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.panel.BankBill;
 import com.wolfTungsten.vcampusClient.panel.BankModifyPass;
 import com.wolfTungsten.vcampusClient.panel.BankSaveAndWithdraw;
@@ -428,11 +437,16 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_lib_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_1", panel_lib_select);
 		//“借还信息”面板
-		panel_lib_message = new LibMessage();
-		panel_lib_message.setBackground(new Color(255, 255, 255));
-		panel_right.add("lib_2", panel_lib_message);
+		
+//		HashMap<String,Object> borrowRecord = borrowRecordrequest(token);
+//		String[][] tablevalue = (String[][]) borrowRecord.get("tablevalue");
+//		String name = (String) borrowRecord.get("name");
+//		String cardnum = (String) borrowRecord.get("cardnum");
+//		panel_lib_message = new LibMessage(token,tablevalue,name,cardnum);
+//		panel_lib_message.setBackground(new Color(255, 255, 255));
+//		panel_right.add("lib_2", panel_lib_message);
 		//“管理员”面板
-		panel_lib_manager = new LibManager();
+		panel_lib_manager = new LibManager(token);
 		panel_lib_manager.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_3", panel_lib_manager);
 		
@@ -556,9 +570,19 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			} else if (e.getSource() == label_lib_select) {
 				cardLayout.show(panel_right, "lib_1");
 				HideAllMessagePanel();
-			} else if (e.getSource() == label_lib_message) {
+			} else if (e.getSource() == label_lib_message) {///////////
+				HashMap<String,Object> borrowRecord = borrowRecordrequest(token);
+				String[][] tablevalue = (String[][]) borrowRecord.get("tablevalue");
+				String name = (String) borrowRecord.get("name");
+				String cardnum = (String) borrowRecord.get("cardnum");
+				panel_lib_message = new LibMessage(token,tablevalue,name,cardnum);
+				panel_lib_message.setBackground(new Color(255, 255, 255));
+				panel_right.add("lib_2", panel_lib_message);
 				cardLayout.show(panel_right, "lib_2");
 				HideAllMessagePanel();
+				
+				
+				
 			}else if (e.getSource() == label_lib_manager) {
 				cardLayout.show(panel_right, "lib_3");
 				HideAllMessagePanel();
@@ -901,4 +925,54 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			 label_bank_modify_pass.setBackground(new Color(230,230,230));
 		 }
 	}
+	
+	public static  HashMap<String,Object> borrowRecordrequest(String token){
+		HashMap<String,Object> borrowRecord = new HashMap<>();
+		Client.Response response = new Response();
+		Client.Request request = new Request();
+		request.setPath("book/borrowRecord");
+		request.setToken(token);
+		response = Client.fetch(request);
+		ArrayList<LinkedTreeMap<String, Object>> recordMaplist
+		=(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("recordMaplist");
+		int rowcount = recordMaplist.size();
+		String[][] tablevalue = new String[rowcount][8];
+		for(int i=0;i<rowcount;i++) {
+			LinkedTreeMap<String,Object> recordMap = recordMaplist.get(i);
+			if(recordMap==null)System.out.println("sssss");
+			
+			tablevalue[i][0]=(String) recordMap.get("uuid");
+			tablevalue[i][1]=(String) recordMap.get("name");
+			tablevalue[i][2] = (String) recordMap.get("author");
+			tablevalue[i][3] = (String) recordMap.get("publisher");
+			long borrowdate = (long)(double)recordMap.get("borrowdate")*1000;
+			long returndate = (long)(double)recordMap.get("returndate")*1000;
+			long deaddate = (long)(double)recordMap.get("deaddate")*1000;
+			int isreturn =(int)(double)recordMap.get("isReturn");
+			Date dateb = new Date(borrowdate);
+			Date dater = new Date(returndate);
+			Date dated = new Date(deaddate);
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd ");
+			tablevalue[i][4]= df.format(dateb);
+			if(returndate!=0) {
+				tablevalue[i][5]=df.format(dater);
+			}
+			else tablevalue[i][5] = "未归还";
+			tablevalue[i][6] = df.format(dated);
+			
+			if ((deaddate - borrowdate)/1000 < 59 * 24 * 3600)
+				tablevalue[i][7] = "可续借";
+			else
+				tablevalue[i][7] = "不可续借";
+			if(returndate!=0)tablevalue[i][7]="/";
+		}
+		borrowRecord.put("tablevalue", tablevalue);
+		borrowRecord.put("name", response.getBody().get("username"));
+		borrowRecord.put("cardnum", response.getBody().get("cardnum"));
+		//String[] columnNames= {"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","续借状态"}		
+		return borrowRecord;
+		
+	}
+	
+	
 }

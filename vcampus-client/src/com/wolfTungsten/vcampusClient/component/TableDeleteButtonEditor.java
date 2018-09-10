@@ -1,9 +1,11 @@
 //LibManager()“检索图书”中“删除“这列中用来删除书籍的按钮
 package com.wolfTungsten.vcampusClient.component;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
@@ -11,14 +13,21 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 public class TableDeleteButtonEditor extends DefaultCellEditor {
 	   protected JButton button;
 	   private String label;
        private boolean isPushed; 
        private String selectId;
        String deleteID;
-       public TableDeleteButtonEditor(JCheckBox checkBox) {
+       String token;
+       public TableDeleteButtonEditor(JCheckBox checkBox,String Token) {
+    	
     	   super(checkBox);
+    	   token = Token;
            button = new JButton();
            button.setOpaque(true);
            button.addActionListener(new ActionListener() {
@@ -56,7 +65,19 @@ public class TableDeleteButtonEditor extends DefaultCellEditor {
                  if(op==JOptionPane.YES_OPTION){  
                  System.out.println(selectId+"删除");
                  deleteID=selectId;
-                 return new String("已删除");       //返回显示”已删除“          	
+                 Client.Request  request = new Request();
+                 
+                 request.setPath("book/deleteBook");
+                 ArrayList<String> uuidlist = new ArrayList<>();
+                 uuidlist.add(deleteID);
+                 request.getParams().put("uuidList", uuidlist);
+                 Response response = Client.fetch(request);
+                 if(response.getSuccess())return new String("已删除");
+                 else {
+                	 JOptionPane.showMessageDialog(null, "删除失败，请联系后台", "删除失败",JOptionPane.ERROR_MESSAGE);
+                 }
+                 
+                        //返回显示”已删除“          	
               }else if(op==JOptionPane.NO_OPTION){    
               } 
               }

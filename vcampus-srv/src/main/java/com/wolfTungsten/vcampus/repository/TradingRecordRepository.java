@@ -7,9 +7,7 @@ import java.util.List;
 
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
-import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.TradingRecord;
-import com.wolfTungsten.vcampus.entity.User;
 
 public class TradingRecordRepository extends CurdRepository<TradingRecord>
 {
@@ -19,51 +17,66 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 	}
 	
 	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
+		if(calculateBalance(from)>=value)
+		{
 		TradingRecord tradingRecord=new TradingRecord();
-		tradingRecord.setFrom(from);
-		tradingRecord.setTo(to);
+	    tradingRecord.setFrom(from);
+	    tradingRecord.setTo(to);
 		tradingRecord.setValue(value);
 		tradingRecord.setCreateTime(createTime);
 		dao.create(tradingRecord);
+		}else
+		{
+			throw new SQLException("该账户余额不足");
+		}
 	}//增加一条记录
 	
 	//计算某账户支出总额
-	public double calculateFrom(String from)throws SQLException{
+	public double calculateBalance(String userid)throws SQLException{
 		double fromSum=0;
-		List<TradingRecord> tradingRecordList = 
-				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, from).prepare());
-		for(int i=0;i<tradingRecordList.size();i++)
-		{
-			fromSum+=tradingRecordList.get(i).getValue();
-		}
-		return fromSum;
-	}
-	
-	//计算某账户收入总额
-	public double calculateTo(String to)throws SQLException{
 		double toSum=0;
-		List<TradingRecord> tradingRecordList = 
-				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, to).prepare());
-		for(int i=0;i<tradingRecordList.size();i++)
+		double balance=0;
+		List<TradingRecord> fromList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, userid).prepare());
+		for(int i=0;i<fromList.size();i++)
 		{
-			toSum+=tradingRecordList.get(i).getValue();
+			fromSum+=fromList.get(i).getValue();
 		}
-		return toSum;
+		List<TradingRecord> toList = 
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid).prepare());
+		for(int i=0;i<toList.size();i++)
+		{
+			toSum+=toList.get(i).getValue();
+		}
+		balance=toSum-fromSum;
+		return balance;
 	}
 	
 	
-	public ArrayList<TradingRecord> getBill(String userid)throws SQLException{
-		ArrayList<TradingRecord> tradingRecordList = (ArrayList<TradingRecord>)
+	
+	public ArrayList<HashMap<String,Object>> getBill(String userid,long time)throws SQLException{
+		ArrayList<TradingRecord> bill = (ArrayList<TradingRecord>)
 				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid)
-						.or().eq(TradingRecord.FROM, userid).prepare());
+						.or().eq(TradingRecord.FROM, userid).and().ge(TradingRecord.CREATETIME, time).prepare());
+		ArrayList<HashMap<String,Object>> tradingRecordList = new ArrayList<>();
+		for(TradingRecord b:bill) {
+			HashMap<String,Object>record = new HashMap<>();
+			record.put(TradingRecord.UUID, b.getUuid().toString());
+			record.put(TradingRecord.FROM, b.getFrom());
+			record.put(TradingRecord.TO,b.getTo());
+			record.put(TradingRecord.CREATETIME,b.getCreateTime());
+			tradingRecordList.add(record);
+				
+		}
 		return tradingRecordList;
 	}//总账单
 
-	//查询账单（支出账单/收入账单）
-	public ArrayList<HashMap<String,Object>> getBill(String flag, Object value) throws SQLException {
-		ArrayList<TradingRecord> bill = new ArrayList<>();
+
+	public ArrayList<HashMap<String,Object>> getToBill(String userid,long time) throws SQLException {
+		ArrayList<TradingRecord> bill = (ArrayList<TradingRecord>)
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid)
+						.and().ge(TradingRecord.CREATETIME, time).prepare());;
 		ArrayList<HashMap<String,Object>> tradingRecordList = new ArrayList<>();
-		bill = (ArrayList<TradingRecord>)dao.queryForEq(flag, value);
 		for(TradingRecord b:bill) {
 			HashMap<String,Object>record = new HashMap<>();
 			record.put(TradingRecord.UUID, b.getUuid().toString());
@@ -75,5 +88,21 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		}
 		return tradingRecordList;
 
+	}
+	
+	public ArrayList<HashMap<String,Object>> getFromBill(String userid,long time) throws SQLException {
+		ArrayList<TradingRecord> bill = (ArrayList<TradingRecord>)
+				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, userid)
+						.and().ge(TradingRecord.CREATETIME, time).prepare());;
+		ArrayList<HashMap<String,Object>> tradingRecordList = new ArrayList<>();
+		for(TradingRecord b:bill) {
+			HashMap<String,Object>record = new HashMap<>();
+			record.put(TradingRecord.UUID, b.getUuid().toString());
+			record.put(TradingRecord.FROM, b.getFrom());
+			record.put(TradingRecord.TO,b.getTo());
+			record.put(TradingRecord.CREATETIME,b.getCreateTime());
+			tradingRecordList.add(record);
+				}
+		return tradingRecordList;
 	}
 }

@@ -1,7 +1,6 @@
 //教务处——课表查询面板
 package com.wolfTungsten.vcampusClient.panel;
 
-import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -10,6 +9,7 @@ import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
 
@@ -27,16 +27,33 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 	JPanel panel;
 	JPanel infoPanel; 
 	JPanel mainPanel;
+
 	//panel 分成 info和main  
 	// info (700,89) main(700,13*37=481)
 	JPanel coursePanel,weekPanel,timePanel;
 	//main分成三部分 week显示星期 time显示上下午课数 coursePanel 显示课程
 	//time (100,481) week(600.37) course(600,444 = 12 *37)
 	//字体颜色 (59，120，103)
+	
 	/**
 	 * Create the panel.
+	 *
 	 */
-
+	private JLabel courseMonMorning;
+	private JLabel courseMonAfternoon;
+	private JLabel courseMonNight;
+	private JLabel courseTueMorning;
+	private JLabel courseTueAfternoon;
+	private JLabel courseTueNight;
+	private JLabel courseWedMorning;
+	private JLabel courseWedAfternoon;
+	private JLabel courseWedNight;
+	private JLabel courseThuMorning;
+	private JLabel courseThuAfternoon;
+	private JLabel courseThuNight;
+	private JLabel courseFriMorning;
+	private JLabel courseFriAfternoon;
+	private JLabel courseFriNight;
 	@SuppressWarnings("unused")
 	public JwcCurriculum() {
 		setSize(736,600);
@@ -207,104 +224,141 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		weekPanel.add(wed);
 		weekPanel.add(thu);
 		weekPanel.add(fri);
-		
+
 		//coursePanel
+		
 		coursePanel.setLayout(null);
-		JLabel course1 = new JLabel();
-		course1.setHorizontalAlignment(SwingConstants.CENTER);
-		course1.setText("\u6D4B\u8BD5\u5927\u5C0F\u989C\u8272");
-		course1.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course1.setSize(120, 185);
-		JLabel course2 = new JLabel();
-		course2.setHorizontalAlignment(SwingConstants.CENTER);
-		course2.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course2.setSize(120, 185);
-		course2.setLocation(0, 185);
-		JLabel course3 = new JLabel();
-		course3.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course3.setHorizontalAlignment(SwingConstants.CENTER);
-		course3.setSize(120, 74);
-		course3.setLocation(0, 370);
-		JLabel course4 = new JLabel();
-		course4.setHorizontalAlignment(SwingConstants.CENTER);
-		course4.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course4.setSize(120, 185);
-		course4.setLocation(120, 0);
-		JLabel course5 = new JLabel();
-		course5.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course5.setHorizontalAlignment(SwingConstants.CENTER);
-		course5.setSize(120, 185);
-		course5.setLocation(120, 185);
-		JLabel course6 = new JLabel();
-		course6.setHorizontalAlignment(SwingConstants.CENTER);
-		course6.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course6.setSize(120, 74);
-		course6.setLocation(120, 370);
-		JLabel course7 = new JLabel();
-		course7.setHorizontalAlignment(SwingConstants.CENTER);
-		course7.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course7.setSize(120, 185);
-		course7.setLocation(240, 0);
-		JLabel course8 = new JLabel();
-		course8.setHorizontalAlignment(SwingConstants.CENTER);
-		course8.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course8.setSize(120, 185);
-		course8.setLocation(240, 185);
-		JLabel course9 = new JLabel();
-		course9.setHorizontalAlignment(SwingConstants.CENTER);
-		course9.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course9.setSize(120, 74);
-		course9.setLocation(240, 370);
-		JLabel course10 = new JLabel();
-		course10.setHorizontalAlignment(SwingConstants.CENTER);
-		course10.setFont(new Font("微软雅黑 Light", Font.BOLD, 15));
-		course10.setSize(120, 185);
-		course10.setLocation(360, 0);
-		JLabel course11 = new JLabel();
-		course11.setHorizontalAlignment(SwingConstants.CENTER);
-		course11.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course11.setSize(120, 185);
-		course11.setLocation(360, 185);
-		JLabel course12 = new JLabel();
-		course12.setHorizontalAlignment(SwingConstants.CENTER);
-		course12.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course12.setSize(120, 74);
-		course12.setLocation(360, 370);
-		JLabel course13 = new JLabel();
-		course13.setHorizontalAlignment(SwingConstants.CENTER);
-		course13.setFont(new Font("微软雅黑 Light", Font.ITALIC, 14));
-		course13.setSize(120, 185);
-		course13.setLocation(480, 0);
-		JLabel course14 = new JLabel();
-		course14.setHorizontalAlignment(SwingConstants.CENTER);
-		course14.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course14.setSize(120, 185);
-		course14.setLocation(480, 185);
-		JLabel course15 = new JLabel();
-		course15.setHorizontalAlignment(SwingConstants.CENTER);
-		course15.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
-		course15.setSize(120, 74);
-		course15.setLocation(480, 370);
-		coursePanel.add(course1);
-		coursePanel.add(course2);
-		coursePanel.add(course3);
-		coursePanel.add(course4);
-		coursePanel.add(course5);
-		coursePanel.add(course6);
-		coursePanel.add(course7);
-		coursePanel.add(course8);
-		coursePanel.add(course9);
-		coursePanel.add(course10);
-		coursePanel.add(course11);
-		coursePanel.add(course12);
-		coursePanel.add(course13);
-		coursePanel.add(course14);
-		coursePanel.add(course15);
+		
+
+		courseMonMorning = new JLabel();
+		courseMonMorning.setHorizontalAlignment(SwingConstants.CENTER);
+		courseMonMorning.setText("\u6D4B\u8BD5\u5927\u5C0F\u989C\u8272");
+		courseMonMorning.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseMonMorning.setSize(120, 185);
+		
+		courseMonAfternoon = new JLabel();
+		courseMonAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
+		courseMonAfternoon.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseMonAfternoon.setSize(120, 185);
+		courseMonAfternoon.setLocation(0, 185);
+		
+		courseMonNight = new JLabel();
+		courseMonNight.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseMonNight.setHorizontalAlignment(SwingConstants.CENTER);
+		courseMonNight.setSize(120, 74);
+		courseMonNight.setLocation(0, 370);
+		
+		courseTueMorning = new JLabel();
+		courseTueMorning.setHorizontalAlignment(SwingConstants.CENTER);
+		courseTueMorning.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseTueMorning.setSize(120, 185);
+		courseTueMorning.setLocation(120, 0);
+
+		courseTueAfternoon = new JLabel();
+		courseTueAfternoon.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseTueAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
+		courseTueAfternoon.setSize(120, 185);
+		courseTueAfternoon.setLocation(120, 185);
+		
+		courseTueNight = new JLabel();
+		courseTueNight.setHorizontalAlignment(SwingConstants.CENTER);
+		courseTueNight.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseTueNight.setSize(120, 74);
+		courseTueNight.setLocation(120, 370);
+		
+		courseWedMorning = new JLabel();
+		courseWedMorning.setHorizontalAlignment(SwingConstants.CENTER);
+		courseWedMorning.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseWedMorning.setSize(120, 185);
+		courseWedMorning.setLocation(240, 0);
+		
+		courseWedAfternoon = new JLabel();
+		courseWedAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
+		courseWedAfternoon.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseWedAfternoon.setSize(120, 185);
+		courseWedAfternoon.setLocation(240, 185);
+		
+		courseWedNight = new JLabel();
+		courseWedNight.setHorizontalAlignment(SwingConstants.CENTER);
+		courseWedNight.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseWedNight.setSize(120, 74);
+		courseWedNight.setLocation(240, 370);
+		
+		courseThuMorning = new JLabel();
+		courseThuMorning.setHorizontalAlignment(SwingConstants.CENTER);
+		courseThuMorning.setFont(new Font("微软雅黑 Light", Font.BOLD, 15));
+		courseThuMorning.setSize(120, 185);
+		courseThuMorning.setLocation(360, 0);
+		
+		courseThuAfternoon = new JLabel();
+		courseThuAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
+		courseThuAfternoon.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseThuAfternoon.setSize(120, 185);
+		courseThuAfternoon.setLocation(360, 185);
+
+		courseThuNight = new JLabel();
+		courseThuNight.setHorizontalAlignment(SwingConstants.CENTER);
+		courseThuNight.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseThuNight.setSize(120, 74);
+		courseThuNight.setLocation(360, 370);
+		
+		courseFriMorning = new JLabel();
+		courseFriMorning.setHorizontalAlignment(SwingConstants.CENTER);
+		courseFriMorning.setFont(new Font("微软雅黑 Light", Font.ITALIC, 14));
+		courseFriMorning.setSize(120, 185);
+		courseFriMorning.setLocation(480, 0);
+		
+		courseFriAfternoon = new JLabel();
+		courseFriAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
+		courseFriAfternoon.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseFriAfternoon.setSize(120, 185);
+		courseFriAfternoon.setLocation(480, 185);
+		
+		courseFriNight = new JLabel();
+		courseFriNight.setHorizontalAlignment(SwingConstants.CENTER);
+		courseFriNight.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
+		courseFriNight.setSize(120, 74);
+		courseFriNight.setLocation(480, 370);		
+		
+		coursePanel.add(courseMonMorning);
+		coursePanel.add(courseMonAfternoon);
+		coursePanel.add(courseMonNight);
+		coursePanel.add(courseTueMorning);
+		coursePanel.add(courseTueAfternoon);
+		coursePanel.add(courseTueNight);
+		coursePanel.add(courseWedMorning);
+		coursePanel.add(courseWedAfternoon);
+		coursePanel.add(courseWedNight);
+		coursePanel.add(courseThuMorning);
+		coursePanel.add(courseThuAfternoon);
+		coursePanel.add(courseThuNight);
+		coursePanel.add(courseFriMorning);
+		coursePanel.add(courseFriAfternoon);
+		coursePanel.add(courseFriNight);
 		
 		
 		}	
-
-
+		//课表的显示 
+		//自动添加函数  
+		//需要用到 两个变量 String week (周一) String day(上午)
+	/*	public void autoAddCourse(){
+			if(week == "周一" && day == "上午") courseMonMorning.setText(          );
+			else if(week == "周一" && day == "下午") courseMonAfternoon.setText(    );
+			else if(week == "周一" && day == "晚上") courseMonNight.setText(       );
+			else if(week == "周二" && day == "上午") courseTueMorning.setText(     );
+			else if(week == "周二" && day == "下午") courseTueAfternoon.setText(      );
+			else if(week == "周二" && day == "晚上") courseTueNight.setText(        );
+			else if(week == "周三" && day == "上午") courseWedMorning.setText(     );
+			else if(week == "周三" && day == "下午") courseWedAfternoon.setText(      );
+			else if(week == "周三" && day == "晚上") courseWedNight.setText(     );
+			else if(week == "周四" && day == "上午") courseThuMorning.setText(     );
+			else if(week == "周四" && day == "下午") courseThuAfternoon.setText(     );
+			else if(week == "周四" && day == "晚上") courseThuNight.setText("");
+			else if(week == "周五" && day == "上午") courseFriMorning.setText(     );
+			else if(week == "周五" && day == "下午") courseFriAfternoon.setText(     );
+			else if(week == "周五" && day == "晚上") courseFriNight.setText(    );
+	  }
+ */
 
 
 

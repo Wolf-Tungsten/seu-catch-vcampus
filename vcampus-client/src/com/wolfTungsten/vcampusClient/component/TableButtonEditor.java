@@ -20,9 +20,10 @@ public class TableButtonEditor extends DefaultCellEditor{
 	   private String label;
        private boolean isPushed; 
        private String selectId;
-       
-       public TableButtonEditor(JCheckBox checkBox) {
+       private String token;
+       public TableButtonEditor(JCheckBox checkBox,String Token) {
     	   super(checkBox);
+    	   token = Token;
            button = new JButton();
            button.setOpaque(true);
            button.addActionListener(new ActionListener() {
@@ -65,6 +66,7 @@ public class TableButtonEditor extends DefaultCellEditor{
                                 	 Client.Request request = new Request();
                                 	 request.setPath("book/borrowBook");
                                 	 request.getParams().put("uuid", selectId);
+                                	 request.setToken(token);
                                 	 Response response = Client.fetch(request);
                                 	 
                                 	 System.out.println(selectId+"借出");
