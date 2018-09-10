@@ -56,7 +56,15 @@ public class LibMessage extends JPanel {
 		//数据传到这里！
 
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		JTable table=new JTable(tableModel);
+		JTable table=new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column)
+            {
+				if(column!=7) {
+                       return false;//表格不允许被编辑
+				}else
+					return true;
+            }
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
@@ -85,17 +93,17 @@ public class LibMessage extends JPanel {
 		
 		label_cardNum = new JLabel("一卡通号：");
 		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_cardNum.setBounds(292, 51, 77, 15);
+		label_cardNum.setBounds(292, 30, 77, 32);
 		add(label_cardNum);
 		
 		label_name = new JLabel("姓名:");
 		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_name.setBounds(548, 51, 54, 15);
+		label_name.setBounds(548, 30, 54, 32);
 		add(label_name);
 		
 		textField_cardNum = new JTextField();
 		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_cardNum.setBounds(403, 48, 96, 21);
+		textField_cardNum.setBounds(403, 30, 96, 32);
 		textField_cardNum.setEditable(false);
 		textField_cardNum.setOpaque(false);
 		textField_cardNum.setText(cardnum);
@@ -104,7 +112,7 @@ public class LibMessage extends JPanel {
 		
 		textField_name = new JTextField();
 		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_name.setBounds(627, 45, 89, 21);
+		textField_name.setBounds(627, 30, 89, 32);
 		textField_name.setEditable(false);
 		textField_name.setOpaque(false);
 		textField_name.setText(name);

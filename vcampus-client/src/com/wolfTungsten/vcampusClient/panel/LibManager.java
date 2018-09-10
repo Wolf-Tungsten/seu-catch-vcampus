@@ -108,7 +108,12 @@ public class LibManager extends JPanel implements ActionListener {
 		//定义表格列名的数组
 		//定义表格数据数组
 		tableModel=new DefaultTableModel(tableValues,columnNames);
-		table=new JTable(tableModel);//创建指定列名和数据的表格
+		table=new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column)
+            {		
+                       return false;//表格不允许被编辑
+            }
+		};//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
@@ -270,7 +275,15 @@ public class LibManager extends JPanel implements ActionListener {
 		//定义表格数据数组
 		
 		tableModel_1=new DefaultTableModel(tableValues_1,columnNames_1);//创建指定列名和数据的表格	
-		table_1=new JTable(tableModel_1);
+		table_1=new JTable(tableModel_1) {
+			public boolean isCellEditable(int row, int column)
+            {
+				if(column!=7) {
+                       return false;//表格不允许被编辑
+				}else
+					return true;
+            }
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr_1 = new DefaultTableCellRenderer();
 		cr_1.setHorizontalAlignment(JLabel.CENTER);

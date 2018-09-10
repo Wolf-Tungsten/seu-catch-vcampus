@@ -59,7 +59,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	/**
 	 * Create the panel.
 	 */
-	@SuppressWarnings({ "unused", "unchecked" })
+	@SuppressWarnings({ "unchecked" })
 	public JwcManager() {
 		setSize(736,600);
 		setLayout(null);
@@ -394,6 +394,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		String type;
 		if(radioButton_course.isSelected()) type = "课程";
 		else if(radioButton_experiment.isSelected()) type ="实验";
+		
 		
 		//名称的值
 		String name = textField_courseName.getText();

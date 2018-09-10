@@ -114,7 +114,9 @@ public class JwcSelectCourses extends JPanel {
 		model.addRow(new String[] {"信号","","","","",""});
 		model.addRow(new String[] {"计组","","","","",""});
 		model.addRow(new String[] {"信号","","","","",""});
-	
+		model.addRow(new String[] {"高数","","","","",""});
+		model.addRow(new String[] {"体育","","","","",""});
+
 	}
 }
 

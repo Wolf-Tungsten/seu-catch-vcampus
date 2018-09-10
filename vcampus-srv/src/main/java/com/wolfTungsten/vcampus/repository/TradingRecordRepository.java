@@ -8,6 +8,7 @@ import java.util.List;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.TradingRecord;
+import com.wolfTungsten.vcampus.entity.User;
 
 public class TradingRecordRepository extends CurdRepository<TradingRecord>
 {
@@ -17,7 +18,7 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 	}
 	
 	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
-		if(calculateBalance(from)>=value)
+		if((from=="72d1e945-a28f-4132-95b3-3d5992884c04"))
 		{
 		TradingRecord tradingRecord=new TradingRecord();
 	    tradingRecord.setFrom(from);
@@ -25,13 +26,24 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		tradingRecord.setValue(value);
 		tradingRecord.setCreateTime(createTime);
 		dao.create(tradingRecord);
-		}else
+		}else 
 		{
-			throw new SQLException("该账户余额不足");
+			if(calculateBalance(from)>=value)
+			{
+				TradingRecord tradingRecord=new TradingRecord();
+			    tradingRecord.setFrom(from);
+			    tradingRecord.setTo(to);
+				tradingRecord.setValue(value);
+				tradingRecord.setCreateTime(createTime);
+				dao.create(tradingRecord);
+			}else
+			{
+				throw new SQLException("该账户余额不足");
+			}
 		}
 	}//增加一条记录
 	
-	//计算某账户支出总额
+	//计算某账户余额
 	public double calculateBalance(String userid)throws SQLException{
 		double fromSum=0;
 		double toSum=0;
@@ -49,60 +61,32 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 			toSum+=toList.get(i).getValue();
 		}
 		balance=toSum-fromSum;
-		return balance;
+		return balance/100;
 	}
 	
 	
 	
-	public ArrayList<HashMap<String,Object>> getBill(String userid,long time)throws SQLException{
+	public ArrayList<TradingRecord> getBill(String userid,long time)throws SQLException{
 		ArrayList<TradingRecord> bill = (ArrayList<TradingRecord>)
 				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid)
 						.or().eq(TradingRecord.FROM, userid).and().ge(TradingRecord.CREATETIME, time).prepare());
-		ArrayList<HashMap<String,Object>> tradingRecordList = new ArrayList<>();
-		for(TradingRecord b:bill) {
-			HashMap<String,Object>record = new HashMap<>();
-			record.put(TradingRecord.UUID, b.getUuid().toString());
-			record.put(TradingRecord.FROM, b.getFrom());
-			record.put(TradingRecord.TO,b.getTo());
-			record.put(TradingRecord.CREATETIME,b.getCreateTime());
-			tradingRecordList.add(record);
-				
-		}
-		return tradingRecordList;
+		return bill;
 	}//总账单
 
 
-	public ArrayList<HashMap<String,Object>> getToBill(String userid,long time) throws SQLException {
+	public ArrayList<TradingRecord> getToBill(String userid,long time) throws SQLException {
 		ArrayList<TradingRecord> bill = (ArrayList<TradingRecord>)
 				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.TO, userid)
-						.and().ge(TradingRecord.CREATETIME, time).prepare());;
-		ArrayList<HashMap<String,Object>> tradingRecordList = new ArrayList<>();
-		for(TradingRecord b:bill) {
-			HashMap<String,Object>record = new HashMap<>();
-			record.put(TradingRecord.UUID, b.getUuid().toString());
-			record.put(TradingRecord.FROM, b.getFrom());
-			record.put(TradingRecord.TO,b.getTo());
-			record.put(TradingRecord.CREATETIME,b.getCreateTime());
-			tradingRecordList.add(record);
-				
-		}
-		return tradingRecordList;
+						.and().ge(TradingRecord.CREATETIME, time).prepare());
+		return bill;
 
 	}
 	
-	public ArrayList<HashMap<String,Object>> getFromBill(String userid,long time) throws SQLException {
+	public ArrayList<TradingRecord> getFromBill(String userid,long time) throws SQLException {
 		ArrayList<TradingRecord> bill = (ArrayList<TradingRecord>)
 				dao.query((PreparedQuery<TradingRecord>) dao.queryBuilder().where().eq(TradingRecord.FROM, userid)
 						.and().ge(TradingRecord.CREATETIME, time).prepare());;
-		ArrayList<HashMap<String,Object>> tradingRecordList = new ArrayList<>();
-		for(TradingRecord b:bill) {
-			HashMap<String,Object>record = new HashMap<>();
-			record.put(TradingRecord.UUID, b.getUuid().toString());
-			record.put(TradingRecord.FROM, b.getFrom());
-			record.put(TradingRecord.TO,b.getTo());
-			record.put(TradingRecord.CREATETIME,b.getCreateTime());
-			tradingRecordList.add(record);
-				}
-		return tradingRecordList;
+
+		return bill;
 	}
 }

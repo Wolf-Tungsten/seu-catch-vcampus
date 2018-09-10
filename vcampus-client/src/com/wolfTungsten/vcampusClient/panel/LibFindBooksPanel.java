@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -48,7 +49,6 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	JTable table;
 	String token ;
 	JScrollPane scrollPane ;
-
 
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
@@ -88,11 +88,19 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//==============测试数据===========================================
 
 
-		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
+		String[][] tableValues= {};
 
 
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		table=new JTable(tableModel);
+		table=new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column)
+            {
+				if(column!=5) {
+                       return false;//表格不允许被编辑
+				}else
+					return true;
+            }
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);

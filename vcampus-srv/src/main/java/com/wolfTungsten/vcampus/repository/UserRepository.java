@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.UUID;
 
 import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
+import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.User;
 
 public class UserRepository extends CurdRepository<User> {
@@ -97,6 +99,22 @@ public class UserRepository extends CurdRepository<User> {
 			throw new SQLException("交易方不存在");	 	
 	}
 	
+	public Boolean updateUser(String userid, String username,String cardnum,String hash_password,int identity,
+			int privilege ,String photo,String idcardNum,long birthdate,String address) throws SQLException {
+		UpdateBuilder<User, String> updateBuilder = dao.updateBuilder();
+		updateBuilder.where().eq("uuid", userid);
+		updateBuilder.updateColumnValue(User.USERNAME, username)
+					.updateColumnValue(User.CARDNUM, cardnum)
+					.updateColumnValue(User.PASSWORD, hash_password)
+					.updateColumnValue(User.IDENTITY, identity)
+					.updateColumnValue(User.PRIVILEGE, privilege)
+					.updateColumnValue(User.PHOTO, photo)
+					.updateColumnValue(User.IDCARDNUM, idcardNum)
+					.updateColumnValue(User.BIRTHDATE, birthdate)
+					.updateColumnValue(User.ADDRESS, address)
+					.update();
+		return true;
+	}
 	
 	
 

@@ -30,7 +30,12 @@ public class ShoppingHistory extends JPanel {
 		add(scrollPane);
 		
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		table=new JTable(tableModel);
+		table=new JTable(tableModel) {
+			public boolean isCellEditable(int row, int column)
+            {
+                       return false;//表格不允许被编辑
+            }
+		};
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
