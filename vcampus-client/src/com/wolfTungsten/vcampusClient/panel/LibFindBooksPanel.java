@@ -85,6 +85,10 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//==============这些值传过来的时候就带有“未借出”“已借出”的状态，方便下面判断是否加“借阅”按钮,yhd说偷偷摸摸加了
 		//==============测试数据===========================================
 
+
+		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
+
+
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
 		table=new JTable(tableModel);
 		 //设置表数据居中显示

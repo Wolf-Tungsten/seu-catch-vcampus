@@ -12,6 +12,8 @@ import com.wolfTungsten.vcampus.entity.Book;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
 import com.wolfTungsten.vcampus.entity.Goods;
 import com.wolfTungsten.vcampus.entity.Token;
+import com.wolfTungsten.vcampus.repository.UserXGoodsRepository;
+
 import com.wolfTungsten.vcampus.utils.Request;
 import com.wolfTungsten.vcampus.utils.Response;
 
@@ -23,13 +25,16 @@ public class MarketController extends BaseController {
 		this.addHandle("queryByName",queryByNameHandle);
 		this.addHandle("queryAll", queryAllHandle);
 		this.addHandle("queryBySeller", queryBySellerHandle);
+		this.addHandle("queryShoppingCart", queryShoopingCartHandle);
+		this.addHandle("queryBought", queryBoughtGoodsHandle);
 		this.addHandle("purchase", purchaseHandle);
 		this.addHandle("deleteGoods", deleteGoodsHandle);
+		this.addHandle("deleteAll", deleteAllGoodsHandle);
 
 	}
 	
 	//添加商品的Handle
-	private BaseController.BaseHandle addGoodsHandle = new BaseHandle() {
+	private BaseController.BaseHandle addGoodsHandle = new BaseHandle() {   
 		//测试成功
 		@Override
 		public Response work(Request request) {
@@ -65,10 +70,10 @@ public class MarketController extends BaseController {
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
-			String token = (String) request.getParams().get("token");
+			//String token = request.getToken();
 			ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
 			try {
-				checkToken(token);
+				//checkToken(token);
 				goodsinfolist =  orm.goodsRepository.inquireAllGoods();
 				response.getBody().put("goodsInfoMapList", goodsinfolist);
 				
@@ -163,7 +168,14 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			}
 		};
 
-		
+		private BaseController.BaseHandle updateGoodsHandle = new BaseHandle() {
+			//更新商品信息，未测试
+			@Override
+			public Response work(Request request) {
+				return null;
+			}
+		}; 
+
 		private BaseController.BaseHandle deleteGoodsHandle = new BaseHandle() {
 			//待测试
 			@Override
@@ -185,26 +197,51 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				return response;
 			}
 		};
+		
+		public BaseController.BaseHandle deleteAllGoodsHandle = new BaseHandle() {
+			//大招：从删库到跑路
+			@Override
+			public Response work(Request request) {
+				Response response = new Response();
+				//request.getToken();
+				try {
+					//checkToken(request.getToken());
+					orm.goodsRepository.deleteAllGoods();
+					response.setSuccess(true);
+					return response;
+				}catch (SQLException e) {
+					//其实我也不知道该抛出啥异常
+					response.setSuccess(false);
+					e.printStackTrace();
+				}
+				return response;
+			}
+		};
+		public BaseController.BaseHandle queryShoopingCartHandle = new BaseHandle(){
+			//查询某个用户的购物车（通过用户的uuid
+			@Override
+			public Response work(Request request) {
+				Response response = new Response();
+				ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
+				//String uuid = request.
+					//goodsinfolist = orm.userXGoodsRepository.inqueryShoppingCart();
+				
+				return null;
+			}
+		};
+		
+		public BaseController.BaseHandle queryBoughtGoodsHandle = new BaseHandle() {
+			//查询某个用户购买过的商品
+			@Override
+			public Response work(Request request) {
+				
+				return null;
+			}
+		};
 };
 
 
 
-			//在这里用ormlite的方法给数据库写入数据
-//			try {
-//				orm.goodsRepository.addGoods(name, description, seller, price, amount, image);
-//				response.setSuccess(true);
-//				return response;
-//			}catch(SQLException e)
-//			{	
-//				e.printStackTrace();
-//				response.setSuccess(false);
-//				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
-//				return response;
-//			}
-//			
-//		}
-//	};
-//	
 
 
 

@@ -22,6 +22,7 @@ import com.wolfTungsten.vcampus.repository.UserXBookRepository;
 import com.wolfTungsten.vcampus.repository.UserXCourseRepository;
 import com.wolfTungsten.vcampus.repository.UserXExamRepository;
 import com.wolfTungsten.vcampus.repository.UserXExperimentRepository;
+import com.wolfTungsten.vcampus.repository.UserXGoodsRepository;
 import com.wolfTungsten.vcampus.utils.AccessDatabaseType;
 
 // 
@@ -41,6 +42,8 @@ public class ORM {
 	public ExamRepository examRepository;
 	public ExperimentRepository experimentRepository;
 	public UserXExperimentRepository userXExperimentRepository;
+	public UserXGoodsRepository userXGoodsRepository;
+	
 
 	public CourseRepository courseRepository;
 
@@ -50,7 +53,7 @@ public class ORM {
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
-			conn = new JdbcConnectionSource("jdbc:ucanaccess://D:/vCampus.accdb;memory=false", databaseType);
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://E:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
