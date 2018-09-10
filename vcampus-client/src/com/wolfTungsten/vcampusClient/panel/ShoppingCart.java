@@ -33,8 +33,6 @@ public class ShoppingCart extends JPanel implements ActionListener{
      JLabel []label_type=new JLabel[len];
      JLabel []label_price=new JLabel[len];
      JTextField []textField_number=new JTextField[len];
-     JButton []button_add=new JButton[len];
-     JButton []button_sub=new JButton[len];
      JButton dialogOkButton;
      int gap=120;
      
@@ -58,8 +56,12 @@ public class ShoppingCart extends JPanel implements ActionListener{
     		 label_type.setBounds(x+268, y+30, width-550, height-105);//(278, 10, 54, 15)
     		 panel.add(label_type);
     		 
-    		 label_price.setText("¥："+result[3]);//"（价格）"
-    		 label_price.setBounds(x+268, y+69, width-550, height-105);//(278, 79, 54, 15)
+    		 JLabel label_yuan=new JLabel("¥：");
+    		 label_yuan.setBounds(x+268,  y+69, width-647, height-105);//(278, 79, 30, 15);
+    		 panel.add(label_yuan);
+    		 
+    		 label_price.setText(result[3]);//"（价格）"
+    		 label_price.setBounds(x+298, y+69, width-550, height-105);//(308, 79, 54, 15)
     		 panel.add(label_price);
 
     		 textField_number.setText(result[4]);//购买数量
@@ -67,9 +69,9 @@ public class ShoppingCart extends JPanel implements ActionListener{
     		 panel.add(textField_number);
     		 textField_number.setColumns(10);
     		
-    		 JLabel label=new JLabel("购买数量：");
-    		 label.setBounds(x+401,  y+34, width-600, height-97);//(441, 47, 42, 23);
-    		 panel.add(label);
+    		 JLabel label_amount=new JLabel("购买数量：");
+    		 label_amount.setBounds(x+401,  y+34, width-600, height-97);//(441, 47, 42, 23);
+    		 panel.add(label_amount);
     		 }
 
 
@@ -83,6 +85,7 @@ public class ShoppingCart extends JPanel implements ActionListener{
 		  }
 		 for (int i = 0; i < checkBox.length; i++) {
 			 checkBox[i] = new JCheckBox();
+			 checkBox[i].addActionListener(this);
 	     }
 		 for (int i = 0; i < label_photo.length; i++) {
 			 label_photo[i] = new JLabel();
@@ -95,12 +98,6 @@ public class ShoppingCart extends JPanel implements ActionListener{
 	     }
 		 for (int i = 0; i < textField_number.length; i++) {
 			 textField_number[i] = new JTextField();
-	     }
-		 for (int i = 0; i < button_add.length; i++) {
-			 button_add[i] = new JButton();
-	     }
-		 for (int i = 0; i < button_sub.length; i++) {
-			 button_sub[i] = new JButton();
 	     }
 		 panel=new JPanel();
 		panel.setLayout(null);
@@ -144,24 +141,31 @@ public class ShoppingCart extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		// 点击“结算清单”按钮
 		if(e.getSource()==payButton) {
-			// TODO 计算。。。。。。
-			String money=null;
-			String pass="123456";
+			//  计算选中物品多少钱
+			double cost=0.0;
+			for(int i=0;i<len;i++) {	
+				if(checkBox[i].isSelected()) {
+					double x =Double.parseDouble(label_price[i].getText());
+					double y=Double.parseDouble(textField_number[i].getText());
+					cost+=x*y;
+				}
+			}
+			String money=String.valueOf(cost);
+			String payPassword="123456";//需要把用户消费密码传递过来
 			JPasswordField pwd = new JPasswordField();
-
 			Object[] message = {"本次消费共计"+money+"元\n请输入支付密码：", pwd};
-
 			JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-	        String passStr=pwd.getText();
-			if(passStr.equals(pass)) {
+	        String passStr=pwd.getText();//获取输入对话框中的密码
+	        //判断消费密码是否正确
+			if(passStr.equals(payPassword)) {
 				 JOptionPane.showMessageDialog(null, "支付成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);  
-			}else if (!passStr.equals(pass)&&!passStr.equals("")&&passStr!=null){
+			}else if (!passStr.equals(payPassword)&&!passStr.equals("")&&passStr!=null){
 				JOptionPane.showMessageDialog(null, "支付密码错误！", "Tips",JOptionPane.ERROR_MESSAGE);  
 			}else if (passStr.equals("")||passStr==null){
 				JOptionPane.showMessageDialog(null, "支付失败！", "Tips",JOptionPane.ERROR_MESSAGE);  
 			}
 		}
-			
+		
 	}
 
 
