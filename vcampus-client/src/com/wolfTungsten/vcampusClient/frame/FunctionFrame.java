@@ -37,6 +37,7 @@ import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.panel.BankBill;
 import com.wolfTungsten.vcampusClient.panel.BankModifyPass;
+import com.wolfTungsten.vcampusClient.panel.BankNewPassword;
 import com.wolfTungsten.vcampusClient.panel.BankSaveAndWithdraw;
 import com.wolfTungsten.vcampusClient.panel.BankTurnMoney;
 import com.wolfTungsten.vcampusClient.panel.InfoModify;
@@ -49,6 +50,7 @@ import com.wolfTungsten.vcampusClient.panel.JwcSelectCourses;
 import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
 import com.wolfTungsten.vcampusClient.panel.LibManager;
 import com.wolfTungsten.vcampusClient.panel.LibMessage;
+import com.wolfTungsten.vcampusClient.panel.ShopManager;
 import com.wolfTungsten.vcampusClient.panel.ShopSelect;
 import com.wolfTungsten.vcampusClient.panel.ShopSellGoods;
 import com.wolfTungsten.vcampusClient.panel.ShoppingCart;
@@ -77,14 +79,16 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JLabel label_jwc_select,label_jwc_curriculum,label_jwc_exam,label_jwc_experiment;
 	
 	//商城面板们
-	JPanel panel_shop_select,panel_shop_cart,panel_shop_sell,panel_shop_history;
-	JLabel label_shop_select,label_shop_cart,label_shop_sell,label_shop_history;
+	JPanel panel_shop_select,panel_shop_cart,panel_shop_sell,panel_shop_history,panel_shop_manager;
+	JLabel label_shop_select,label_shop_cart,label_shop_sell,label_shop_history,label_shop_manager;
 	//银行面板们
-	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass;
+	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass,panel_bank_newPass;
 	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass;
 	static Point origin = new Point();
 	CardLayout cardLayout = new CardLayout();
 	String token;
+	private JLabel label;
+	private JButton NewAccountPassButton;
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -237,7 +241,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_lib_message.addMouseListener(this);
 		panel_message_lib.add(label_lib_message);
 		//“管理员”按钮（标签），关联LibManager面板==============有权限的人才能看到这个按钮？？？？？？？？？？？？？？？？
-		label_lib_manager=new JLabel("管理员",JLabel.CENTER);
+		label_lib_manager=new JLabel("图书管理员",JLabel.CENTER);
 		label_lib_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_lib_manager.setForeground(new Color(59,120,103));
 		label_lib_manager.setBounds(0, 140,150, 50);
@@ -309,7 +313,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_shop_select.setBounds(0, 40,150, 50);
 		label_shop_select.addMouseListener(this);
 		panel_message_shop.add(label_shop_select);
-		//”购物车“
+		//”我的购物车“
 		label_shop_cart=new JLabel("购物车",JLabel.CENTER);
 		label_shop_cart.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_shop_cart.setForeground(new Color(59,120,103));
@@ -332,6 +336,14 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_shop_history.setBounds(0, 190,150, 50);
 		label_shop_history.addMouseListener(this);
 		panel_message_shop.add(label_shop_history);
+		
+		//”商店管理员“
+		label_shop_manager=new JLabel("商店管理员",JLabel.CENTER);
+		label_shop_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_shop_manager.setForeground(new Color(59,120,103));
+		label_shop_manager.setBounds(0, 240,150, 50);
+		label_shop_manager.addMouseListener(this);
+		panel_message_shop.add(label_shop_manager);
 		
 		panel_message_shop.setVisible(false); 
 		
@@ -469,6 +481,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_shop_history.setBackground(new Color(255, 255, 255));
 		panel_right.add("shop_4", panel_shop_history);	
 		
+		panel_shop_manager=new ShopManager();
+		panel_shop_manager.setBackground(new Color(255, 255, 255));
+		panel_right.add("shop_5", panel_shop_manager);	
+		
 		//银行系统================================银行板块的面板们=======================================
 		panel_bank_save_withdraw=new BankSaveAndWithdraw();
 		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
@@ -487,7 +503,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_4", panel_bank_modify_pass);
 		
-		contentPane.getParent().getParent();
+		panel_bank_newPass=new BankNewPassword();//若用户没有支付密码，则会提示先设置支付密码
+		panel_bank_newPass.setBackground(new Color(255, 255, 255));
+		panel_right.add("bank_5", panel_bank_newPass);
+		
+	//	contentPane.getParent().getParent();
 			
 		//实现鼠标拖拽窗口的功能
 		this.addMouseListener(new MouseAdapter(){
@@ -525,7 +545,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		contentPane.add(panel_message_bank,new Integer(9));//分别将五个提示面板放置在比10层低的地方
 	}
 	
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({ "deprecation", "null" })
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		if (e.getClickCount() == 1) {
@@ -593,6 +613,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 					cardLayout.show(panel_right, "shop_4");
 					HideAllMessagePanel();
 					
+				} else if (e.getSource() == label_shop_manager) {
+					cardLayout.show(panel_right, "shop_5");
+					HideAllMessagePanel();
+					
 				}else if (e.getSource() == label_bank_save_withdraw) {
 				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
@@ -613,8 +637,14 @@ public class FunctionFrame extends JFrame implements MouseListener{
 						JOptionPane.showMessageDialog(null, "密码错误！", "Tips",JOptionPane.ERROR_MESSAGE); 
 				}
 			} else if (e.getSource() == label_bank_modify_pass) {
-					cardLayout.show(panel_right, "bank_4");
-					HideAllMessagePanel();			
+				    String originalPass=null;//TODO 每次点击这个label,要把用户支付密码传递给我
+				    if(originalPass!=null) {
+						cardLayout.show(panel_right, "bank_4");//如果密码非空，就可以修改
+						HideAllMessagePanel();			
+				    }else {
+				    	cardLayout.show(panel_right, "bank_5");//如果密码是空，就新建密码
+						HideAllMessagePanel();			
+				    }
 			} 
 		}
 	}
@@ -744,6 +774,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_shop_history) {
 			 label_shop_history.setOpaque(true);
 			 label_shop_history.setBackground(Color.WHITE);
+		 } else if (e.getSource() == label_shop_manager) {
+			 label_shop_manager.setOpaque(true);
+			 label_shop_manager.setBackground(Color.WHITE);
 		 } 
 		 
 		 if (e.getSource() == label_bank_save_withdraw) {
@@ -879,6 +912,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_shop_history) {
 			 label_shop_history.setOpaque(true);
 			 label_shop_history.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_shop_manager) {
+			 label_shop_manager.setOpaque(true);
+			 label_shop_manager.setBackground(new Color(230,230,230));
 		 }
 		
 		if (e.getSource() == label_bank_save_withdraw) {
