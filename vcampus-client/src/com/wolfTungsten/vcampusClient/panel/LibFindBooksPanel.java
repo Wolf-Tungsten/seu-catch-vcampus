@@ -6,6 +6,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.swing.JPanel;
@@ -23,6 +24,7 @@ import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
@@ -33,17 +35,24 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+@SuppressWarnings("unused")
 public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField textField_select;
 	JButton button_select;
 	CardLayout cardLayout=new CardLayout();
-	
+
+	String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
+	String[][] tableValues= {};
+	DefaultTableModel tableModel;
+	JTable table;
+	String token;
+
 	// Create the panel.
-	public LibFindBooksPanel() {
+	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
 		setLayout(null);//绝对布局
-		
+		token = Token;
 		//按书名/作者检索的输入文本框
 		textField_select= new JTextField();
 		textField_select.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -58,12 +67,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		//“搜索”按钮
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_select.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-			}
-		});
+
 		button_select.setBounds(590, 20, 126, 36);
 		button_select.addActionListener(this);
 		add(button_select);		
@@ -71,7 +75,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		JScrollPane scrollPane = new JScrollPane();//创建显示表格的滚动面板
 		scrollPane.setBounds(20, 76, 696, 514);
 		add(scrollPane);
-		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
+		
 		scrollPane.addMouseListener(this);
 	
 		//定义表格数据数组
@@ -80,25 +84,17 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		 */
 		//==============这些值传过来的时候就带有“未借出”“已借出”的状态，方便下面判断是否加“借阅”按钮,yhd说偷偷摸摸加了
 		//==============测试数据===========================================
+
 		String[][] tableValues= {{"B612","java","xxx","seu","九龙湖","未借出"},{"B613","swing","yyy","seu","四牌楼","已借出"},{"B615","spring","zzz","seu","丁家桥","未借出"}};
-		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		JTable table=new JTable(tableModel);
+
+		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
+		table=new JTable(tableModel);
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		 table.setDefaultRenderer(Object.class, cr);
 		//遍历所有行
-		 int rowCount=table.getRowCount(); 
-		 for(int i=0;i<rowCount;i++) {
-			Object statement=tableModel.getValueAt(i, 5);
-//			System.out.println("statement:"+statement);
-			//假如这本书状态是“未借出“，就在这行最后一列为其添加可选择”借阅“按钮
-			if(statement.equals("未借出")) {
-				tableModel.setValueAt("借阅", i, 5);//重置名字
-			}
-		 }
-		//”借阅“状态按钮添加，具体看component里的TableButtonEidtor
-		table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox()));
+		
 		//我这里无法获取更改后的“状态”列里的信息，界面上点击借阅后“借阅”按钮会变为不可点击的“已借出”按钮，但我这里怎么接受返回的信息呢？
 		 //在TablerButtonEditor()里有返回
 		scrollPane.setViewportView(table);
@@ -133,10 +129,50 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 			//点击“搜索”按钮，获取当前输入文本框中的文本（不获取"书名/作者"），进行检索
 			if(!textField_select.getText().equals("书名/作者")) {
 				String select_key=textField_select.getText();
-				
-				
-				
+				Client.Request request = new Request();
+				request.setPath("book/queryByFlag");
+				request.setToken("5d9527a84c9350bfdba0e093985978cd");
+				request.getParams().put("author", select_key);
+				request.getParams().put("name", select_key);
+				Client.Response response = Client.fetch(request);
+				if(response.getSuccess())
+				{
+					ArrayList<LinkedTreeMap<String, Object>> booksinfoList =
+							(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("booksInfoMapList");
+//					String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"}
+					
+					for(LinkedTreeMap<String,Object> bookinfo:booksinfoList) {
+						String[] rowValues = new String[6];			
+						rowValues[0] = (String) bookinfo.get("uuid");
+						rowValues[1]= (String) bookinfo.get("name");
+						rowValues[2] = (String) bookinfo.get("author");
+						rowValues[3] = (String) bookinfo.get("publisher");
+						rowValues[4] = (String) bookinfo.get("location");
+						if((boolean) bookinfo.get("isReturn")) {
+						rowValues[5] = "未借出";
+						}else rowValues[5] = "已借出";
+						tableModel.addRow(rowValues);						
+					}
+					 int rowCount=table.getRowCount(); 
+						 for(int i=0;i<rowCount;i++) {
+							Object statement=tableModel.getValueAt(i, 5);
+//							System.out.println("statement:"+statement);
+							//假如这本书状态是“未借出“，就在这行最后一列为其添加可选择”借阅“按钮
+							if(statement.equals("未借出")) {
+								tableModel.setValueAt("借阅", i, 5);//重置名字						
+							}
+						 }
+						//”借阅“状态按钮添加，具体看component里的TableButtonEidtor
+						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox()));		
+				}else {
+					 JOptionPane.showMessageDialog(null, "没有找到此书", "查询失败",JOptionPane.ERROR_MESSAGE); 
+					
+				}
+
 			   //怎么检索？？？
+			//往表格中添加新的行
+			//String[] rowValues= {};
+		    //tableModel.addRow(rowValues);
 			}
 		}
 	}

@@ -97,12 +97,17 @@ public class GoodsRepository extends CurdRepository<Goods>
 		}
 	}
 
-
-	public void deleteGoods(String uuid) throws SQLException {
+	public void deleteGoodsByUuid(String uuid) throws SQLException {
 		UUID goodsUuid = UUID.fromString(uuid);
 		dao.delete((PreparedDelete<Goods>)dao.deleteBuilder()
 				.where().eq(Goods.UUID, goodsUuid).prepare());
 	}
+	
+	//根据uuid购买商品
+	public void purchaseGoods(String uuid) {
+		
+	}
+	
 };
 	
 	

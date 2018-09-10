@@ -42,6 +42,10 @@ public class LibManager extends JPanel implements ActionListener {
 	private JTextField textField_publisher;
 	private JTextField textField_2;
 	private JButton okbutton,cancelbutton,btnNewButton;
+	private DefaultTableModel tableModel;
+	private JTable table,table_1;
+	DefaultTableModel tableModel_1;
+	ButtonGroup locationGroup;
 	JCheckBox checkBox;
 	JRadioButton rdbtnNewRadioButton = new JRadioButton("四牌楼");
 	JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("丁家桥");
@@ -89,7 +93,13 @@ public class LibManager extends JPanel implements ActionListener {
 		String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","入库日期","借阅状态"};//定义表格列名的数组
 		//定义表格数据数组
 		String[][] tableValues= {};
-		JTable table=new JTable(tableValues,columnNames);//创建指定列名和数据的表格
+		tableModel=new DefaultTableModel(tableValues,columnNames);
+		table=new JTable(tableModel);//创建指定列名和数据的表格
+		 //设置表数据居中显示
+		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
+		cr.setHorizontalAlignment(JLabel.CENTER);
+		 table.setDefaultRenderer(Object.class, cr);
+		 
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(20, 68, 696, 443);
 		panel_all.add(scrollPane);
@@ -99,7 +109,7 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_buttom.add("add",panel_add);
 		panel_add.setLayout(null);
 		
-		JTextField textField_num = new JTextField("");
+		textField_num = new JTextField("");
 		textField_num.setBounds(241, 60, 291, 21);
 		panel_add.add(textField_num);
 		textField_num.setColumns(10);
@@ -168,24 +178,28 @@ public class LibManager extends JPanel implements ActionListener {
 		textField_publisher.setBounds(241, 182, 291, 21);
 		panel_add.add(textField_publisher);
 		textField_publisher.setColumns(10);
-		//"馆藏地点“的三个选项按钮
+		/*
+		 * "馆藏地点“的三个选项按钮
+		 */
 		//"四牌楼"
 		rdbtnNewRadioButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton.setBounds(241, 230, 82, 23);
 		rdbtnNewRadioButton.setFocusPainted(false);
+		rdbtnNewRadioButton.addActionListener(this);
 		panel_add.add(rdbtnNewRadioButton);
 		//"丁家桥"
 		rdbtnNewRadioButton_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton_1.setBounds(355, 230, 77, 23);
 		rdbtnNewRadioButton_1.setFocusPainted(false);
+		rdbtnNewRadioButton_1.addActionListener(this);
 		panel_add.add(rdbtnNewRadioButton_1);
 		//"九龙湖"
 		rdbtnNewRadioButton_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		rdbtnNewRadioButton_2.setBounds(450, 230, 82, 23);
-		rdbtnNewRadioButton_2.setFocusPainted(false);
+		rdbtnNewRadioButton_2.addActionListener(this);
 		panel_add.add(rdbtnNewRadioButton_2);
 		
-		ButtonGroup locationGroup=new ButtonGroup();
+		locationGroup=new ButtonGroup();
 		locationGroup.add(rdbtnNewRadioButton);
 		locationGroup.add(rdbtnNewRadioButton_1);
 		locationGroup.add(rdbtnNewRadioButton_2);
@@ -239,8 +253,8 @@ public class LibManager extends JPanel implements ActionListener {
 		String[] columnNames_1= {"编号","书名","作者","出版社","馆藏地点","入库日期","借阅状态","操作"};//定义表格列名的数组
 		//定义表格数据数组
 		String[][] tableValues_1= {{"B612","java","xxx","seu","九龙湖","2018-1-1","未借出","删除"},{"B613","swing","yyy","seu","四牌楼","2018-1-1","已借出","删除"},{"B615","spring","zzz","seu","丁家桥","2018-1-1","未借出","删除"}};
-		DefaultTableModel tableModel_1=new DefaultTableModel(tableValues_1,columnNames_1);//创建指定列名和数据的表格	
-		JTable table_1=new JTable(tableModel_1);
+		tableModel_1=new DefaultTableModel(tableValues_1,columnNames_1);//创建指定列名和数据的表格	
+		table_1=new JTable(tableModel_1);
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr_1 = new DefaultTableCellRenderer();
 		cr_1.setHorizontalAlignment(JLabel.CENTER);
@@ -248,11 +262,10 @@ public class LibManager extends JPanel implements ActionListener {
 		 
 		 //这个删除按钮的class在component的TableDeleteButtonEditor()里
 		 checkBox=new JCheckBox();
-		
+		 checkBox.addActionListener(this);
 		 table_1.getColumn("操作").setCellEditor(new TableDeleteButtonEditor(checkBox));
 		 //我这里无法获取更改后的“操作”列里的信息，界面上点击删除后“删除”按钮会变为不可点击的“已删除”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableDeleteButtonEditor()里有返回
-		 checkBox.addActionListener(this);
 		 scrollPane_1.setViewportView(table_1);
 		 
 		cardLayout.show(panel_buttom, "all");
@@ -291,5 +304,31 @@ public class LibManager extends JPanel implements ActionListener {
 			}else if (e.getSource() ==button_delete) {
 				cardLayout.show(panel_buttom, "delete");
 			}
+			if(e.getSource()==okbutton) {
+				String location = null;
+				String statement=null;
+				if(e.getSource()==rdbtnNewRadioButton) {
+					location=rdbtnNewRadioButton.getText();
+				}else if(e.getSource()==rdbtnNewRadioButton_1) {
+					location=rdbtnNewRadioButton_1.getText();
+				}
+				else if(e.getSource()==rdbtnNewRadioButton_2) {
+					location=rdbtnNewRadioButton_2.getText();
+				}
+				//太虚假了，没有lacation和statement
+				String[] rowValues= {textField_num.getText(),textField_name.getText(),textField_author.getText(),
+						textField_publisher.getText(),location,textField_time.getText(),statement};
+				tableModel.addRow(rowValues);
+				}
+			if (e.getSource() ==checkBox) {
+				int rowCount=table_1.getRowCount(); 
+				 for(int i=0;i<rowCount;i++) {
+//					Object statement=tableModel_1.getValueAt(i, 7);
+//					if(statement.equals("已删除")) {
+//						tableModel_1.removeRow(i);
+					System.out.println("statement真的删了？:");
+					}
+				 }
+
 	}
 }

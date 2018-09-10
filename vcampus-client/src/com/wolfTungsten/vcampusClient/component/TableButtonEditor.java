@@ -11,6 +11,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 public class TableButtonEditor extends DefaultCellEditor{
 	   protected JButton button;
 	   private String label;
@@ -58,8 +62,16 @@ public class TableButtonEditor extends DefaultCellEditor{
                                  //JOptionPane.showMessageDialog(parentComponent, message, title, messageType, icon);
                                  int op = JOptionPane.showConfirmDialog(null,"请问是否要借阅此书？", "提示",JOptionPane.YES_NO_OPTION); 
                                  if(op==JOptionPane.YES_OPTION){  
+                                	 Client.Request request = new Request();
+                                	 request.setPath("book/borrowBook");
+                                	 request.getParams().put("uuid", selectId);
+                                	 Response response = Client.fetch(request);
+                                	 
                                 	 System.out.println(selectId+"借出");
-                                	 return new String("已借出");                 	
+                                	 if(response.getSuccess())
+                                		 return new String("已借出");  
+                                	 else
+                                		 JOptionPane.showMessageDialog(null, "此书被借光啦- -", "借阅失败",JOptionPane.ERROR_MESSAGE); 
                                  }else if(op==JOptionPane.NO_OPTION){    
                                 	 
                                  } 

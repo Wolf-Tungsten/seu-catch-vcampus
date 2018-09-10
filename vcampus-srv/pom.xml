@@ -46,7 +46,11 @@
     		<version>4.0.4</version>
 		</dependency>
 		
-		
+		<dependency>
+  		  <groupId>org.slf4j</groupId>
+  		  <artifactId>slf4j-simple</artifactId>
+  		  <version>1.7.7</version>
+		</dependency>
         
         <dependency>
             <groupId>com.j256.ormlite</groupId>
@@ -55,6 +59,11 @@
         </dependency>
 
 
+        <dependency>
+        	<groupId>com.wolf-tungsten</groupId>
+        	<artifactId>vcampus-srv</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 	<build>
