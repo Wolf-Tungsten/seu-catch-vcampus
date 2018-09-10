@@ -426,25 +426,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_lib_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_1", panel_lib_select);
 		//“借还信息”面板
-<<<<<<< HEAD
-		
-//		HashMap<String,Object> borrowRecord = borrowRecordrequest(token);
-//		String[][] tablevalue = (String[][]) borrowRecord.get("tablevalue");
-//		String name = (String) borrowRecord.get("name");
-//		String cardnum = (String) borrowRecord.get("cardnum");
-//		panel_lib_message = new LibMessage(token,tablevalue,name,cardnum);
-//		panel_lib_message.setBackground(new Color(255, 255, 255));
-//		panel_right.add("lib_2", panel_lib_message);
-=======
-/*		
-		HashMap<String,Object> borrowRecord = borrowRecordrequest(token);
-		String[][] tablevalue = (String[][]) borrowRecord.get("tablevalue");
-		String name = (String) borrowRecord.get("name");
-		String cardnum = (String) borrowRecord.get("cardnum");
-		panel_lib_message = new LibMessage(token,tablevalue,name,cardnum);
-		panel_lib_message.setBackground(new Color(255, 255, 255));
-		panel_right.add("lib_2", panel_lib_message);*/
->>>>>>> f450f97ce126101afc0ab79afa2b3b65d126a700
+
 		//“管理员”面板
 		panel_lib_manager = new LibManager(token);
 		panel_lib_manager.setBackground(new Color(255, 255, 255));
