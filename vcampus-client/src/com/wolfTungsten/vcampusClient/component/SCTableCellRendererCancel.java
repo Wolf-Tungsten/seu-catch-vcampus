@@ -28,8 +28,8 @@ public class SCTableCellRendererCancel implements TableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
-		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
-		this.button.setText("È¡ÏûÑ¡Ôñ");
+		// TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
+		this.button.setText("å–æ¶ˆé€‰æ‹©");
 		return this.panel;
 	}
 
