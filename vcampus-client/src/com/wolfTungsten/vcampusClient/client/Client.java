@@ -10,7 +10,9 @@ import java.io.*;
 public class Client {
 
 
+
 	public static String host = "192.168.1.111";
+
 
 
 

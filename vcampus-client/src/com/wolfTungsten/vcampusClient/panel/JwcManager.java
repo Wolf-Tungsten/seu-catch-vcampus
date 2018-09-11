@@ -31,7 +31,7 @@ import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
 
-//import javafx.scene.control.ComboBox;
+
 
 public class JwcManager extends JPanel implements  ActionListener, FocusListener {
 

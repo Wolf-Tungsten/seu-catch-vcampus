@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 import java.util.UUID;
 
-//import org.mockito.internal.matchers.And;
+
+
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -32,7 +33,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		super(conn, Goods.class);
 	}
 	
-	public void addGoods(String name,String description,String seller,double price, int amount,String image) throws SQLException
+	public void addGoods(String name,String description,String seller,double price, int amount,String image,int type) throws SQLException
 	{	
 		//这里每次上架的商品都不一样
 		//是否要给上架的商品做检验
@@ -44,6 +45,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		goods.setSeller(seller);
 		goods.setImage(image);
 		goods.setSold(false);
+		goods.setType(type);
 		dao.create(goods);
 	}
 	
@@ -69,7 +71,14 @@ public class GoodsRepository extends CurdRepository<Goods>
 		
 	}
 
-	
+	public Goods inquireById(String uuid) throws SQLException
+	{
+		Goods goods = new Goods();
+		List<Goods> goodslist = dao.queryForEq(Goods.UUID, UUID.fromString(uuid));
+		if(goodslist==null)throw new SQLException("没找到这本书");
+		
+		return goodslist.get(0);
+	}
 	//
 	public ArrayList<HashMap<String,Object>> inquireByFlag(String flag,Object value) throws SQLException {
 		ArrayList<Goods> goodslist = new ArrayList<>();
@@ -88,6 +97,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		}
 		return goodsinfolist;
 	}//end
+	
 	
 	private void updateGoods(HashMap<String, Object> goodsinfo) throws SQLException {
 		//修改商品信息，通过传一个HashMap
@@ -139,7 +149,13 @@ public class GoodsRepository extends CurdRepository<Goods>
 		}
 		
 	}
-	
+	public void updateGoodsByfalg(String uuid , String column,Object value) throws SQLException {
+		UpdateBuilder< Goods, String> udb = dao.updateBuilder();
+		udb.where().eq(Goods.UUID, UUID.fromString(uuid));
+		udb.updateColumnValue(column, value);
+		udb.update();
+		
+	}
 	
 };
 	

@@ -16,6 +16,8 @@ public class Goods
 	public static final String AMOUNT = "amount";
 	public static final String IMAGE  = "image";
 	public static final String SOLD = "sold";//表示商品是否还在市场里
+	public static final String TYPE = "type";
+	
 	
 	@DatabaseField(generatedId = true, columnName = Goods.UUID)
 	private UUID uuid;
@@ -33,9 +35,21 @@ public class Goods
 	private String image;
 	@DatabaseField(columnName = Goods.SOLD)
 	private boolean sold;
+	@DatabaseField(columnName = Goods.TYPE)
+	private int type;
 	
 	public Goods() {
 		
+	}
+
+	public int getType()
+	{
+		return type;
+	}
+
+	public void setType(int type)
+	{
+		this.type = type;
 	}
 
 	public UUID getUuid()
