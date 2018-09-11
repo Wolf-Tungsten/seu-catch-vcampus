@@ -4,6 +4,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,10 +23,12 @@ public class BankNewPassword extends JPanel implements ActionListener{
 	private JPasswordField textField_rePass;
 	JButton okButton,cancelButton;
 	private JTextField textField_ID;
+	private String token;
 	/**
 	 * Create the panel.
 	 */
-	public BankNewPassword() {
+	public BankNewPassword(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -109,32 +116,34 @@ public class BankNewPassword extends JPanel implements ActionListener{
 			String IDStr=textField_ID.getText();
 			String newPassStr=textField_newPass.getText();
 			String rePassStr=textField_rePass.getText();
-			//TODO 传给客户端的用户信息
-			String myCardNum=null;//“我”的一卡通号
-			String myID=null;//“我”的身份证号
 			if(cardNumStr.equals("")||cardNumStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入一卡通号！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else if(IDStr.equals("")||IDStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入身份证号！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
+		
 			}else if(newPassStr.equals("")||newPassStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入支付密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}
-			else if(rePassStr.equals("")||rePassStr==null) {
+			}else if(rePassStr.equals("")||rePassStr==null) {
 				JOptionPane.showMessageDialog(null, "请确认新密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}  else if(!newPassStr.equals(rePassStr)) {
+			}else if(!newPassStr.equals(rePassStr)) {
 		    	 JOptionPane.showMessageDialog(null, "两次输入密码不一致~", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
-			}else if(!cardNumStr.equals(myCardNum )) {
-				JOptionPane.showMessageDialog(null, "一卡通号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
-			}else if(!IDStr.equals(myID )) {
-				JOptionPane.showMessageDialog(null, "身份证号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
 			}
+			Client.Request request = new Request();
+			request.setPath("bank/register");
+			request.setToken(token);
+			request.getParams().put("cardnum", cardNumStr);
+			request.getParams().put("idcardNum", IDStr);
+			request.getParams().put("secretPassword", Client.getMD5("newPassStr"));
+			Response response = Client.fetch(request);
+			if(!response.getSuccess()) {
+				JOptionPane.showMessageDialog(null, "注册失败", "Tips",JOptionPane.ERROR_MESSAGE); 
+	    	 return;
+	    	 }
 		}else if(e.getSource()==cancelButton) {
 			textField_cardNum.setText("");
 			textField_newPass.setText("");

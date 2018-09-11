@@ -5,6 +5,11 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
@@ -12,6 +17,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -37,17 +43,21 @@ public class ShoppingCart extends JPanel implements ActionListener{
      int gap=120;
      int []bounds= {10,10,677,120};
      private JTextField textField;
+
      int count;//购物车里有几件商品
      String token;
      String [][]result ;
      String [] UXGuuidlist;
+
+     private JButton deleteButton;
+     
    public void NewGoodPanel (JPanel panel,int []bounds,int gap,
     		 JCheckBox checkBox,JLabel label_photo,JLabel label_price,JTextField textField_number,
     		 String []result ) {
 	          panel.setBounds(bounds[0],bounds[1]+gap,bounds[2],bounds[3]);
 	         
 	          checkBox.setText(result[0]);//"商品名称"
-    		 checkBox.setBounds(9, 45, 150,25);
+    		 checkBox.setBounds(9, 45, 150,30);
     		 checkBox.setFont(new Font("微软雅黑", Font.BOLD, 12));
     		 panel.add(checkBox);
     		 
@@ -63,23 +73,23 @@ public class ShoppingCart extends JPanel implements ActionListener{
     		 
     		 JLabel label_yuan=new JLabel("¥：");
     		 label_yuan.setFont(new Font("微软雅黑", Font.BOLD, 12));
-    		 label_yuan.setBounds(278, 49, 30, 15);
+    		 label_yuan.setBounds(278, 49, 30, 30);
     		 panel.add(label_yuan);
     		 
     		 label_price.setText(result[2]);//"（价格）"
     		 label_price.setFont(new Font("微软雅黑", Font.BOLD, 12));
-    		 label_price.setBounds(308, 49, 54, 15);
+    		 label_price.setBounds(308, 49, 54, 30);
     		 panel.add(label_price);
 
     		 textField_number.setText(result[2]);//购买数量
-    		 textField_number.setBounds(520, 48, 125, 21);
+    		 textField_number.setBounds(520, 48, 125, 30);
     		 textField_number.setFont(new Font("微软雅黑", Font.BOLD, 12));
     		 panel.add(textField_number);
     		 textField_number.setColumns(10);
     		
     		 JLabel label_amount=new JLabel("购买数量：");
     		 label_amount.setFont(new Font("微软雅黑", Font.BOLD, 12));
-    		 label_amount.setBounds(440, 47, 60, 23);
+    		 label_amount.setBounds(440, 47, 60, 30);
     		 panel.add(label_amount);
     		 }
 
@@ -146,6 +156,12 @@ public class ShoppingCart extends JPanel implements ActionListener{
 		payButton.addActionListener(this);
 		payButton.setBounds(617, 548, 93, 27);
 		add(payButton);
+		
+		deleteButton = new JButton("移出购物车");
+		deleteButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		deleteButton.setBounds(482, 547, 112, 30);
+		deleteButton.addActionListener(this);
+		add(deleteButton);
 	
 	}
 
@@ -175,15 +191,70 @@ public class ShoppingCart extends JPanel implements ActionListener{
 				Object[] message = {"本次消费共计"+money+"元\n请输入支付密码：", pwd};
 				JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		        String passStr=pwd.getText();//获取输入对话框中的密码
-		        //TODO 判断消费密码是否正确
-				if(passStr.equals(payPassword)) {
+		        ArrayList<HashMap<String, Object>> uxgmaplist = new ArrayList<>();
+		        
+		        for(int i=0;i<count;i++) {
+		        	HashMap<String, Object> uxgmap = new HashMap<>();
+		        	if(checkBox[i].isSelected()) {
+		        		if(!textField_number[i].getText().equals("")&&textField_number[i].getText()!=null)
+		        		{
+		        			uxgmap.put("uuid", UXGuuidlist[i]);
+		        			uxgmap.put("amount", Integer.valueOf(textField_number[i].getText()));
+		        			uxgmap.put("cost", Double.valueOf(label_price[i].getText()));
+		        			uxgmaplist.add(uxgmap);
+		        		}
+		        	}
+		        }		        
+		        Client.Request request = new Request();
+		        request.setToken(token);
+		        request.setPath("shop/purchaseByCart");
+		        request.getParams().put("secretPassword", Client.getMD5(passStr));
+		        request.getParams().put("Goodinfomaplist", uxgmaplist);
+		        
+		        Response response = Client.fetch(request);
+		        
+				if(response.getSuccess()) {
 					 JOptionPane.showMessageDialog(null, "支付成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);  
-				}else if (!passStr.equals(payPassword)&&!passStr.equals("")&&passStr!=null){
-					JOptionPane.showMessageDialog(null, "支付密码错误！", "Tips",JOptionPane.ERROR_MESSAGE);  
-				}else if (passStr.equals("")||passStr==null){
+				} 
+				else {
 					JOptionPane.showMessageDialog(null, "支付失败！", "Tips",JOptionPane.ERROR_MESSAGE);  
 				}
 			}
 		}	
+		
+		if(e.getSource()==deleteButton) {		  
+			 int op = JOptionPane.showConfirmDialog(null,"请问是否要删除所选商品？", "提示",JOptionPane.YES_NO_OPTION); 
+             if(op==JOptionPane.YES_OPTION){ 
+            	 ArrayList<String> deletelist = new ArrayList<>();
+            	 for(int i=0;i<count;i++) {	
+      				if(checkBox[i].isSelected()) {
+      					deletelist.add(UXGuuidlist[i]);
+      				}
+      				}
+            	 Client.Request request = new Request();
+				request.setToken(token);
+				request.setPath("shop/cartremove");
+				request.getParams().put("deletelist",deletelist);
+            	 Response response = Client.fetch(request);
+            	 if(response.getSuccess()) {
+            	 for(int i=0;i<count;i++) {	
+     				if(checkBox[i].isSelected()) {
+     					checkBox[i].setSelected(false);
+     					checkBox[i].setEnabled(false);
+     					textField_number[i].setFont(new Font("微软雅黑", Font.BOLD, 16));
+     					textField_number[i].setText("该商品已失效!");
+     					textField_number[i].setEditable(false);
+     					textField_number[i].setOpaque(false);		
+     				}
+     			}
+            	 JOptionPane.showMessageDialog(null, "删除成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
+            	 return;
+            	 }
+            	 
+             }else{
+            	 JOptionPane.showMessageDialog(null, "删除失败！", "Tips",JOptionPane.ERROR_MESSAGE);
+             }
+		}
+	
 	}	
 }

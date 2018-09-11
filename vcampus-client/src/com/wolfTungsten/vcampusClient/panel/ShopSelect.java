@@ -59,6 +59,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
      String [][]goodstable ;
      String token;
      ArrayList<LinkedTreeMap<String,Object>> goodinfomaplist ;
+     ArrayList<String> good_uuidlist = new ArrayList<>();
 	public void NewGoodPanel (JPanel panel,int []bounds,int gap,
 			//商品照片，名字，单价，描述，购买数量
    		 JLabel label_photo,JLabel label_good_name,JLabel label_price,JTextField textField_number,JTextArea textArea_description,
@@ -246,17 +247,28 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 				   double y=Double.parseDouble(textField_number[i].getText());
 				   cost=x*y;
 				   String money=String.valueOf(cost);
-				   String payPassword="123456";
+				  
 				   //TODO 需要把用户消费密码传递过来
 				   JPasswordField pwd = new JPasswordField();
 				   Object[] message = {"本次消费共计"+money+"元\n请输入支付密码：", pwd};
 				   JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		           String passStr=pwd.getText();//获取输入对话框中的密码
+		           String gooduuid = good_uuidlist.get(i);
+    
+		           Client.Request request = new Request();
+			       request.setToken(token);
+			       request.setPath("shop/purchaseNow");
+			       request.getParams().put("uuid", gooduuid);
+			       request.getParams().put("secretPassword", Client.getMD5(pwd.getText()));
+			       request.getParams().put("amount", y);
+			       request.getParams().put("price", x);
+			       Response response = Client.fetch(request);
+	           
 		           //判断消费密码是否正确
-		           if(passStr.equals(payPassword)) {
+		           if(response.getSuccess()) {
 					    JOptionPane.showMessageDialog(null, "支付成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);  
-				   }else if (!passStr.equals(payPassword)&&!passStr.equals("")&&passStr!=null){
-					   JOptionPane.showMessageDialog(null, "支付密码错误！", "Tips",JOptionPane.ERROR_MESSAGE);  
+				   }else if (!response.getSuccess()){
+					   JOptionPane.showMessageDialog(null, response.getBody().get("result"), "Tips",JOptionPane.ERROR_MESSAGE);  
 				   }else if (passStr.equals("")||passStr==null){
 					   JOptionPane.showMessageDialog(null, "支付失败！", "Tips",JOptionPane.ERROR_MESSAGE);  
 				   }
@@ -292,9 +304,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		Response response = Client.fetch(request);
 		goodinfomaplist = (ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("goodsinfomaplist");
 		int row = goodinfomaplist==null?0:goodinfomaplist.size();
-		if(response.getSuccess()&&row!=0) {
-		
-			
+		if(response.getSuccess()&&row!=0) {		
 		count = row;
 		String[][] goodinfo = new String[row][5];
 		for(int i=0;i<goodinfomaplist.size();i++) {
@@ -304,6 +314,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
 			goodinfo[i][3] = "";
 			goodinfo[i][4] = (String) goodinfomap.get("description");
+			good_uuidlist.add((String)goodinfomap.get("uuid"));
 		}
 		goodstable = goodinfo;
 		panel.removeAll();
@@ -340,6 +351,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
 			goodinfo[i][3] = "";
 			goodinfo[i][4] = (String) goodinfomap.get("description");
+			good_uuidlist.add((String)goodinfomap.get("uuid"));
 		}
 		
 		goodstable = goodinfo;
@@ -397,6 +409,8 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
 			goodinfo[i][3] = "";
 			goodinfo[i][4] = (String) goodinfomap.get("description");
+			good_uuidlist.add((String)goodinfomap.get("uuid"));
+			
 		}
 		
 		goodstable = goodinfo;

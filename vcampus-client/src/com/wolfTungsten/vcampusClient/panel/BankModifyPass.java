@@ -21,13 +21,10 @@ import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.client.Client;
 
 public class BankModifyPass extends JPanel implements ActionListener{
-	private JTextField textField_cardNum;
 	private JPasswordField textField_originalPass;
 	private JPasswordField textField_newPass;
 	private JPasswordField textField_rePass;
 	JButton okButton,cancelButton;
-
-	private JTextField textField_ID;
 
 
 	private String token;
@@ -38,13 +35,7 @@ public class BankModifyPass extends JPanel implements ActionListener{
 	public BankModifyPass(String Token) {
 		token=Token;
 		setSize(736,600);
-		setLayout(null);//绝对布局
-		//label横坐标x为158
-		//textField横坐标为328，宽250
-		JLabel label = new JLabel("一卡通号：");
-		label.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label.setBounds(158, 100 ,100, 30);
-		add(label);
+		setLayout(null);
 		
 		JLabel label_1 = new JLabel("原始密码：");
 		label_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -60,12 +51,6 @@ public class BankModifyPass extends JPanel implements ActionListener{
 		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		lblNewLabel_1.setBounds(158, 350, 100, 30);
 		add(lblNewLabel_1);
-		
-		textField_cardNum = new JTextField();
-		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		textField_cardNum.setBounds(328, 106, 250, 30);
-		add(textField_cardNum);
-		textField_cardNum.setColumns(10);
 		
 		textField_originalPass = new JPasswordField();
 		textField_originalPass.setFont(new Font("微软雅黑", Font.PLAIN, 14));
@@ -111,25 +96,12 @@ public class BankModifyPass extends JPanel implements ActionListener{
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		add(textArea);
-		
-		JLabel lblNewLabel_2 = new JLabel("身份证号：");
-		lblNewLabel_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(158, 165, 70, 15);
-		add(lblNewLabel_2);
-		
-		textField_ID = new JTextField();//身份证号
-		textField_ID.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		textField_ID.setBounds(328, 163, 250, 30);
-		add(textField_ID);
-		textField_ID.setColumns(10);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==okButton) {
 			//从文本框中获取的数据
-			String cardNumStr=textField_cardNum.getText();
-			String IDStr=textField_ID.getText();
 			String orPassStr=textField_originalPass.getText();
 			String newPassStr=textField_newPass.getText();
 			String rePassStr=textField_rePass.getText();
@@ -137,13 +109,13 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			String myCardNum=null;//“我”的一卡通号
 			String myID=null;//“我”的身份证号
 			String myPass=null;//“我”的原始密码
-			if(cardNumStr.equals("")||cardNumStr==null) {
-				JOptionPane.showMessageDialog(null, "请输入一卡通号！", "Tips",JOptionPane.ERROR_MESSAGE);
-				return;
-			}else if(IDStr.equals("")||IDStr==null) {
-				JOptionPane.showMessageDialog(null, "请输入身份证号！", "Tips",JOptionPane.ERROR_MESSAGE);
-				return;
-			}else if(orPassStr.equals("")||orPassStr==null) {
+			 if(orPassStr.equals("")||orPassStr==null) {
+
+	//		String orPassStr=textField_originalPass.getText();
+	//		String newPassStr=textField_newPass.getText();
+	//		String rePassStr=textField_rePass.getText();
+			if(orPassStr.equals("")||orPassStr==null) {
+
 				JOptionPane.showMessageDialog(null, "请输入原始密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else if(newPassStr.equals("")||newPassStr==null) {
@@ -156,30 +128,31 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			}  else if(!newPassStr.equals(rePassStr)) {
 		    	 JOptionPane.showMessageDialog(null, "两次输入密码不一致~", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
-			}else if(!cardNumStr.equals(myCardNum )) {
-				JOptionPane.showMessageDialog(null, "一卡通号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
-			}else if(!IDStr.equals(myID )) {
-				JOptionPane.showMessageDialog(null, "身份证号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
+
 			}else if(!orPassStr.equals(myPass )) {
 				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
+
+
 			}
 			
 			Client.Request request = new Request();
 			request.setPath("bank/secretPassword");
 			request.setToken(token);
-			request.getParams().put("user_id", "b18cccef-8114-4629-8cef-367e90920c27");
-			
-			
-			
+			request.getParams().put("secretPassword", orPassStr);
+			request.getParams().put("newSecretPassword", newPassStr);
+			Response response = Client.fetch(request);
+			if(response.getSuccess()) {
+				 JOptionPane.showMessageDialog(null, "修改密码成功", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}else {
+				 JOptionPane.showMessageDialog(null, "修改密码失败，请检查原始密码是否正确", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}
 		}
 		if(e.getSource()==cancelButton) {
-			textField_cardNum.setText("");
 			textField_originalPass.setText("");
 			textField_newPass.setText("");
 			textField_rePass.setText("");
+		}
 		}
 	}
 }
