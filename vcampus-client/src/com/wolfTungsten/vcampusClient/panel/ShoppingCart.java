@@ -37,8 +37,10 @@ public class ShoppingCart extends JPanel implements ActionListener{
      int gap=120;
      int []bounds= {10,10,677,120};
      private JTextField textField;
-     int count=2;//购物车里有几件商品
-     
+     int count;//购物车里有几件商品
+     String token;
+     String [][]result ;
+     String [] UXGuuidlist;
    public void NewGoodPanel (JPanel panel,int []bounds,int gap,
     		 JCheckBox checkBox,JLabel label_photo,JLabel label_price,JTextField textField_number,
     		 String []result ) {
@@ -82,7 +84,11 @@ public class ShoppingCart extends JPanel implements ActionListener{
     		 }
 
 
-	public ShoppingCart() {
+	public ShoppingCart(String Token , String r[][],String[] uxguuidlist) {
+		UXGuuidlist = uxguuidlist;
+		
+		result = r;
+		token = Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -116,10 +122,11 @@ public class ShoppingCart extends JPanel implements ActionListener{
 	     * 测试数据
 	     */
 
-		String [][]result=new String[][]{{"袁皓东牌洗发水","photo","12","1"},{"袁皓西","photo","30","3"}}; 
+		//String [][]result=new String[][]{{"袁皓东牌洗发水","photo","12","1"},{"袁皓西","photo","30","3"}}; 
 		//商品名称，商品照片，商品类别（e.g.生活百货），价格，购买数量 
 		 //TODO 以这个为例，只要获取这是第几次添加，以及要传输的数据，就可以用这种愚蠢的方式添加商品信息到购物车。。。。。。。
 	    int i=0;
+	    count = UXGuuidlist.length;
 	    for(i =0;i<count;i++){
            NewGoodPanel(goodPanel[i],bounds,gap*i,checkBox[i],label_photo[i],label_price[i],textField_number[i],result[i]);
 		   panel.add(goodPanel[i]);

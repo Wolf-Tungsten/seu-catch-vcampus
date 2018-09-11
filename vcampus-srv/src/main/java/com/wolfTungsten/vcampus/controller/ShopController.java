@@ -333,14 +333,17 @@ public class ShopController extends BaseController
 					int amount = uxg.getAmount();
 					double price = good.getPrice();
 					String uxguuid = uxg.getUuid().toString();
+					String image =good.getImage();
 					
 					cartinfo.put(UserXGoods.UUID, uxguuid);
 					cartinfo.put(UserXGoods.AMOUNT, amount);
 					cartinfo.put(Goods.PRICE, price);
-					cartinfo.put(Goods.NAME, goodname);					
+					cartinfo.put(Goods.NAME, goodname);			
+					cartinfo.put(Goods.IMAGE, image);
 					cartinfolist.add(cartinfo);					
 				}
 				response.setSuccess(true);
+				response.getBody().put("cartinfomaplist", cartinfolist);
 				return response;
 				
 			} catch (SQLException e)

@@ -18,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -51,12 +53,12 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 	 JTextArea []textArea_description=new JTextArea[len];
 	 JButton []button_buy=new JButton[len];
 	 JButton []button_add=new JButton[len];
-     int gap=130;
+     int gap=120;
      int []bounds= {10,10,677,120};
      int count=4;//检索到几件商品
      String [][]goodstable ;
      String token;
-     
+     ArrayList<LinkedTreeMap<String,Object>> goodinfomaplist ;
 	public void NewGoodPanel (JPanel panel,int []bounds,int gap,
 			//商品照片，名字，单价，描述，购买数量
    		 JLabel label_photo,JLabel label_good_name,JLabel label_price,JTextField textField_number,JTextArea textArea_description,
@@ -179,7 +181,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 //			   		 goodstable[i] ) ;    
 //		    panel.add(goodPanel[i]);
 //	    }
-		panel.setPreferredSize(new Dimension(716,130+120*i));//panel的高度必须高于滚动面板
+		
 		
 		scrollPane.setBounds(10, 90, 716, 500);
 		add(scrollPane);
@@ -262,29 +264,25 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 					JOptionPane.showMessageDialog(null, "请输入有效的购买数量！", "Tips",JOptionPane.ERROR_MESSAGE);  
 				}
 			}else if(e.getSource()==button_add[i]) {   //点击”添加到购物车“按钮
-				String nameStr=label_good_name[i].getText();
-				String priceStr=label_price[i].getText();
-				String numberStr=textField_number[i].getText();
+					addpurchaseCart(i);
 				//TODO 添加到购物车
 			}
 		}				
 	}
 	public void itemStateChanged(ItemEvent e) {
-		  if (e.getStateChange() == ItemEvent.SELECTED) {
- //             comboBox.getSelectedIndex() ;
+		if (e.getStateChange() == ItemEvent.SELECTED)
+		{
+			// comboBox.getSelectedIndex() ;
 //              comboBox.getSelectedItem());
-			  if(comboBox.getSelectedIndex()==0) {
-				//TODO 综合排序
-			  }else if(comboBox.getSelectedIndex()==1) {
-				  //TODO 信用排序			 
-			  }else if(comboBox.getSelectedIndex()==2) {
-				  //TODO 销量
-			  }else if(comboBox.getSelectedIndex()==3) {
-				//TODO 价格降序
-			  }else if(comboBox.getSelectedIndex()==4) {
-				//TODO 价格升序
-			  }	  
-          }
+			if (comboBox.getSelectedIndex() == 0)
+			{
+				sort(0);
+			} else if (comboBox.getSelectedIndex() == 1)
+			{
+				sort(1);
+			}
+
+		}
 	}
 	public void selectGood() {
 		Client.Request request = new Request();
@@ -292,8 +290,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		request.setToken(token);
 		request.getParams().put("name", textField_select.getText());
 		Response response = Client.fetch(request);
-		ArrayList<LinkedTreeMap<String,Object>> goodinfomaplist =
-				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("goodsinfomaplist");
+		goodinfomaplist = (ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("goodsinfomaplist");
 		int row = goodinfomaplist==null?0:goodinfomaplist.size();
 		if(response.getSuccess()&&row!=0) {
 		
@@ -309,6 +306,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			goodinfo[i][4] = (String) goodinfomap.get("description");
 		}
 		goodstable = goodinfo;
+		panel.removeAll();
 		panel.updateUI();
 	    for(int i=0;i<count;i++) {    //count:检索到几件商品
 	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
@@ -316,6 +314,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			   		 goodstable[i] ) ;    
 		    panel.add(goodPanel[i]);
 	    }
+	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
 		}
 		else 
 			JOptionPane.showMessageDialog(null, "没有找到该商品", "Tips",JOptionPane.ERROR_MESSAGE);
@@ -327,10 +326,9 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		request.getParams().put("type", type);
 		request.setToken(token);
 		Response response = Client.fetch(request);
-		ArrayList<LinkedTreeMap<String,Object>> goodinfomaplist =
-				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("Goodinfomaplist");
+		goodinfomaplist =(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("Goodinfomaplist");
 		int row = goodinfomaplist==null?0:goodinfomaplist.size();
-		
+	
 		if(response.getSuccess()&&row!=0) {
 		count = row;
 		System.out.println(row+"/"+count);
@@ -345,6 +343,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		}
 		
 		goodstable = goodinfo;
+		panel.removeAll();
 		panel.updateUI();
 	    for(int i=0;i<count;i++) {    //count:检索到几件商品
 	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
@@ -352,10 +351,87 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			   		 goodstable[i] ) ;    
 		    panel.add(goodPanel[i]);
 	    }
+	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
 		}
 		else 
 			JOptionPane.showMessageDialog(null, "没有找到该商品", "Tips",JOptionPane.ERROR_MESSAGE);
 	}
+	class sortdown implements Comparator{
+
+		@Override
+		public int compare(Object o1, Object o2)
+		{
+			LinkedTreeMap<String,Object> a = (LinkedTreeMap<String,Object>) o1;
+			LinkedTreeMap<String,Object> b = (LinkedTreeMap<String,Object>) o2;
+			if((double)a.get("price")<(double)b.get("price"))
+				return 1;
+			return -1;
+		}
+		
+	}
+	class sortup implements Comparator{
+
+		@Override
+		public int compare(Object o1, Object o2)
+		{
+			LinkedTreeMap<String,Object> a = (LinkedTreeMap<String,Object>) o1;
+			LinkedTreeMap<String,Object> b = (LinkedTreeMap<String,Object>) o2;
+			if((double)a.get("price")>(double)b.get("price"))
+				return 1;
+			return -1;
+		}
+		
+	}
+	
+	public void sort(int flag) {
+		if(flag==0) {
+		Collections.sort(goodinfomaplist, new sortdown());
+		}else if(flag==1) {
+			Collections.sort(goodinfomaplist, new sortup());
+		}
+		String[][] goodinfo = new String[count][5];
+		for(int i=0;i<count;i++) {
+			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
+			goodinfo[i][0] = (String)goodinfomap.get("image");
+			goodinfo[i][1] = (String)goodinfomap.get("name");
+			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
+			goodinfo[i][3] = "";
+			goodinfo[i][4] = (String) goodinfomap.get("description");
+		}
+		
+		goodstable = goodinfo;
+		panel.removeAll();
+		panel.updateUI();
+	    for(int i=0;i<count;i++) {    //count:检索到几件商品
+	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
+			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
+			   		 goodstable[i] ) ;    
+		    panel.add(goodPanel[i]);
+		
+	}
+	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
+	
+	}	
+	public void addpurchaseCart(int i) {
+		LinkedTreeMap<String,Object> goodinfo = goodinfomaplist.get(i);
+		String gooduuid = (String) goodinfo.get("uuid");
+		
+		String nameStr=label_good_name[i].getText();
+		String priceStr=label_price[i].getText();
+		String numberStr=textField_number[i].getText();
+		Client.Request request = new Request();
+		request.setPath("shop/addCart");
+		request.getParams().put("good_id", gooduuid);
+		request.getParams().put("cost", Double.valueOf(priceStr));
+		request.getParams().put("amount", Integer.valueOf(numberStr));	
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		if(response.getSuccess())
+			JOptionPane.showMessageDialog(null, "添加成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
+		else
+			JOptionPane.showMessageDialog(null, "添加失败", "Tips",JOptionPane.ERROR_MESSAGE);	
+	}
+	
 	
 //	{"photo","袁皓东牌大猪蹄子","100","","鲜嫩肥美，活有余罪，罪不可赦，秀色可餐，项目组长，是个好人！\n免邮快递，送货上门，断货ing"}
 }

@@ -492,11 +492,12 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_shop_select=new ShopSelect(token);
 		panel_shop_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("shop_1", panel_shop_select);		
-		
-		panel_shop_cart=new ShoppingCart();
-		panel_shop_cart.setBackground(new Color(255, 255, 255));
-		panel_right.add("shop_2", panel_shop_cart);	
-		
+		//------------------购物车
+//		String r[][] = new String[1][1];
+//		panel_shop_cart=new ShoppingCart(token);
+//		panel_shop_cart.setBackground(new Color(255, 255, 255));
+//		panel_right.add("shop_2", panel_shop_cart);	
+		//
 		panel_shop_sell=new ShopSellGoods(token);
 		panel_shop_sell.setBackground(new Color(255, 255, 255));
 		panel_right.add("shop_3", panel_shop_sell);	
@@ -616,7 +617,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				cardLayout.show(panel_right, "lib_3");
 				HideAllMessagePanel();
 				
-			}else if (e.getSource() == label_jwc_select) {
+			}else if (e.getSource() == label_jwc_select) {//--------------------------
 				HashMap<String,Object> courselist = courseAll(token);
 				String[][] tablevalue = (String[][]) courselist.get("tablevalue");	
 				String name = (String) courselist.get("name");
@@ -654,6 +655,13 @@ public class FunctionFrame extends JFrame implements MouseListener{
 					cardLayout.show(panel_right, "shop_1");
 					HideAllMessagePanel();
 				} else if (e.getSource() == label_shop_cart) {
+					HashMap<String,Object> uxginfo = showshopcart(token);
+					String[][] tablevalue = (String[][]) uxginfo.get("tablevalue"); 
+					String[] UXGuuidlist = (String[]) uxginfo.get("UXGuuidlist");
+					panel_shop_cart=new ShoppingCart(token,tablevalue,UXGuuidlist);
+					panel_shop_cart.setBackground(new Color(255, 255, 255));
+					panel_right.add("shop_2", panel_shop_cart);	
+					
 					cardLayout.show(panel_right, "shop_2");
 					HideAllMessagePanel();
 				}  else if (e.getSource() == label_shop_sell) {
@@ -960,6 +968,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			label_shop_select.setOpaque(true);
 			label_shop_select.setBackground(new Color(230,230,230));
 		 }else if (e.getSource() == label_shop_cart) {
+			 
+			 
 			 label_shop_cart.setOpaque(true);
 			 label_shop_cart.setBackground(new Color(230,230,230));
 		 }else if (e.getSource() == label_shop_sell) {
@@ -1077,5 +1087,32 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			return new HashMap<>();
 	
 	}
-	
+	public static  HashMap<String,Object> showshopcart(String token){
+		Client.Request request = new Request();
+		request.setPath("shop/queryCart");
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		ArrayList<LinkedTreeMap<String,Object>> cartinfomaplist = 
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("cartinfomaplist");
+		int row = cartinfomaplist!=null?cartinfomaplist.size():0;
+		String[][] tablevalue = new String[row][4];
+		String[] UXGuuidlist = new String[row];
+		for(int i =0;i<row;i++) {
+			LinkedTreeMap<String,Object> cartinfomap = cartinfomaplist.get(i);
+			String name = (String) cartinfomap.get("name");
+			int amount = (int)(double) cartinfomap.get("amount");
+			double price = (double) cartinfomap.get("price");
+			String image = (String) cartinfomap.get("image");
+			tablevalue [i][0]= name;
+			tablevalue[i][1] = image;
+			tablevalue [i][2] =String.valueOf(amount);
+			tablevalue[i][3] = String.valueOf(price);
+			UXGuuidlist[i] = (String)cartinfomap.get("uuid");
+			
+		}
+		HashMap<String,Object> cart = new HashMap<>();
+		cart.put("tablevalue", tablevalue);
+		cart.put("UXGuuidlist", UXGuuidlist);
+		return cart;
+	}
 }
