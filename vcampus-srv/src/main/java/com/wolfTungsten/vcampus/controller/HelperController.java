@@ -22,6 +22,7 @@ public class HelperController extends BaseController
 		this.pathMap.put("updateExp", updateExperimentHandle);
 		this.pathMap.put("addExam", addExamHandle);
 		this.pathMap.put("delExam",deleteExamHandle);
+		this.pathMap.put("showStuExam", showExamHandle);
 		
 	}
 	//已测试
@@ -113,8 +114,7 @@ public class HelperController extends BaseController
 	//已测试
 	//前端传token 
 	//学生实验表
-	private BaseController.BaseHandle showExperimentsHandle = new BaseHandle(
-			)
+	private BaseController.BaseHandle showExperimentsHandle = new BaseHandle()
 	{
 		
 		@Override
@@ -124,7 +124,7 @@ public class HelperController extends BaseController
 			String token = request.getToken();
 			
 			try
-			{
+			{	
 				String uuid = checkToken(token);
 				ArrayList<UserXCourse> courselist = orm.userXCourseRepository
 						.queryByUUID(UserXCourse.USER_ID, uuid);	
@@ -222,17 +222,17 @@ public class HelperController extends BaseController
 			{
 				String uuid = checkToken(token);
 				ArrayList<UserXCourse> courselist = orm.userXCourseRepository
-						.queryByUUID(UserXCourse.USER_ID, uuid);	
+						.queryByUUID(UserXCourse.USER_ID, uuid);	//找到学生课表id信息
 				ArrayList<HashMap<String,Object>> examMaplist = new ArrayList<>();
 				for(UserXCourse uxc : courselist) {
 					ArrayList<HashMap<String,Object>> expMaplist2 
 					= orm.examRepository.queryByFlag(Experiment.COURSE_UUID,
-							uxc.getCourse_id());
-					Course course = orm.courseRepository.inquireById(uxc.getCourse_id());
+							uxc.getCourse_id());//根据每个课程id去搜该课程下的考试
+					Course course = orm.courseRepository.inquireById(uxc.getCourse_id());//得到该课程实体
 					for(HashMap<String,Object> expmap:expMaplist2) {
-						expmap.put(Course.LECTURER, course.getLecturer());
+						expmap.put(Course.LECTURER, course.getLecturer());//为该课程下每个考试赋上教师
 					}
-					examMaplist.addAll(expMaplist2);
+					examMaplist.addAll(expMaplist2);//该课程下对应的考试信息全并起来 
 				}
 				response.setSuccess(true);
 				response.getBody().put("examMaplist", examMaplist);

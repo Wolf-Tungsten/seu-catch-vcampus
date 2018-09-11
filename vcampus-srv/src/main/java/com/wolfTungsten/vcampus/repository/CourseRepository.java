@@ -25,15 +25,20 @@ public class CourseRepository	extends CurdRepository<Course>
 		super(conn, Course.class);
 		// TODO Auto-generated constructor stub
 	}
-	public void  addCourse(String name , int capacity,String lecturer) throws SQLException {
+	public void  addCourse(String name , int capacity,String lecturer,
+			String week , String classtime,String location,int credits) throws SQLException {
 
 		Course course = new Course();
 		course.setCapcity(capacity);
 		course.setLecturer(lecturer);
+		course.setClasstime(classtime);
+		course.setWeek(week);
 		course.setName(name);
 		long time = System.currentTimeMillis()/1000 ;
 		course.setCreateTime(time);
 		course.setUpdateTime(time);
+		course.setLocation(location);
+		course.setCredits(credits);
 		dao.create(course);	
 	}
 	/**
@@ -55,6 +60,10 @@ public class CourseRepository	extends CurdRepository<Course>
 			courseinfo.put(Course.UPDATETIME, course.getUpdateTime());
 			courseinfo.put(Course.CREATETIME,course.getCreateTime());		
 			courseinfo.put(Course.UUID,course.getUuid().toString());
+			courseinfo.put(Course.WEEK, course.getWeek());
+			courseinfo.put(Course.CLASSTIME, course.getClasstime());
+			courseinfo.put(Course.LOCATION, course.getLocation());
+			courseinfo.put(Course.CREDITS, course.getCredits());
 			courseMapList.add(courseinfo);
 		}
 		return courseMapList;
@@ -68,14 +77,14 @@ public class CourseRepository	extends CurdRepository<Course>
 	
 	public void updateBook(LinkedTreeMap<String,Object> courseinfo) throws SQLException {
 		UpdateBuilder<Course, String> updateBuilder = dao.updateBuilder();
-		String bookUuid = (String)courseinfo.get("uuid");
-		updateBuilder.where().eq("uuid", bookUuid);
+		String courseuuid = (String)courseinfo.get("uuid");
+		updateBuilder.where().eq("uuid", courseuuid);
 		courseinfo.remove("uuid");
 		for(String columnName:courseinfo.keySet())
 		{
 			dao.update((PreparedUpdate<Course>)dao.updateBuilder()
 					.updateColumnValue(columnName, courseinfo.get(columnName)).where()
-					.eq(Course.UUID, UUID.fromString(bookUuid)).prepare());
+					.eq(Course.UUID, UUID.fromString(courseuuid)).prepare());
 			updateBuilder.updateColumnValue(columnName, courseinfo.get(columnName));
 		}
 
@@ -90,10 +99,22 @@ public class CourseRepository	extends CurdRepository<Course>
 			ArrayList<Course> courselist = (ArrayList<Course>) dao.query((PreparedQuery<Course>)dao.queryBuilder()
 					.where().eq(Course.LECTURER, teacher).and()
 					.eq(Course.NAME, courseName).prepare());
-
+			if(courselist.size()==0) throw new SQLException("没有找到该课程");
 			return courselist.get(0);
 			
 		}
+		//返回一堆课程
+		public ArrayList<Course> inquireByFlags2(String teacher,String courseName) throws SQLException{
+			ArrayList<Course> courselist = (ArrayList<Course>) dao.query((PreparedQuery<Course>)dao.queryBuilder()
+					.where().eq(Course.LECTURER, teacher).and()
+					.eq(Course.NAME, courseName).prepare());
+			if(courselist.size()==0) throw new SQLException("没有找到该课程");
+			return courselist;
+			
+		}
+		
+		
+		
 		/**
 		 * 根据flag 和value  返回相应课程信息表 
 		 * @param column
@@ -110,6 +131,10 @@ public class CourseRepository	extends CurdRepository<Course>
 			courseinfo.put(Course.UUID, course.getUuid().toString());
 			courseinfo.put(Course.LECTURER,course.getLecturer());
 			courseinfo.put(Course.NAME, course.getName());
+			courseinfo.put(Course.CLASSTIME, course.getClasstime());
+			courseinfo.put(Course.WEEK, course.getWeek());	
+			courseinfo.put(Course.LOCATION, course.getLocation());
+			courseinfo.put(Course.CREDITS, course.getCredits());
 			courseInfoList.add(courseinfo);
 		}
 		return courseInfoList;
