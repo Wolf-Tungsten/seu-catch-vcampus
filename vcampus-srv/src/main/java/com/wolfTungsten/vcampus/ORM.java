@@ -1,4 +1,4 @@
-﻿package src.main.java.com.wolfTungsten.vcampus;
+﻿package com.wolfTungsten.vcampus;
 
 import java.sql.SQLException;
 
@@ -53,7 +53,7 @@ public class ORM {
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
-			conn = new JdbcConnectionSource("jdbc:ucanaccess://D:/vCampus.accdb;memory=false", databaseType);
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://E:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);

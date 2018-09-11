@@ -17,6 +17,7 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		super(conn, TradingRecord.class);	
 	}
 	
+
 	public void deposit(String from,String to,double value,long createTime)throws SQLException {
 		TradingRecord tradingRecord=new TradingRecord();
 	    tradingRecord.setFrom(from);

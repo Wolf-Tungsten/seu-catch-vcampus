@@ -26,7 +26,7 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import javafx.scene.control.ComboBox;
+//import javafx.scene.control.ComboBox;
 
 public class JwcManager extends JPanel implements  ActionListener, FocusListener {
 

@@ -7,7 +7,8 @@ import java.util.HashMap;
 
 import java.util.UUID;
 
-//import org.mockito.internal.matchers.And;
+import com.wolfTungsten.vcampus.entity.UserXGoods;
+import org.mockito.internal.matchers.And;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -69,7 +70,14 @@ public class GoodsRepository extends CurdRepository<Goods>
 		
 	}
 
-	
+	public Goods inquireById(String uuid) throws SQLException
+	{
+		Goods goods = new Goods();
+		List<Goods> goodslist = dao.queryForEq(Goods.UUID, UUID.fromString(uuid));
+		if(goodslist==null)throw new SQLException("没找到这本书");
+		
+		return goodslist.get(0);
+	}
 	//
 	public ArrayList<HashMap<String,Object>> inquireByFlag(String flag,Object value) throws SQLException {
 		ArrayList<Goods> goodslist = new ArrayList<>();
@@ -88,6 +96,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		}
 		return goodsinfolist;
 	}//end
+	
 	
 	private void updateGoods(HashMap<String, Object> goodsinfo) throws SQLException {
 		//修改商品信息，通过传一个HashMap

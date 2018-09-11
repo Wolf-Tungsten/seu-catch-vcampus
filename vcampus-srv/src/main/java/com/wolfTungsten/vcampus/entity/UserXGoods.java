@@ -21,7 +21,7 @@ public class UserXGoods
 	@DatabaseField(columnName = UserXGoods.GOOD_ID)
 	private String good_id;
 	@DatabaseField(columnName = UserXGoods.COST)
-	private int cost;
+	private double cost;
 	//in_car属性用于表示用户加入购物车的商品，如果不在购物车里则表示是用户已经购买的商品
 	@DatabaseField(columnName = UserXGoods.IN_CAR)
 	private boolean in_car;
@@ -60,15 +60,24 @@ public class UserXGoods
 		this.good_id = good_id;
 	}
 
-	public int getCost()
+	public double getCost()
 	{
 		return cost;
 	}
 
-	public void setCost(int cost)
+	public void setCost(Double cost)
 	{
 		this.cost = cost;
 	}
 	
+	public boolean getIn_car()
+	{
+		return in_car;
+	}
+	
+	public void setIn_car(boolean in_car)
+	{
+		this.in_car = in_car;
+	}
 
 }
