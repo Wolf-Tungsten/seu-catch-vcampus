@@ -17,18 +17,18 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 		super(conn, TradingRecord.class);	
 	}
 	
-	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
-		//
-		if((from=="72d1e945-a28f-4132-95b3-3d5992884c04"))//这个uuid后期是不是要改
-		{
+
+	public void deposit(String from,String to,double value,long createTime)throws SQLException {
 		TradingRecord tradingRecord=new TradingRecord();
 	    tradingRecord.setFrom(from);
 	    tradingRecord.setTo(to);
 		tradingRecord.setValue(value);
 		tradingRecord.setCreateTime(createTime);
 		dao.create(tradingRecord);
-		}else 
-		{
+	}
+	
+	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
+		
 			if(calculateBalance(from)>=value)
 			{
 				TradingRecord tradingRecord=new TradingRecord();
@@ -41,7 +41,6 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 			{
 				throw new SQLException("该账户余额不足");
 			}
-		}
 	}//增加一条记录
 	
 	//计算某账户余额

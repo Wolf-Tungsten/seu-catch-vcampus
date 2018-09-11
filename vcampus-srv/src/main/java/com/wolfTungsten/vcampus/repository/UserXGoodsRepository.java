@@ -33,6 +33,8 @@ public class UserXGoodsRepository extends CurdRepository<UserXGoods>
 		dao.create(userXGoods);
 	}
 	
+
+	
 	//通过某个用户自己的uuid查询到自己拥有的商品
 	public ArrayList<HashMap<String, Object>> inqueryShoppingCart(String userid) throws SQLException
 	{

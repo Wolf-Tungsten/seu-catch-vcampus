@@ -1,15 +1,42 @@
-//æ•™åŠ¡å¤„â€”â€”è€ƒè¯•åŠ©æ‰‹é¢æ¿
+//½ÌÎñ´¦¡ª¡ª¿¼ÊÔÖúÊÖÃæ°å
 package com.wolfTungsten.vcampusClient.panel;
 
+import java.awt.Font;
+
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class JwcExam extends JPanel {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JTable table;
+	private DefaultTableModel tableModel;
 
 	/**
 	 * Create the panel.
 	 */
 	public JwcExam() {
-
+		setSize(736,600);
+		setLayout(null);
+		String[][]tableValues= {};												   //±í¸ñÊý¾ÝÊý×é
+		String[] columnNames = {"¿¼ÊÔ¿Î³ÌÃû³Æ","¼à¿¼ÀÏÊ¦","¿¼ÊÔµØµã","¿¼ÊÔÊ±¼ä","Ê£ÓàÌìÊý","¿¼ÊÔ³É¼¨"}; //±í¸ñÁÐÃû µÚÎåÁÐ¿Õ³öÀ´·ÅÖÃÑ¡¿ÎÍË¿Î°´Å¥
+		tableModel = new DefaultTableModel(tableValues,columnNames);
+		table = new JTable(tableModel);
+		JScrollPane scrollTable = new JScrollPane(table);
+		scrollTable.setBounds(35, 100, 666, 465);
+		table.setBounds(35, 100, 666, 465);
+		add(scrollTable);
+		table.getTableHeader().setFont(new Font("Î¢ÈíÑÅºÚ",Font.BOLD,14));
+		
+		//Ìí¼Ó ¿Î³Ì ÀÏÊ¦ µØµã Ê±¼ä ÌìÊý ³É¼¨ ´ÓÊý¾Ý¿âÀïÃæ
+		//³É¼¨Ò»¿ªÊ¼Îª¿Õ  ¹ÜÀíÔ±Ìí¼ÓÖ®ºóÏÔÊ¾
+		//tableModel.addRow(); 
+		//´ó¸Å{"Ãû×Ö","ÀÏÊ¦","µØµã","Ê±¼ä","ÌìÊý",""} ¿ªÊ¼
 	}
 
 }

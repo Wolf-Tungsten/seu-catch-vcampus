@@ -62,6 +62,11 @@
         </dependency>
 
 
+        <dependency>
+        	<groupId>com.wolf-tungsten</groupId>
+        	<artifactId>vcampus-srv</artifactId>
+        	<version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 	<build>

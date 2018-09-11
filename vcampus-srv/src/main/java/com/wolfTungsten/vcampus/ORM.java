@@ -86,4 +86,4 @@ public class ORM {
         return ORMHolder.instance;
     }
 	
-}
+};

@@ -45,6 +45,7 @@ import com.wolfTungsten.vcampusClient.panel.InfoSystemMain;
 import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
 import com.wolfTungsten.vcampusClient.panel.JwcExam;
 import com.wolfTungsten.vcampusClient.panel.JwcExperiment;
+import com.wolfTungsten.vcampusClient.panel.JwcManager;
 import com.wolfTungsten.vcampusClient.panel.JwcSelectCourses;
 import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
 import com.wolfTungsten.vcampusClient.panel.LibManager;
@@ -66,6 +67,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	
 	JLabel label_lib_exit,label_jwc_exit;
 	JLabel label_blank1,label_blank2,label_blank3;
+
 	//个人信息面板们
 	JLabel label_info_main,label_info_modify,label_info_pass;
 	JPanel panel_info_main,panel_info_modify,panel_info_pass;
@@ -73,13 +75,14 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JLabel label_lib_select,label_lib_message,label_lib_manager;
 	JPanel panel_lib_select,panel_lib_message,panel_lib_manager;
 	//教务处面板们
-	JPanel panel_jwc_select,panel_jwc_curriculum,panel_jwc_exam,panel_jwc_experiment;
-	JLabel label_jwc_select,label_jwc_curriculum,label_jwc_exam,label_jwc_experiment;
+	JPanel panel_jwc_select,panel_jwc_curriculum,panel_jwc_exam,panel_jwc_experiment,panel_jwc_manager;;
+	JLabel label_jwc_select,label_jwc_curriculum,label_jwc_exam,label_jwc_experiment,label_jwc_manager;;
 	
 	//商城面板们
 	JPanel panel_shop_select,panel_shop_cart,panel_shop_sell,panel_shop_history;
 	JLabel label_shop_select,label_shop_cart,label_shop_sell,label_shop_history;
 	//银行面板们
+
 	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass;
 	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass;
 	static Point origin = new Point();
@@ -289,9 +292,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_jwc_experiment.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_experiment);
 		
+		//”管理者“按钮（标签），关联JwcManager面板 ------------------------------权限
+		label_jwc_manager=new JLabel("管理者",JLabel.CENTER);
+		label_jwc_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_jwc_manager.setForeground(new Color(59,120,103));
+		label_jwc_manager.setBounds(0, 240,150, 50);
+		label_jwc_manager.addMouseListener(this);
+		panel_message_jwc.add(label_jwc_manager);
+		
 		//虚假的空白标签
 		label_jwc_exit= new JLabel();
-		label_jwc_exit.setBounds(0,240,150,360);
+		label_jwc_exit.setBounds(0,290,150,310);
 		label_jwc_exit.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_exit);
 		
@@ -415,11 +426,11 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_info_main.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_1", panel_info_main);		
 		cardLayout.show(panel_right, "info_1");//默认显示“系统主页”
-		panel_info_modify = new InfoModify();
-		panel_info_modify.setBackground(new Color(255, 255, 255));
-		panel_right.add("info_2", panel_info_modify);		
+//		panel_info_modify = new InfoModify(token);
+//		panel_info_modify.setBackground(new Color(255, 255, 255));
+//		panel_right.add("info_2", panel_info_modify);		
 		
-		panel_info_pass = new InfoPassword();
+		panel_info_pass = new InfoPassword(token);
 		panel_info_pass.setBackground(new Color(255, 255, 255));
 		panel_right.add("info_3", panel_info_pass);		
 		//图书馆=================================图书馆板块的面板们=======================================
@@ -428,6 +439,15 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_lib_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("lib_1", panel_lib_select);
 		//“借还信息”面板
+
+		
+//		HashMap<String,Object> borrowRecord = borrowRecordrequest(token);
+//		String[][] tablevalue = (String[][]) borrowRecord.get("tablevalue");
+//		String name = (String) borrowRecord.get("name");
+//		String cardnum = (String) borrowRecord.get("cardnum");
+//		panel_lib_message = new LibMessage(token,tablevalue,name,cardnum);
+//		panel_lib_message.setBackground(new Color(255, 255, 255));
+//		panel_right.add("lib_2", panel_lib_message);
 
 		//“管理员”面板
 		panel_lib_manager = new LibManager(token);
@@ -452,6 +472,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_jwc_experiment.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_4", panel_jwc_experiment);	
 		
+		panel_jwc_manager = new JwcManager();
+		panel_jwc_manager.setBackground(new Color(255, 255, 255));
+		panel_right.add("jwc_5", panel_jwc_manager);
+
 	    //购物系统================================购物系统板块的面板们=======================================
 		panel_shop_select=new ShopSelect();
 		panel_shop_select.setBackground(new Color(255, 255, 255));
@@ -483,7 +507,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("bank_3", panel_bank_bill);	
 		
 		
-		panel_bank_modify_pass=new BankModifyPass();
+		panel_bank_modify_pass=new BankModifyPass(token);
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_4", panel_bank_modify_pass);
 		
@@ -541,6 +565,12 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				contentPane.setLayer(panel_message_info,new Integer(11));//将panel_message_info放置在比10层高的地方
 	*/			
 			} else if (e.getSource() == label_info_modify) {
+				//传用户个人信息
+				HashMap<String,Object> userinfo = userinfo(token);
+				panel_info_modify = new InfoModify(token,userinfo);
+				panel_info_modify.setBackground(new Color(255, 255, 255));
+				panel_right.add("info_2", panel_info_modify);	
+				
 				cardLayout.show(panel_right, "info_2");
 				HideAllMessagePanel();	
 			} else if (e.getSource() == label_info_pass) {
@@ -578,6 +608,20 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_experiment) {
 				cardLayout.show(panel_right, "jwc_4");
+				HideAllMessagePanel();	
+			} else if (e.getSource() == label_jwc_manager) {
+				cardLayout.show(panel_right, "jwc_5");
+				HideAllMessagePanel();	
+			} else if (e.getSource() == button_shop) {
+				 cardLayout.show(panel_right, "4");
+				 panel_message_info.setVisible(false); 
+				 panel_message_jwc.setVisible(false); 
+				 panel_message_lib.setVisible(false); 
+				 panel_message_shop.setVisible(true); 
+				 panel_message_bank.setVisible(false);  
+				 contentPane.setLayer(panel_message_shop,new Integer(11));
+
+			}else if (e.getSource() == label_bank_save_withdraw) {
 				HideAllMessagePanel();
 				
 			}	else if (e.getSource() == label_shop_select) {
@@ -730,6 +774,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_jwc_experiment) {
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(Color.WHITE);
+		 } else if (e.getSource() == label_jwc_manager) {
+			 label_jwc_manager.setOpaque(true);
+			 label_jwc_manager.setBackground(Color.WHITE);
 		 } 
 		 
 		 if (e.getSource() == label_shop_select) {
@@ -865,6 +912,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 }else if (e.getSource() == label_jwc_experiment) {
 			 label_jwc_experiment.setOpaque(true);
 			 label_jwc_experiment.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_jwc_manager) {
+			 label_jwc_manager.setOpaque(true);
+			 label_jwc_manager.setBackground(new Color(230,230,230));
 		 }
 		
 		if (e.getSource() == label_shop_select) {
@@ -944,5 +994,17 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		
 	}
 	
+	public static HashMap<String, Object> userinfo(String token) {
+		Client.Request request = new Request();
+		request.setToken(token);
+		request.setPath("user/userinfo");
+		Response response = Client.fetch(request);
+
+		if(response.getSuccess())
+			return response.getBody();
+		else
+			return new HashMap<>();
+	
+	}
 	
 }

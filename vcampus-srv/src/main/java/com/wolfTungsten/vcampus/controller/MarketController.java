@@ -147,9 +147,8 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			public Response work(Request request)
 			{
 				Response response = new Response();
-				String token = request.getToken();
-
-				
+				//String token = request.getToken();
+			
 				String goodsUuid=(String)request.getParams().get(Goods.UUID);
 				//String name = (String)request.getParams().get(Goods.NAME);
 				String seller = (String)request.getParams().get(Goods.SELLER);
@@ -160,7 +159,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				double cost = price*amount;
 				try
 				{
-					checkToken(token);
+					//checkToken(token);
 					
 					orm.tradingRecordRepository.addTradingRecord(buyer, seller, price, createTime);
 					orm.userXGoodsRepository.addUserXGoods(buyer, goodsUuid ,cost);
@@ -170,7 +169,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				{	
 					e.printStackTrace();
 					response.setSuccess(false);
-					response.getBody().put("result", "交易失败,"+e.getMessage());
+					response.getBody().put("result:", "交易失败,"+e.getMessage());
 					return response;
 				}
 			}
@@ -183,17 +182,17 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				return null;
 			}
 		}; 
-
+		
 		private BaseController.BaseHandle deleteGoodsHandle = new BaseHandle() {
-			//待测试
 			@Override
+			//根据单个uuid删除，完成
 			public Response work(Request request) {
 				Response response = new Response();
 				ArrayList<String> goodsUuidList = (ArrayList<String>) request.getParams().get("uuidList");
 				for(String uuid : goodsUuidList)
 				{
 					try {
-						orm.bookRepository.deleteBookByUuid(uuid);
+						orm.goodsRepository.deleteGoodsByUuid(uuid);
 						//这里还要删除掉和用户有关的信息
 					}catch(SQLException e){
 						response.setSuccess(false);
@@ -243,7 +242,7 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 							.inqueryShoppingCart(user_id);
 					for(HashMap<String, Object> record:recordMapList)
 					{
-						//根据商品id查这个人给购物车加了哪些商品
+			
 						Goods goods = orm.goodsRepository.inquireById(user_id);
 						record.remove(UserXGoods.GOOD_ID);
 						record.put(Goods.NAME,goods.getName());
