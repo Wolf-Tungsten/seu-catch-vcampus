@@ -38,6 +38,7 @@ import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.panel.BankBill;
 import com.wolfTungsten.vcampusClient.panel.BankModifyPass;
 import com.wolfTungsten.vcampusClient.panel.BankNewPassword;
+import com.wolfTungsten.vcampusClient.panel.BankRemain;
 import com.wolfTungsten.vcampusClient.panel.BankSaveAndWithdraw;
 import com.wolfTungsten.vcampusClient.panel.BankTurnMoney;
 import com.wolfTungsten.vcampusClient.panel.InfoModify;
@@ -84,8 +85,8 @@ public class FunctionFrame extends JFrame implements MouseListener{
 	JPanel panel_shop_select,panel_shop_cart,panel_shop_sell,panel_shop_history,panel_shop_manager;
 	JLabel label_shop_select,label_shop_cart,label_shop_sell,label_shop_history,label_shop_manager;
 	//银行面板们
-	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass,panel_bank_newPass;
-	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass;
+	JPanel panel_bank_save_withdraw,panel_bank_turn_money,panel_bank_bill,panel_bank_modify_pass,panel_bank_newPass,panel_bank_remain;
+	JLabel label_bank_save_withdraw,label_bank_turn_money,label_bank_bill,label_bank_modify_pass,label_bank_remain;
 	
 	static Point origin = new Point();
 	CardLayout cardLayout = new CardLayout();
@@ -372,19 +373,26 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_bank_save_withdraw.setBounds(0, 40,150, 50);
 		label_bank_save_withdraw.addMouseListener(this);
 		panel_message_bank.add(label_bank_save_withdraw);
+		//查询余额
+		label_bank_remain=new JLabel("账户余额",JLabel.CENTER);
+		label_bank_remain.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_bank_remain.setForeground(new Color(59,120,103));
+		label_bank_remain.setBounds(0, 90,150, 50);
+		label_bank_remain.addMouseListener(this);
+		panel_message_bank.add(label_bank_remain);
 		//”转账汇款“按钮，关联BankTurnMoney面板
 		//从我的账户到另一个账户,
 		label_bank_turn_money=new JLabel("转账汇款",JLabel.CENTER);
 		label_bank_turn_money.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_bank_turn_money.setForeground(new Color(59,120,103));
-		label_bank_turn_money.setBounds(0, 90,150, 50);
+		label_bank_turn_money.setBounds(0, 140,150, 50);
 		label_bank_turn_money.addMouseListener(this);
 		panel_message_bank.add(label_bank_turn_money);
 		//“交易明细“按钮	,关联BankBill面板		
 		label_bank_bill=new JLabel("交易明细",JLabel.CENTER);
 		label_bank_bill.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_bank_bill.setForeground(new Color(59,120,103));
-		label_bank_bill.setBounds(0, 140,150, 50);
+		label_bank_bill.setBounds(0, 190,150, 50);
 		label_bank_bill.addMouseListener(this);
 		panel_message_bank.add(label_bank_bill);
 				
@@ -392,7 +400,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		label_bank_modify_pass=new JLabel("修改账户密码",JLabel.CENTER);
 		label_bank_modify_pass.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_bank_modify_pass.setForeground(new Color(59,120,103));
-		label_bank_modify_pass.setBounds(0, 190,150, 50);
+		label_bank_modify_pass.setBounds(0, 240,150, 50);
 		label_bank_modify_pass.addMouseListener(this);
 		panel_message_bank.add(label_bank_modify_pass);
 /*			   			
@@ -514,22 +522,26 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_1", panel_bank_save_withdraw);		
 		
+		panel_bank_remain=new BankRemain();
+		panel_bank_remain.setBackground(new Color(255, 255, 255));
+		panel_right.add("bank_2", panel_bank_remain);	
+		
 		panel_bank_turn_money=new BankTurnMoney();
 		panel_bank_turn_money.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_2", panel_bank_turn_money);	
+		panel_right.add("bank_3", panel_bank_turn_money);	
 		
 		panel_bank_bill=new BankBill();
 		panel_bank_bill.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_3", panel_bank_bill);	
+		panel_right.add("bank_4", panel_bank_bill);	
 		
 		
 		panel_bank_modify_pass=new BankModifyPass(token);
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_4", panel_bank_modify_pass);
+		panel_right.add("bank_5", panel_bank_modify_pass);
 		
 		panel_bank_newPass=new BankNewPassword();//若用户没有支付密码，则会提示先设置支付密码
 		panel_bank_newPass.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_5", panel_bank_newPass);
+		panel_right.add("bank_6", panel_bank_newPass);
 		
 			
 		//实现鼠标拖拽窗口的功能
@@ -663,8 +675,21 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				}else if (e.getSource() == label_bank_save_withdraw) {
 				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
+			} else if (e.getSource() == label_bank_remain) {
+				String payPassword="123456";
+				//TODO 需要把用户消费密码传递过来
+				JPasswordField pwd = new JPasswordField();
+				Object[] message = {"请输入账号密码：", pwd};
+				JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+				String passStr=pwd.getText();//获取输入对话框中的密码
+				if(passStr.equals(payPassword)) {
+					cardLayout.show(panel_right, "bank_2");
+					HideAllMessagePanel();
+				}else {
+					JOptionPane.showMessageDialog(null, "密码错误！", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}
 			} else if (e.getSource() == label_bank_turn_money) {
-				cardLayout.show(panel_right, "bank_2");
+				cardLayout.show(panel_right, "bank_3");
 				HideAllMessagePanel();
 			}  else if (e.getSource() == label_bank_bill) {
 					String payPassword="123456";
@@ -674,7 +699,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 					JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					String passStr=pwd.getText();//获取输入对话框中的密码
 					if(passStr.equals(payPassword)) {
-						cardLayout.show(panel_right, "bank_3");
+						cardLayout.show(panel_right, "bank_4");
 						HideAllMessagePanel();
 					}else {
 						JOptionPane.showMessageDialog(null, "密码错误！", "Tips",JOptionPane.ERROR_MESSAGE); 
@@ -682,10 +707,10 @@ public class FunctionFrame extends JFrame implements MouseListener{
 			} else if (e.getSource() == label_bank_modify_pass) {
 				    String originalPass=null;//TODO 每次点击这个label,要把用户支付密码传递给我
 				    if(originalPass!=null) {
-						cardLayout.show(panel_right, "bank_4");//如果密码非空，就可以修改
+						cardLayout.show(panel_right, "bank_5");//如果密码非空，就可以修改
 						HideAllMessagePanel();			
 				    }else {
-				    	cardLayout.show(panel_right, "bank_5");//如果密码是空，就新建密码
+				    	cardLayout.show(panel_right, "bank_6");//如果密码是空，就新建密码
 						HideAllMessagePanel();			
 				    }
 			} 
@@ -828,6 +853,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		 if (e.getSource() == label_bank_save_withdraw) {
 			 label_bank_save_withdraw.setOpaque(true);
 			 label_bank_save_withdraw.setBackground(Color.WHITE);
+		 }else if (e.getSource() == label_bank_remain) {
+			 label_bank_remain.setOpaque(true);
+			 label_bank_remain.setBackground(Color.WHITE);
 		 }else if (e.getSource() == label_bank_turn_money) {
 			 label_bank_turn_money.setOpaque(true);
 			 label_bank_turn_money.setBackground(Color.WHITE);
@@ -969,6 +997,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		if (e.getSource() == label_bank_save_withdraw) {
 			label_bank_save_withdraw.setOpaque(true);
 			label_bank_save_withdraw.setBackground(new Color(230,230,230));
+		 }else if (e.getSource() == label_bank_remain) {
+			 label_bank_remain.setOpaque(true);
+			 label_bank_remain.setBackground(new Color(230,230,230));
 		 }else if (e.getSource() == label_bank_turn_money) {
 			 label_bank_turn_money.setOpaque(true);
 			 label_bank_turn_money.setBackground(new Color(230,230,230));
