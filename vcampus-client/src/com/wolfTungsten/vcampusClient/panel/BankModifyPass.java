@@ -102,7 +102,6 @@ public class BankModifyPass extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==okButton) {
 			//从文本框中获取的数据
-			
 			String orPassStr=textField_originalPass.getText();
 			String newPassStr=textField_newPass.getText();
 			String rePassStr=textField_rePass.getText();
@@ -111,6 +110,12 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			String myID=null;//“我”的身份证号
 			String myPass=null;//“我”的原始密码
 			 if(orPassStr.equals("")||orPassStr==null) {
+
+	//		String orPassStr=textField_originalPass.getText();
+	//		String newPassStr=textField_newPass.getText();
+	//		String rePassStr=textField_rePass.getText();
+			if(orPassStr.equals("")||orPassStr==null) {
+
 				JOptionPane.showMessageDialog(null, "请输入原始密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else if(newPassStr.equals("")||newPassStr==null) {
@@ -123,23 +128,31 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			}  else if(!newPassStr.equals(rePassStr)) {
 		    	 JOptionPane.showMessageDialog(null, "两次输入密码不一致~", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
+
 			}else if(!orPassStr.equals(myPass )) {
 				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
+
+
 			}
 			
 			Client.Request request = new Request();
 			request.setPath("bank/secretPassword");
 			request.setToken(token);
-			request.getParams().put("user_id", "b18cccef-8114-4629-8cef-367e90920c27");
-			
-			
-			
+			request.getParams().put("secretPassword", orPassStr);
+			request.getParams().put("newSecretPassword", newPassStr);
+			Response response = Client.fetch(request);
+			if(response.getSuccess()) {
+				 JOptionPane.showMessageDialog(null, "修改密码成功", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}else {
+				 JOptionPane.showMessageDialog(null, "修改密码失败，请检查原始密码是否正确", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}
 		}
 		if(e.getSource()==cancelButton) {
 			textField_originalPass.setText("");
 			textField_newPass.setText("");
 			textField_rePass.setText("");
+		}
 		}
 	}
 }

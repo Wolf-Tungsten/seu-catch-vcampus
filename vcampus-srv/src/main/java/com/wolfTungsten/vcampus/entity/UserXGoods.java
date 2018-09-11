@@ -12,7 +12,10 @@ public class UserXGoods
 	public static final String USER_ID = "user_id";
 	public static final String GOOD_ID = "good_id";
 	public static final String COST = "cost";
-	public static final String IN_CAR = "in_car";
+	public static final String IN_CAR = "in_cart";
+	public static final String AMOUNT = "amount";
+	public static final String WHETHERBUY = "whetherbuy";
+	public static final String CREATETIME = "createtime";
 	
 	@DatabaseField(generatedId = true, columnName = UserXGoods.UUID)
 	private UUID uuid ;
@@ -24,10 +27,45 @@ public class UserXGoods
 	private double cost;
 	//in_car属性用于表示用户加入购物车的商品，如果不在购物车里则表示是用户已经购买的商品
 	@DatabaseField(columnName = UserXGoods.IN_CAR)
-	private boolean in_car;
-	
+	private int in_cart; //1表示在购物车  
+	@DatabaseField(columnName = UserXGoods.AMOUNT)
+	private int amount ;
+	@DatabaseField(columnName = UserXGoods.WHETHERBUY)
+	private int whetherbuy; //1 表示已购买该商品
+	@DatabaseField(columnName = UserXGoods.CREATETIME)
+	private long createtime;
 	public UserXGoods() {
 		
+	}
+
+	public long getCreatetime()
+	{
+		return createtime;
+	}
+
+	public void setCreatetime(long createtime)
+	{
+		this.createtime = createtime;
+	}
+
+	public int getWhetherbuy()
+	{
+		return whetherbuy;
+	}
+
+	public void setWhetherbuy(int whetherbuy)
+	{
+		this.whetherbuy = whetherbuy;
+	}
+
+	public int getAmount()
+	{
+		return amount;
+	}
+
+	public void setAmount(int amount)
+	{
+		this.amount = amount;
 	}
 
 	public UUID getUuid()
@@ -70,14 +108,14 @@ public class UserXGoods
 		this.cost = cost;
 	}
 	
-	public boolean getIn_car()
+	public int getIn_car()
 	{
-		return in_car;
+		return in_cart;
 	}
 	
-	public void setIn_car(boolean in_car)
+	public void setIn_car(int in_cart)
 	{
-		this.in_car = in_car;
+		this.in_cart = in_cart;
 	}
 
 }

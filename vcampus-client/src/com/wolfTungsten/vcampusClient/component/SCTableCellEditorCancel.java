@@ -22,7 +22,7 @@ public class SCTableCellEditorCancel extends DefaultCellEditor{
 
 	public SCTableCellEditorCancel() {
 		super(new JTextField());
-		// TODO ×Ô¶¯Éú³ÉµÄ¹¹Ôìº¯Êı´æ¸ù
+		// TODO è‡ªåŠ¨ç”Ÿæˆçš„æ„é€ å‡½æ•°å­˜æ ¹
 		this.setClickCountToStart(1);
 		this.initButton();
 		this.initPanel();
@@ -30,27 +30,27 @@ public class SCTableCellEditorCancel extends DefaultCellEditor{
 		}
 
 		private void initButton() {
-		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		// TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
 		this.button = new JButton();  
 		this.button.setBounds(0,0,100,20);
 		
 		this.button.addActionListener(new ActionListener()
         {  
 			@Override
-			//============================================================================ÔÚÕâÀïÌí¼Ó¡°È¡ÏûÑ¡Ôñ¡±°´Å¥µÄÊÂ¼ş
+			//============================================================================
 			public void actionPerformed(ActionEvent e) {
-				// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
-				//´¥·¢È¡Ïû±à¼­µÄÊÂ¼ş£¬²»»áµ÷ÓÃtableModelµÄsetValue·½·¨¡£   
+				// TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
+				//è§¦å‘å–æ¶ˆç¼–è¾‘çš„äº‹ä»¶ï¼Œä¸ä¼šè°ƒç”¨tableModelçš„setValueæ–¹æ³•   
 				SCTableCellEditorCancel.this.fireEditingCanceled();  
-                // ÕâÀï¿ÉÒÔ×öÆäËü²Ù×÷¡£   
-				//´ÓÕâÀï¿ªÊ¼----------------------------------------------------
+                // ä»è¿™é‡Œå¼€å§‹å…¶ä»–æ“ä½œ
+				
 			} ;
         });
 		}
 	
 
 		private void initPanel() {
-		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		// TODO è‡ªåŠ¨ç”Ÿæˆçš„æ–¹æ³•å­˜æ ¹
 		this.panel = new JPanel();  
         this.panel.setLayout(null);  
 		
@@ -58,7 +58,7 @@ public class SCTableCellEditorCancel extends DefaultCellEditor{
 		@Override  
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)  
 		{  
-			this.button.setText("È¡ÏûÑ¡Ôñ");
+			this.button.setText("å–æ¶ˆé€‰æ‹©");
   
 			return this.panel;  
 		} 
