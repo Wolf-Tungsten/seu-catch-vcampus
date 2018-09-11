@@ -128,6 +128,19 @@ public class GoodsRepository extends CurdRepository<Goods>
 		deleteBuilder.delete();
 	}
 	
+	public void updateGoods2(LinkedTreeMap<String, Object> goodsinfo) throws SQLException {
+		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
+		String goodsUuid = (String)goodsinfo.get("uuid");
+		updateBuilder.where().eq("uuid", goodsUuid);
+		goodsinfo.remove("uuid");
+		for(String columnName:goodsinfo.keySet())
+		{		
+			updateBuilder.updateColumnValue(columnName, goodsinfo.get(columnName)).update();
+		}
+		
+	}
+	
+	
 };
 	
 	

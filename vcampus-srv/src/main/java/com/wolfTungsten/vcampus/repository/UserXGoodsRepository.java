@@ -34,4 +34,13 @@ public class UserXGoodsRepository extends CurdRepository<UserXGoods>
 		//把list写到hashmap里
 	}
 	
+	public void addUXG(String user_id , String good_id ,int amount,double price) {
+		UserXGoods uxg = new UserXGoods();
+		//uxg.setCost(price);
+		//uxg.setAmount(amount);
+		uxg.setGood_id(good_id);
+		uxg.setUser_id(user_id);
+		
+	}
+	
 }
