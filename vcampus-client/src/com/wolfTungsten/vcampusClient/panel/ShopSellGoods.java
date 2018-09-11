@@ -18,7 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,ActionListener{
-	private JTextField textField_goodName,textField_price;
+	private JTextField textField_goodName,textField_price,textField_number;
 	JComboBox<String> comboBox_type; 
 	JComboBox<String> comboBox_change;
 	private JTextField textField_postage;
@@ -48,20 +48,24 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		lblNewLabel_2.setBounds(85, 180, 54, 15);
 		add(lblNewLabel_2);
 		
+		JLabel lblNewLabel_5 = new JLabel("上架数量：");
+		lblNewLabel_5.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		lblNewLabel_5.setBounds(85, 240, 82, 15);
+		add(lblNewLabel_5);
 		
 		JLabel lblNewLabel_1 = new JLabel("交易方式：");
 		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(85, 240, 82, 15);
+		lblNewLabel_1.setBounds(85, 300, 82, 15);
 		add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_4 = new JLabel("邮费：");
 		lblNewLabel_4.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(85, 300, 54, 15);
+		lblNewLabel_4.setBounds(85, 360, 54, 15);
 		add(lblNewLabel_4);
 		
 		JLabel label = new JLabel("描述：");
 		label.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label.setBounds(85, 360, 54, 15);
+		label.setBounds(85, 420, 54, 15);
 		add(label);
 		
 		textField_goodName = new JTextField();
@@ -76,10 +80,16 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		add(textField_price);
 		textField_price.setColumns(10);
 		
+		textField_number = new JTextField();
+		textField_number.setFont(new Font("微软雅黑", Font.BOLD, 12));
+		textField_number.setBounds(200,234, 280, 30);
+		add(textField_number);
+		textField_number.setColumns(10);
+		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("微软雅黑", Font.BOLD, 13));
 		textArea.addFocusListener(this);
-		textArea.setBounds(200, 357, 349, 85);
+		textArea.setBounds(200, 417, 349, 85);
 		textArea.setLineWrap(true);//自动换行
 		textArea.setText("请输入对该物品的描述、出手理由或者使用体验。");
 		add(textArea);
@@ -98,7 +108,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		
 		comboBox_change = new JComboBox<String>();
 		comboBox_change.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		comboBox_change.setBounds(200, 237, 114, 23);
+		comboBox_change.setBounds(200, 297, 114, 23);
 		comboBox_change.addItem("当面交易");
 		comboBox_change.addItem("同城速递");
 		comboBox_change.addItem("其他");
@@ -107,31 +117,31 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		
 		textField_postage = new JTextField("0");
 		textField_postage.setFont(new Font("微软雅黑", Font.BOLD, 12));
-		textField_postage.setBounds(200, 298, 280, 30);
+		textField_postage.setBounds(200, 358, 280, 30);
 		textField_postage.setEditable(false);
 		add(textField_postage);
 		textField_postage.setColumns(10);
 		
 		JLabel label_1 = new JLabel("元");
 		label_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_1.setBounds(495, 301, 54, 30);
+		label_1.setBounds(495, 431, 54, 30);
 		add(label_1);
 		
 		addButton = new JButton("确认添加");
 		addButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		addButton.setBounds(200, 496, 93, 23);
+		addButton.setBounds(200, 556, 93, 23);
 		addButton.addActionListener(this);
 		add(addButton);
 		
 		cancelButton = new JButton("清空取消");
 		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		cancelButton.setBounds(448, 497, 93, 23);
+		cancelButton.setBounds(448, 557, 93, 23);
 		cancelButton.addActionListener(this);
 		add(cancelButton);
 		
 		label_2 = new JLabel("元");
 		label_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_2.setBounds(490, 180, 54, 24);
+		label_2.setBounds(490, 360, 54, 24);
 		add(label_2);
 		
 	}
@@ -170,6 +180,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 			String goodNameStr=textField_goodName.getText();
 			String goodTypeStr=(String)comboBox_type.getSelectedItem();
 			String priceStr=textField_price.getText();
+			String numberStr=textField_number.getText();
 			String changeTypeStr=(String)comboBox_change.getSelectedItem();
 			String postageStr=textField_postage.getText();
 			String descriptionStr=textArea.getText();
@@ -178,6 +189,9 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 				return;
 			}else if(priceStr.equals("")||priceStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入您想售出的价格！", "Tips",JOptionPane.ERROR_MESSAGE);
+				return;
+			}else if(numberStr.equals("")||numberStr==null) {
+				JOptionPane.showMessageDialog(null, "请输入上架件数！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else if(postageStr.equals("")||postageStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入转手所需经费！", "Tips",JOptionPane.ERROR_MESSAGE);
@@ -194,6 +208,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
         	textField_goodName.setText("");
         	textField_price.setText("");
         	textField_postage.setText("0");
+        	textField_number.setText("");
         	textArea.setText("请输入对该物品的描述、出手理由或者使用体验。");
 		}
 	}

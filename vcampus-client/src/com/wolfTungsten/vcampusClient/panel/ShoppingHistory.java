@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class ShoppingHistory extends JPanel {
-	String[] columnNames= {"时间","交易物品","数量","交易金额"};//定义表格列名的数组
+	String[] columnNames= {"订单号","交易物品","时间","数量","交易金额"};//定义表格列名的数组
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
@@ -45,17 +45,17 @@ public class ShoppingHistory extends JPanel {
 		
 		label_cardNum = new JLabel("一卡通号：");
 		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_cardNum.setBounds(292, 51, 77, 15);
+		label_cardNum.setBounds(292, 36, 77, 30);
 		add(label_cardNum);
 		
 		label_name = new JLabel("姓名:");
 		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_name.setBounds(548, 51, 54, 15);
+		label_name.setBounds(548, 36, 54, 30);
 		add(label_name);
 		
 		textField_cardNum = new JTextField();
 		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_cardNum.setBounds(403, 48, 96, 21);
+		textField_cardNum.setBounds(403, 39, 96, 30);
 		textField_cardNum.setEditable(false);
 		textField_cardNum.setOpaque(false);
 		add(textField_cardNum);
@@ -63,7 +63,7 @@ public class ShoppingHistory extends JPanel {
 		
 		textField_name = new JTextField();
 		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_name.setBounds(627, 45, 89, 21);
+		textField_name.setBounds(627, 39, 89, 30);
 		textField_name.setEditable(false);
 		textField_name.setOpaque(false);
 		add(textField_name);

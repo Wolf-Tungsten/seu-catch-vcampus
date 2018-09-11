@@ -8,6 +8,7 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.Vector;
 
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -15,11 +16,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
+import com.wolfTungsten.vcampusClient.component.MyButtonRender;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 
 import javax.swing.JButton;
@@ -36,20 +39,19 @@ import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-@SuppressWarnings("unused")
 public class LibFindBooksPanel extends JPanel implements FocusListener,ActionListener, MouseListener{
 	private static final long serialVersionUID = 1L;
 	private JTextField textField_select;
 	JButton button_select;
 	CardLayout cardLayout=new CardLayout();
-
+	
 	String[] columnNames= {"编号","书名","作者","出版社","馆藏地点","状态"};//定义表格列名的数组
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
 	String token ;
 	JScrollPane scrollPane ;
-
+	
 	// Create the panel.
 	public LibFindBooksPanel(String Token) {
 		setSize(736,600);
@@ -106,7 +108,11 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		 table.setDefaultRenderer(Object.class, cr);
 		//遍历所有行
-		
+//		 测试用，可以删了
+//		 String []rowValues= {"12356","高等数学","东野圭吾","嫌疑人X的献身","九龙湖","借阅"};
+//		 table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));
+//		 this.table.getColumnModel().getColumn(5).setCellRenderer(new MyButtonRender());
+//		 tableModel.addRow(rowValues);
 		//我这里无法获取更改后的“状态”列里的信息，界面上点击借阅后“借阅”按钮会变为不可点击的“已借出”按钮，但我这里怎么接受返回的信息呢？
 		 //在TablerButtonEditor()里有返回
 		scrollPane.setViewportView(table);
@@ -179,10 +185,15 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 						 }
 						//”借阅“状态按钮添加，具体看component里的TableButtonEidtor
 						table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));		
+						this.table.getColumnModel().getColumn(5).setCellRenderer(new MyButtonRender());
+						//yhd看过来，就是上面这行代码，具体看Component里面的MyButtonRender(),表格会自动调整列宽
+						//但是这个button不会，假如不行，你要去那个类里的this.button.setBounds(0,0,112,25)调整一下112,25
+						//但我觉得这个宽和高木有问题
 				}else {
 					 JOptionPane.showMessageDialog(null, "没有找到此书", "查询失败",JOptionPane.ERROR_MESSAGE); 
 					
 				}
+
 			   //怎么检索？？？
 			//往表格中添加新的行
 			//String[] rowValues= {};
@@ -216,4 +227,5 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		// TODO Auto-generated method stub
 		
 	}
+
 }
