@@ -26,7 +26,6 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-//import javafx.scene.control.ComboBox;
 
 public class JwcManager extends JPanel implements  ActionListener, FocusListener {
 
@@ -40,6 +39,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	private JTextField textField_coursePlace;
 	private JTextField textField_courseScore;
 	private JTextField textField_courseCapacity;
+	private JTextField textField_courseTestTime;
 	private JButton button1,button2,button3,button4;
 	private JButton button_courseAdd;
 	private CardLayout layout;
@@ -52,7 +52,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	private JTextField textField_search_name,textField_search_lecture,textField_search_courseName,textField_search_courseLecture
 	,textField_search_expName,textField_search_expLecture;
 	private DefaultTableModel tableModel1,tableModel2,tableModel3;
-	private JTable table1,table2,table3;
+	private JTable table_manage,table_exam,table_experiment;
 	private JScrollPane scrollPane1,scrollPane2,scrollPane3;
 	JButton button_manage_search,button_exam_search,button_experiment_search;
 	private JComboBox comboBoxTime,comboBoxWeek;
@@ -157,6 +157,11 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		label_6.setBounds(100, 314, 74, 15);
 		panel_courseAdd.add(label_6);
 		
+		JLabel label_7 = new JLabel("考试时间");
+		label_7.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_7.setBounds(100, 352, 74, 15);
+		panel_courseAdd.add(label_7);
+		
 		button_courseAdd = new JButton("添加");
 		button_courseAdd.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		button_courseAdd.setBounds(188, 440, 93, 23);
@@ -213,8 +218,13 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		textField_courseCapacity.setBounds(241, 312, 291, 21);
 		panel_courseAdd.add(textField_courseCapacity);
 		
+		textField_courseTestTime = new JTextField("");
+		textField_courseTestTime.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		textField_courseTestTime.setBounds(241, 350, 291, 21);
+		panel_courseAdd.add(textField_courseTestTime);
 		
-
+		
+		
 		String[] listDataTime = new String[]{"上午", "下午", "晚上"};
 		comboBoxTime = new JComboBox(listDataTime);
 		comboBoxTime.setFont(new Font("微软雅黑 Light", Font.BOLD, 16));
@@ -258,12 +268,12 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		//定义表格数据数组
 		String[][] tableValues1= {};
 		tableModel1=new DefaultTableModel(tableValues1,columnNames1);
-		table1=new JTable(tableModel1);//创建指定列名和数据的表格
+		table_manage=new JTable(tableModel1);//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr1 = new DefaultTableCellRenderer();
 		cr1.setHorizontalAlignment(JLabel.CENTER);
-		 table1.setDefaultRenderer(Object.class, cr1);
-		scrollPane1 = new JScrollPane(table1);
+		table_manage.setDefaultRenderer(Object.class, cr1);
+		scrollPane1 = new JScrollPane(table_manage);
 		scrollPane1.setBounds(20, 68, 696, 443);
 		panel_courseManage.add(scrollPane1);
 		
@@ -297,12 +307,12 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		//定义表格数据数组
 		String[][] tableValues2= {};
 		tableModel2=new DefaultTableModel(tableValues2,columnNames2);
-		table2=new JTable(tableModel2);//创建指定列名和数据的表格
+		table_exam=new JTable(tableModel2);//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr2 = new DefaultTableCellRenderer();
 		cr1.setHorizontalAlignment(JLabel.CENTER);
-		 table2.setDefaultRenderer(Object.class, cr2);
-		scrollPane2 = new JScrollPane(table2);
+		 table_exam.setDefaultRenderer(Object.class, cr2);
+		scrollPane2 = new JScrollPane(table_exam);
 		scrollPane2.setBounds(20, 68, 696, 443);
 		panel_exam.add(scrollPane2);
 		
@@ -335,12 +345,12 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		//定义表格数据数组
 		String[][] tableValues3= {};
 		tableModel3=new DefaultTableModel(tableValues3,columnNames3);
-		table3=new JTable(tableModel3);//创建指定列名和数据的表格
+		table_experiment=new JTable(tableModel3);//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr3 = new DefaultTableCellRenderer();
 		cr3.setHorizontalAlignment(JLabel.CENTER);
-		 table3.setDefaultRenderer(Object.class, cr3);
-		scrollPane3 = new JScrollPane(table3);
+		 table_experiment.setDefaultRenderer(Object.class, cr3);
+		scrollPane3 = new JScrollPane(table_experiment);
 		scrollPane3.setBounds(20, 68, 696, 443);
 		panel_experiment.add(scrollPane3);
 
@@ -350,6 +360,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	
 
 
+	@SuppressWarnings("unused")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO 自动生成的方法存根
@@ -417,6 +428,10 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		
 		//课程容量 得到的是一个string 记得转换类型
 		String capacity =  textField_courseCapacity.getText();
+		
+		//考试时间 
+		String testTime = textField_courseTestTime.getText();
+
 		
 	}
 	@Override
