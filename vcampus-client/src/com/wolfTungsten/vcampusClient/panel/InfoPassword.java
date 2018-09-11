@@ -93,6 +93,9 @@ public class InfoPassword extends JPanel implements ActionListener{
 			String orPassStr=textField_originalPass.getText();
 			String newPassStr=textField_newPass.getText();
 			String rePassStr=textField_rePass.getText();
+			//TODO 传给客户端的用户信息
+			String myCardNum=null;//“我”的一卡通号
+			String myPass=null;//“我”的原始密码
 			if(cardNumStr.equals("")||cardNumStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入一卡通号！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
@@ -108,6 +111,12 @@ public class InfoPassword extends JPanel implements ActionListener{
 				return;
 			}  else if(!newPassStr.equals(rePassStr)) {
 		    	 JOptionPane.showMessageDialog(null, "两次输入密码不一致~", "Tips",JOptionPane.ERROR_MESSAGE); 
+		    	 return;
+			}else if(!cardNumStr.equals(myCardNum )) {
+				JOptionPane.showMessageDialog(null, "一卡通号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
+		    	 return;
+			}else if(!orPassStr.equals(myPass )) {
+				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
 			}
 			Client.Request request = new Request();

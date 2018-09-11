@@ -27,7 +27,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 
-
 public class JwcManager extends JPanel implements  ActionListener, FocusListener {
 
 	/**

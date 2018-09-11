@@ -42,7 +42,7 @@ public class MarketController extends BaseController {
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
-			
+			//如果是在这里测试，就是用人为构建了request的信息
 			String name = (String)request.getParams().get(Goods.NAME);
 			String description = (String)request.getParams().get(Goods.DESCRIPTION);
 			String seller = (String)request.getParams().get(Goods.SELLER);
@@ -147,25 +147,29 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 			public Response work(Request request)
 			{
 				Response response = new Response();
-				String uuid=(String)request.getParams().get(Goods.UUID);
-				String name = (String)request.getParams().get(Goods.NAME);
+				//String token = request.getToken();
+			
+				String goodsUuid=(String)request.getParams().get(Goods.UUID);
+				//String name = (String)request.getParams().get(Goods.NAME);
 				String seller = (String)request.getParams().get(Goods.SELLER);
 				String buyer=(String)request.getParams().get(AccountBalance.USER_ID);
 				double price=(double)request.getParams().get(Goods.PRICE);
 				long createTime = System.currentTimeMillis() / 1000;
 				int amount = (int)(double)request.getParams().get(Goods.AMOUNT);
-				
+				double cost = price*amount;
 				try
 				{
+					//checkToken(token);
+					
 					orm.tradingRecordRepository.addTradingRecord(buyer, seller, price, createTime);
-
+					orm.userXGoodsRepository.addUserXGoods(buyer, goodsUuid ,cost);
 					response.setSuccess(true);
 					return response;	
 				} catch (SQLException e)
 				{	
 					e.printStackTrace();
 					response.setSuccess(false);
-					response.getBody().put("result", "交易失败,"+e.getMessage());
+					response.getBody().put("result:", "交易失败,"+e.getMessage());
 					return response;
 				}
 			}
@@ -178,17 +182,17 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				return null;
 			}
 		}; 
-
+		
 		private BaseController.BaseHandle deleteGoodsHandle = new BaseHandle() {
-			//待测试
 			@Override
+			//根据单个uuid删除，完成
 			public Response work(Request request) {
 				Response response = new Response();
 				ArrayList<String> goodsUuidList = (ArrayList<String>) request.getParams().get("uuidList");
 				for(String uuid : goodsUuidList)
 				{
 					try {
-						orm.bookRepository.deleteBookByUuid(uuid);
+						orm.goodsRepository.deleteGoodsByUuid(uuid);
 						//这里还要删除掉和用户有关的信息
 					}catch(SQLException e){
 						response.setSuccess(false);
@@ -220,8 +224,11 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				return response;
 			}
 		};
+		
+		
 		public BaseController.BaseHandle queryShoopingCartHandle = new BaseHandle(){
 			//查询某个用户的购物车（通过用户的uuid
+			//这是一个不成熟的购物车
 			@Override
 			public Response work(Request request) {
 				Response response = new Response();
@@ -229,31 +236,22 @@ private BaseController.BaseHandle queryBySellerHandle = new BaseHandle() {
 				//拿user_id
 				try {
 					String user_id = checkToken(token);
-					User user = orm.userRepository.inquireById(user_id);//其实是uuid
+					//String user_id = (String) request.getParams().get(User.UUID);
+					//User user = orm.userRepository.inquireById(user_id);//其实是uuid
 					ArrayList<HashMap<String,Object>> recordMapList = orm.userXGoodsRepository
 							.inqueryShoppingCart(user_id);
 					for(HashMap<String, Object> record:recordMapList)
 					{
-<<<<<<< HEAD
-						//根据商品id查这个人给购物车加了哪些商品
-						//Goods goods = orm.goodsRepository.inquireById(user_id);
-						//record.remove(UserXGoods.GOOD_ID);
-						//record.put(Goods.NAME,goods.getName());
-						//record.put(Goods.DESCRIPTION,goods.getDescription());
-						//record.put(Goods.SELLER,goods.getSeller());
-						//record.put(Goods.PRICE,goods.getPrice());
-=======
-						
+			
 						Goods goods = orm.goodsRepository.inquireById(user_id);
 						record.remove(UserXGoods.GOOD_ID);
 						record.put(Goods.NAME,goods.getName());
 						record.put(Goods.DESCRIPTION,goods.getDescription());
 						record.put(Goods.SELLER,goods.getSeller());
 						record.put(Goods.PRICE,goods.getPrice());
->>>>>>> 0774ec65b65322664d067fc6ff564e20618431bd
 					}
 					response.getBody().put("recordMaplist", recordMapList);
-					response.getBody().put(User.USERNAME,user.getUsername());
+					//response.getBody().put(User.USERNAME,U.getUsername());
 					//response.getBody().put(User.USERNAME,user.getUsername());
 					response.setSuccess(true);
 					return response;
