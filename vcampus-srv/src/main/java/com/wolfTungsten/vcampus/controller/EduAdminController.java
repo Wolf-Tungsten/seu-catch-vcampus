@@ -42,11 +42,13 @@ public class EduAdminController extends BaseController
 			String week = (String)request.getParams().get(Course.WEEK);
 			String classtime =(String)request.getParams().get(Course.CLASSTIME);
 			String token = (String)request.getToken();
-			
+			String location =(String)request.getParams().get(Course.LOCATION);
+			int credits = (int)(double)request.getParams().get(Course.CREDITS);
 			try
 			{
 				checkToken(token);
-				orm.courseRepository.addCourse(name, capacity, lecturer,week,classtime);
+				orm.courseRepository.addCourse(name, capacity, lecturer,week
+						,classtime,location,credits);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -70,11 +72,14 @@ public class EduAdminController extends BaseController
 			String token = (String)request.getToken();
 			try
 			{
-				checkToken(token);
+				String userid = checkToken(token);
 				ArrayList<HashMap<String,Object>> courseMaplist = 
 				orm.courseRepository.queryAllCourses();
+				User user = orm.userRepository.inquireById(userid);
 				response.setSuccess(true);
 				response.getBody().put("courseMaplist", courseMaplist);
+				response.getBody().put(User.USERNAME, user.getUsername());
+				response.getBody().put(User.CARDNUM, user.getCardnum());
 				return response;
 				
 			} catch (SQLException e)
@@ -199,6 +204,7 @@ public class EduAdminController extends BaseController
 			{
 				String useruuid = checkToken(token);
 				orm.userXCourseRepository.addUserXCourse(useruuid, courseuuid);
+				
 				
 				response.setSuccess(true);
 				return response;

@@ -20,13 +20,18 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import javafx.scene.control.ComboBox;
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
+//import javafx.scene.control.ComboBox;
 
 public class JwcManager extends JPanel implements  ActionListener, FocusListener {
 
@@ -56,11 +61,14 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	private JScrollPane scrollPane1,scrollPane2,scrollPane3;
 	JButton button_manage_search,button_exam_search,button_experiment_search;
 	private JComboBox comboBoxTime,comboBoxWeek;
+	//----------
+	private String token;
 	/**
 	 * Create the panel.
 	 */
 	@SuppressWarnings({ "unchecked" })
-	public JwcManager() {
+	public JwcManager(String Token) {
+		token = Token;
 		setSize(736,600);
 		setLayout(null);
 		
@@ -417,6 +425,22 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		
 		//课程容量 得到的是一个string 记得转换类型
 		String capacity =  textField_courseCapacity.getText();
+		//请求
+		Client.Request request = new Request();
+		request.setPath("EduAdmin/addCourse");
+		request.setToken(token);
+		request.getParams().put("name", name);
+		request.getParams().put("lecturer", lecture);
+		request.getParams().put("week", week);
+		request.getParams().put("location", place);
+		request.getParams().put("credits", Integer.valueOf(score));
+		request.getParams().put("classtime", time);
+		request.getParams().put("capacity", Integer.valueOf(capacity));
+		Response response = Client.fetch(request);
+		if(response.getSuccess())
+			JOptionPane.showMessageDialog(null, "添加成功", "成功！",JOptionPane.INFORMATION_MESSAGE);
+		else
+			JOptionPane.showMessageDialog(null, "添加失败请联系管理员", "失败！",JOptionPane.ERROR_MESSAGE);
 		
 	}
 	@Override

@@ -25,7 +25,8 @@ public class CourseRepository	extends CurdRepository<Course>
 		super(conn, Course.class);
 		// TODO Auto-generated constructor stub
 	}
-	public void  addCourse(String name , int capacity,String lecturer,String week , String classtime) throws SQLException {
+	public void  addCourse(String name , int capacity,String lecturer,
+			String week , String classtime,String location,int credits) throws SQLException {
 
 		Course course = new Course();
 		course.setCapcity(capacity);
@@ -36,6 +37,8 @@ public class CourseRepository	extends CurdRepository<Course>
 		long time = System.currentTimeMillis()/1000 ;
 		course.setCreateTime(time);
 		course.setUpdateTime(time);
+		course.setLocation(location);
+		course.setCredits(credits);
 		dao.create(course);	
 	}
 	/**
@@ -58,7 +61,9 @@ public class CourseRepository	extends CurdRepository<Course>
 			courseinfo.put(Course.CREATETIME,course.getCreateTime());		
 			courseinfo.put(Course.UUID,course.getUuid().toString());
 			courseinfo.put(Course.WEEK, course.getWeek());
-			courseinfo.put(Course.CLASSTIME, course.getClass());
+			courseinfo.put(Course.CLASSTIME, course.getClasstime());
+			courseinfo.put(Course.LOCATION, course.getLocation());
+			courseinfo.put(Course.CREDITS, course.getCredits());
 			courseMapList.add(courseinfo);
 		}
 		return courseMapList;
@@ -98,6 +103,18 @@ public class CourseRepository	extends CurdRepository<Course>
 			return courselist.get(0);
 			
 		}
+		//返回一堆课程
+		public ArrayList<Course> inquireByFlags2(String teacher,String courseName) throws SQLException{
+			ArrayList<Course> courselist = (ArrayList<Course>) dao.query((PreparedQuery<Course>)dao.queryBuilder()
+					.where().eq(Course.LECTURER, teacher).and()
+					.eq(Course.NAME, courseName).prepare());
+			if(courselist.size()==0) throw new SQLException("没有找到该课程");
+			return courselist;
+			
+		}
+		
+		
+		
 		/**
 		 * 根据flag 和value  返回相应课程信息表 
 		 * @param column
@@ -115,7 +132,9 @@ public class CourseRepository	extends CurdRepository<Course>
 			courseinfo.put(Course.LECTURER,course.getLecturer());
 			courseinfo.put(Course.NAME, course.getName());
 			courseinfo.put(Course.CLASSTIME, course.getClasstime());
-			courseinfo.put(Course.WEEK, course.getWeek());		
+			courseinfo.put(Course.WEEK, course.getWeek());	
+			courseinfo.put(Course.LOCATION, course.getLocation());
+			courseinfo.put(Course.CREDITS, course.getCredits());
 			courseInfoList.add(courseinfo);
 		}
 		return courseInfoList;

@@ -456,9 +456,9 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		
 		///教务处================================教务处板块的面板们=======================================
 		//教务处============skk四个面板在这里被新建，背景色太丑，你自己改一下哈
-		panel_jwc_select=new JwcSelectCourses();
-		panel_jwc_select.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_1", panel_jwc_select);		
+//		panel_jwc_select=new JwcSelectCourses(token);
+//		panel_jwc_select.setBackground(new Color(255, 255, 255));
+//		panel_right.add("jwc_1", panel_jwc_select);		
 		
 		panel_jwc_curriculum=new JwcCurriculum();
 		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
@@ -472,7 +472,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_jwc_experiment.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_4", panel_jwc_experiment);	
 		
-		panel_jwc_manager = new JwcManager();
+		panel_jwc_manager = new JwcManager(token);
 		panel_jwc_manager.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_5", panel_jwc_manager);
 
@@ -598,6 +598,13 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				HideAllMessagePanel();
 				
 			}else if (e.getSource() == label_jwc_select) {
+				HashMap<String,Object> courselist = courseAll(token);
+				String[][] tablevalue = (String[][]) courselist.get("tablevalue");	
+				String name = (String) courselist.get("name");
+				String cardnum = (String) courselist.get("cardnum");
+				panel_jwc_select=new JwcSelectCourses(token,tablevalue,name,cardnum);
+				panel_jwc_select.setBackground(new Color(255, 255, 255));
+				panel_right.add("jwc_1", panel_jwc_select);					
 				cardLayout.show(panel_right, "jwc_1");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_curriculum) {
@@ -991,6 +998,35 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		borrowRecord.put("cardnum", response.getBody().get("cardnum"));
 		//String[] columnNames= {"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","续借状态"}		
 		return borrowRecord;
+		
+	}
+	
+	public static HashMap<String,Object> courseAll(String token) {
+		HashMap<String,Object> cao = new HashMap<>();
+		Client.Request request = new Request();
+		request.setPath("EduAdmin/queryAllCourse");
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		ArrayList<LinkedTreeMap<String, Object>> coursemaplist = 
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("courseMaplist");
+		int row = coursemaplist.size();
+		String[][] valuetable = new String[row][6];
+		//private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间","  ","   "}
+		for(int i= 0;i<row;i++) {
+			LinkedTreeMap<String, Object> coursemap = coursemaplist.get(i);
+			valuetable[i][0] = (String) coursemap.get("name");
+			valuetable[i][1] =(String) coursemap.get("lecturer");
+			valuetable[i][2] =(String) coursemap.get("location");
+			valuetable[i][3] = (String)coursemap.get("classtime");
+			valuetable[i][4] = (String)coursemap.get(" ");
+			valuetable[i][5] = (String)coursemap.get("   ");
+						
+		}
+		cao.put("tablevalue", valuetable);
+		cao.put("name", response.getBody().get("username"));
+		cao.put("cardnum", response.getBody().get("cardnum"));
+		
+		return cao;
 		
 	}
 	

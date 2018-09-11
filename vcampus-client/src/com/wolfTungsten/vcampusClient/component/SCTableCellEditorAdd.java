@@ -22,7 +22,7 @@ public class SCTableCellEditorAdd extends DefaultCellEditor{
 
 	public SCTableCellEditorAdd() {
 		super(new JTextField());
-		// TODO ×Ô¶¯Éú³ÉµÄ¹¹Ôìº¯Êý´æ¸ù
+		// TODO ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ÉµÄ¹ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.setClickCountToStart(1);
 		this.initButton();
 		this.initPanel();
@@ -30,27 +30,30 @@ public class SCTableCellEditorAdd extends DefaultCellEditor{
 		}
 
 		private void initButton() {
-		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		// TODO ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ÉµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.button = new JButton();  
 		this.button.setBounds(0,0,100,20);
+		
+		
+		
 		
 		this.button.addActionListener(new ActionListener()
         {  
 			@Override
-			//==========================================================================================ÔÚÕâÀïÌí¼Ó¡°¿Î³ÌÑ¡Ôñ¡±°´Å¥µÄÊÂ¼þ
+			//==========================================================================================ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¡ï¿½ï¿½Î³ï¿½Ñ¡ï¿½ñ¡±°ï¿½Å¥ï¿½ï¿½ï¿½Â¼ï¿½
 			public void actionPerformed(ActionEvent e) {
-				// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
-				//´¥·¢È¡Ïû±à¼­µÄÊÂ¼þ£¬²»»áµ÷ÓÃtableModelµÄsetValue·½·¨¡£   
+				// TODO ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ÉµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+				//ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½à¼­ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tableModelï¿½ï¿½setValueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
 				SCTableCellEditorAdd.this.fireEditingCanceled();  
-                // ÕâÀï¿ÉÒÔ×öÆäËü²Ù×÷¡£   
-				//´ÓÕâÀï¿ªÊ¼-----------------------------------------------------------------------------
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
+				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿ªÊ¼-----------------------------------------------------------------------------
 			} ;
         });
 		}
 	
 
 		private void initPanel() {
-		// TODO ×Ô¶¯Éú³ÉµÄ·½·¨´æ¸ù
+		// TODO ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ÉµÄ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		this.panel = new JPanel();  
         this.panel.setLayout(null);  
 		
@@ -58,7 +61,7 @@ public class SCTableCellEditorAdd extends DefaultCellEditor{
 		@Override  
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)  
 		{  
-			this.button.setText("¿Î³ÌÑ¡Ôñ");
+			this.button.setText("ï¿½Î³ï¿½Ñ¡ï¿½ï¿½");
   
 			return this.panel;  
 		} 
