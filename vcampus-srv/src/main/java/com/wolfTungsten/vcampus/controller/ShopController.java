@@ -25,9 +25,12 @@ public class ShopController extends BaseController
 		this.pathMap.put("addCart", addCartHandle);
 		this.pathMap.put("queryCart", inqueryCart);
 		this.pathMap.put("buyRecord",buyRecordHandle);
+		this.pathMap.put("queryBySel", queryGoodsByselHandle);
 		
 	}
-	//未测试
+	
+	
+	//ok
 	private BaseController.BaseHandle addGoodsHandle = new BaseHandle()
 	{
 		
@@ -37,16 +40,17 @@ public class ShopController extends BaseController
 			Response response = new Response();			
 			String name = (String)request.getParams().get(Goods.NAME);
 			String description = (String)request.getParams().get(Goods.DESCRIPTION);
-			String seller = (String)request.getParams().get(Goods.SELLER);
+			
 			Double price = (Double)request.getParams().get(Goods.PRICE);
 			int amount = (int)(double)request.getParams().get(Goods.AMOUNT);
 			String image = (String)request.getParams().get(Goods.IMAGE);
-			int type = (int)(double) request.getParams().get("type");//后面加
-			String token = request.getToken();
-			
+			String type = (String) request.getParams().get(Goods.TYPE);//后面加
+			String token = request.getToken();		
 			try
 			{
-				checkToken(token);
+				String userid = checkToken(token);
+				User u = orm.userRepository.inquireById(userid);
+				String seller = u.getUsername();
 				orm.goodsRepository.addGoods(name, description, seller, price, amount, image,type);
 				response.setSuccess(true);
 				return response;
@@ -90,6 +94,7 @@ public class ShopController extends BaseController
 		}
 	};
 	
+	
 	private BaseController.BaseHandle updateGoodsHandle = new BaseHandle()
 	{
 		
@@ -117,7 +122,7 @@ public class ShopController extends BaseController
 			
 		}
 	};
-	//按type搜索返回商品  未完成  等待一手接管商店
+	//按type搜索返回商品
 	//未测试 
 	private BaseController.BaseHandle queryByFlagHandle = new BaseHandle()
 	{
@@ -143,10 +148,36 @@ public class ShopController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}	
+		}
+	};
+	private BaseController.BaseHandle queryGoodsByselHandle = new BaseHandle()
+	{
+		
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String token = request.getToken();
+			String name = (String) request.getParams().get(Goods.NAME);
+			
+			try
+			{
+				checkToken(token);
+				ArrayList<HashMap<String,Object>> goodsinfomaplist = 
+						orm.goodsRepository.inquireByName(Goods.NAME, name);
+				response.getBody().put("goodsinfomaplist", goodsinfomaplist);
+				response.setSuccess(true);
+				return response;
+				
+			} catch (SQLException e)
+			{
+				response.setSuccess(false);
+				e.printStackTrace();
+				response.getBody().put("result", e.getMessage());
+				return response;
 			}
 			
-		
-		
 		}
 	};
 	//立即购买

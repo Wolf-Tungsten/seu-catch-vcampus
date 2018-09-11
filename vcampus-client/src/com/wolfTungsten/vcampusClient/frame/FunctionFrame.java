@@ -489,7 +489,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_right.add("jwc_5", panel_jwc_manager);
 
 	    //购物系统================================购物系统板块的面板们=======================================
-		panel_shop_select=new ShopSelect();
+		panel_shop_select=new ShopSelect(token);
 		panel_shop_select.setBackground(new Color(255, 255, 255));
 		panel_right.add("shop_1", panel_shop_select);		
 		
@@ -497,7 +497,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_shop_cart.setBackground(new Color(255, 255, 255));
 		panel_right.add("shop_2", panel_shop_cart);	
 		
-		panel_shop_sell=new ShopSellGoods();
+		panel_shop_sell=new ShopSellGoods(token);
 		panel_shop_sell.setBackground(new Color(255, 255, 255));
 		panel_right.add("shop_3", panel_shop_sell);	
 		

@@ -13,6 +13,11 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 import javax.swing.JTextField;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import javax.swing.JTextArea;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
@@ -26,10 +31,12 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 	JButton addButton,cancelButton;
 	String goodTypeStr,changeType;
 	private JLabel label_2;
+	String token;
 	/**
 	 * Create the panel.
 	 */
-	public ShopSellGoods() {
+	public ShopSellGoods(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -99,9 +106,9 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		comboBox_type.setBounds(200, 117, 114, 23);
 		comboBox_type.addItem("生活百货");
 		comboBox_type.addItem("手机数码");
-		comboBox_type.addItem("运动户外");
+		
 		comboBox_type.addItem("服饰配件");
-		comboBox_type.addItem("生鲜水果");
+		
 		comboBox_type.addItem("零食美味");
 		comboBox_type.addItemListener(this);
 		add(comboBox_type);
@@ -200,9 +207,27 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 			else if(descriptionStr.equals("请输入对该物品的描述、出手理由或者使用体验。")) {
 				JOptionPane.showMessageDialog(null, "描述一栏不可为空！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}else {
-				JOptionPane.showMessageDialog(null, "成功上架！", "Tips",JOptionPane.INFORMATION_MESSAGE);
 			}
+			//缺添加图片
+			Client.Request request = new Request();
+			request.setPath("shop/addGoods");
+			request.setToken(token);
+			request.getParams().put("name", goodNameStr);
+			request.getParams().put("price", Double.valueOf(priceStr));
+			request.getParams().put("amount", Integer.valueOf(numberStr));
+			request.getParams().put("description", descriptionStr);
+			request.getParams().put("image", "待定");			
+			request.getParams().put("type", goodTypeStr);
+			Response response = Client.fetch(request);
+			
+			if(response.getSuccess())
+				JOptionPane.showMessageDialog(null, "添加成功!", "成功",JOptionPane.INFORMATION_MESSAGE); 
+			else
+				JOptionPane.showMessageDialog(null, "添加失败QAQ", "失败",JOptionPane.ERROR_MESSAGE); 
+			
+			
+			
+			
 		}
         if(e.getSource()==cancelButton) {
         	textField_goodName.setText("");
