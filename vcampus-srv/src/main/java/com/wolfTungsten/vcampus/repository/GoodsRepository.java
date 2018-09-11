@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import com.wolfTungsten.vcampus.entity.UserXGoods;
-import org.mockito.internal.matchers.And;
+//import org.mockito.internal.matchers.And;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -97,7 +97,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		return goodsinfolist;
 	}//end
 	
-	
+	/*
 	private void updateGoods(HashMap<String, Object> goodsinfo) throws SQLException {
 		//修改商品信息，通过传一个HashMap
 		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
@@ -106,6 +106,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 	}
 	
 	//更改商品的信息？
+	
 	private void updateGoods(LinkedTreeMap<String, Object> goodsinfo) throws SQLException {
 		
 		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
@@ -120,7 +121,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 			updateBuilder.updateColumnValue(columnName, goodsinfo.get(columnName));
 		}
 	}
-	
+	*/
 	//那么前端怎么传给我这个uuid呢(用户登录后获取他的uuid）
 	public void deleteGoodsByUuid(String uuid) throws SQLException {
 		UUID goodsUuid = UUID.fromString(uuid);

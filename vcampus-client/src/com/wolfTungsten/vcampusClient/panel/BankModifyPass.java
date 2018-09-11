@@ -128,22 +128,10 @@ public class BankModifyPass extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==okButton) {
 			//从文本框中获取的数据
-			String cardNumStr=textField_cardNum.getText();
-			String IDStr=textField_ID.getText();
 			String orPassStr=textField_originalPass.getText();
 			String newPassStr=textField_newPass.getText();
 			String rePassStr=textField_rePass.getText();
-			//TODO 传给客户端的用户信息
-			String myCardNum=null;//“我”的一卡通号
-			String myID=null;//“我”的身份证号
-			String myPass=null;//“我”的原始密码
-			if(cardNumStr.equals("")||cardNumStr==null) {
-				JOptionPane.showMessageDialog(null, "请输入一卡通号！", "Tips",JOptionPane.ERROR_MESSAGE);
-				return;
-			}else if(IDStr.equals("")||IDStr==null) {
-				JOptionPane.showMessageDialog(null, "请输入身份证号！", "Tips",JOptionPane.ERROR_MESSAGE);
-				return;
-			}else if(orPassStr.equals("")||orPassStr==null) {
+			if(orPassStr.equals("")||orPassStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入原始密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else if(newPassStr.equals("")||newPassStr==null) {
@@ -156,24 +144,19 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			}  else if(!newPassStr.equals(rePassStr)) {
 		    	 JOptionPane.showMessageDialog(null, "两次输入密码不一致~", "Tips",JOptionPane.ERROR_MESSAGE); 
 		    	 return;
-			}else if(!cardNumStr.equals(myCardNum )) {
-				JOptionPane.showMessageDialog(null, "一卡通号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
-			}else if(!IDStr.equals(myID )) {
-				JOptionPane.showMessageDialog(null, "身份证号不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
-			}else if(!orPassStr.equals(myPass )) {
-				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
 			}
 			
 			Client.Request request = new Request();
 			request.setPath("bank/secretPassword");
 			request.setToken(token);
-			request.getParams().put("user_id", "b18cccef-8114-4629-8cef-367e90920c27");
-			
-			
-			
+			request.getParams().put("secretPassword", orPassStr);
+			request.getParams().put("newSecretPassword", newPassStr);
+			Response response = Client.fetch(request);
+			if(response.getSuccess()) {
+				 JOptionPane.showMessageDialog(null, "修改密码成功", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}else {
+				 JOptionPane.showMessageDialog(null, "修改密码失败，请检查原始密码是否正确", "Tips",JOptionPane.ERROR_MESSAGE); 
+			}
 		}
 		if(e.getSource()==cancelButton) {
 			textField_cardNum.setText("");

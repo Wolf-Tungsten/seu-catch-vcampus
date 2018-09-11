@@ -527,7 +527,7 @@ public class FunctionFrame extends JFrame implements MouseListener{
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_4", panel_bank_modify_pass);
 		
-		panel_bank_newPass=new BankNewPassword();//若用户没有支付密码，则会提示先设置支付密码
+		panel_bank_newPass=new BankNewPassword(token);//若用户没有支付密码，则会提示先设置支付密码
 		panel_bank_newPass.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_5", panel_bank_newPass);
 		
@@ -667,25 +667,33 @@ public class FunctionFrame extends JFrame implements MouseListener{
 				cardLayout.show(panel_right, "bank_2");
 				HideAllMessagePanel();
 			}  else if (e.getSource() == label_bank_bill) {
-					String payPassword="123456";
-					//TODO 需要把用户消费密码传递过来
 					JPasswordField pwd = new JPasswordField();
 					Object[] message = {"请输入账号密码：", pwd};
 					JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 					String passStr=pwd.getText();//获取输入对话框中的密码
-					if(passStr.equals(payPassword)) {
+					Client.Request request=new Request();
+					request.setPath("bank/checkPassword");
+					request.setToken(token);
+					request.getParams().put("secretPassword", passStr);
+					Response response = Client.fetch(request);
+					if(response.getSuccess()) {
 						cardLayout.show(panel_right, "bank_3");
 						HideAllMessagePanel();
 					}else {
 						JOptionPane.showMessageDialog(null, "密码错误！", "Tips",JOptionPane.ERROR_MESSAGE); 
 				}
 			} else if (e.getSource() == label_bank_modify_pass) {
-				    String originalPass=null;//TODO 每次点击这个label,要把用户支付密码传递给我
-				    if(originalPass!=null) {
-						cardLayout.show(panel_right, "bank_4");//如果密码非空，就可以修改
+				
+				    Client.Request request=new Request();
+				    request.setPath("bank/register");
+				    request.setToken(token);
+				
+				    Boolean ifRegister=(Boolean)Client.fetch(request).getBody().get("registerPanel");//TODO 每次点击这个label,要把用户支付密码传递给我
+				    if(ifRegister) {
+						cardLayout.show(panel_right, "bank_4");
 						HideAllMessagePanel();			
 				    }else {
-				    	cardLayout.show(panel_right, "bank_5");//如果密码是空，就新建密码
+				    	cardLayout.show(panel_right, "bank_5");
 						HideAllMessagePanel();			
 				    }
 			} 
