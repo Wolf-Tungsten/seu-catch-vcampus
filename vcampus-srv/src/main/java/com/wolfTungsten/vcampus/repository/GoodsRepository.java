@@ -7,8 +7,13 @@ import java.util.HashMap;
 
 import java.util.UUID;
 
+<<<<<<< HEAD
 import com.wolfTungsten.vcampus.entity.UserXGoods;
 //import org.mockito.internal.matchers.And;
+=======
+
+
+>>>>>>> 79d14831f59a90ea5ab37a12a422740b70668330
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -20,6 +25,7 @@ import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.PreparedUpdate;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Book;
@@ -33,7 +39,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		super(conn, Goods.class);
 	}
 	
-	public void addGoods(String name,String description,String seller,double price, int amount,String image) throws SQLException
+	public void addGoods(String name,String description,String seller,double price, int amount,String image,String type) throws SQLException
 	{	
 		//这里每次上架的商品都不一样
 		//是否要给上架的商品做检验
@@ -44,7 +50,8 @@ public class GoodsRepository extends CurdRepository<Goods>
 		goods.setPrice(price);
 		goods.setSeller(seller);
 		goods.setImage(image);
-		goods.setSold(false);
+		
+		goods.setType(type);
 		dao.create(goods);
 	}
 	
@@ -54,7 +61,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		ArrayList<Goods> goodslist = new ArrayList<>();
 		ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
 		//这里会包括历史上所有卖掉的商品和仍然在市场里的商品
-		goodslist = (ArrayList<Goods>)dao.queryForEq(Goods.SOLD, false);
+		
 		for(Goods goods:goodslist) {
 			HashMap<String, Object>goodsinfo = new HashMap<>();
 			goodsinfo.put(Goods.UUID,goods.getUuid().toString());
@@ -136,6 +143,54 @@ public class GoodsRepository extends CurdRepository<Goods>
 		DeleteBuilder<Goods, String> deleteBuilder= dao.deleteBuilder();
 		deleteBuilder.where().isNotNull(Goods.UUID);
 		deleteBuilder.delete();
+	}
+	
+	public void updateGoods2(LinkedTreeMap<String, Object> goodsinfo) throws SQLException {
+		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
+		String goodsUuid = (String)goodsinfo.get("uuid");
+		updateBuilder.where().eq("uuid", goodsUuid);
+		goodsinfo.remove("uuid");
+		for(String columnName:goodsinfo.keySet())
+		{		
+			updateBuilder.updateColumnValue(columnName, goodsinfo.get(columnName)).update();
+		}
+		
+	}
+	public void updateGoodsByfalg(String uuid , String column,Object value) throws SQLException {
+		UpdateBuilder< Goods, String> udb = dao.updateBuilder();
+		udb.where().eq(Goods.UUID, UUID.fromString(uuid));
+		udb.updateColumnValue(column, value);
+		udb.update();
+		
+	}
+	/**
+	 * 模糊
+	 * @param column
+	 * @param value
+	 * @return
+	 * @throws SQLException
+	 */
+	public ArrayList<HashMap<String,Object>> inquireByName (String column,Object value) throws SQLException{
+		ArrayList<Goods> goodlist = new ArrayList<>();
+		QueryBuilder<Goods, String> qbd = dao.queryBuilder();
+		
+		goodlist = (ArrayList<Goods>) qbd.where().like(column, "%"+value+"%").query();
+		ArrayList<HashMap<String,Object>> goodinfomaplist = new ArrayList<>();
+		for(int i=0;i<goodlist.size();i++) {
+			Goods good = goodlist.get(i);
+			HashMap<String,Object> goodinfomap = new HashMap<>();
+			goodinfomap.put(Goods.NAME, good.getName());
+			goodinfomap.put(Goods.IMAGE,good.getImage());
+			goodinfomap.put(Goods.PRICE, good.getPrice());
+			goodinfomap.put(Goods.SELLER,good.getSeller());
+			goodinfomap.put(Goods.DESCRIPTION, good.getDescription());
+			goodinfomap.put(Goods.UUID, good.getUuid().toString());
+			goodinfomap.put(Goods.TYPE, good.getType());	
+			goodinfomaplist.add(goodinfomap);
+		}
+		return goodinfomaplist;
+		
+		
 	}
 	
 };
