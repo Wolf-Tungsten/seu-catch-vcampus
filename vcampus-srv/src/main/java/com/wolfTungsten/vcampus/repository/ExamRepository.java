@@ -38,7 +38,8 @@ public class ExamRepository extends CurdRepository<Exam>
 		.setLocation(location)
 		.setStartTime(startTime)
 		.setDuration(duration)
-		.setUpdateTime(timestamp());
+		.setUpdateTime(timestamp())
+		.setCreateTime(timestamp());
 		dao.create(newExam);
 	}
 	//删除

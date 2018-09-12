@@ -214,3 +214,33 @@ response  {"success":boolean,"body":{}}
 | token    | String   |                |
 
 response  {"success":boolean,"body":{}}
+
+
+
+
+
+# 教务后端
+
+### path : EduAdmin/addCourse
+
+| 字段名称  | 字段类型 | 备注                                           |
+| --------- | -------- | ---------------------------------------------- |
+| name      | String   | 课程名称                                       |
+| capacity  | int      | 课程容量                                       |
+| lecturer  | String   | 老师名称                                       |
+| week      | String   | 上课周次(星期几)                               |
+| classtime | String   | 上课时间  eg:(9:00-12:00)                      |
+| location  | String   | 上课地点  也为考试地点                         |
+| startTime | String   | 固定字符串 没法 前端  " 2018-01-10/9:40-10:50" |
+| credits   | int      | 课程学分                                       |
+
+返回值 response 里的内容  success 成功或失败  body 里没东西 
+
+## path:EduAdmin/queryAllCourse
+
+| 字段名称 | 字段类型 | 备注 |
+| -------- | -------- | ---- |
+|          |          |      |
+|          |          |      |
+|          |          |      |
+

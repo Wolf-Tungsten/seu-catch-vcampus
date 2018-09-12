@@ -381,7 +381,7 @@ public class ShopManager extends JPanel implements ActionListener {
 		 request.setPath("shop/updateGoods");
 		 request.setToken(token);
 		 request.getParams().put("Goodinfomaplist", updateMaplist);
-		 Client.Response response = Client.fetch(request);
+		 Response response = Client.fetch(request);
 		 if(response.getSuccess())
 			 JOptionPane.showMessageDialog(null, "修改成功", "Tips",JOptionPane.INFORMATION_MESSAGE);
 		 else

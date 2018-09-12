@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-@DatabaseTable(tableName = "Course")
+@DatabaseTable(tableName = "Exam")
 public class Exam
 {
 	public static final String UUID = "uuid";

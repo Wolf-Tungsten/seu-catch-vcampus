@@ -1173,17 +1173,18 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ArrayList<LinkedTreeMap<String, Object>> coursemaplist = (ArrayList<LinkedTreeMap<String, Object>>) response
 				.getBody().get("courseMaplist");
 		int row = coursemaplist.size();
-		String[][] valuetable = new String[row][6];
+		String[][] valuetable = new String[row][7];
 		// private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间"," "," "}
 		for (int i = 0; i < row; i++) {
 			LinkedTreeMap<String, Object> coursemap = coursemaplist.get(i);
-			valuetable[i][0] = (String) coursemap.get("name");
-			valuetable[i][1] = (String) coursemap.get("lecturer");
-			valuetable[i][2] = (String) coursemap.get("location");
-			valuetable[i][3] = (String) coursemap.get("classtime");
-			valuetable[i][4] = (String) coursemap.get(" ");
-			valuetable[i][5] = (String) coursemap.get("   ");
-
+			valuetable[i][0] = (String)coursemap.get("uuid");
+			valuetable[i][1] = (String) coursemap.get("name");
+			valuetable[i][2] = (String) coursemap.get("lecturer");
+			valuetable[i][3] = (String) coursemap.get("location");
+			valuetable[i][4] = (String)coursemap.get("week")+(String) coursemap.get("classtime");
+			valuetable[i][5] = "";
+			valuetable[i][6] = "";
+			
 		}
 		cao.put("tablevalue", valuetable);
 		cao.put("name", response.getBody().get("username"));
@@ -1242,7 +1243,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		Response response = Client.fetch(request);
 		ArrayList<LinkedTreeMap<String, Object>>buyRecord =
 				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("buyRecordmaplist");
-		int row = buyRecord.size();
+		int row =buyRecord==null?0: buyRecord.size();
 		String[][] tablevalue = new String [row][5];
 		for(int i=0;i<row;i++) {
 			LinkedTreeMap<String,Object> recordmap = buyRecord.get(i);

@@ -436,6 +436,8 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		
 		//课程容量 得到的是一个string 记得转换类型
 		String capacity =  textField_courseCapacity.getText();
+		
+		String starttime = textField_courseTestTime.getText();
 		//请求
 		Client.Request request = new Request();
 		request.setPath("EduAdmin/addCourse");
@@ -447,6 +449,8 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		request.getParams().put("credits", Integer.valueOf(score));
 		request.getParams().put("classtime", time);
 		request.getParams().put("capacity", Integer.valueOf(capacity));
+		request.getParams().put("startTime", starttime);
+		
 		Response response = Client.fetch(request);
 		if(response.getSuccess())
 			JOptionPane.showMessageDialog(null, "添加成功", "成功！",JOptionPane.INFORMATION_MESSAGE);

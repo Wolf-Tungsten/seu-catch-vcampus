@@ -15,7 +15,7 @@ public class Goods
 	public static final String PRICE = "price";
 	public static final String AMOUNT = "amount";
 	public static final String IMAGE  = "image";
-	
+	public static final String DELETE ="delete";
 	public static final String TYPE = "type";
 	
 	
@@ -33,12 +33,21 @@ public class Goods
 	private int amount;
 	@DatabaseField(columnName = Goods.IMAGE)
 	private String image;
-	
+	@DatabaseField(columnName = Goods.DELETE)
+	private int delete;
 	@DatabaseField(columnName = Goods.TYPE)
 	private String type;
 	
 	public Goods() {
 		
+	}
+
+	public int getDelete() {
+		return delete;
+	}
+
+	public void setDelete(int delete) {
+		this.delete = delete;
 	}
 
 	public String getType()

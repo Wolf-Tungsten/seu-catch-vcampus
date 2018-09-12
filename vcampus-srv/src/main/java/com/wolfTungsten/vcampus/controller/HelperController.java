@@ -170,7 +170,7 @@ public class HelperController extends BaseController
 			try
 			{
 				checkToken(token);
-				orm.examRepository.addExam(name, courseUUID, startTime, duration, location);
+				//orm.examRepository.addExam(name, courseUUID, startTime, duration, location);
 				response.setSuccess(true);
 				return response;
 				

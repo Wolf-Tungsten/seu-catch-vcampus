@@ -111,8 +111,12 @@ public class UserXGoodsRepository extends CurdRepository<UserXGoods>
 	public void deleteById(String uuid) throws SQLException {
 		DeleteBuilder<UserXGoods, String>dlb = dao.deleteBuilder();
 		dlb.where().eq(UserXGoods.UUID, UUID.fromString(uuid));
+		dlb.delete();		
+	}
+	public void deleteByGoodsID(String column ,String uuid)throws SQLException{
+		DeleteBuilder<UserXGoods,String>dlb = dao.deleteBuilder();
+		dlb.where().eq(UserXGoods.GOOD_ID, UUID.fromString(uuid));
 		dlb.delete();
-		
 	}
 	
 }
