@@ -99,7 +99,7 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 			// TODO Auto-generated method stub
 			String toAccountStr=textField_to_account.getText();
 			String amountStr=textField_amount.getText();
-			double value = Double.valueOf(amountStr.toString());
+			double value = Double.valueOf(amountStr);
 			String passStr=textField_pass.getText();
 			if(toAccountStr.equals("")||toAccountStr==null) {
 				JOptionPane.showMessageDialog(null, "转入账户不可为空！", "Tips",JOptionPane.ERROR_MESSAGE);
