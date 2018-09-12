@@ -619,7 +619,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				cardLayout.show(panel_right, "lib_1");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_lib_message) {///////////
-				HashMap<String, Object> borrowRecord = (token);
+				HashMap<String, Object> borrowRecord = borrowRecordrequest(token);
 				String[][] tablevalue = (String[][]) borrowRecord.get("tablevalue");
 				String name = (String) borrowRecord.get("name");
 				String cardnum = (String) borrowRecord.get("cardnum");
