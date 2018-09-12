@@ -20,14 +20,22 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.wolfTungsten.vcampusClient.component.MExamTableCellRendererDelete;
+import com.wolfTungsten.vcampusClient.component.MExpTableCellRendererDelete;
+import com.wolfTungsten.vcampusClient.component.MMTableCellEditorChange;
+import com.wolfTungsten.vcampusClient.component.MMTableCellEditorDelete;
+import com.wolfTungsten.vcampusClient.component.MMTableCellRendererChange;
+import com.wolfTungsten.vcampusClient.component.MMTableCellRendererDelete;
 
-public class JwcManager extends JPanel implements  ActionListener, FocusListener {
+
+@SuppressWarnings("unused")
+public class JwcManager extends JPanel implements  ActionListener, FocusListener, MouseListener {
 
 	/**
 	 * 
@@ -56,6 +64,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	private JScrollPane scrollPane1,scrollPane2,scrollPane3;
 	JButton button_manage_search,button_exam_search,button_experiment_search;
 	private JComboBox comboBoxTime,comboBoxWeek;
+
 	/**
 	 * Create the panel.
 	 */
@@ -268,7 +277,12 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		//定义表格数据数组
 		String[][] tableValues1= {};
 		tableModel1=new DefaultTableModel(tableValues1,columnNames1);
-		table_manage=new JTable(tableModel1);//创建指定列名和数据的表格
+		table_manage=new JTable(tableModel1) {
+			public boolean isCellEditable(int row,int column){
+                return false;
+            }
+
+		};//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr1 = new DefaultTableCellRenderer();
 		cr1.setHorizontalAlignment(JLabel.CENTER);
@@ -277,6 +291,23 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		scrollPane1.setBounds(20, 68, 696, 443);
 		panel_courseManage.add(scrollPane1);
 		
+		table_manage.addMouseListener(this);
+		
+
+		MMTableCellRendererDelete renderer1 = new MMTableCellRendererDelete();
+
+		table_manage.getColumnModel().getColumn(table_manage.getColumnCount()-1).setCellRenderer(renderer1);
+
+
+		table_manage.setCellSelectionEnabled(true); //这句话是使可以选择一个单元格
+		//虚假的测试 之后删除
+		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
+		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
+		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
+		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
+		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
+		
+	
 //考试录入-----------------------------------------------------------
 		panel_exam.setLayout(null);
 		textField_search_courseName = new JTextField();
@@ -303,18 +334,41 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		button_exam_search.addActionListener(this);
 		
 		//滚动表格
-		String[] columnNames2= {"课程名称","任课老师","学生姓名","学生一卡通号","    "};//定义表格列名的数组
+		String[] columnNames2= {"课程名称","任课老师","学生姓名","学生一卡通号","","成绩"};//定义表格列名的数组
 		//定义表格数据数组
 		String[][] tableValues2= {};
 		tableModel2=new DefaultTableModel(tableValues2,columnNames2);
-		table_exam=new JTable(tableModel2);//创建指定列名和数据的表格
+		table_exam=new JTable(tableModel2) {
+			public boolean isCellEditable(int row,int column){
+                if(column == table_exam.getColumnCount()-1 && column == table_exam.getColumnCount()-2)return true;
+                else return false;
+            }
+
+		};//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr2 = new DefaultTableCellRenderer();
-		cr1.setHorizontalAlignment(JLabel.CENTER);
-		 table_exam.setDefaultRenderer(Object.class, cr2);
+		cr2.setHorizontalAlignment(JLabel.CENTER);
+		table_exam.setDefaultRenderer(Object.class, cr2);
 		scrollPane2 = new JScrollPane(table_exam);
 		scrollPane2.setBounds(20, 68, 696, 443);
 		panel_exam.add(scrollPane2);
+		
+		table_exam.addMouseListener(this);
+		
+
+		MExamTableCellRendererDelete renderer2 = new MExamTableCellRendererDelete();
+		table_exam.getColumnModel().getColumn(table_exam.getColumnCount()-2).setCellRenderer(renderer2);
+
+		table_exam.setCellSelectionEnabled(true); //这句话是使可以选择一个单元格
+		//虚假测试 之后删除
+		tableModel2.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel2.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel2.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel2.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel2.addRow(new String[] {"计组","rgl","skk","211","",null});
+		
+		
+	
 		
 //实验录入---------------------------------------------
 		panel_experiment.setLayout(null);
@@ -341,11 +395,16 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		panel_experiment.add(button_experiment_search);
 		button_experiment_search.addActionListener(this);
 		//滚动表格
-		String[] columnNames3= {"实验名称","实验任课老师","学生姓名","学生一卡通号","    "};//定义表格列名的数组
+		String[] columnNames3= {"实验名称","实验任课老师","学生姓名","学生一卡通号","","成绩"};//定义表格列名的数组
 		//定义表格数据数组
 		String[][] tableValues3= {};
 		tableModel3=new DefaultTableModel(tableValues3,columnNames3);
-		table_experiment=new JTable(tableModel3);//创建指定列名和数据的表格
+		table_experiment=new JTable(tableModel3) {
+			public boolean isCellEditable(int row,int column){
+                if(column == table_exam.getColumnCount()-1 && column == table_exam.getColumnCount()-2)return true;
+                else return false;
+            }
+			};//创建指定列名和数据的表格
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr3 = new DefaultTableCellRenderer();
 		cr3.setHorizontalAlignment(JLabel.CENTER);
@@ -353,6 +412,18 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		scrollPane3 = new JScrollPane(table_experiment);
 		scrollPane3.setBounds(20, 68, 696, 443);
 		panel_experiment.add(scrollPane3);
+		table_experiment.addMouseListener(this);
+		
+		MExpTableCellRendererDelete renderer3 = new MExpTableCellRendererDelete();
+		table_experiment.getColumnModel().getColumn(table_experiment.getColumnCount()-2).setCellRenderer(renderer3);
+		
+		table_experiment.setCellSelectionEnabled(true); //这句话是使可以选择一个单元格
+		//虚假测试=== 之后删除
+		tableModel3.addRow(new String[] {"实验","rgl","skk","211","",null});
+		tableModel3.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel3.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel3.addRow(new String[] {"计组","rgl","skk","211","",null});
+		tableModel3.addRow(new String[] {"计组","rgl","skk","211","",null});
 
 	}
 
@@ -374,33 +445,41 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 			layout.show(cardPanel,"card4");
 		}
 		
-		//事件课程添加-==============================================================================================
+		//事件课程添加-==============================================================================================YHD看这里
 		if(e.getSource() == button_courseAdd) {
 			addCourse();// 课程添加的函数 ------------------------------------------在下面
 		}
 		
-		//事件 三个界面的搜索键 分别是 课程管理 考试录入 实验录入====================================================
+	//事件 三个界面的搜索键 分别是 课程管理 考试录入 实验录入====================================================
 		if(e.getSource() == button_manage_search) {
-			//两个搜索框  
+			//两个搜索框  这是课程管理界面的搜索键 对应的两个文本框输入值
 			String manage_name = textField_search_name.getText();
 			String manage_lecture = textField_search_lecture.getText();
 		}
 		if(e.getSource() == button_manage_search) {
-			//两个搜索框 
+			//两个搜索框  这是考试录入界面的搜索键 对应的两个文本框输入值
 			String exam_name = textField_search_courseName.getText();
 			String exam_lecture = textField_search_courseLecture.getText();
 		}
 		if(e.getSource() == button_manage_search) {
-			//两个搜索框 	
+			//两个搜索框  这是实验录入界面的搜索键 对应的两个文本框输入值
 			String exp_name = textField_search_expName.getText();
 			String exp_lecture = textField_search_expLecture.getText();
 		}	
 		
 	}
 	@SuppressWarnings("unused")
-	//================================================================================addCourse() =======================================
+	//========= YHD======================= YHD===========================================addCourse()  YHD看这里=======================================
 	private void addCourse() {
 		// TODO 自动生成的方法存根
+		
+		//????????????????????????????? 是否根据课程类型进行添加  
+		//例如只添加课程
+		//是否需要前端直接添加到列表中 ？？？？？？？
+		
+		
+		//
+		
 		//课程类型的值 (课程/实验)
 		String type;
 		if(radioButton_course.isSelected()) type = "课程";
@@ -432,6 +511,9 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		//考试时间 
 		String testTime = textField_courseTestTime.getText();
 
+		tableModel1.addRow(new String[] {name,lecture,week,time,place,capacity,score});
+		
+		
 		
 	}
 	@Override
@@ -471,6 +553,100 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 			textField_search_expLecture.setText("实验老师");
 		}
 		
+		
+	}
+
+
+
+
+
+	@SuppressWarnings("null")
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO 自动生成的方法存根	
+		if(e.getClickCount()==1) {
+			int row1 = table_manage.rowAtPoint(e.getPoint());
+			int column1 = table_manage.columnAtPoint(e.getPoint());
+			int row2 = table_exam.rowAtPoint(e.getPoint());
+			int column2 = table_exam.columnAtPoint(e.getPoint());
+			int row3 = table_experiment.rowAtPoint(e.getPoint());
+			int column3 = table_experiment.columnAtPoint(e.getPoint());
+			
+//===================================这个里面是课程管理表格里面那个 删除课程 按钮的 鼠标事件 在这里添加 ======YHD看这里============================================
+			if(column1 == table_manage.getColumnCount()-1 && e.getSource() == table_manage ) {
+				int isDelete = JOptionPane.showConfirmDialog(null, "确定删除", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
+				if(isDelete ==JOptionPane.YES_OPTION){
+				 tableModel1.removeRow(row1);
+				 //具体从这里开始 添加 
+				}
+			}
+//===================================这里是成绩录入表格那个 成绩修改 按钮的鼠标事件 在这里添加 ===================
+				if(column2 == table_exam.getColumnCount()-2 &&  e.getSource() == table_exam) {
+					String str_examScore = JOptionPane.showInputDialog("输入该课程要更改的分数");
+					if(Integer.valueOf(str_examScore).intValue() > -1 && Integer.valueOf(str_examScore).intValue() < 101 )
+						tableModel2.setValueAt(str_examScore, row2, table_exam.getColumnCount()-1);
+					else JOptionPane.showMessageDialog(null, "输入不符合要求，请重新输入");
+							//上面我已经实现了 在这个表格表面更改了 
+							//下面你实现数据库里的操作
+					//输入的值 为   String 类型的    **str_examScore** ---------------------------------
+						
+						
+					}
+				
+//===================================这里是实验录入表格那个 成绩修改 按钮的鼠标事件 在这里添加 ==========================
+				if(column3 == table_experiment.getColumnCount()-2 && e.getSource() == table_experiment) {
+					String str_expScore = JOptionPane.showInputDialog("输入该实验要更改的分数");
+					if(Integer.valueOf(str_expScore).intValue() > -1 && Integer.valueOf(str_expScore).intValue() < 101)
+						tableModel3.setValueAt(str_expScore, row3, tableModel3.getColumnCount()-1);
+					else JOptionPane.showMessageDialog(null, "输入不符合要求，请重新输入");
+							//上面我已经实现了 在这个表格表面更改了 
+							//下面你实现数据库里的操作
+					//输入的值 为    String 类型的   **str_expScore** ---------------------------------
+								
+						
+						
+					}
+				}
+
+	}
+
+
+
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+
+
+
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自动生成的方法存根
 		
 	}
 }
