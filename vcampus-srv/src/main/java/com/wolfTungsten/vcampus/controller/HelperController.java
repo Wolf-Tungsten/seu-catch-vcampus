@@ -52,6 +52,11 @@ public class HelperController extends BaseController
 				response.getBody().put("resulst:", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		
 		}
@@ -78,6 +83,11 @@ public class HelperController extends BaseController
 				response.setSuccess(false);
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -102,6 +112,11 @@ public class HelperController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -149,6 +164,11 @@ public class HelperController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -180,6 +200,11 @@ public class HelperController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -201,6 +226,11 @@ public class HelperController extends BaseController
 			} catch (SQLException e)
 			{
 				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
 			}
@@ -240,6 +270,11 @@ public class HelperController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();

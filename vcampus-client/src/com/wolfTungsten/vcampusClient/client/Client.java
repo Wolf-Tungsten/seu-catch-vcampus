@@ -11,6 +11,7 @@ public class Client {
 
 
 
+
 	public static String host = "192.168.31.133";
 
 
@@ -87,15 +88,15 @@ public class Client {
 	{
 		try
 		{
-			// 鑾峰彇 MessageDigest 瀵硅薄锛屽弬鏁颁负 MD5 瀛楃涓诧紝琛ㄧず杩欐槸涓�涓� MD5 绠楁硶锛堝叾浠栬繕鏈� SHA1 绠楁硶绛夛級锛�
+			// 閼惧嘲褰� MessageDigest 鐎电钖勯敍灞藉棘閺侀璐� MD5 鐎涙顑佹稉璇х礉鐞涖劎銇氭潻娆愭Ц娑擄拷娑擄拷 MD5 缁犳纭堕敍鍫濆従娴犳牞绻曢張锟� SHA1 缁犳纭剁粵澶涚礆閿涳拷
 			MessageDigest md5 = MessageDigest.getInstance("MD5");
-			// update(byte[])鏂规硶锛岃緭鍏ュ師鏁版嵁
-			// 绫讳技StringBuilder瀵硅薄鐨刟ppend()鏂规硶锛岃拷鍔犳ā寮忥紝灞炰簬涓�涓疮璁℃洿鏀圭殑杩囩▼
+			// update(byte[])閺傝纭堕敍宀冪翻閸忋儱甯弫鐗堝祦
+			// 缁鎶�StringBuilder鐎电钖勯惃鍒焢pend()閺傝纭堕敍宀冩嫹閸旂姵膩瀵骏绱濈仦鐐扮艾娑擄拷娑擃亞鐤拋鈩冩纯閺�鍦畱鏉╁洨鈻�
 			md5.update(info.getBytes("UTF-8"));
-			// digest()琚皟鐢ㄥ悗,MessageDigest瀵硅薄灏辫閲嶇疆锛屽嵆涓嶈兘杩炵画鍐嶆璋冪敤璇ユ柟娉曡绠楀師鏁版嵁鐨凪D5鍊笺�傚彲浠ユ墜鍔ㄨ皟鐢╮eset()鏂规硶閲嶇疆杈撳叆婧愩��
-			// digest()杩斿洖鍊�16浣嶉暱搴︾殑鍝堝笇鍊硷紝鐢眀yte[]鎵挎帴
+			// digest()鐞氼偉鐨熼悽銊ユ倵,MessageDigest鐎电钖勭亸杈潶闁插秶鐤嗛敍灞藉祮娑撳秷鍏樻潻鐐电敾閸愬秵顐肩拫鍐暏鐠囥儲鏌熷▔鏇☆吀缁犳甯弫鐗堝祦閻ㄥ嚜D5閸婄锟藉倸褰叉禒銉﹀閸斻劏鐨熼悽鈺甧set()閺傝纭堕柌宥囩枂鏉堟挸鍙嗗┃鎰╋拷锟�
+			// digest()鏉╂柨娲栭崐锟�16娴ｅ秹鏆辨惔锔炬畱閸濆牆绗囬崐纭风礉閻㈢渶yte[]閹垫寧甯�
 			byte[] md5Array = md5.digest();
-			// byte[]杞寲涓哄崄鍏繘鍒剁殑32浣嶉暱搴︾殑瀛楃涓�
+			// byte[]鏉烆剙瀵叉稉鍝勫磩閸忣叀绻橀崚鍓佹畱32娴ｅ秹鏆辨惔锔炬畱鐎涙顑佹稉锟�
 			return bytesToHex1(md5Array);
 		} catch (NoSuchAlgorithmException e)
 		{
@@ -110,10 +111,10 @@ public class Client {
 		StringBuilder strBuilder = new StringBuilder();
 		for (int i = 0; i < md5Array.length; i++)
 		{
-			int temp = 0xff & md5Array[i];// TODO:姝ゅ涓轰粈涔堟坊鍔� 0xff & 锛�
+			int temp = 0xff & md5Array[i];// TODO:濮濄倕顦╂稉杞扮矆娑斿牊鍧婇崝锟� 0xff & 閿涳拷
 			String hexString = Integer.toHexString(temp);
 			if (hexString.length() == 1)
-			{// 濡傛灉鏄崄鍏繘鍒剁殑0f锛岄粯璁ゅ彧鏄剧ずf锛屾鏃惰琛ヤ笂0
+			{// 婵″倹鐏夐弰顖氬磩閸忣叀绻橀崚鍓佹畱0f閿涘矂绮拋銈呭涧閺勫墽銇歠閿涘本顒濋弮鎯邦洣鐞涖儰绗�0
 				strBuilder.append("0").append(hexString);
 			} else
 			{
@@ -133,13 +134,13 @@ public class Client {
 		pw.write(jsonstr);
 		pw.flush();
 		socket.shutdownOutput();
-		//鑾峰彇杈撳叆娴�
+		//閼惧嘲褰囨潏鎾冲弳濞达拷
 		InputStream is = socket.getInputStream();
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		String responseStr ="";
 		boolean flag = true;
 		 while(flag){  
-             //鎺ユ敹浠庡鎴风鍙戦�佽繃鏉ョ殑鏁版嵁  
+             //閹恒儲鏁规禒搴☆吂閹撮顏崣鎴︼拷浣界箖閺夈儳娈戦弫鐗堝祦  
              String str = br.readLine();  
              if(str == null || "".equals(str)){  
                  flag = false;  

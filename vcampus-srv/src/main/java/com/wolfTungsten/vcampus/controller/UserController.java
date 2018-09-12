@@ -43,6 +43,11 @@ public class UserController extends BaseController{
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错");
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -79,7 +84,12 @@ public class UserController extends BaseController{
 				response.setSuccess(false);
 				response.getBody().put("result", "数据库读写出错,"+e.getMessage());
 				return response;
-			}				
+			}	catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}			
 		}
 	};
 	
@@ -156,6 +166,12 @@ public class UserController extends BaseController{
 				Response failRes = new Response();
 				failRes.setSuccess(false);
 				return failRes;
+			}catch(Exception e) {
+				Response response = new Response();
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -194,9 +210,14 @@ public class UserController extends BaseController{
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 
-			return null;
 		}
 	};
 	
@@ -228,6 +249,11 @@ public class UserController extends BaseController{
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		
 		}
@@ -253,6 +279,11 @@ public class UserController extends BaseController{
 				return response;
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();

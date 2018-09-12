@@ -29,7 +29,8 @@ public class SCTableCellRendererAdd implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		// TODO 自动生成的方法存根
-		this.button.setText("添加课程");
+		if(String.valueOf(value).equals("已选择")) this.button.setText("已选择");
+		else if(String.valueOf(value).equals("未选择")) this.button.setText("选择");
 		return this.panel;
 	}
 	
