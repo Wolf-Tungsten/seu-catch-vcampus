@@ -485,7 +485,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_2", panel_jwc_curriculum);
 
-		panel_jwc_exam = new JwcExam();
+		panel_jwc_exam = new JwcExam(token);
 		panel_jwc_exam.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_3", panel_jwc_exam);
 

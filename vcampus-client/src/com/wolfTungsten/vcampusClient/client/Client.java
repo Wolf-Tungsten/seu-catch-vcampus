@@ -11,7 +11,7 @@ public class Client {
 
 
 
-	public static String host = "223.3.106.227";
+	public static String host = "192.168.31.133";
 
 
 	public static int port = 20006;
