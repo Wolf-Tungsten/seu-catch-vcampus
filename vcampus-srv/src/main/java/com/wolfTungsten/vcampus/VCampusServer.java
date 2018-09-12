@@ -10,6 +10,7 @@ import com.wolfTungsten.vcampus.controller.BaseController;
 import com.wolfTungsten.vcampus.controller.EduAdminController;
 import com.wolfTungsten.vcampus.controller.HelperController;
 import com.wolfTungsten.vcampus.controller.LibraryController;
+import com.wolfTungsten.vcampus.controller.ShopController;
 //import com.wolfTungsten.vcampus.controller.ShopController;
 import com.wolfTungsten.vcampus.controller.UserController;
 
@@ -25,7 +26,7 @@ public class VCampusServer {
 		pathMap.put("bank", new BankController());
 		pathMap.put("book", new LibraryController());
 		pathMap.put("EduAdmin", new EduAdminController());
-		//pathMap.put("shop",new ShopController());
+		pathMap.put("shop",new ShopController());
 		pathMap.put("helper",new HelperController());
 	}
 	

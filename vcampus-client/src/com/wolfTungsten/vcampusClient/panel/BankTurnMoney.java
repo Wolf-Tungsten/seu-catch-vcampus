@@ -115,7 +115,7 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 			request.setPath("bank/trade");
 			request.setToken(token);
 			request.getParams().put("secretPassword", Client.getMD5(passStr));
-			request.getParams().put("to", toAccountStr);//to这里是传的卡号，和后端的uuid对不上
+			request.getParams().put("cardnum", toAccountStr);//to这里是传的卡号，和后端的uuid对不上
 			request.getParams().put("value", value);
 			Response response = Client.fetch(request);
 			if(response.getSuccess()) {

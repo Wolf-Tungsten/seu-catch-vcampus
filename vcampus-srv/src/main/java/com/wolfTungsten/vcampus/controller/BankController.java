@@ -125,6 +125,7 @@ public class BankController extends BaseController{
 	};
 
 
+	//000001为中国银行账户卡号
 
 	private BaseController.BaseHandle depositHandle = new BaseController.BaseHandle() {
 		@Override
@@ -140,9 +141,10 @@ public class BankController extends BaseController{
 			try
 			{
 				String userid=checkToken(token);
+				User user = orm.userRepository.inquireByCardnum("000001");
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-					orm.tradingRecordRepository.deposit("",userid,value,createTime);
+					orm.tradingRecordRepository.deposit(user.getUuid().toString(),userid,value,createTime);
 				    response.setSuccess(true);
 				}else {
 					response.setSuccess(false);
@@ -264,9 +266,12 @@ public class BankController extends BaseController{
 			try
 			{
 				  String userid=checkToken(token);
+				  User user= orm.userRepository.inquireById(userid);
 				  balance=orm.tradingRecordRepository.calculateBalance(userid);
 				  response.getBody().put("currentTime", time.format(date));
 				  response.getBody().put("remain", balance);
+				  response.getBody().put(User.USERNAME, user.getUsername());
+				  response.getBody().put(User.CARDNUM, user.getCardnum());
 				  response.setSuccess(true);
 				return response;	
 			} catch (SQLException e)
@@ -410,20 +415,22 @@ public class BankController extends BaseController{
     					User userFrom=orm.userRepository.inquireById(b.getFrom());
     					User userTo=orm.userRepository.inquireById(b.getTo());
     					HashMap<String,Object>record = new HashMap<>();
-    					record.remove(TradingRecord.FROM);
-    					record.remove(TradingRecord.TO);
-    					record.remove(TradingRecord.UUID);
-    					record.remove(TradingRecord.VALUE);
-    					if(b.getTo()==userid)
-    					{
-    					record.put("otherCardnum",userFrom.getCardnum());
-    					record.put("otherName",userFrom.getUsername());
-    					}else {
-    					record.put("otherCardnum",userTo.getCardnum());
-    					record.put("otherName",userTo.getUsername());
+//    					record.remove(TradingRecord.FROM);
+//    					record.remove(TradingRecord.TO);
+//    					record.remove(TradingRecord.UUID);
+//    					record.remove(TradingRecord.VALUE);
+    					if(userid.equals(b.getTo())) {
+    						record.put("otherCardnum", userFrom.getCardnum());
+    						record.put("otherName", userFrom.getUsername());
+    						record.put(TradingRecord.VALUE, "+"+String.valueOf(b.getValue()/100));
+    						record.put(TradingRecord.CREATETIME, time.format(date));
+    					}else if(userid.equals(b.getFrom())) {
+    						record.put("otherCardnum", userTo.getCardnum());
+    						record.put("otherName",userTo.getUsername());
+    						record.put(TradingRecord.VALUE, "-"+String.valueOf(b.getValue()/100));
+        					record.put(TradingRecord.CREATETIME, time.format(date));
     					}
-    					record.put(TradingRecord.VALUE, b.getValue()/100);
-    					record.put(TradingRecord.CREATETIME, time.format(date));
+    				
     					tradingRecordList.add(record);
     				}
     				response.getBody().put("myName", me.getUsername());
