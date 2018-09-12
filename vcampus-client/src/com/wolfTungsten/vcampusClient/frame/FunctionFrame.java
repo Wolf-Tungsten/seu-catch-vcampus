@@ -1174,6 +1174,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		Response response = Client.fetch(request);
 		ArrayList<LinkedTreeMap<String, Object>> coursemaplist = (ArrayList<LinkedTreeMap<String, Object>>) response
 				.getBody().get("courseMaplist");
+		ArrayList<LinkedTreeMap<String, Object>> selectedCourse = 
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("selectedCourse");
+		int rows= selectedCourse==null?0:selectedCourse.size();
 		int row = coursemaplist.size();
 		String[][] valuetable = new String[row][7];
 		// private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间"," "," "}
@@ -1184,9 +1187,16 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			valuetable[i][2] = (String) coursemap.get("lecturer");
 			valuetable[i][3] = (String) coursemap.get("location");
 			valuetable[i][4] = (String)coursemap.get("week")+(String) coursemap.get("classtime");
-			valuetable[i][5] = "";
-			valuetable[i][6] = "";
-			
+			for(int j=0;j<rows;j++ ) {
+				LinkedTreeMap<String, Object> selectedcourse = selectedCourse.get(j);
+				if(valuetable[i][0].equals(selectedcourse.get("uuid"))) {
+					valuetable[i][5] = "可选择";
+					valuetable[i][6] ="不可取消";
+				}else {
+					valuetable[i][5] = "不可选择";
+					valuetable[i][6] = "可取消";
+				}		
+			}
 		}
 		cao.put("tablevalue", valuetable);
 		cao.put("name", response.getBody().get("username"));

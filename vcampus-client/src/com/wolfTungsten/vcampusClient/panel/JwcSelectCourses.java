@@ -105,7 +105,7 @@ public class JwcSelectCourses extends JPanel {
 		
 		SCTableCellRendererAdd renderer1 = new SCTableCellRendererAdd();
 		SCTableCellRendererCancel renderer2 = new SCTableCellRendererCancel();
-		SCTableCellEditorAdd editor1 = new SCTableCellEditorAdd();
+		SCTableCellEditorAdd editor1 = new SCTableCellEditorAdd(token);
 		SCTableCellEditorCancel editor2 = new SCTableCellEditorCancel();
 		table.getColumnModel().getColumn(table.getColumnCount()-2).setCellRenderer(renderer1);
 		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellRenderer(renderer2);
@@ -121,6 +121,7 @@ public class JwcSelectCourses extends JPanel {
 
 
 	}
+	
 }
 
 
