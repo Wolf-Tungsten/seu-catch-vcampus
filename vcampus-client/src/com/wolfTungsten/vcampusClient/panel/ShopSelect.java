@@ -65,7 +65,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		
 		panel.setBounds(bounds[0],bounds[1]+gap,bounds[2],bounds[3]);
 		
-		label_photo.setText(goods[0]);//商品照片
+		label_photo.setText("<html><img src=\"http://static.wolf-tungsten.com/vcampus/QQ%E5%9B%BE%E7%89%8720180911211804.jpg\" /><html>");//商品照片
 		label_photo.setBounds(10, 10, 100, 100);
 		panel.add(label_photo);
 		
