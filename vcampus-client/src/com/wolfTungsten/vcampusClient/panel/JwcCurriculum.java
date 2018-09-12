@@ -1,20 +1,30 @@
 //教务处——课表查询面板
 package com.wolfTungsten.vcampusClient.panel;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.sun.source.tree.NewArrayTree;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
 
+//import sun.reflect.generics.scope.ClassScope;
+
 import java.awt.Color;
 import java.awt.Font;
+import java.util.regex.*;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.awt.SystemColor;
+import java.awt.TextArea;
+
 import javax.swing.SwingConstants;
 
 //import com.sun.deploy.util.SessionState.Client;
@@ -60,8 +70,10 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 	private JLabel courseFriMorning;
 	private JLabel courseFriAfternoon;
 	private JLabel courseFriNight;
+	String token;
 	@SuppressWarnings("unused")
-	public JwcCurriculum() {
+	public JwcCurriculum(String Token) {
+		token = Token;
 		setSize(736,600);
 		setLayout(null);
 		
@@ -73,7 +85,7 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		
 		//panel面板的设置 添加info和main
 		infoPanel = new JPanel();
-		infoPanel.setSize(700, 89);
+		infoPanel.setSize(700, 90);
 		infoPanel.setLocation(0, 0);
 		mainPanel = new JPanel();
 		mainPanel.setSize(700, panel.getHeight()-infoPanel.getHeight());
@@ -234,9 +246,7 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		//coursePanel
 		
 		coursePanel.setLayout(null);
-		
-
-		courseMonMorning = new JLabel();
+		courseMonMorning = new JLabel();		 
 		courseMonMorning.setHorizontalAlignment(SwingConstants.CENTER);
 		courseMonMorning.setText("\u6D4B\u8BD5\u5927\u5C0F\u989C\u8272");
 		courseMonMorning.setFont(new Font("微软雅黑 Light", Font.BOLD, 14));
@@ -341,9 +351,13 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		coursePanel.add(courseFriMorning);
 		coursePanel.add(courseFriAfternoon);
 		coursePanel.add(courseFriNight);
-		
+		showCourse();
 		
 		}	
+		private void TextArea() {
+		// TODO Auto-generated method stub
+		
+	}
 		//课表的显示 
 		//自动添加函数  
 		//需要用到 两个变量 String week (周一) String day(上午)
@@ -368,7 +382,57 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 
 	public void showCourse() {
 		Client.Request request = new Request();
-		
+		request.setPath("EduAdmin/schedule");
+		request.setToken(token);
+		Client.Response response = Client.fetch(request);
+		if(response.getSuccess()) 
+		{
+			ArrayList<LinkedTreeMap<String,Object>> courseList = 
+					(ArrayList<LinkedTreeMap<String, Object>>)
+					response.getBody().get("recordMaplist");
+			for(LinkedTreeMap<String, Object> courseInfo:courseList) 
+			{
+				String courseName = (String) courseInfo.get("name");
+				String lecturer = (String)courseInfo.get("lecturer");
+				String classtime = (String)courseInfo.get("classtime");
+				String week = (String)courseInfo.get("week");
+				String day = classtime.split("\\d")[0];
+				String time = classtime.split("[\\u4e00-\\u9fa5]")[2];
+				String shwoText = new String();
+				shwoText = String.format("<html><p>%s<br>%s<br>%s<br>%s</p></html>", courseName,lecturer,time,week);
+				if(week.equals("周一") && day.equals("上午"))
+					courseMonMorning.setText(shwoText);
+				else if(week.equals("周一") && day.equals("中午")) 
+					courseMonAfternoon.setText(shwoText);
+				else if(week.equals("周一") && day.equals("下午"))
+					courseMonNight.setText(shwoText);
+				else if(week.equals("周二") && day.equals("上午")) 
+					courseTueMorning.setText(shwoText);
+				else if(week.equals("周二") && day.equals("中午")) 
+					courseTueAfternoon.setText(shwoText);
+				else if(week.equals("周二") && day.equals("下午"))
+					courseTueNight.setText(shwoText);
+				else if(week.equals("周三") && day.equals("上午")) 
+					courseWedMorning.setText(shwoText);
+				else if(week.equals("周三") && day.equals("中午")) 
+					courseWedAfternoon.setText(shwoText);
+				else if(week.equals("周三") && day.equals("下午")) 
+					courseWedNight.setText(shwoText);
+				else if(week.equals("周四") && day.equals("上午"))
+					courseThuMorning.setText(shwoText);
+				else if(week.equals("周四") && day.equals("中午")) 
+					courseThuAfternoon.setText(shwoText);
+				else if(week.equals("周四") && day.equals("下午")) 
+					courseThuNight.setText(shwoText);
+				else if(week.equals("周五") && day.equals("上午")) 
+					courseFriMorning.setText(shwoText);
+				else if(week.equals("周五") && day.equals("中午"))
+					courseFriAfternoon.setText(shwoText);
+				else if(week.equals("周五") && day.equals("下午")) 
+					courseFriNight.setText(shwoText);
+						
+			}
+		}
 	}
 
 
