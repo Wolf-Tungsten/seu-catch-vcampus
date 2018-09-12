@@ -172,7 +172,7 @@ public class BankController extends BaseController{
 			Response response = new Response();
 
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
-			String to=(String)request.getParams().get(User.CARDNUM);
+			String to=(String)request.getParams().get(AccountBalance.CARDNUM);
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
@@ -187,10 +187,13 @@ public class BankController extends BaseController{
 					if(orm.accountBalanceRepository.checkTrade(to))
 					{
 					  orm.tradingRecordRepository.addTradingRecord(userid,toUser.getUserid(),value,createTime);
+					  response.setSuccess(true);	
 					}else {
 						response.setSuccess(false);
 					}
-				   response.setSuccess(true);		
+				   	
+				}else {
+					response.setSuccess(false);
 				}
 				return response;	
 			} catch (SQLException e)
@@ -260,7 +263,7 @@ public class BankController extends BaseController{
     		double balance=0;
 			try
 			{
-				String userid=checkToken(token);
+				  String userid=checkToken(token);
 				  balance=orm.tradingRecordRepository.calculateBalance(userid);
 				  response.getBody().put("currentTime", time.format(date));
 				  response.getBody().put("remain", balance);
@@ -295,12 +298,11 @@ public class BankController extends BaseController{
     		try
 			{
     			String userid=checkToken(token);
-    		
+    			User userTo=orm.userRepository.inquireById(userid);
     			toBill=orm.tradingRecordRepository.getToBill(userid,currentTime-period);
     				for(TradingRecord b:toBill) {
     		    		Date date=new Date(b.getCreateTime()*1000);
     					User userFrom=orm.userRepository.inquireById(b.getFrom());
-    					User userTo=orm.userRepository.inquireById(b.getTo());
     					HashMap<String,Object>record = new HashMap<>();
     					record.remove(TradingRecord.FROM);
     					record.remove(TradingRecord.TO);
@@ -308,12 +310,12 @@ public class BankController extends BaseController{
     					record.remove(TradingRecord.VALUE);
     					record.put("fromCardnum",userFrom.getCardnum());
     					record.put("fromName",userFrom.getUsername());
-    					record.put("toCardnum",userTo.getCardnum());
-    					record.put("toName",userTo.getUsername());
     					record.put(TradingRecord.VALUE, b.getValue()/100);
     					record.put(TradingRecord.CREATETIME, time.format(date));
     					tradingRecordList.add(record);
     				}
+    				response.getBody().put("myCardnum",userTo.getCardnum());
+    				response.getBody().put("myName",userTo.getUsername());
     		        response.getBody().put("toBill", tradingRecordList);
 				    response.setSuccess(true);	
 				return response;	
@@ -348,25 +350,26 @@ public class BankController extends BaseController{
     		try
 			{
     			String userid=checkToken(token);
-    		
+    			User userFrom=orm.userRepository.inquireById(userid);
     			fromBill=orm.tradingRecordRepository.getFromBill(userid,currentTime-period);
     			for(TradingRecord b:fromBill) {
     					Date date=new Date(b.getCreateTime()*1000);
-    					User userFrom=orm.userRepository.inquireById(b.getFrom());
+    					
     					User userTo=orm.userRepository.inquireById(b.getTo());
     					HashMap<String,Object>record = new HashMap<>();
     					record.remove(TradingRecord.FROM);
     					record.remove(TradingRecord.TO);
     					record.remove(TradingRecord.UUID);
     					record.remove(TradingRecord.VALUE);
-    					record.put("fromCardnum",userFrom.getCardnum());
-    					record.put("fromName",userFrom.getUsername());
+
     					record.put("toCardnum",userTo.getCardnum());
     					record.put("toName",userTo.getUsername());
     					record.put(TradingRecord.VALUE, b.getValue()/100);
     					record.put(TradingRecord.CREATETIME, time.format(date));
     					tradingRecordList.add(record);
     				}
+    			    response.getBody().put("myCardnum",userFrom.getCardnum());
+				    response.getBody().put("myName",userFrom.getUsername());
     			    response.getBody().put("fromBill", tradingRecordList);
 				    response.setSuccess(true);	
 				 return response;	
@@ -400,7 +403,7 @@ public class BankController extends BaseController{
     		try
 			{
     			String userid=checkToken(token);
-    
+                User me=orm.userRepository.inquireById(userid);
     			bill=orm.tradingRecordRepository.getBill(userid,currentTime-period);
     				for(TradingRecord b:bill) {
     		    		Date date=new Date(b.getCreateTime()*1000);
@@ -411,14 +414,20 @@ public class BankController extends BaseController{
     					record.remove(TradingRecord.TO);
     					record.remove(TradingRecord.UUID);
     					record.remove(TradingRecord.VALUE);
-    					record.put("fromCardnum",userFrom.getCardnum());
-    					record.put("fromName",userFrom.getUsername());
-    					record.put("toCardnum",userTo.getCardnum());
-    					record.put("toName",userTo.getUsername());
+    					if(b.getTo()==userid)
+    					{
+    					record.put("otherCardnum",userFrom.getCardnum());
+    					record.put("otherName",userFrom.getUsername());
+    					}else {
+    					record.put("otherCardnum",userTo.getCardnum());
+    					record.put("otherName",userTo.getUsername());
+    					}
     					record.put(TradingRecord.VALUE, b.getValue()/100);
     					record.put(TradingRecord.CREATETIME, time.format(date));
     					tradingRecordList.add(record);
     				}
+    				response.getBody().put("myName", me.getUsername());
+    				response.getBody().put("myCardNum", me.getCardnum());
     			    response.getBody().put("bill", tradingRecordList);
 				    response.setSuccess(true);	
 				return response;	
