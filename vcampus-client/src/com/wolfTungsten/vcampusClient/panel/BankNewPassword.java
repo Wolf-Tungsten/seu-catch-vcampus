@@ -140,9 +140,12 @@ public class BankNewPassword extends JPanel implements ActionListener{
 			request.getParams().put("idcardNum", IDStr);
 			request.getParams().put("secretPassword", Client.getMD5("newPassStr"));
 			Response response = Client.fetch(request);
-			if(!response.getSuccess()) {
-				JOptionPane.showMessageDialog(null, "注册失败", "Tips",JOptionPane.ERROR_MESSAGE); 
+			if(response.getSuccess()) {
+				JOptionPane.showMessageDialog(null, "注册成功", "Tips",JOptionPane.DEFAULT_OPTION); 
 	    	 return;
+	    	 }else {
+	    		JOptionPane.showMessageDialog(null, "注册失败，请检查卡号和身份证号是否正确", "Tips",JOptionPane.ERROR_MESSAGE);
+	    		return;
 	    	 }
 		}else if(e.getSource()==cancelButton) {
 			textField_cardNum.setText("");

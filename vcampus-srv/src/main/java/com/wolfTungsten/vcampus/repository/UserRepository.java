@@ -91,17 +91,6 @@ public class UserRepository extends CurdRepository<User> {
 			throw new SQLException("该卡号不存在");	 	
 	}
 	
-	//用于银行系统转账时检测交易双方是否存在
-	public Boolean checkTrade(String userid) throws SQLException {
-		UUID useruuid=UUID.fromString(userid);
-		List<User> userList = 
-				dao.query((PreparedQuery<User>) dao.queryBuilder().where().eq(User.UUID, useruuid).prepare());
-		if(userList.size()!=0) {
-			return true;
-		}
-		else	
-			throw new SQLException("交易方不存在");	 	
-	}
 	
 	public Boolean updateUser(String userid, String username,String cardnum,String hash_password,int identity,
 			int privilege ,String photo,String idcardNum,long birthdate,String address) throws SQLException {
