@@ -794,8 +794,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 						HideAllMessagePanel();
 					}
 				}
-			}else if (e.getSource() == button_close) {
+			else if (e.getSource() == button_close) {
 				System.exit(0);
+			}
 			}
 		}
 	

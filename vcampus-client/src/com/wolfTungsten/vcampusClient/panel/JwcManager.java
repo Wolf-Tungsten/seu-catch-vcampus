@@ -557,7 +557,8 @@ public class JwcManager extends JPanel implements ActionListener, FocusListener,
 			if (column1 == table_manage.getColumnCount() - 1 && e.getSource() == table_manage) {
 				int isDelete = JOptionPane.showConfirmDialog(null, "确定删除", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
 
-				if(isDelete ==JOptionPane.YES_OPTION){
+				if(isDelete ==JOptionPane.YES_OPTION){ 
+
 				 tableModel1.removeRow(row1);
 				 Client.Request request = new Request();
 				 request.setToken(token);

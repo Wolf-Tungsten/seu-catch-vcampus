@@ -29,6 +29,7 @@ public class MyButtonRender implements TableCellRenderer{
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		// TODO Auto-generated method stub
+
 		this.button.setText(value==null?"":String.valueOf(value));
 		return this.panel;
 	}
