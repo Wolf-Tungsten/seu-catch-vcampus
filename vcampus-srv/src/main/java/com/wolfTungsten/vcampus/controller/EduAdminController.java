@@ -116,6 +116,11 @@ public class EduAdminController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -166,6 +171,11 @@ public class EduAdminController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 
 		}
@@ -193,6 +203,11 @@ public class EduAdminController extends BaseController
 				return response;
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -229,6 +244,11 @@ public class EduAdminController extends BaseController
 				response.setSuccess(false);
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -258,6 +278,11 @@ public class EduAdminController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -283,6 +308,11 @@ public class EduAdminController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -326,6 +356,11 @@ public class EduAdminController extends BaseController
 			
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -380,6 +415,11 @@ public class EduAdminController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -407,6 +447,11 @@ public class EduAdminController extends BaseController
 			{
 				response.getBody().put("result", e.getMessage());
 				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
 			}
