@@ -75,10 +75,10 @@ public class JwcExam extends JPanel{
 				String location = (String)examInfo.get("location");
 				//duration是考试经过的时间
 				String duration = (String)examInfo.get("duration");
-				long starttime = (long)examInfo.get("startTime");
-				Long time = (starttime-System.currentTimeMillis())/1000/3600/24;
-				String lastTime = Long.toString(time);
+				long starttime = (long)(double)examInfo.get("startTime");
 				
+				long time = (starttime-System.currentTimeMillis())/3600/1000/24;
+				String lastTime = Long.toString(time);			
 				//这里没有加成绩信息，
 				tableModel.addRow(new String[] {name,lecturer,location,duration,lastTime,null});					
 			}
