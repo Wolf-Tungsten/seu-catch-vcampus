@@ -21,7 +21,7 @@ public class SCTableCellRendererAdd implements TableCellRenderer {
 	}
 	private void initButton() {
 		this.button = new JButton();
-		this.button.setBounds(0,0,100,20);
+		this.button.setBounds(0,0,100,20);//**
 	}
 	
 
@@ -32,5 +32,6 @@ public class SCTableCellRendererAdd implements TableCellRenderer {
 		this.button.setText("添加课程");
 		return this.panel;
 	}
-
+	
+	
 }

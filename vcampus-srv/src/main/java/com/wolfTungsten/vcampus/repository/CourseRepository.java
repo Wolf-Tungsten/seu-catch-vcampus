@@ -68,6 +68,11 @@ public class CourseRepository	extends CurdRepository<Course>
 		}
 		return courseMapList;
 	}
+	public ArrayList<Course> queryAllCourses2() throws SQLException{
+		ArrayList<Course> courseList = new ArrayList<>();
+		courseList = (ArrayList<Course>) dao.queryForAll();
+		return courseList;
+	}
 	
 	public void deleteCourse(String uuid) throws SQLException {
 		UUID courseuuid =UUID.fromString(uuid);
