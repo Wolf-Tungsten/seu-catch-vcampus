@@ -5,10 +5,14 @@ import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.frame.FunctionFrame;
 
 public class BankRemain extends JPanel {
@@ -16,9 +20,12 @@ public class BankRemain extends JPanel {
 	JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum;
 	private JTextField textField_name;
+	private JTextField textField_remain;
 	private JLabel label;
-	private JTextField textField;
-	public BankRemain() {
+
+	private String token;
+	public BankRemain(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -53,14 +60,20 @@ public class BankRemain extends JPanel {
 		label.setBounds(213, 147, 121, 49);
 		add(label);
 		
-		textField = new JTextField();
-		textField.setText("1000.00");
-		textField.setFont(new Font("微软雅黑", Font.BOLD, 30));
-		textField.setBounds(326, 223, 163, 80);
-		textField.setEditable(false);
-		textField.setOpaque(false);
-		add(textField);
-		textField.setColumns(10);
+		Client.Request request = new Request();
+		request.setPath("bank/balance");
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		double balance=(double)response.getBody().get("remain");
+		String balanceText=Double.toString(balance);
+		textField_remain = new JTextField();
+		textField_remain.setText(balanceText);
+		textField_remain.setFont(new Font("微软雅黑", Font.BOLD, 30));
+		textField_remain.setBounds(326, 223, 163, 80);
+		textField_remain.setEditable(false);
+		textField_remain.setOpaque(false);
+		add(textField_remain);
+		textField_remain.setColumns(10);
 		
 		URL resource=FunctionFrame.class.getResource("bankRemain.jpg");
 		ImageIcon imageIcon=new ImageIcon(resource);
@@ -82,5 +95,8 @@ public class BankRemain extends JPanel {
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		add(textArea);
+		
+	
+
 	}
 }

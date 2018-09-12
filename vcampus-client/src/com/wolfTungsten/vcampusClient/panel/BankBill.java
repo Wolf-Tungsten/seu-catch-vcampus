@@ -4,6 +4,8 @@ package com.wolfTungsten.vcampusClient.panel;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -29,7 +31,7 @@ public class BankBill extends JPanel implements ItemListener{
 	JScrollPane scrollPane;
 	String[] columnNames= {"时间","对方姓名","对方账号","金额"};//定义表格列名的数组
 	//TODO 传数据给tableValues
-	String[][] tableValues= {{"09-06 06:09","梅花餐厅","123455","-10.50"},{"09-06 12:08","东南大学","321282","+1000.00"}};;
+	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
 
@@ -116,8 +118,17 @@ public class BankBill extends JPanel implements ItemListener{
 						Response response = Client.fetch(request);
 					     //TODO 三天内总账单
 						//eg.传数据给rowValue,"时间","对方姓名","对方账号","金额"
-						String []rowValue= {};
-						tableModel.addRow(rowValue);
+						ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
+						tradingRecordList=(ArrayList)Client.fetch(request).getBody().get("bill");
+						for(int i=0;i<tradingRecordList.size();i++) {
+							String []rowValue= {};
+							//rowValue= {};
+						    tableModel.addRow(rowValue);
+						    
+							
+						}
+						
+						
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
 						request.setPath("bank/toBill");
 						request.setToken(token);

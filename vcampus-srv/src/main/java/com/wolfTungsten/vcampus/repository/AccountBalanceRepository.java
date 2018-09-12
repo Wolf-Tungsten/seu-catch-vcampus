@@ -66,5 +66,21 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		else {return false;}
 	}
 	
+	public Boolean checkTrade(String toCardNum) throws SQLException {
+		List<AccountBalance> userList = 
+				dao.query((PreparedQuery<AccountBalance>) dao.queryBuilder().where().eq(AccountBalance.CARDNUM, toCardNum).prepare());
+		if(userList.size()!=0) {
+			return true;
+		}
+		else	
+			throw new SQLException("交易方不存在");	 	
+	}
+	
+	public AccountBalance findUserid(String toCardNum)throws SQLException {
+		String userid;
+		List<AccountBalance> userlist = dao.queryForEq(AccountBalance.CARDNUM, toCardNum);
+		return userlist.get(0);
+	}
+	
 
 }
