@@ -138,7 +138,7 @@ public class BankNewPassword extends JPanel implements ActionListener{
 			request.setToken(token);
 			request.getParams().put("cardnum", cardNumStr);
 			request.getParams().put("idcardNum", IDStr);
-			request.getParams().put("secretPassword", Client.getMD5("newPassStr"));
+			request.getParams().put("secretPassword", Client.getMD5(newPassStr));
 			Response response = Client.fetch(request);
 			if(response.getSuccess()) {
 				JOptionPane.showMessageDialog(null, "注册成功", "Tips",JOptionPane.DEFAULT_OPTION); 

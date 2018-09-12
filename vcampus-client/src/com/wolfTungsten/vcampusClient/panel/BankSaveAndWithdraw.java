@@ -119,6 +119,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==okButton) {
 			String amountStr=textField_amount.getText();
+			double amountDouble= Double.valueOf(amountStr);
 			String passStr=textField_account_pass.getText();
 			if(amountStr.equals("")||amountStr==null) {
 				JOptionPane.showMessageDialog(null, "输入金额不可为空！", "Tips",JOptionPane.ERROR_MESSAGE);
@@ -132,7 +133,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 				request.setPath("bank/deposit");
 				request.setToken(token);
 				request.getParams().put("secretPassword", Client.getMD5(passStr));
-				request.getParams().put("value", amountStr);
+				request.getParams().put("value", amountDouble);
 				Response response = Client.fetch(request);
 				if(response.getSuccess()) {
 					JOptionPane.showMessageDialog(null, "存款成功！", "Tips",JOptionPane.ERROR_MESSAGE);
@@ -144,7 +145,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 				request.setPath("bank/withdraw");
 				request.setToken(token);
 				request.getParams().put("secretPassword", Client.getMD5(passStr));
-				request.getParams().put("value", amountStr);
+				request.getParams().put("value", amountDouble);
 				Response response = Client.fetch(request);
 				if(response.getSuccess()) {
 					JOptionPane.showMessageDialog(null, "取款成功！", "Tips",JOptionPane.ERROR_MESSAGE);
