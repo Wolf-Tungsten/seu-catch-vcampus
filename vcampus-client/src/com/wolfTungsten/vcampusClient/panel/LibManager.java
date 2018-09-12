@@ -22,6 +22,8 @@ import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.DateChooser;
+import com.wolfTungsten.vcampusClient.component.MyButtonRender;
+import com.wolfTungsten.vcampusClient.component.MyDeleteButtonRender;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import com.wolfTungsten.vcampusClient.component.TableDeleteButtonEditor;
 
@@ -293,6 +295,7 @@ public class LibManager extends JPanel implements ActionListener {
 		 checkBox = new JCheckBox();
 		 checkBox.addActionListener(this);
 		 table_1.getColumn("操作").setCellEditor(new TableDeleteButtonEditor(checkBox,token));
+		this.table_1.getColumnModel().getColumn(7).setCellRenderer(new MyDeleteButtonRender());//袁皓东要的按钮效果
 		 //我这里无法获取更改后的“操作”列里的信息，界面上点击删除后“删除”按钮会变为不可点击的“已删除”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableDeleteButtonEditor()里有返回
 		 scrollPane_1.setViewportView(table_1);
