@@ -2,6 +2,8 @@
 package com.wolfTungsten.vcampusClient.panel;
 
 import java.awt.Font;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,7 +25,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JButton;
 
 
-public class JwcSelectCourses extends JPanel {
+public class JwcSelectCourses extends JPanel implements MouseListener {
 
 	/**
 	 * 
@@ -62,7 +64,7 @@ public class JwcSelectCourses extends JPanel {
 		DefaultTableCellRenderer er = new DefaultTableCellRenderer();
 		er.setHorizontalAlignment(JLabel.CENTER);
 		table.setDefaultRenderer(Object.class, er);
-		
+		table.addMouseListener(this);
 		JScrollPane scrollTable = new JScrollPane(table);
 		scrollTable.setBounds(35, 100, 666, 465);
 		table.setBounds(35, 100, 666, 465);
@@ -107,12 +109,12 @@ public class JwcSelectCourses extends JPanel {
 		
 		SCTableCellRendererAdd renderer1 = new SCTableCellRendererAdd();
 		SCTableCellRendererCancel renderer2 = new SCTableCellRendererCancel();
-		SCTableCellEditorAdd editor1 = new SCTableCellEditorAdd();
-		SCTableCellEditorCancel editor2 = new SCTableCellEditorCancel();
+	//  SCTableCellEditorAdd editor1 = new SCTableCellEditorAdd();
+	//  SCTableCellEditorCancel editor2 = new SCTableCellEditorCancel();
 		table.getColumnModel().getColumn(table.getColumnCount()-2).setCellRenderer(renderer1);
 		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellRenderer(renderer2);
-		table.getColumnModel().getColumn(table.getColumnCount()-2).setCellEditor(editor1);
-		table.getColumnModel().getColumn(table.getColumnCount()-1).setCellEditor(editor2);
+	//  table.getColumnModel().getColumn(table.getColumnCount()-2).setCellEditor(editor1);
+	//  table.getColumnModel().getColumn(table.getColumnCount()-1).setCellEditor(editor2);
 	//	table.setRowSelectionAllowed(false);// 禁止表格的选择功能。不然在点击按钮时表格的整行都会被选中。
 		
 		//“课程选择按钮” 在 com.wolfTungsten.vcampusClient.component 的SCTableCellEditorAdd.java里面
@@ -129,20 +131,51 @@ public class JwcSelectCourses extends JPanel {
 //		model.addRow(new String[] {"高数","","","","",""});
 //		model.addRow(new String[] {"体育","","","","",""});
 
-		model.addRow(new String[] {"01","计组","任国林","","",""});
-		model.addRow(new String[] {"02","计组","徐造林","","",""});
-		model.addRow(new String[] {"03","信号","王世杰","","",""});
-		model.addRow(new String[] {"04","信号","123","","",""});
-		model.addRow(new String[] {"05","高数","213","","",""});
-		model.addRow(new String[] {"06","几代","321","","",""});
-		model.addRow(new String[] {"07","离散","李凯","","",""});
-		model.addRow(new String[] {"08","算法","方效林","","",""});
+		model.addRow(new String[] {"01","计组","任国林","","","已选择","已选择"});
+		model.addRow(new String[] {"02","计组","徐造林","","","已选择","已选择"});
+		model.addRow(new String[] {"03","信号","王世杰","","","已选择","已选择"});
+		model.addRow(new String[] {"04","信号","123","","","已选择","已选择"});
+		model.addRow(new String[] {"05","高数","213","","","已选择","已选择"});
+		model.addRow(new String[] {"06","几代","321","","","未选择","未选择"});
+		model.addRow(new String[] {"07","离散","李凯","","","未选择","未选择"});
+		model.addRow(new String[] {"08","算法","方效林","","","未选择","未选择"});
 		
 //上面两个标签 用于显示用户 姓名 和 一卡通号码
 		String username = textField_name.getText();
 		String cardNum  = textField_cardNum.getText();
 
 
+	}
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		if(e.getClickCount()==1) {
+			int row = table.rowAtPoint(e.getPoint());
+			int column = table.columnAtPoint(e.getPoint());
+			
+			
+		}
+		
+	}
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
+	}
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO 自动生成的方法存根
+		
 	}
 }
 

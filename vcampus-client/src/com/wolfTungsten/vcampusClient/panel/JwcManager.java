@@ -512,7 +512,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 //===================================这个里面是课程管理表格里面那个 删除课程 按钮的 鼠标事件 在这里添加 ======YHD看这里============================================
 			if(column1 == table_manage.getColumnCount()-1 && e.getSource() == table_manage ) {
 				int isDelete = JOptionPane.showConfirmDialog(null, "确定删除", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
-				if(isDelete ==JOptionPane.YES_OPTION){
+				if(isDelete ==JOptionPane.YES_OPTION){ 
 				 tableModel1.removeRow(row1);
 				 //具体从这里开始 添加 
 				}

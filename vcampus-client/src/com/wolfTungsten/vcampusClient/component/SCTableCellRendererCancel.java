@@ -1,5 +1,6 @@
 package com.wolfTungsten.vcampusClient.component;
 
+import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JButton;
@@ -30,6 +31,10 @@ public class SCTableCellRendererCancel implements TableCellRenderer {
 			int row, int column) {
 		// TODO 自动生成的方法存根
 		this.button.setText("取消选择");
+		if(String.valueOf(value) == "已选择") this.button.setEnabled(true);
+		else if (String.valueOf(value) == "未选择") {
+			this.button.setEnabled(false);
+		}
 		return this.panel;
 	}
 
