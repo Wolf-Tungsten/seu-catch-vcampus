@@ -481,13 +481,13 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		// panel_jwc_select.setBackground(new Color(255, 255, 255));
 		// panel_right.add("jwc_1", panel_jwc_select);
 
-		panel_jwc_curriculum = new JwcCurriculum(token);
-		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_2", panel_jwc_curriculum);
+//		panel_jwc_curriculum = new JwcCurriculum(token);
+//		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
+//		panel_right.add("jwc_2", panel_jwc_curriculum);
 
-		panel_jwc_exam = new JwcExam(token);
-		panel_jwc_exam.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_3", panel_jwc_exam);
+//		panel_jwc_exam = new JwcExam(token);
+//		panel_jwc_exam.setBackground(new Color(255, 255, 255));
+//		panel_right.add("jwc_3", panel_jwc_exam);
 
 
 		panel_jwc_manager = new JwcManager(token);
@@ -646,9 +646,15 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				cardLayout.show(panel_right, "jwc_1");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_curriculum) {
+				panel_jwc_curriculum = new JwcCurriculum(token);
+				panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
+				panel_right.add("jwc_2", panel_jwc_curriculum);			
 				cardLayout.show(panel_right, "jwc_2");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_exam) {
+				panel_jwc_exam = new JwcExam(token);
+				panel_jwc_exam.setBackground(new Color(255, 255, 255));
+				panel_right.add("jwc_3", panel_jwc_exam);	
 				cardLayout.show(panel_right, "jwc_3");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_experiment) {

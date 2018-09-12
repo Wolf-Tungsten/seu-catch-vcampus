@@ -80,7 +80,7 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(18, 20, 700, 570);
-		panel.setBackground(Color.PINK);
+		panel.setBackground(Color.CYAN);
 		add(panel);
 		
 		//panel面板的设置 添加info和main

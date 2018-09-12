@@ -54,7 +54,7 @@ public class JwcExam extends JPanel{
 		//大概{"名字","老师","地点","时间","天数",""} 开始
 		//添加表格列的函数
 		//tableModel.addRow(new String[]{}); 
-		tableModel.addRow(new String[] {"信号","王世杰","J2-404","14：00-16：00","1",null});
+		
 		showExam();
 	}
 	
@@ -73,14 +73,16 @@ public class JwcExam extends JPanel{
 				String name = (String)examInfo.get("name");
 				String lecturer = (String)examInfo.get("lecturer");
 				String location = (String)examInfo.get("location");
+				String score =String.valueOf((int)(double)examInfo.get("score"));
 				//duration是考试经过的时间
 				String duration = (String)examInfo.get("duration");
+				
 				long starttime = (long)(double)examInfo.get("startTime");
 				
-				long time = (starttime-System.currentTimeMillis())/3600/1000/24;
+				long time = (starttime-System.currentTimeMillis()/1000)/3600/24;
 				String lastTime = Long.toString(time);			
 				//这里没有加成绩信息，
-				tableModel.addRow(new String[] {name,lecturer,location,duration,lastTime,null});					
+				tableModel.addRow(new String[] {name,lecturer,location,duration,lastTime,score});					
 			}
 		}
 	}

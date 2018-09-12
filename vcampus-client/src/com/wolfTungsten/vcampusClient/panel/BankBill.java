@@ -101,20 +101,23 @@ public class BankBill extends JPanel implements ItemListener{
 				if (e.getStateChange() == ItemEvent.SELECTED) {		
 					if(comboBox_time.getSelectedIndex()==0) {
 						time=0;
+						System.out.println("time:"+time);
 					}else if(comboBox_time.getSelectedIndex()==1) {
 						time=1;
+						System.out.println("time:"+time);
 					}else if(comboBox_time.getSelectedIndex()==2) {
 						System.out.println("yhddsb1");
 						time=2;
+						System.out.println("time:"+time);
 					}else if(comboBox_time.getSelectedIndex()==3) {
 						time=3;
+						System.out.println("time:"+time);
 					}else if(comboBox_time.getSelectedIndex()==4) {
 						time=4;
+						System.out.println("time:"+time);
 					}
 				}
-				if(type==2&&time==2) {
-					System.out.println("yhddsb2");
-				}
+				
 			}
 			
 		});
@@ -137,16 +140,17 @@ public class BankBill extends JPanel implements ItemListener{
 				if (e.getStateChange() == ItemEvent.SELECTED) {		
 					if(comboBox_bill_type.getSelectedIndex()==0) {
 						type=0;
+						System.out.println("type:"+type);
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
 						type=1;
+						System.out.println("type:"+type);
 					}else if(comboBox_bill_type.getSelectedIndex()==2) {
-						System.out.println("yhddsb3");
+						
 						type=2;
+						System.out.println("type:"+type);
 					}
 				}
-				if(type==2&&time==2) {
-					System.out.println("yhddsb4");
-				}
+				
 			}
 			
 		});
@@ -165,10 +169,10 @@ public class BankBill extends JPanel implements ItemListener{
 	/*		if (e.getStateChange() == ItemEvent.SELECTED) {
 				
 				if(comboBox_time.getSelectedIndex()==0) {
-					System.out.println("sssss");
+					
 					if(comboBox_bill_type ==null) System.out.println("null");
 					if(comboBox_bill_type.getSelectedIndex()==0) {
-						System.out.println("sss33");
+						
 						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
@@ -182,8 +186,7 @@ public class BankBill extends JPanel implements ItemListener{
 						
 						for (int i = 0; i < rowcount; i++) {
 							LinkedTreeMap<String, Object> billMap = billList.get(i);
-							if (billMap == null)
-								System.out.println("sssss");
+						
 
 							String []rowValue = new String[4];
 							rowValue[0] = (String) billMap.get("createtime");
