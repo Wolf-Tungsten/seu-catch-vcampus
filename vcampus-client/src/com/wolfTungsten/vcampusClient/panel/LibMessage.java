@@ -15,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
+import com.wolfTungsten.vcampusClient.component.MyDeleteButtonRender;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import com.wolfTungsten.vcampusClient.component.TableReBorButtonEditor;
 import java.awt.Font;
@@ -37,6 +38,8 @@ public class LibMessage extends JPanel {
 	private JButton button_returnbook;
 	private JLabel lblTips;
 	private JTextArea textArea;
+//	private Object table;
+	JTable table;
 	/**
 	 * Create the panel.
 	 */
@@ -56,7 +59,7 @@ public class LibMessage extends JPanel {
 		//数据传到这里！
 
 		DefaultTableModel tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
-		JTable table=new JTable(tableModel) {
+		table=new JTable(tableModel) {
 			public boolean isCellEditable(int row, int column)
             {
 				if(column!=7) {
@@ -81,6 +84,7 @@ public class LibMessage extends JPanel {
 		 }
 		//”续借“状态按钮添加，具体看component里的TableReBorButtonEidtor
 		 table.getColumn("续借状态").setCellEditor(new TableReBorButtonEditor(new JCheckBox(),token));
+          this.table.getColumnModel().getColumn(7).setCellRenderer(new MyDeleteButtonRender());
 		//我这里无法获取更改后的“续借状态”列里的信息，界面上点击续借后“续借”按钮会变为不可点击的“不可续借”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableReBorButtonEditor()里有返回
 		 
