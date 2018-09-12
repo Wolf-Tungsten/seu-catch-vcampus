@@ -531,17 +531,17 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_1", panel_bank_save_withdraw);
 
-		//panel_bank_remain = new BankRemain(token);
-		//panel_bank_remain.setBackground(new Color(255, 255, 255));
-		//panel_right.add("bank_2", panel_bank_remain);
+//		panel_bank_remain = new BankRemain(token);
+//		panel_bank_remain.setBackground(new Color(255, 255, 255));
+//		panel_right.add("bank_2", panel_bank_remain);
 
 		panel_bank_turn_money = new BankTurnMoney(token);
 		panel_bank_turn_money.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_3", panel_bank_turn_money);
 
-		panel_bank_bill = new BankBill(token);
-		panel_bank_bill.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_4", panel_bank_bill);
+//		panel_bank_bill = new BankBill(token);
+//		panel_bank_bill.setBackground(new Color(255, 255, 255));
+//		panel_right.add("bank_4", panel_bank_bill);
 
 		panel_bank_modify_pass = new BankModifyPass(token);
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
@@ -741,6 +741,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				Response response = Client.fetch(request);
 
 				if (response.getSuccess()) {
+					panel_bank_remain = new BankRemain(token);
+					panel_bank_remain.setBackground(new Color(255, 255, 255));
+					panel_right.add("bank_2", panel_bank_remain);	
 					cardLayout.show(panel_right, "bank_2");
 					HideAllMessagePanel();
 				} else {
@@ -762,8 +765,11 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				request.setToken(token);
 				request.getParams().put("secretPassword", Client.getMD5(passStr));
 				Response response = Client.fetch(request);
-
+				
 				if (response.getSuccess()) {
+					panel_bank_bill = new BankBill(token);
+					panel_bank_bill.setBackground(new Color(255, 255, 255));
+					panel_right.add("bank_4", panel_bank_bill);
 					cardLayout.show(panel_right, "bank_4");
 					HideAllMessagePanel();
 				} else {

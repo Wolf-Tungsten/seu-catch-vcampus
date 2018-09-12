@@ -34,9 +34,10 @@ public class UserXCourseRepository extends CurdRepository<UserXCourse>
 	}
 	//更新 更新成绩吧- -大概也用不到
 	public void updateUserXCourse(String uuid ,String column,Object i) throws SQLException {
-		dao.update((UserXCourse)dao.updateBuilder()
-				.updateColumnValue(column, i)
-				.where().eq(UserXCourse.UUID,UUID.fromString(uuid) ).prepare());
+		
+		dao.update((PreparedUpdate<UserXCourse>)dao.updateBuilder().updateColumnValue(column, i)
+				.where().eq(UserXCourse.UUID, UUID.fromString(uuid)).prepare());
+		
 	}
 	
 	public void deleteUserXCourse(String userUuid,String courseUuid) throws SQLException {

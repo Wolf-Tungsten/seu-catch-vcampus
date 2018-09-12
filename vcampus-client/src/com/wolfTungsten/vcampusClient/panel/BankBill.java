@@ -28,7 +28,8 @@ public class BankBill extends JPanel implements ItemListener{
 	JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum;
 	private JTextField textField_name;
-
+	int time=0;
+    int type=0;
 	JComboBox comboBox_time,comboBox_bill_type;
 	JScrollPane scrollPane;
 	String[] columnNames= {"时间","对方姓名","对方账号","金额"};//定义表格列名的数组
@@ -93,6 +94,31 @@ public class BankBill extends JPanel implements ItemListener{
 		comboBox_time = new JComboBox();
 		comboBox_time.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		comboBox_time.setBounds(10, 17, 80, 23);
+		comboBox_time.addItemListener(new ItemListener() {
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getStateChange() == ItemEvent.SELECTED) {		
+					if(comboBox_time.getSelectedIndex()==0) {
+						time=0;
+					}else if(comboBox_time.getSelectedIndex()==1) {
+						time=1;
+					}else if(comboBox_time.getSelectedIndex()==2) {
+						System.out.println("yhddsb1");
+						time=2;
+					}else if(comboBox_time.getSelectedIndex()==3) {
+						time=3;
+					}else if(comboBox_time.getSelectedIndex()==4) {
+						time=4;
+					}
+				}
+				if(type==2&&time==2) {
+					System.out.println("yhddsb2");
+				}
+			}
+			
+		});
+		comboBox_time.addItemListener(this);
 		comboBox_time.addItem("三天内");
 		comboBox_time.addItem("一月内");
 		comboBox_time.addItem("三月内");
@@ -103,17 +129,46 @@ public class BankBill extends JPanel implements ItemListener{
 		comboBox_bill_type = new JComboBox();
 		comboBox_bill_type.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		comboBox_bill_type.setBounds(100, 17, 80, 23);
+		comboBox_bill_type.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getStateChange() == ItemEvent.SELECTED) {		
+					if(comboBox_bill_type.getSelectedIndex()==0) {
+						type=0;
+					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						type=1;
+					}else if(comboBox_bill_type.getSelectedIndex()==2) {
+						System.out.println("yhddsb3");
+						type=2;
+					}
+				}
+				if(type==2&&time==2) {
+					System.out.println("yhddsb4");
+				}
+			}
+			
+		});
+		
+		comboBox_bill_type.addItemListener(this);
 		comboBox_bill_type.addItem("总账单");
 		comboBox_bill_type.addItem("收入账单");
 		comboBox_bill_type.addItem("支出账单");
 		add(comboBox_bill_type);
+		
+		
+		
 	}
 	@Override
 	public void itemStateChanged(ItemEvent e) {
-			if (e.getStateChange() == ItemEvent.SELECTED) {
+	/*		if (e.getStateChange() == ItemEvent.SELECTED) {
 				
 				if(comboBox_time.getSelectedIndex()==0) {
+					System.out.println("sssss");
+					if(comboBox_bill_type ==null) System.out.println("null");
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						System.out.println("sss33");
 						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
@@ -576,7 +631,7 @@ public class BankBill extends JPanel implements ItemListener{
 					     //TODO 一年内支出账单
 						 
 					}
-				 }	  
+				 }	 */ 
 				 
 		 }
 	
