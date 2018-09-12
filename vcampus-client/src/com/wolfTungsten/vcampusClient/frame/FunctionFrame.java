@@ -47,7 +47,6 @@ import com.wolfTungsten.vcampusClient.panel.InfoPassword;
 import com.wolfTungsten.vcampusClient.panel.InfoSystemMain;
 import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
 import com.wolfTungsten.vcampusClient.panel.JwcExam;
-import com.wolfTungsten.vcampusClient.panel.JwcExperiment;
 import com.wolfTungsten.vcampusClient.panel.JwcManager;
 import com.wolfTungsten.vcampusClient.panel.JwcSelectCourses;
 import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
@@ -66,7 +65,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 	private JLayeredPane contentPane;
 	JPanel panel_right, panel_message;
 	JPanel panel_message_info, panel_message_jwc, panel_message_lib, panel_message_shop, panel_message_bank;
-	JButton button_info, button_jwc, button_lib, button_shop, button_bank;
+	JButton button_info, button_jwc, button_lib, button_shop, button_bank,button_close;
 
 	JLabel label_lib_exit, label_jwc_exit;
 	JLabel label_blank1, label_blank2, label_blank3;
@@ -161,6 +160,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ImageIcon imageIcon_shop = new ImageIcon(resource_shop);
 		URL resource_bank = FunctionFrame.class.getResource("bank-normal.jpg");
 		ImageIcon imageIcon_bank = new ImageIcon(resource_bank);
+		URL resource_close= FunctionFrame.class.getResource("close-normal.jpg");
+		ImageIcon imageIcon_close = new ImageIcon(resource_close);
 		// 个人信息=================个人信息按钮==================================
 		button_info = new JButton();
 		button_info.setBounds(0, 64, 64, 64);
@@ -196,6 +197,14 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		buttonSet(button_bank);
 		button_bank.addMouseListener(this);
 		contentPane.add(button_bank, new Integer(10)); // 银行系统按钮设置在10层
+		// 关机===========关机按钮==================================
+		button_close=new JButton();
+		button_close.setBounds(0, 500, 64, 64);
+		button_close.setIcon(imageIcon_close);
+		buttonSet(button_close);
+		button_close.addMouseListener(this);
+		contentPane.add(button_close, new Integer(10)); // 关机按钮设置在10层
+		
 
 		// 提示面板
 		// 个人信息提示面板==========================个人信息提示面板===========================================
@@ -291,19 +300,12 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		label_jwc_exam.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_exam);
 
-		// ”考试助手“按钮（标签），关联JwcExperiment面板
-		label_jwc_experiment = new JLabel("实验助手", JLabel.CENTER);
-		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_jwc_experiment.setForeground(new Color(59, 120, 103));
-		label_jwc_experiment.setBounds(0, 190, 150, 50);
-		label_jwc_experiment.addMouseListener(this);
-		panel_message_jwc.add(label_jwc_experiment);
 
 		// ”管理者“按钮（标签），关联JwcManager面板 ------------------------------权限
 		label_jwc_manager = new JLabel("管理者", JLabel.CENTER);
 		label_jwc_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_jwc_manager.setForeground(new Color(59, 120, 103));
-		label_jwc_manager.setBounds(0, 240, 150, 50);
+		label_jwc_manager.setBounds(0, 190, 150, 50);
 		label_jwc_manager.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_manager);
 
@@ -487,9 +489,6 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_jwc_exam.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_3", panel_jwc_exam);
 
-		panel_jwc_experiment = new JwcExperiment();
-		panel_jwc_experiment.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_4", panel_jwc_experiment);
 
 		panel_jwc_manager = new JwcManager(token);
 		panel_jwc_manager.setBackground(new Color(255, 255, 255));
@@ -658,7 +657,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			} else if (e.getSource() == label_jwc_manager) {
 				cardLayout.show(panel_right, "jwc_5");
 				HideAllMessagePanel();
-			} else if (e.getSource() == button_shop) {
+			} /*
+			else if (e.getSource() == button_shop) {
 				cardLayout.show(panel_right, "4");
 				panel_message_info.setVisible(false);
 				panel_message_jwc.setVisible(false);
@@ -667,7 +667,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				panel_message_bank.setVisible(false);
 				contentPane.setLayer(panel_message_shop, new Integer(11));
 
-			} else if (e.getSource() == label_bank_save_withdraw) {
+			} */
+			else if (e.getSource() == label_bank_save_withdraw) {
 				HideAllMessagePanel();
 
 				
@@ -787,6 +788,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 						HideAllMessagePanel();
 					}
 				}
+			}else if (e.getSource() == button_close) {
+				System.exit(0);
 			}
 		}
 	}
@@ -816,6 +819,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ImageIcon imageIcon_shop_active = new ImageIcon(resource_shop_active);
 		URL resource_bank_active = FunctionFrame.class.getResource("bank-active.jpg");
 		ImageIcon imageIcon_bank_active = new ImageIcon(resource_bank_active);
+		URL resource_close_active = FunctionFrame.class.getResource("close-active.jpg");
+		ImageIcon imageIcon_close_active = new ImageIcon(resource_close_active);
 		if (e.getSource() == button_info) {
 			button_info.setIcon(imageIcon_info_active);
 			contentPane.add(button_info);
@@ -866,6 +871,14 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			panel_message_bank.setVisible(true);
 			contentPane.setLayer(panel_message_bank, new Integer(11));
 
+		} else if (e.getSource() == button_close) {
+			button_close.setIcon(imageIcon_close_active);
+			contentPane.add(button_close);
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(false);
+			panel_message_lib.setVisible(false);
+			panel_message_shop.setVisible(false);
+			panel_message_bank.setVisible(false);
 		}
 		if (e.getSource() == label_info_main) {
 			label_info_main.setOpaque(true);
@@ -990,6 +1003,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ImageIcon imageIcon_shop = new ImageIcon(resource_shop);
 		URL resource_bank = FunctionFrame.class.getResource("bank-normal.jpg");
 		ImageIcon imageIcon_bank = new ImageIcon(resource_bank);
+		URL resource_close = FunctionFrame.class.getResource("close-normal.jpg");
+		ImageIcon imageIcon_close = new ImageIcon(resource_close);
 		if (e.getSource() == button_info) {
 			button_info.setIcon(imageIcon_info);
 			contentPane.add(button_info);
@@ -1005,6 +1020,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		} else if (e.getSource() == button_bank) {
 			button_bank.setIcon(imageIcon_bank);
 			contentPane.add(button_bank);
+		}else if (e.getSource() == button_close) {
+			button_close.setIcon(imageIcon_close);
+			contentPane.add(button_close);
 		}
 		if (e.getSource() == label_info_main) {
 			label_info_main.setOpaque(true);
