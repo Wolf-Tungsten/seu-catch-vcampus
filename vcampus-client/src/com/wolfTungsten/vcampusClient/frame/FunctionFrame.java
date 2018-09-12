@@ -531,9 +531,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_1", panel_bank_save_withdraw);
 
-		panel_bank_remain = new BankRemain(token);
-		panel_bank_remain.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_2", panel_bank_remain);
+		//panel_bank_remain = new BankRemain(token);
+		//panel_bank_remain.setBackground(new Color(255, 255, 255));
+		//panel_right.add("bank_2", panel_bank_remain);
 
 		panel_bank_turn_money = new BankTurnMoney(token);
 		panel_bank_turn_money.setBackground(new Color(255, 255, 255));
@@ -669,9 +669,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 
 			} */
 			else if (e.getSource() == label_bank_save_withdraw) {
+				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
-
-				
 			}	else if (e.getSource() == label_shop_select) {
 					cardLayout.show(panel_right, "shop_1");
 					HideAllMessagePanel();
@@ -734,10 +733,11 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				String passStr = pwd.getText();// 获取输入对话框中的密码
+				System.out.println(passStr);
 				Client.Request request = new Request();
 				request.setPath("bank/checkPassword");
 				request.setToken(token);
-				request.getParams().put("secretPassword", passStr);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
 				Response response = Client.fetch(request);
 
 				if (response.getSuccess()) {
@@ -760,7 +760,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				Client.Request request = new Request();
 				request.setPath("bank/checkPassword");
 				request.setToken(token);
-				request.getParams().put("secretPassword", passStr);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
 				Response response = Client.fetch(request);
 
 				if (response.getSuccess()) {
@@ -1164,90 +1164,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 
 	}
 	
-	public static HashMap<String, Object> toBillRequest(String token) {
-		HashMap<String, Object> toBill = new HashMap<>();
-		Client.Response response = new Response();
-		Client.Request request = new Request();
-		request.setPath("bank/toBill");
-		request.setToken(token);
-		response = Client.fetch(request);
-		ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
-				.getBody().get("toBill");
-		int rowcount = toBill.size();
-		String[][] tablevalue = new String[rowcount][4];
-		for (int i = 0; i < rowcount; i++) {
-			LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
-			if (toBillMap == null)
-				System.out.println("sssss");
 
-			tablevalue[i][0] = (String) toBillMap.get("createtime");
-			tablevalue[i][1] = (String) toBillMap.get("fromName");
-			tablevalue[i][2] = (String) toBillMap.get("fromCardnum");
-			tablevalue[i][3] = (String) toBillMap.get("value");
-		}
-		toBill.put("tablevalue", tablevalue);
-		toBill.put("name", response.getBody().get("toName"));
-		toBill.put("cardnum", response.getBody().get("toCardnum"));
-		// String[] columnNames= {"编号","书名","作者","出版社","借阅时间","归还时间","到期时间","续借状态"}
-		return toBill;
-
-	}
-	public static HashMap<String, Object> fromBillRequest(String token) {
-		HashMap<String, Object> fromBill = new HashMap<>();
-		Client.Response response = new Response();
-		Client.Request request = new Request();
-		request.setPath("bank/fromBill");
-		request.setToken(token);
-		response = Client.fetch(request);
-		ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
-				.getBody().get("fromBill");
-		int rowcount = fromBill.size();
-		String[][] tablevalue = new String[rowcount][4];
-		for (int i = 0; i < rowcount; i++) {
-			LinkedTreeMap<String, Object> toBillMap = fromBillList.get(i);
-			if (toBillMap == null)
-				System.out.println("sssss");
-
-			tablevalue[i][0] = (String) toBillMap.get("createtime");
-			tablevalue[i][1] = (String) toBillMap.get("toName");
-			tablevalue[i][2] = (String) toBillMap.get("toCardnum");
-			tablevalue[i][3] = (String) toBillMap.get("value");
-		}
-		fromBill.put("tablevalue", tablevalue);
-		fromBill.put("name", response.getBody().get("fromName"));
-		fromBill.put("cardnum", response.getBody().get("fromCardnum"));
-
-		return fromBill;
-
-	}
-	public static HashMap<String, Object> billRequest(String token) {
-		HashMap<String, Object> bill = new HashMap<>();
-		Client.Response response = new Response();
-		Client.Request request = new Request();
-		request.setPath("bank/bill");
-		request.setToken(token);
-		response = Client.fetch(request);
-		ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
-				.getBody().get("bill");
-		int rowcount = bill.size();
-		String[][] tablevalue = new String[rowcount][4];
-		for (int i = 0; i < rowcount; i++) {
-			LinkedTreeMap<String, Object> toBillMap = billList.get(i);
-			if (toBillMap == null)
-				System.out.println("sssss");
-
-			tablevalue[i][0] = (String) toBillMap.get("createtime");
-			tablevalue[i][1] = (String) toBillMap.get("toName");
-			tablevalue[i][2] = (String) toBillMap.get("toCardnum");
-			tablevalue[i][3] = (String) toBillMap.get("value");
-		}
-		bill.put("tablevalue", tablevalue);
-		bill.put("name", response.getBody().get("fromName"));
-		bill.put("cardnum", response.getBody().get("fromCardnum"));
-
-		return bill;
-
-	}
 
 	public static HashMap<String, Object> courseAll(String token) {
 		HashMap<String, Object> cao = new HashMap<>();

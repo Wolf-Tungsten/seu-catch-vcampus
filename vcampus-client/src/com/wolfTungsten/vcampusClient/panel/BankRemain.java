@@ -24,7 +24,7 @@ public class BankRemain extends JPanel {
 	private JLabel label;
 
 	private String token;
-	public BankRemain(String Token) {
+	public BankRemain(String Token ) {
 		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
@@ -66,6 +66,7 @@ public class BankRemain extends JPanel {
 		Response response = Client.fetch(request);
 		double balance=(double)response.getBody().get("remain");
 		String balanceText=Double.toString(balance);
+		
 		textField_remain = new JTextField();
 		textField_remain.setText(balanceText);
 		textField_remain.setFont(new Font("微软雅黑", Font.BOLD, 30));

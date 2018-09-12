@@ -19,9 +19,13 @@ public class MMTableCellEditorDelete extends DefaultCellEditor {
 	private static final long serialVersionUID = 1L;
 	private JPanel panel;
 	private JButton button;
-
+	String selectedID;
+	String token;
+	String[] courseuuidlist;
 	public MMTableCellEditorDelete() {
 		super(new JTextField());
+		
+		
 		// TODO 自动生成的构造函数存根
 		this.setClickCountToStart(1);
 		this.initButton();
@@ -46,6 +50,8 @@ public class MMTableCellEditorDelete extends DefaultCellEditor {
 				
 				
 				
+				
+				
 			} ;
         });
 		}
@@ -61,7 +67,7 @@ public class MMTableCellEditorDelete extends DefaultCellEditor {
 		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column)  
 		{  
 			this.button.setText("删除课程");
-  
+			
 			return this.panel;  
 		} 
 }

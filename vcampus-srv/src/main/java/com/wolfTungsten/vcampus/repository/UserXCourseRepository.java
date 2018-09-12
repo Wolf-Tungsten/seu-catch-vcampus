@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.support.ConnectionSource;
@@ -42,6 +43,11 @@ public class UserXCourseRepository extends CurdRepository<UserXCourse>
 		dao.delete((PreparedDelete<UserXCourse>)dao.deleteBuilder()
 				.where().eq(UserXCourse.USER_ID, userUuid)
 				.and().eq(UserXCourse.COURSE_ID, courseUuid).prepare());
+	}
+	public void deleteUXGbycourseid(String uuid) throws SQLException {
+		DeleteBuilder<UserXCourse, String> dbl =dao.deleteBuilder();
+		dbl.where().eq(UserXCourse.COURSE_ID, uuid);
+		dbl.delete();
 	}
 	
 	//查
