@@ -12,10 +12,7 @@ public class Client {
 
 
 
-	public static String host = "223.3.113.147";
-
-
-
+	public static String host = "223.3.122.57";
 
 
 
