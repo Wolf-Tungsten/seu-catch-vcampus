@@ -172,7 +172,7 @@ public class BankController extends BaseController{
 			Response response = new Response();
 
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
-			String to=(String)request.getParams().get(User.CARDNUM);
+			String to=(String)request.getParams().get(AccountBalance.CARDNUM);
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
