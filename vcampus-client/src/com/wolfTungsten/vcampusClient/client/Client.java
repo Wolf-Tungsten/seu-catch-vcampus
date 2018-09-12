@@ -9,11 +9,7 @@ import com.google.gson.Gson;
 import java.io.*;
 public class Client {
 
-
-
-
-	public static String host = "223.3.122.57";
-
+	public static String host = " 223.3.117.33";
 
 
 	public static int port = 20006;

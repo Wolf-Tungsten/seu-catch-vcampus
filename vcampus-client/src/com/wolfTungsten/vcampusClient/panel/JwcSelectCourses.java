@@ -31,8 +31,6 @@ public class JwcSelectCourses extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private DefaultTableModel model;
-	private JTextField textField;
-	private JTextField textField_1;
 	private JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum ;
 	private JTextField textField_name;
@@ -139,6 +137,10 @@ public class JwcSelectCourses extends JPanel {
 		model.addRow(new String[] {"06","几代","321","","",""});
 		model.addRow(new String[] {"07","离散","李凯","","",""});
 		model.addRow(new String[] {"08","算法","方效林","","",""});
+		
+//上面两个标签 用于显示用户 姓名 和 一卡通号码
+		String username = textField_name.getText();
+		String cardNum  = textField_cardNum.getText();
 
 
 	}

@@ -35,7 +35,7 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		dao.create(accountBalance);
 		}else
 		{
-			throw new SQLException("该用户已注册");
+			throw new SQLException("卡号或者身份证号错误");
 		}
 	}
 	//身份核对
@@ -56,6 +56,14 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 		dao.update((PreparedUpdate<AccountBalance>)dao.updateBuilder()
 				.updateColumnValue(AccountBalance.SECRETPASSWORD,newPassword)
 				.where().eq(AccountBalance.USER_ID,userid).prepare());
+	}
+	
+	public Boolean checkBankUser(String userid) throws SQLException{
+		List<AccountBalance> userList=dao.query((PreparedQuery<AccountBalance>)dao.queryBuilder()
+				.where().eq(AccountBalance.USER_ID, userid).prepare());
+		if(userList.size()==0)
+		{return true;}
+		else {return false;}
 	}
 	
 

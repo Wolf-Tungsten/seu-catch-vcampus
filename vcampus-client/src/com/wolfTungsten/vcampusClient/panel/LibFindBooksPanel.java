@@ -84,7 +84,7 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 	
 		//定义表格数据数组
 		/**
-		 *aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+		 
 		 */
 		//==============这些值传过来的时候就带有“未借出”“已借出”的状态，方便下面判断是否加“借阅”按钮,yhd说偷偷摸摸加了
 		//==============测试数据===========================================

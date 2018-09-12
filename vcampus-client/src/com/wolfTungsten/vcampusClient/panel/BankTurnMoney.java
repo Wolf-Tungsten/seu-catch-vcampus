@@ -11,6 +11,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JTextField;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
@@ -18,11 +23,13 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 	private JTextField textField_to_account;
 	private JTextField textField_amount;
 	private JPasswordField textField_pass;
+	private String token;
 	JButton okButton,cancelButton;
 	/**
 	 * Create the panel.
 	 */
-	public BankTurnMoney() {
+	public BankTurnMoney(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		//label横坐标x为158
@@ -102,6 +109,18 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 			}else if(passStr.equals("")||passStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入六位支付密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
+			}
+			Client.Request request = new Request();
+			request.setPath("bank/trade");
+			request.setToken(token);
+			request.getParams().put("secretPassword", Client.getMD5(passStr));
+			request.getParams().put("to", toAccountStr);//to这里是传的卡号，和后端的uuid对不上
+			request.getParams().put("value", amountStr);
+			Response response = Client.fetch(request);
+			if(response.getSuccess()) {
+				JOptionPane.showMessageDialog(null, "转账成功！", "Tips",JOptionPane.ERROR_MESSAGE);
+			}else {
+				JOptionPane.showMessageDialog(null, "转账失败，可能：①支付密码错误；②余额不足；③对方账户错误", "Tips",JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		if(e.getSource()==cancelButton) {

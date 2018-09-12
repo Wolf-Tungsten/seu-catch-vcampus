@@ -26,7 +26,8 @@ public class ShopController extends BaseController
 		this.pathMap.put("queryCart", inqueryCart);
 		this.pathMap.put("buyRecord",buyRecordHandle);
 		this.pathMap.put("queryBySel", queryGoodsByselHandle);
-		
+		this.pathMap.put("cartremove", cartremoveHandle);
+		this.pathMap.put("updateGood", updateGoodHandle);
 	}
 	
 	
@@ -79,8 +80,7 @@ public class ShopController extends BaseController
 			try {
 				checkToken(token);
 			for(String uuid:goodidlist) {
-				orm.goodsRepository.deleteGoodsByUuid(uuid);
-				
+				orm.goodsRepository.deleteGoodsByUuid(uuid);			
 			}
 			response.setSuccess(true);
 			return response;
@@ -93,7 +93,38 @@ public class ShopController extends BaseController
 		
 		}
 	};
-	
+	private BaseController.BaseHandle updateGoodHandle = new BaseHandle() {
+		
+		@Override
+		public Response work(Request request) {
+			Response response = new Response();
+			String token = request.getToken();
+			String good_uuid = (String) request.getParams().get(Goods.UUID);
+			String name =(String)request.getParams().get(Goods.NAME);
+			int amount =(int)(double)request.getParams().get(Goods.AMOUNT);
+			String description=(String) request.getParams().get(Goods.DESCRIPTION);
+			double price = (double)request.getParams().get(Goods.PRICE);
+			LinkedTreeMap<String,Object> ltm = new LinkedTreeMap<>();
+			ltm.put(Goods.UUID, good_uuid);
+			ltm.put(Goods.NAME, name);
+			ltm.put(Goods.PRICE, price);
+			ltm.put(Goods.AMOUNT, amount);
+			ltm.put(Goods.DESCRIPTION, description);
+			try {
+				checkToken(token);
+				orm.goodsRepository.updateGoods2(ltm);
+				response.setSuccess(true);
+				return response;
+			} catch (SQLException e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+			
+			
+		}
+	};
 	
 	private BaseController.BaseHandle updateGoodsHandle = new BaseHandle()
 	{
@@ -182,6 +213,7 @@ public class ShopController extends BaseController
 	};
 	//立即购买
 	//注册个卡号为000000为商店管理员
+	//待改
 	private BaseController.BaseHandle purchaseNowHandle = new BaseHandle()
 	{
 		
@@ -191,7 +223,7 @@ public class ShopController extends BaseController
 			Response response = new Response();
 			String token = request.getToken();
 			String good_uuid = (String) request.getParams().get(Goods.UUID);
-			int amount = (int) request.getParams().get(Goods.AMOUNT);
+			int amount = (int) (double)request.getParams().get(Goods.AMOUNT);
 			double price = (double)request.getParams().get(Goods.PRICE);
 			String buyPwd = (String) request.getParams().get(AccountBalance.SECRETPASSWORD);
 			try
@@ -199,7 +231,7 @@ public class ShopController extends BaseController
 				String useruuid =checkToken(token); //用户
 				if(orm.accountBalanceRepository.check(useruuid, buyPwd)) {
 				
-				User shopuser = orm.userRepository.inquireById("000000");//商店管理员
+				User shopuser = orm.userRepository.inquireByCardnum("000000");//商店管理员
 				String shopuseruuid = shopuser.getUuid().toString();
 				orm.userXGoodsRepository.addUXG(useruuid, good_uuid, amount
 						, price, 0,1,System.currentTimeMillis()/1000);
@@ -243,11 +275,13 @@ public class ShopController extends BaseController
 				String userid = checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, buyPwd)) {
 			
-				User shopuser = orm.userRepository.inquireById("000000");
+				User shopuser = orm.userRepository.inquireByCardnum("000000");
 				for(LinkedTreeMap<String,Object> goodinfo:goodsinfomaplist) {
 					String shop_userid = shopuser.getUuid().toString();
-					String gooduuid = (String) goodinfo.get(UserXGoods.USER_ID);
+					
 					String uxguuid = (String) goodinfo.get(UserXGoods.UUID);
+					UserXGoods uxg = orm.userXGoodsRepository.queryOne(uxguuid);
+					String gooduuid = uxg.getGood_id();					
 					int amount =(int)(double) goodinfo.get(UserXGoods.AMOUNT);
 					double price = (double) goodinfo.get(UserXGoods.COST);
 					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.WHETHERBUY, 1);
@@ -333,14 +367,17 @@ public class ShopController extends BaseController
 					int amount = uxg.getAmount();
 					double price = good.getPrice();
 					String uxguuid = uxg.getUuid().toString();
+					String image =good.getImage();
 					
 					cartinfo.put(UserXGoods.UUID, uxguuid);
 					cartinfo.put(UserXGoods.AMOUNT, amount);
 					cartinfo.put(Goods.PRICE, price);
-					cartinfo.put(Goods.NAME, goodname);					
+					cartinfo.put(Goods.NAME, goodname);			
+					cartinfo.put(Goods.IMAGE, image);
 					cartinfolist.add(cartinfo);					
 				}
 				response.setSuccess(true);
+				response.getBody().put("cartinfomaplist", cartinfolist);
 				return response;
 				
 			} catch (SQLException e)
@@ -363,13 +400,12 @@ public class ShopController extends BaseController
 		@Override
 		public Response work(Request request)
 		{
-			Response response = new Response();
-			
+			Response response = new Response();		
 			String token = request.getToken();
-			
 			try
 			{
 				String userid = checkToken(token);
+				User user = orm.userRepository.inquireById(userid);
 				ArrayList<UserXGoods> uxglist = 
 						orm.userXGoodsRepository.inqueryByFlag(userid, UserXGoods.WHETHERBUY, 1);
 				ArrayList<HashMap<String,Object>> buyRecord = new ArrayList<>();
@@ -377,19 +413,22 @@ public class ShopController extends BaseController
 				for(int i=0;i<uxglist.size();i++) {
 					HashMap<String,Object> br = new HashMap<>();
 					UserXGoods uxg = uxglist.get(i);
-					Goods good = orm.goodsRepository.inquireById(uxg.getUuid().toString());
+					Goods good = orm.goodsRepository.inquireById(uxg.getGood_id().toString());
 					int amount = uxg.getAmount();
-					double cost = uxg.getCost();
+					double cost = uxg.getCost()*amount;
 					long createtime = uxg.getCreatetime();
-					br.put(uxg.UUID, uxg.getUuid().toString());
-					br.put(uxg.AMOUNT, amount);
-					br.put(uxg.COST, cost);
-					br.put(uxg.CREATETIME, createtime);
+					br.put(UserXGoods.UUID, uxg.getUuid().toString());
+					br.put(UserXGoods.AMOUNT, amount);
+					br.put(UserXGoods.COST, cost);
+					br.put(UserXGoods.CREATETIME, createtime);
 					br.put(Goods.NAME, good.getName());
 					buyRecord.add(br);			
 					
 				}
 				response.setSuccess(true);
+				response.getBody().put("buyRecordmaplist", buyRecord);
+				response.getBody().put(User.USERNAME, user.getUsername());
+				response.getBody().put(User.CARDNUM, user.getCardnum());
 				return response;			
 				
 			} catch (SQLException e)
@@ -400,6 +439,32 @@ public class ShopController extends BaseController
 				return response;
 			}
 		
+		}
+	};
+	
+	private BaseController.BaseHandle cartremoveHandle = new BaseHandle() {
+		
+		@Override
+		public Response work(Request request) {
+			Response response = new Response();
+			String token = request.getToken();
+			ArrayList<String> goodidlist = 
+					(ArrayList<String>) request.getParams().get("deletelist");//待删商品uuid列表
+			try {
+				checkToken(token);
+			for(String uuid:goodidlist) {
+				orm.userXGoodsRepository.deleteById(uuid);
+				
+			}
+			response.setSuccess(true);
+			return response;
+			}catch(SQLException e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}
+			
 		}
 	};
 	

@@ -74,7 +74,10 @@ public class UserRepository extends CurdRepository<User> {
 		List<User> userlist = dao.queryForEq(User.UUID, UUID.fromString(uuid));
 		return (ArrayList<User>) userlist;
 	}
-	
+	public User inquireByCardnum(String cardnum) throws SQLException{
+		List<User> ulist = dao.queryForEq(User.CARDNUM, cardnum);
+		return ulist.get(0);
+	}
 	
 	//用于银行系统注册时检测卡号是否存在
 	public Boolean checkExist(String cardnum,String idcardNum) throws SQLException {
