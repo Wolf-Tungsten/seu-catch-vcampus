@@ -47,7 +47,6 @@ import com.wolfTungsten.vcampusClient.panel.InfoPassword;
 import com.wolfTungsten.vcampusClient.panel.InfoSystemMain;
 import com.wolfTungsten.vcampusClient.panel.JwcCurriculum;
 import com.wolfTungsten.vcampusClient.panel.JwcExam;
-import com.wolfTungsten.vcampusClient.panel.JwcExperiment;
 import com.wolfTungsten.vcampusClient.panel.JwcManager;
 import com.wolfTungsten.vcampusClient.panel.JwcSelectCourses;
 import com.wolfTungsten.vcampusClient.panel.LibFindBooksPanel;
@@ -291,19 +290,12 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		label_jwc_exam.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_exam);
 
-		// ”考试助手“按钮（标签），关联JwcExperiment面板
-		label_jwc_experiment = new JLabel("实验助手", JLabel.CENTER);
-		label_jwc_experiment.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_jwc_experiment.setForeground(new Color(59, 120, 103));
-		label_jwc_experiment.setBounds(0, 190, 150, 50);
-		label_jwc_experiment.addMouseListener(this);
-		panel_message_jwc.add(label_jwc_experiment);
 
 		// ”管理者“按钮（标签），关联JwcManager面板 ------------------------------权限
 		label_jwc_manager = new JLabel("管理者", JLabel.CENTER);
 		label_jwc_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_jwc_manager.setForeground(new Color(59, 120, 103));
-		label_jwc_manager.setBounds(0, 240, 150, 50);
+		label_jwc_manager.setBounds(0, 190, 150, 50);
 		label_jwc_manager.addMouseListener(this);
 		panel_message_jwc.add(label_jwc_manager);
 
@@ -487,9 +479,6 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_jwc_exam.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_3", panel_jwc_exam);
 
-		panel_jwc_experiment = new JwcExperiment();
-		panel_jwc_experiment.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_4", panel_jwc_experiment);
 
 		panel_jwc_manager = new JwcManager(token);
 		panel_jwc_manager.setBackground(new Color(255, 255, 255));
