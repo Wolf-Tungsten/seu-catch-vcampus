@@ -20,14 +20,13 @@ public class EduAdminController extends BaseController
 		super();
 		this.pathMap.put("addCourse", addCourseHandle);
 		this.pathMap.put("queryAllCourse", queryAllCourse);
-		this.pathMap.put("deleteCourse", deleteCourse);
+		this.pathMap.put("deleteCourse", deleteCourseHandle);
 		this.pathMap.put("updateCourse", updateCourse);
 		this.pathMap.put("selCourse", selCourseHandle);
 		this.pathMap.put("schedule", scheduleHandle);
 		this.pathMap.put("dropCourse", dropCourseHandle);
 		this.pathMap.put("studentlist", studentlistHandle);
 		this.pathMap.put("queryByName", queryByNameHandle);
-		
 		this.pathMap.put("mark", markHandle);
 	}
 	//已测试//时间字符串 2018-8-16/9:00-12:00
@@ -89,13 +88,28 @@ public class EduAdminController extends BaseController
 				String userid = checkToken(token);
 				ArrayList<HashMap<String,Object>> courseMaplist = 
 				orm.courseRepository.queryAllCourses();
-				User user = orm.userRepository.inquireById(userid);
+				ArrayList<HashMap<String, Object>> slectedcourse
+					=orm.userXCourseRepository.inquireByFlag(UserXCourse.USER_ID, userid);
+				for(HashMap<String,Object> record : slectedcourse) {
+					//根据关系的courseuuid 去查相应课程信息
+					Course course = 
+							orm.courseRepository.inquireById((String)record.get(UserXCourse.COURSE_ID));
+					record.remove(UserXCourse.COURSE_ID);
+					record.remove(UserXCourse.USER_ID);
+					record.put(Course.NAME, course.getName());
+					record.put(Course.LECTURER, course.getLecturer());
+					record.put(Course.UUID, course.getUuid().toString());
+					record.put(Course.CLASSTIME, course.getClasstime());
+					record.put(Course.WEEK, course.getWeek());
+					record.put(Course.CAPCITY, course.getCapcity());
+				}		
+				User user = orm.userRepository.inquireById(userid);		
 				response.setSuccess(true);
 				response.getBody().put("courseMaplist", courseMaplist);
+				response.getBody().put("selectedCourse", slectedcourse);
 				response.getBody().put(User.USERNAME, user.getUsername());
 				response.getBody().put(User.CARDNUM, user.getCardnum());
-				return response;
-				
+				return response;			
 			} catch (SQLException e)
 			{
 				response.setSuccess(false);
@@ -119,16 +133,31 @@ public class EduAdminController extends BaseController
 		{
 			Response response = new Response();
 			String coursename = (String)request.getParams().get(Course.NAME);
+			String lecturer =(String)request.getParams().get(Course.LECTURER);
 			String token = request.getToken();
-			
-			
+
 			try
 			{
 				checkToken(token);
-				ArrayList<HashMap<String,Object>> courseMaplist =
-						orm.courseRepository.queryByFlag(Course.NAME, coursename);
+				
+				ArrayList<Course>courselist = orm.courseRepository.inquireByFlags2(lecturer, coursename);
+				ArrayList<HashMap<String,Object>> coursemapList =new ArrayList<>();
+				for(int i=0;i<courselist.size();i++) {
+					HashMap<String,Object> coursemap = new HashMap<>();
+					Course course = courselist.get(i);
+					coursemap.put(Course.UUID, course.getUuid().toString());
+					coursemap.put(Course.LECTURER, course.getLecturer());
+					coursemap.put(Course.CLASSTIME, course.getClasstime());
+					coursemap.put(Course.LOCATION, course.getLocation());
+					coursemap.put(Course.CAPCITY, course.getCapcity());
+					coursemap.put(Course.CREDITS, course.getCredits());
+					coursemap.put(Course.WEEK, course.getWeek());
+					coursemap.put(Course.NAME,course.getName());
+					coursemapList.add(coursemap);
+				}
+				
 				response.setSuccess(true);
-				response.getBody().put("courseMaplist", courseMaplist);
+				response.getBody().put("courseMaplist", coursemapList);
 				return response;
 				
 			} catch (SQLException e)
@@ -145,7 +174,7 @@ public class EduAdminController extends BaseController
 	//删除课程 管理端功能
 	//已测试
 	//前端传token 课程的uuid 
-	private BaseController.BaseHandle deleteCourse = new BaseHandle()
+	private BaseController.BaseHandle deleteCourseHandle = new BaseHandle()
 	{
 		
 		@Override
@@ -159,6 +188,7 @@ public class EduAdminController extends BaseController
 			{
 				checkToken(token);
 				orm.courseRepository.deleteCourse(courseuuid);
+				orm.userXCourseRepository.deleteUXGbycourseid(courseuuid);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -330,14 +360,11 @@ public class EduAdminController extends BaseController
 				for (HashMap<String, Object> record : coursemaplist)
 				{
 					HashMap<String, Object> student = new HashMap<>(); // 学生信息
-					ArrayList<User> userlist = orm.userRepository
-							.inquireByIds((String) record.get(UserXCourse.USER_ID));
-					for (User user : userlist)
-					{
-						
-						student.put(User.USERNAME, user.getUsername());
-						student.put(User.CARDNUM, user.getCardnum());
-					}
+					User user = orm.userRepository.inquireById((String) record.get(UserXCourse.USER_ID));
+					student.put(User.USERNAME, user.getUsername());
+					student.put(User.CARDNUM, user.getCardnum());
+					student.put(UserXCourse.UUID,(String)record.get(UserXCourse.UUID));
+					
 					studentMaplist.add(student);
 				}
 				response.getBody().put("studentMaplist", studentMaplist);
