@@ -307,6 +307,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		if(response.getSuccess()&&row!=0) {		
 		count = row;
 		String[][] goodinfo = new String[row][5];
+		good_uuidlist = new ArrayList<>();
 		for(int i=0;i<goodinfomaplist.size();i++) {
 			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
 			goodinfo[i][0] = (String)goodinfomap.get("image");
@@ -344,6 +345,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		count = row;
 		System.out.println(row+"/"+count);
 		String[][] goodinfo = new String[row][5];
+		good_uuidlist = new ArrayList<>();
 		for(int i=0;i<row;i++) {
 			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
 			goodinfo[i][0] = (String)goodinfomap.get("image");
@@ -402,6 +404,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			Collections.sort(goodinfomaplist, new sortup());
 		}
 		String[][] goodinfo = new String[count][5];
+		good_uuidlist = new ArrayList<>();
 		for(int i=0;i<count;i++) {
 			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
 			goodinfo[i][0] = (String)goodinfomap.get("image");

@@ -27,7 +27,7 @@ public class ExamRepository extends CurdRepository<Exam>
 			String examName, 
 			String courseUUID,
 			long startTime,
-			int duration,
+			String duration,
 			String location
 			) throws SQLException {
 		
@@ -38,7 +38,8 @@ public class ExamRepository extends CurdRepository<Exam>
 		.setLocation(location)
 		.setStartTime(startTime)
 		.setDuration(duration)
-		.setUpdateTime(timestamp());
+		.setUpdateTime(timestamp())
+		.setCreateTime(timestamp());
 		dao.create(newExam);
 	}
 	//删除

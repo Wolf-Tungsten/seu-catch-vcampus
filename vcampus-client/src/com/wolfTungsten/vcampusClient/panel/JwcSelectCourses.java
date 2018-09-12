@@ -31,14 +31,12 @@ public class JwcSelectCourses extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private DefaultTableModel model;
-	private JTextField textField;
-	private JTextField textField_1;
 	private JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum ;
 	private JTextField textField_name;
 	private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间","  ","   "}; //表格列名 第五列空出来放置选课退课按钮
 	private String token;
-	String[][]tableValues;
+	String[][]tableValues;   //表格数据数组
 	String name;
 	String cardNum;
 	/**
@@ -54,9 +52,7 @@ public class JwcSelectCourses extends JPanel {
 		setLayout(null);
 
 		tableValues=Table;												   //表格数据数组
-		
-
-		String[][]tableValues= {};												   //表格数据数组
+												
 		String[] columnNames = {"课程编号","课程名称","任课老师","上课地点","上课时间","  ","   "}; //表格列名 倒数两列列空出来放置选课退课按钮
 
 		model = new DefaultTableModel(tableValues, columnNames);
@@ -120,25 +116,8 @@ public class JwcSelectCourses extends JPanel {
 		//“课程选择按钮” 在 com.wolfTungsten.vcampusClient.component 的SCTableCellEditorAdd.java里面
 		//“取消选择按钮” 在 com.wolfTungsten.vcampusClient.component 的SCTableCellEditorCancel.java里面
 
-//在这里虚假的加了两个用于测试=============================================================================================
-
-//		model.addRow(new String[] {"计组","","","","",""});
-//		model.addRow(new String[] {"信号","","","","",""});
-//		model.addRow(new String[] {"计组","","","","",""});
-//		model.addRow(new String[] {"信号","","","","",""});
-//		model.addRow(new String[] {"计组","","","","",""});
-//		model.addRow(new String[] {"信号","","","","",""});
-//		model.addRow(new String[] {"高数","","","","",""});
-//		model.addRow(new String[] {"体育","","","","",""});
-
-		model.addRow(new String[] {"01","计组","任国林","","",""});
-		model.addRow(new String[] {"02","计组","徐造林","","",""});
-		model.addRow(new String[] {"03","信号","王世杰","","",""});
-		model.addRow(new String[] {"04","信号","123","","",""});
-		model.addRow(new String[] {"05","高数","213","","",""});
-		model.addRow(new String[] {"06","几代","321","","",""});
-		model.addRow(new String[] {"07","离散","李凯","","",""});
-		model.addRow(new String[] {"08","算法","方效林","","",""});
+		String username = textField_name.getText();
+		String cardNum  = textField_cardNum.getText();
 
 
 	}

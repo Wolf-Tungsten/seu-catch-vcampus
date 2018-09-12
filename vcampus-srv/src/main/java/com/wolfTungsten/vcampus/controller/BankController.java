@@ -14,6 +14,7 @@ import com.wolfTungsten.vcampus.entity.User;
 public class BankController extends BaseController{
 	public BankController() {
 		super();
+		this.addHandle("checkBankUser", bankUserHandle);
 		this.addHandle("checkPassword", checkHandle);
 		this.addHandle("register", registerHandle);//注册银行账户（设置支付密码）
 		this.addHandle("trade", tradeHandle);//取款，转账
@@ -26,7 +27,29 @@ public class BankController extends BaseController{
 		this.addHandle("withdraw", withdrawHandle);
 	}
 
-
+	private BaseController.BaseHandle bankUserHandle = new BaseController.BaseHandle() {
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String token = request.getToken();
+			try
+			{
+				String user_id=checkToken(token);
+				Boolean registerCheck=orm.accountBalanceRepository.checkBankUser(user_id);
+				response.getBody().put("registerPanel", registerCheck);
+				response.setSuccess(true);
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "注册失败,"+e.getMessage());
+				return response;
+			
+			}
+		}
+	};
 	private BaseController.BaseHandle checkHandle = new BaseController.BaseHandle() {
 		@Override
 		public Response work(Request request)
@@ -37,9 +60,11 @@ public class BankController extends BaseController{
 			try
 			{
 				String user_id=checkToken(token);
-				if(orm.accountBalanceRepository.check(user_id, secretPassword))//检测是否存在该卡号
+				if(orm.accountBalanceRepository.check(user_id, secretPassword))
 				{
 					response.setSuccess(true);
+				}else {
+					response.setSuccess(false);
 				}		
 				return response;	
 			} catch (SQLException e)
@@ -65,12 +90,12 @@ public class BankController extends BaseController{
 			try
 			{
 				String user_id=checkToken(token);
-				Boolean registerCheck=orm.accountBalanceRepository.checkBankUser(user_id);
-				response.getBody().put("registerPanel", registerCheck);
 				if(orm.userRepository.checkExist(cardnum, idcardNum))//检测是否存在该卡号
 				{
 					orm.accountBalanceRepository.addAccountBalance(user_id,cardnum, idcardNum, secretPassword);
 					response.setSuccess(true);
+				}else {
+					response.setSuccess(false);
 				}		
 				return response;	
 			} catch (SQLException e)
@@ -103,7 +128,9 @@ public class BankController extends BaseController{
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
 					orm.tradingRecordRepository.deposit("",userid,value,createTime);
-				    response.setSuccess(true);		
+				    response.setSuccess(true);
+				}else {
+					response.setSuccess(false);
 				}
 				return response;	
 			} catch (SQLException e)
@@ -125,7 +152,7 @@ public class BankController extends BaseController{
 			Response response = new Response();
 
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
-			String to=(String)request.getParams().get(TradingRecord.TO);
+			String to=(String)request.getParams().get(User.CARDNUM);
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
@@ -133,11 +160,15 @@ public class BankController extends BaseController{
 			try
 			{
 				String userid=checkToken(token);
+				AccountBalance toUser=new AccountBalance();
+				toUser=orm.accountBalanceRepository.findUserid(to);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-					if(orm.userRepository.checkTrade(to))
+					if(orm.accountBalanceRepository.checkTrade(to))
 					{
-					  orm.tradingRecordRepository.addTradingRecord(userid,to,value,createTime);
+					  orm.tradingRecordRepository.addTradingRecord(userid,toUser.getUserid(),value,createTime);
+					}else {
+						response.setSuccess(false);
 					}
 				   response.setSuccess(true);		
 				}
@@ -171,6 +202,8 @@ public class BankController extends BaseController{
 				{
 					orm.tradingRecordRepository.deposit(userid,"",value,createTime);
 				    response.setSuccess(true);		
+				}else {
+					response.setSuccess(false);
 				}
 				return response;	
 			} catch (SQLException e)
@@ -189,8 +222,6 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		
-    		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long createTime = System.currentTimeMillis() / 1000;//时间戳
     		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -200,13 +231,10 @@ public class BankController extends BaseController{
 			try
 			{
 				String userid=checkToken(token);
-				if(orm.accountBalanceRepository.check(userid, secretPassword))
-				{
 				  balance=orm.tradingRecordRepository.calculateBalance(userid);
 				  response.getBody().put("currentTime", time.format(date));
-				  response.getBody().put("balance", balance);
+				  response.getBody().put("remain", balance);
 				  response.setSuccess(true);
-				}
 				return response;	
 			} catch (SQLException e)
 			{	
@@ -377,7 +405,9 @@ public class BankController extends BaseController{
 					orm.accountBalanceRepository.changeSecretPassword(userid,newPassword);
 					response.getBody().put("result", "修改密码成功:"+newPassword);
 					response.setSuccess(true);
-    			}		
+    			}else {
+					response.setSuccess(false);
+				}		
 				return response;	
 			} catch (SQLException e)
 			{	

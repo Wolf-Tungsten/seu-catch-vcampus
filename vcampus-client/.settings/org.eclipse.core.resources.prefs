@@ -1,5 +1,22 @@
 eclipse.preferences.version=1
 encoding//src/com/wolfTungsten/vcampusClient/frame/FunctionFrame.java=UTF-8
+<<<<<<< HEAD
 encoding//src/com/wolfTungsten/vcampusClient/frame/LoginUI.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/frame/RegisterFrame.java=UTF-8
+=======
+encoding//src/com/wolfTungsten/vcampusClient/panel/BankBill.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/BankModifyPass.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/BankSaveAndWithdraw.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/BankTurnMoney.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/InfoModify.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/InfoPassword.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/InfoSystemMain.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/JwcCurriculum.java=GBK
+encoding//src/com/wolfTungsten/vcampusClient/panel/JwcExam.java=GBK
+encoding//src/com/wolfTungsten/vcampusClient/panel/JwcManager.java=GBK
+encoding//src/com/wolfTungsten/vcampusClient/panel/JwcSelectCourses.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/LibFindBooksPanel.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/LibManager.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/panel/LibMessage.java=UTF-8
+>>>>>>> fbd794e451fd04a8308bdf7f9ac9a5e13ef63a74
 encoding//src/com/wolfTungsten/vcampusClient/panel/ShopSelect.java=UTF-8

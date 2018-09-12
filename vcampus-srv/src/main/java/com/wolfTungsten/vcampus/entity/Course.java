@@ -18,6 +18,8 @@ public class Course
 	public static final String CLASSTIME = "classtime";
 	public static final String LOCATION = "location";
 	public static final String CREDITS ="credits";
+	public static final String TYPE ="type";
+	
 	
 	@DatabaseField(generatedId = true, columnName = Course.UUID)
 	private UUID uuid;
@@ -39,11 +41,14 @@ public class Course
 	private String location;
 	@DatabaseField(columnName = Course.CREDITS)
 	private int credits;
+	
 	public Course()
 	{
 		
 	}
 	
+	
+
 	public int getCredits()
 	{
 		return credits;

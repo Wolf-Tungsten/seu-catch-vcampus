@@ -36,7 +36,8 @@ public class GoodsRepository extends CurdRepository<Goods>
 		super(conn, Goods.class);
 	}
 	
-	public void addGoods(String name,String description,String seller,double price, int amount,String image,String type) throws SQLException
+	public void addGoods(String name,String description,String seller,double price, int amount
+			,String image,String type,int Delete) throws SQLException
 	{	
 		//这里每次上架的商品都不一样
 		//是否要给上架的商品做检验
@@ -47,7 +48,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		goods.setPrice(price);
 		goods.setSeller(seller);
 		goods.setImage(image);
-		
+		goods.setDelete(Delete);
 		goods.setType(type);
 		dao.create(goods);
 	}
@@ -78,7 +79,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 	{
 		
 		List<Goods> goodslist = dao.queryForEq(Goods.UUID, UUID.fromString(uuid));
-		if(goodslist==null)throw new SQLException("没找到此商品");
+		if(goodslist.size()==0)throw new SQLException("没找到此商品");
 		
 		return goodslist.get(0);
 	}
@@ -86,7 +87,9 @@ public class GoodsRepository extends CurdRepository<Goods>
 	public ArrayList<HashMap<String,Object>> inquireByFlag(String flag,Object value) throws SQLException {
 		ArrayList<Goods> goodslist = new ArrayList<>();
 		ArrayList<HashMap<String, Object>> goodsinfolist = new ArrayList<>();
-		goodslist = (ArrayList<Goods>)dao.queryForEq(flag, value);
+		QueryBuilder<Goods, String> qbd = dao.queryBuilder();
+		qbd.where().eq(flag, value).and().eq(Goods.DELETE, 0);	
+		goodslist = (ArrayList<Goods>) qbd.query();
 		for(Goods goods:goodslist) {
 			HashMap<String, Object>goodsinfo = new HashMap<>();
 			goodsinfo.put(Goods.UUID,goods.getUuid().toString());
@@ -171,8 +174,8 @@ public class GoodsRepository extends CurdRepository<Goods>
 	public ArrayList<HashMap<String,Object>> inquireByName (String column,Object value) throws SQLException{
 		ArrayList<Goods> goodlist = new ArrayList<>();
 		QueryBuilder<Goods, String> qbd = dao.queryBuilder();
-		
-		goodlist = (ArrayList<Goods>) qbd.where().like(column, "%"+value+"%").query();
+		qbd.where().like(column, "%"+value+"%").and().eq(Goods.DELETE, 0);
+		goodlist = (ArrayList<Goods>) qbd.query();
 		ArrayList<HashMap<String,Object>> goodinfomaplist = new ArrayList<>();
 		for(int i=0;i<goodlist.size();i++) {
 			Goods good = goodlist.get(i);
