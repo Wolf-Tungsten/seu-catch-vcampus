@@ -12,7 +12,7 @@ import javax.swing.Timer;
   
   
 /** 
- * Swing¿¿±ßÒþ²ØÊµÀý 
+ * Swingï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ 
  * @author Administrator 
  * 
  */  
@@ -22,25 +22,25 @@ public class MyFrame implements ActionListener {
   
     private Rectangle rect;  
     
-    // ´°ÌåÀëÆÁÄ»×ó±ßµÄ¾àÀë  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ßµÄ¾ï¿½ï¿½ï¿½  
     private int left;  
     
-    // ´°ÌåÀëÆÁÄ»ÓÒ±ßµÄ¾àÀë£»  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ò±ßµÄ¾ï¿½ï¿½ë£»  
     private int right;  
     
-    // ÆÁÄ»µÄ¿í¶È£»  
+    // ï¿½ï¿½Ä»ï¿½Ä¿ï¿½È£ï¿½  
     private int screenXX;  
     
-    // ´°ÌåÀëÆÁÄ»¶¥²¿µÄ¾àÀë  
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½  
     private int top;  
     
-    // ´°ÌåµÄ¿í  
+    // ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½  
     private int width;  
     
-    // ´°ÌåµÄ¸ß  
+    // ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½  
     private int height;  
     
-    // Êó±êÔÚ´°ÌåµÄÎ»ÖÃ  
+    // ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½  
     private Point point;  
     
     private Timer timer = new Timer(10, this);  
@@ -51,7 +51,7 @@ public class MyFrame implements ActionListener {
     public MyFrame() {  
         super();  
         timer.start();  
-        jFrame.setTitle("´°ÌåÔÚÆÁÄ»±ßÔµÒþ²ØÑÝÊ¾");  
+        jFrame.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½Ôµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾");  
         jFrame.setSize(400, 300);  
         jFrame.setLocation(400, 300);  
         jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
@@ -69,38 +69,38 @@ public class MyFrame implements ActionListener {
         screenXX = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;  
         right = screenXX - left - width;  
         
-        // »ñÈ¡´°ÌåµÄÂÖÀª  
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         rect = new Rectangle(0, 0, width, height);  
         
-        // »ñÈ¡Êó±êÔÚ´°ÌåµÄÎ»ÖÃ  
+        // ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½  
         point = jFrame.getMousePosition();  
         
         if (left < 0 && isPtInRect(rect, point)) {  
-            jFrame.setLocation(0, top); // Òþ²ØÔÚ×ó±ß£¬Êó±êÖ¸µ½ºóÏÔÊ¾´°Ìå£»  
+            jFrame.setLocation(0, top); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß£ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½å£»  
         } else if (left > -5 && left < 5 && !(isPtInRect(rect, point))) {  
-            jFrame.setLocation(left - width + 1, top); // ´°ÌåÒÆµ½×ó±ß±ã±ßÔµÒþ²Øµ½×ó±ß£»  
-        } else if ((top < 0 && left < 0) && isPtInRect(rect, point)) {// ´°ÌåÔÚ×óÉÏ½Ç£»  
-            jFrame.setLocation(0, 0);// ´°¿ÚÒþ²ØÁË£¬Êó±êÖ¸µ½Ëû£¬¾ÍÏÔÊ¾³öÀ´£»  
+            jFrame.setLocation(left - width + 1, top); // ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ß±ï¿½ï¿½Ôµï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ß£ï¿½  
+        } else if ((top < 0 && left < 0) && isPtInRect(rect, point)) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ç£ï¿½  
+            jFrame.setLocation(0, 0);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         } else if ((top > -5 && top < 5) && (left > -5 && left < 5)  
                 && !(isPtInRect(rect, point))) {  
-            // µ±´°ÌåµÄÉÏ±ß¿òÓëÆÁÄ»µÄ¶¥¶ËµÄ¾àÀëÐ¡ÓÚ5£¬  
-            // ²¢ÇÒÊó±ê²»ÔÙ´°ÌåÉÏ½«´°ÌåÒþ²Øµ½ÆÁÄ»µÄ¶¥¶Ë  
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ß¿ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ä¶ï¿½ï¿½ËµÄ¾ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½5ï¿½ï¿½  
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê²»ï¿½Ù´ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ä»ï¿½Ä¶ï¿½ï¿½ï¿½  
             jFrame.setLocation(left - width + 1, 1);  
         } else if ((top < 0) && isPtInRect(rect, point)) {  
-            jFrame.setLocation(left, 0);// ´°¿ÚÒþ²ØÁË£¬Êó±êÖ¸µ½Ëû£¬¾ÍÏÔÊ¾³öÀ´£»  
+            jFrame.setLocation(left, 0);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ë£ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
         } else if (top > -5 && top < 5 && !(isPtInRect(rect, point))) {  
-            // µ±´°ÌåµÄÉÏ±ß¿òÓëÆÁÄ»µÄ¶¥¶ËµÄ¾àÀëÐ¡ÓÚ5Ê±£¬  
-            // ²¢ÇÒÊó±ê²»ÔÙ´°ÌåÉÏ½«´°ÌåÒþ²Øµ½ÆÁÄ»µÄ¶¥¶Ë  
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï±ß¿ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ä¶ï¿½ï¿½ËµÄ¾ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½5Ê±ï¿½ï¿½  
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ê²»ï¿½Ù´ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Ä»ï¿½Ä¶ï¿½ï¿½ï¿½  
             jFrame.setLocation(left, 1 - height);  
         } else if (right < 0 && isPtInRect(rect, point)) {  
-            jFrame.setLocation(screenXX - width + 1, top);// Òþ²ØÔÚÓÒ±ß£¬Êó±êÖ¸µ½ºóÏÔÊ¾£»  
+            jFrame.setLocation(screenXX - width + 1, top);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ß£ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½  
         } else if (right > -5 && right < 5 && !(isPtInRect(rect, point))) {  
-            jFrame.setLocation(screenXX - 1, top); // ´°ÌåÒÆµ½ÆÁÄ»ÓÒ±ß±ßÔµÒþ²Øµ½ÓÒ±ß£»  
-        } else if (right < 0 && top < 0 && isPtInRect(rect, point)) {// ´°ÌåÔÚÓÒÉÏ½Ç£»  
-            jFrame.setLocation(screenXX - width + 1, 0);// Òþ²ØÔÚÓÒ±ß£¬Êó±êÖ¸µ½ºóÏÔÊ¾£»  
+            jFrame.setLocation(screenXX - 1, top); // ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ä»ï¿½Ò±ß±ï¿½Ôµï¿½ï¿½ï¿½Øµï¿½ï¿½Ò±ß£ï¿½  
+        } else if (right < 0 && top < 0 && isPtInRect(rect, point)) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½Ç£ï¿½  
+            jFrame.setLocation(screenXX - width + 1, 0);// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ß£ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½  
         } else if ((right > -5 && right < 5) && (top > -5 && top < 5)  
                 && !(isPtInRect(rect, point))) {  
-            jFrame.setLocation(screenXX - 1, 1); // ´°ÌåÒÆµ½ÆÁÄ»ÓÒ±ß±ßÔµÒþ²Øµ½ÓÒ±ß£»  
+            jFrame.setLocation(screenXX - 1, 1); // ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Ä»ï¿½Ò±ß±ï¿½Ôµï¿½ï¿½ï¿½Øµï¿½ï¿½Ò±ß£ï¿½  
         }  
     }  
   
@@ -143,7 +143,9 @@ public class MyFrame implements ActionListener {
     }  
   
     public static void main(String[] args) {  
-        new MyFrame();  
+        String str = "2018-08-21/9:00-12:00";
+        String[] strs =str.split("/");
+        System.out.println(strs[0] + strs[1]);
   
     }  
 } 

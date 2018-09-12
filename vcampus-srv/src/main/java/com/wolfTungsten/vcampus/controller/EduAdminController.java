@@ -1,11 +1,13 @@
 package com.wolfTungsten.vcampus.controller;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampus.entity.Course;
+import com.wolfTungsten.vcampus.entity.Exam;
 import com.wolfTungsten.vcampus.entity.User;
 import com.wolfTungsten.vcampus.entity.UserXCourse;
 import com.wolfTungsten.vcampus.utils.Request;
@@ -26,9 +28,9 @@ public class EduAdminController extends BaseController
 		this.pathMap.put("studentlist", studentlistHandle);
 		this.pathMap.put("queryByName", queryByNameHandle);
 		
-		//this.pathMap.put("mark", value)
+		this.pathMap.put("mark", markHandle);
 	}
-	//已测试
+	//已测试//时间字符串 2018-8-16/9:00-12:00
 	private BaseController.BaseHandle addCourseHandle = new BaseHandle()
 	{
 		
@@ -44,14 +46,26 @@ public class EduAdminController extends BaseController
 			String token = (String)request.getToken();
 			String location =(String)request.getParams().get(Course.LOCATION);
 			int credits = (int)(double)request.getParams().get(Course.CREDITS);
+			String startTime = (String)request.getParams().get(Exam.STARTTIME);
+			String[] str = startTime.split("/");
+			String date_str = str[0];
+			String duration = str[1];
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			
+			
 			try
 			{
+				long startTimestamp = sdf.parse(date_str).getTime()/1000;
 				checkToken(token);
 				orm.courseRepository.addCourse(name, capacity, lecturer,week
 						,classtime,location,credits);
+				Course course =orm.courseRepository.inquireByFlags(lecturer, name);
+				orm.examRepository.addExam(name, course.getUuid().toString(), 
+						startTimestamp, duration, location);
 				response.setSuccess(true);
+				
 				return response;
-			} catch (SQLException e)
+			} catch (Exception e)
 			{
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
@@ -95,6 +109,8 @@ public class EduAdminController extends BaseController
 	/**
 	 * 搜索课程信息
 	 */
+	
+	
 	private BaseController.BaseHandle queryByNameHandle = new BaseHandle()
 	{
 		
@@ -204,8 +220,6 @@ public class EduAdminController extends BaseController
 			{
 				String useruuid = checkToken(token);
 				orm.userXCourseRepository.addUserXCourse(useruuid, courseuuid);
-				
-				
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -232,8 +246,8 @@ public class EduAdminController extends BaseController
 			
 			try
 			{
-				String useuuid = checkToken(token);
-				orm.userXCourseRepository.deleteUserXCourse(useuuid, courseuuid);
+				String useruuid = checkToken(token);
+				orm.userXCourseRepository.deleteUserXCourse(useruuid, courseuuid);
 				response.setSuccess(true);
 				return response;
 				
@@ -312,7 +326,7 @@ public class EduAdminController extends BaseController
 				ArrayList<HashMap<String, Object>> studentMaplist = new ArrayList<>();
 
 				ArrayList<HashMap<String, Object>> coursemaplist = orm.userXCourseRepository
-						.inquireByFlag(UserXCourse.COURSE_ID,course.getUuid());// 课程信息Map表
+						.inquireByFlag(UserXCourse.COURSE_ID,course.getUuid().toString());// 课程信息Map表
 				for (HashMap<String, Object> record : coursemaplist)
 				{
 					HashMap<String, Object> student = new HashMap<>(); // 学生信息
@@ -320,12 +334,15 @@ public class EduAdminController extends BaseController
 							.inquireByIds((String) record.get(UserXCourse.USER_ID));
 					for (User user : userlist)
 					{
+						
 						student.put(User.USERNAME, user.getUsername());
 						student.put(User.CARDNUM, user.getCardnum());
 					}
 					studentMaplist.add(student);
 				}
 				response.getBody().put("studentMaplist", studentMaplist);
+				response.getBody().put(Course.NAME, course.getName());
+				response.getBody().put(Course.LECTURER, course.getLecturer());
 				response.setSuccess(true);
 				return response;
 		
@@ -350,9 +367,8 @@ public class EduAdminController extends BaseController
 			Response response = new Response();
 			String token = request.getToken();
 			String uuid = (String) request.getParams().get(UserXCourse.UUID);
-			String score = (String) request.getParams().get(UserXCourse.SCORE);
-			
-			
+			int score = (int)(double) request.getParams().get(UserXCourse.SCORE);
+	
 			try
 			{
 				checkToken(token);
@@ -370,6 +386,7 @@ public class EduAdminController extends BaseController
 
 		}
 	};
+	
 	
 	
 }

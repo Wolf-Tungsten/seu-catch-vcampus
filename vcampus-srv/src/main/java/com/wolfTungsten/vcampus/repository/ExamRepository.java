@@ -27,7 +27,7 @@ public class ExamRepository extends CurdRepository<Exam>
 			String examName, 
 			String courseUUID,
 			long startTime,
-			int duration,
+			String duration,
 			String location
 			) throws SQLException {
 		
