@@ -23,7 +23,7 @@ public class Exam
 	@DatabaseField(columnName = Exam.STARTTIME)
 	private long startTime ;
 	@DatabaseField(columnName = Exam.DURATION)
-	private int duration ;
+	private String duration ;
 	@DatabaseField(columnName = Exam.LOCATION)
 	private String location;
 	@DatabaseField(columnName = Exam.CREATETIME)
@@ -69,12 +69,12 @@ public class Exam
 		return this;
 	}
 
-	public int getDuration()
+	public String getDuration()
 	{
 		return duration;
 	}
 
-	public Exam setDuration(int duration)
+	public Exam setDuration(String duration)
 	{
 		this.duration = duration;
 		return this;

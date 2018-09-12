@@ -22,6 +22,8 @@ import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.DateChooser;
+import com.wolfTungsten.vcampusClient.component.MyButtonRender;
+import com.wolfTungsten.vcampusClient.component.MyDeleteButtonRender;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import com.wolfTungsten.vcampusClient.component.TableDeleteButtonEditor;
 
@@ -37,7 +39,7 @@ public class LibManager extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	JPanel panel_top,panel_buttom;
 	JPanel panel_all,panel_add,panel_delete;
-	JButton button_all,button_add,button_delete,button_exit,button_select;
+	JButton button_all,button_add,button_delete,button_select;
 	CardLayout cardLayout=new CardLayout();
 	private JTextField textField_select;
 	private JScrollPane scrollPane;
@@ -93,13 +95,13 @@ public class LibManager extends JPanel implements ActionListener {
 		
 		textField_select = new JTextField();
 		textField_select.setFont(new Font("微软雅黑", Font.PLAIN, 14));
-		textField_select.setBounds(70, 23, 476, 21);
+		textField_select.setBounds(20, 10, 565, 30);
 		panel_all.add(textField_select);
 		textField_select.setColumns(10);
 		
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_select.setBounds(571, 22, 93, 23);
+		button_select.setBounds(623, 9, 93, 30);
 		button_select.addActionListener(this);
 		
 		//=============================“在库图书”面板=======================================
@@ -140,21 +142,21 @@ public class LibManager extends JPanel implements ActionListener {
 		
 		JLabel label_name = new JLabel("书名：");
 		label_name.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_name.setBounds(85, 103, 54, 15);
+		label_name.setBounds(83, 64, 54, 30);
 		panel_add.add(label_name);
 		
 		JLabel label_author = new JLabel("作者：");
 		label_author.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_author.setBounds(85, 144, 54, 15);
+		label_author.setBounds(83, 136, 54, 30);
 		panel_add.add(label_author);
 	
 		JLabel label_publisher = new JLabel("出版社：");
 		label_publisher.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_publisher.setBounds(85, 184, 74, 15);
+		label_publisher.setBounds(83, 206, 74, 30);
 		panel_add.add(label_publisher);
 		label_location = new JLabel("馆藏地点：");
 		label_location.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_location.setBounds(82, 234, 77, 15);
+		label_location.setBounds(83, 278, 77, 30);
 		panel_add.add(label_location);
 		
 		/*		JLabel label_time = new JLabel("入库时间：");
@@ -172,30 +174,27 @@ public class LibManager extends JPanel implements ActionListener {
 		okbutton = new JButton("添加");
 		okbutton.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		okbutton.addActionListener(this);
-		okbutton.setBounds(188, 440, 93, 23);
+		okbutton.setBounds(188, 383, 93, 30);
 		panel_add.add(okbutton);
 		
 		cancelbutton = new JButton("取消");
 		cancelbutton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		cancelbutton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		cancelbutton.setBounds(370, 440, 93, 23);
+		cancelbutton.addActionListener(this);
+		cancelbutton.setBounds(457, 383, 93, 30);
 		panel_add.add(cancelbutton);
 		
 		textField_name = new JTextField();
-		textField_name.setBounds(241, 101, 291, 21);
+		textField_name.setBounds(239, 66, 396, 30);
 		panel_add.add(textField_name);
 		textField_name.setColumns(10);
 		
 		textField_author = new JTextField();
-		textField_author.setBounds(241, 142, 291, 21);
+		textField_author.setBounds(239, 138, 396,30);
 		panel_add.add(textField_author);
 		textField_author.setColumns(10);
 		
 		textField_publisher = new JTextField();
-		textField_publisher.setBounds(241, 182, 291, 21);
+		textField_publisher.setBounds(239, 208, 396, 30);
 		panel_add.add(textField_publisher);
 		textField_publisher.setColumns(10);
 		/*
@@ -203,19 +202,19 @@ public class LibManager extends JPanel implements ActionListener {
 		 */
 		//"四牌楼"
 		rdbtnNewRadioButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		rdbtnNewRadioButton.setBounds(241, 230, 82, 23);
+		rdbtnNewRadioButton.setBounds(242, 285, 82, 23);
 		rdbtnNewRadioButton.setFocusPainted(false);
 		rdbtnNewRadioButton.addActionListener(this);
 		panel_add.add(rdbtnNewRadioButton);
 		//"丁家桥"
 		rdbtnNewRadioButton_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		rdbtnNewRadioButton_1.setBounds(355, 230, 77, 23);
+		rdbtnNewRadioButton_1.setBounds(399, 285, 77, 23);
 		rdbtnNewRadioButton_1.setFocusPainted(false);
 		rdbtnNewRadioButton_1.addActionListener(this);
 		panel_add.add(rdbtnNewRadioButton_1);
 		//"九龙湖"
 		rdbtnNewRadioButton_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		rdbtnNewRadioButton_2.setBounds(450, 230, 82, 23);
+		rdbtnNewRadioButton_2.setBounds(553, 285, 82, 23);
 		rdbtnNewRadioButton_2.addActionListener(this);
 		panel_add.add(rdbtnNewRadioButton_2);
 		
@@ -258,12 +257,14 @@ public class LibManager extends JPanel implements ActionListener {
 		panel_buttom.add("delete",panel_delete);
 		
 		textField_2 = new JTextField();
-		textField_2.setBounds(77, 31, 442, 21);
+		textField_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		textField_2.setBounds(20, 10, 574,30);
 		panel_delete.add(textField_2);
 		textField_2.setColumns(10);
 		
 		btnNewButton = new JButton("搜索");//出库的搜索按钮
-		btnNewButton.setBounds(565, 30, 93, 23);
+		btnNewButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		btnNewButton.setBounds(623, 9, 93, 30);
 		btnNewButton.addActionListener(this);
 		panel_delete.add(btnNewButton);
 		
@@ -293,6 +294,7 @@ public class LibManager extends JPanel implements ActionListener {
 		 checkBox = new JCheckBox();
 		 checkBox.addActionListener(this);
 		 table_1.getColumn("操作").setCellEditor(new TableDeleteButtonEditor(checkBox,token));
+		this.table_1.getColumnModel().getColumn(7).setCellRenderer(new MyDeleteButtonRender());//袁皓东要的按钮效果
 		 //我这里无法获取更改后的“操作”列里的信息，界面上点击删除后“删除”按钮会变为不可点击的“已删除”按钮，但我这里怎么接受返回的信息呢？
 		 //在TableDeleteButtonEditor()里有返回
 		 scrollPane_1.setViewportView(table_1);
@@ -308,20 +310,15 @@ public class LibManager extends JPanel implements ActionListener {
 		//添加图书按钮
 		button_add = new JButton("图书入库");
 		button_add.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_add.setBounds(237, 12, 100, 26);
+		button_add.setBounds(331, 12, 100, 26);
 		button_add.addActionListener(this);
 		panel_top.add(button_add);
 		//删除图书按钮
 		button_delete = new JButton("图书出库");
 		button_delete.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_delete.setBounds(399, 12, 100, 26);
+		button_delete.setBounds(542, 12, 100, 26);
 		button_delete.addActionListener(this);
 		panel_top.add(button_delete);
-		//退出管理员模式
-		button_exit = new JButton("退出管理");
-		button_exit.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_exit.setBounds(561, 12, 100, 26);
-		panel_top.add(button_exit);
 	}
 	
 	@Override
@@ -355,7 +352,11 @@ public class LibManager extends JPanel implements ActionListener {
 				System.out.println("选了");
 				findBooktodelete();
 			}
-
+			if(e.getSource()==cancelbutton) { 
+				textField_name.setText("");
+				textField_author.setText("");
+				textField_publisher.setText("");
+			}
 	}
 
 	//在库面板的搜索书
@@ -472,6 +473,9 @@ public class LibManager extends JPanel implements ActionListener {
 		Response response = Client.fetch(request);
 		if(response.getSuccess()) {
 			JOptionPane.showMessageDialog(null, "添加成功", "成功",JOptionPane.INFORMATION_MESSAGE); 
+			textField_name.setText("");
+			textField_author.setText("");
+			textField_publisher.setText("");
 		}else {
 			JOptionPane.showMessageDialog(null, "添加失败，请联系后台", "失败",JOptionPane.ERROR_MESSAGE); 
 		}	
