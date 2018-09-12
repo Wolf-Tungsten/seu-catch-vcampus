@@ -214,3 +214,117 @@ response  {"success":boolean,"body":{}}
 | token    | String   |                |
 
 response  {"success":boolean,"body":{}}
+
+
+
+
+
+# 教务后端
+
+### path : EduAdmin/addCourse
+
+| 字段名称  | 字段类型 | 备注                                           |
+| --------- | -------- | ---------------------------------------------- |
+| name      | String   | 课程名称                                       |
+| capacity  | int      | 课程容量                                       |
+| lecturer  | String   | 老师名称                                       |
+| week      | String   | 上课周次(星期几)                               |
+| classtime | String   | 上课时间  eg:(9:00-12:00)                      |
+| location  | String   | 上课地点  也为考试地点                         |
+| startTime | String   | 固定字符串 没法 前端  " 2018-01-10/9:40-10:50" |
+| credits   | int      | 课程学分                                       |
+
+返回值 response 里的内容  success 成功或失败  body 里没东西 
+
+## path:EduAdmin/queryAllCourse
+
+| 字段名称 | 字段类型 | 备注 |
+| -------- | -------- | ---- |
+|          |          |      |
+|          |          |      |
+|          |          |      |
+
+
+
+### 考试
+
+###  path : EduAdmin/studentlist
+
+根据老师名和课程名搜索对应学生名单
+
+| 字段     | 字段类型 | 备注     |
+| -------- | -------- | -------- |
+| lecturer | String   | 老师名字 |
+| name     | String   | 课程名   |
+| token    |          |          |
+|          |          |          |
+
+返回 body 
+
+HashMap里的key
+
+| Key            | value                                    | 备注      |
+| -------------- | ---------------------------------------- | --------- |
+| studentMaplist | ArrayList<LinkedTreeMap<String, Object>> | 信息map表 |
+| name           | String                                   | 课程      |
+| lecturer       | String                                   | 教师名    |
+
+
+
+"studentMaplist", ArrayList<LinkedTreeMap<String, Object>>  表里是一个个学生课程信息map
+
+LinkedTreeMap<String, Object>里的字段
+
+| 字段     | 字段类型 | 备注               |
+| -------- | -------- | ------------------ |
+| username | String   | 学生姓名           |
+| cardnum  | String   | 卡号               |
+| uuid     | String   | UserXCourse 的uuid |
+
+
+
+## path :EduAdmin/mark
+
+打分
+
+
+
+| 字段  | 类型   | 备注        |
+| ----- | ------ | ----------- |
+| token | String |             |
+| uuid  | String | UserXCourse |
+| score | int    | 分数        |
+
+
+
+response 里有请求成功或失败，失败时body 里 有result字段 
+
+
+
+## path:EduAdmin/schedule
+
+课表查询
+
+| 字段  | 类型 | 备注 |
+| ----- | ---- | ---- |
+| token |      |      |
+
+
+
+
+
+response 里 body 内容
+
+| key           | value                                   | 备注           |
+| ------------- | --------------------------------------- | -------------- |
+| recordMaplist | ArrayList<LinkedTreeMap<String,Object>> | 课表信息map 表 |
+
+ArrayList<LinkedTreeMap<String,Object>>  里LinkedTreeMap的内容
+
+| key       | value  | 备注                     |
+| --------- | ------ | ------------------------ |
+| name      | String | 课程                     |
+| lecturer  | String | 教师名字                 |
+| classtime | String | 上课时间(上午9:00-10:00) |
+| week      | String | 上课周次(周一周二)       |
+

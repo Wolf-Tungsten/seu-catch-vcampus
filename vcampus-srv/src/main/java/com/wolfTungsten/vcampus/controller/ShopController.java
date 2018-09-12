@@ -52,7 +52,7 @@ public class ShopController extends BaseController
 				String userid = checkToken(token);
 				User u = orm.userRepository.inquireById(userid);
 				String seller = u.getUsername();
-				orm.goodsRepository.addGoods(name, description, seller, price, amount, image,type);
+				orm.goodsRepository.addGoods(name, description, seller, price, amount, image,type,0);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
@@ -80,7 +80,9 @@ public class ShopController extends BaseController
 			try {
 				checkToken(token);
 			for(String uuid:goodidlist) {
-				orm.goodsRepository.deleteGoodsByUuid(uuid);			
+				orm.goodsRepository.updateGoodsByfalg(uuid, Goods.DELETE, 1);
+				
+				
 			}
 			response.setSuccess(true);
 			return response;

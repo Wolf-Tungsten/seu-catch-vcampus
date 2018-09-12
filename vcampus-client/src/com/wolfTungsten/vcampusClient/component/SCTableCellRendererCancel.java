@@ -30,10 +30,13 @@ public class SCTableCellRendererCancel implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		// TODO 自动生成的方法存根
-		this.button.setText("取消选择");
-		if(String.valueOf(value) == "已选择") this.button.setEnabled(true);
-		else if (String.valueOf(value) == "未选择") {
+		if(String.valueOf(value).equals("已选择")) {
+			this.button.setEnabled(true);
+			this.button.setText("取消选择");
+		}
+		else if (String.valueOf(value).equals("未选择")) {
 			this.button.setEnabled(false);
+			this.button.setText("无法取消选择");
 		}
 		return this.panel;
 	}

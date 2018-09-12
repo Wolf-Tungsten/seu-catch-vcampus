@@ -18,6 +18,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +33,7 @@ import com.wolfTungsten.vcampusClient.component.MMTableCellEditorChange;
 import com.wolfTungsten.vcampusClient.component.MMTableCellEditorDelete;
 import com.wolfTungsten.vcampusClient.component.MMTableCellRendererChange;
 import com.wolfTungsten.vcampusClient.component.MMTableCellRendererDelete;
-
-
+import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
@@ -67,7 +67,8 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	private JScrollPane scrollPane1,scrollPane2;
 	JButton button_manage_search,button_exam_search;
 	private JComboBox comboBoxTime,comboBoxWeek;
-
+	String[][] tableValues1;
+	String[] courseuuidlist;
 	//----------
 	private String token;
 
@@ -256,7 +257,7 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		//滚动表格
 		String[] columnNames1= {"课程名称","任课老师","上课周次","上课时间","上课地点","课程容量","课程学分","    "};//定义表格列名的数组
 		//定义表格数据数组
-		String[][] tableValues1= {};
+		
 		tableModel1=new DefaultTableModel(tableValues1,columnNames1);
 		table_manage=new JTable(tableModel1) {
 			public boolean isCellEditable(int row,int column){
@@ -282,11 +283,9 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 
 		table_manage.setCellSelectionEnabled(true); //这句话是使可以选择一个单元格
 		//虚假的测试 之后删除
-		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
-		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
-		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
-		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
-		tableModel1.addRow(new String[] {"计组","rgl","一","1 - 1","J3 404","30","2","",""});
+		
+	
+	
 		
 	
 //考试录入-----------------------------------------------------------
@@ -390,8 +389,11 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	//事件 三个界面的搜索键 分别是 课程管理 考试录入 实验录入====================================================
 		if(e.getSource() == button_manage_search) {
 			//两个搜索框  这是课程管理界面的搜索键 对应的两个文本框输入值
+			
 			String manage_name = textField_search_name.getText();
 			String manage_lecture = textField_search_lecture.getText();
+			search1( token,manage_name,manage_lecture);
+			
 		}
 		if(e.getSource() == button_exam_search) {
 			//两个搜索框  这是考试录入界面的搜索键 对应的两个文本框输入值
@@ -436,6 +438,8 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		
 		//课程容量 得到的是一个string 记得转换类型
 		String capacity =  textField_courseCapacity.getText();
+		
+		String starttime = textField_courseTestTime.getText();
 		//请求
 		Client.Request request = new Request();
 		request.setPath("EduAdmin/addCourse");
@@ -447,6 +451,8 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 		request.getParams().put("credits", Integer.valueOf(score));
 		request.getParams().put("classtime", time);
 		request.getParams().put("capacity", Integer.valueOf(capacity));
+		request.getParams().put("startTime", starttime);
+		
 		Response response = Client.fetch(request);
 		if(response.getSuccess())
 			JOptionPane.showMessageDialog(null, "添加成功", "成功！",JOptionPane.INFORMATION_MESSAGE);
@@ -482,20 +488,63 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 	public void focusLost(FocusEvent e) {
 		// TODO 自动生成的方法存根
 		if(e.getSource() == textField_search_name) {
-			textField_search_name.setText("课程名称");
+			if(textField_search_name.getText() == null)
+			 textField_search_name.setText("课程名称");
 		}else if(e.getSource() == textField_search_lecture) {
-			textField_search_lecture.setText("任课老师");
+			if(textField_search_lecture.getText() == null)
+			 textField_search_lecture.setText("任课老师");
 		}else if(e.getSource() == textField_search_courseName) {
-			textField_search_courseName.setText("课程名称");
+			if(textField_search_courseName.getText()==null)
+			 textField_search_courseName.setText("课程名称");
 		}else if(e.getSource() == textField_search_courseLecture) {
-			textField_search_courseLecture.setText("任课老师");
+			if(textField_search_courseLecture.getText()==null)
+			 textField_search_courseLecture.setText("任课老师");
 
 		}
 		
 		
 	}
 
-
+	private void search1(String token,String name,String lecturer) {
+		Client.Request request = new Request();
+		request.setPath("EduAdmin/queryByName");
+		request.setToken(token);
+		request.getParams().put("name", name);
+		request.getParams().put("lecturer", lecturer);
+		Response response = Client.fetch(request);
+		
+		ArrayList<LinkedTreeMap<String,Object>> coursemaplist =
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("courseMaplist");
+		if(response.getSuccess()) {
+		int row = coursemaplist==null?0:coursemaplist.size();
+		
+		String tablevalue[][] = new String[row][8];
+		courseuuidlist = new String[row];
+		for(int i=0;i<row;i++) {
+			LinkedTreeMap<String,Object> coursemap = coursemaplist.get(i);
+//			 {"课程名称","任课老师","上课周次","上课时间","上课地点","课程容量","课程学分","    "}
+			tablevalue[i][0]= (String) coursemap.get("name");
+			tablevalue[i][1]=(String) coursemap.get("lecturer");
+			tablevalue[i][2] = (String) coursemap.get("week");
+			tablevalue[i][3] = (String) coursemap.get("classtime");
+			tablevalue[i][4] = (String) coursemap.get("location");
+			tablevalue[i][5] = String.valueOf((int)(double)coursemap.get("capacity"));
+			tablevalue[i][6] = String.valueOf((int)(double)coursemap.get("credits"));
+			tablevalue[i][7] = " ";
+			courseuuidlist[i] = (String) coursemap.get("uuid");	
+		}
+		tableValues1 = tablevalue;
+		int row2 = courseuuidlist==null?0:courseuuidlist.length;
+		tableModel1.setRowCount(0);
+		for(int i=0;i<row2;i++) {
+			tableModel1.addRow(tableValues1[i]);
+		}
+		}else
+		{
+			JOptionPane.showConfirmDialog(null, "没有找到该课程!", "错误", JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
 
 
 
@@ -514,6 +563,18 @@ public class JwcManager extends JPanel implements  ActionListener, FocusListener
 				int isDelete = JOptionPane.showConfirmDialog(null, "确定删除", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
 				if(isDelete ==JOptionPane.YES_OPTION){ 
 				 tableModel1.removeRow(row1);
+				 Client.Request request = new Request();
+				 request.setToken(token);
+				 request.setPath("EduAdmin/deleteCourse");
+				 request.getParams().put("uuid", courseuuidlist[row1]);
+				 Response response = Client.fetch(request);
+				 
+				 if(response.getSuccess())
+					 JOptionPane.showConfirmDialog(null, "删除成功!", "提示", JOptionPane.INFORMATION_MESSAGE);
+				 else
+					 JOptionPane.showConfirmDialog(null, "删除失败!", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
+				 
+				 
 				 //具体从这里开始 添加 
 				}
 			}

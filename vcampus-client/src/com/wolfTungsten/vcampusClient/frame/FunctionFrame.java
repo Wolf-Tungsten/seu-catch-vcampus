@@ -65,7 +65,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 	private JLayeredPane contentPane;
 	JPanel panel_right, panel_message;
 	JPanel panel_message_info, panel_message_jwc, panel_message_lib, panel_message_shop, panel_message_bank;
-	JButton button_info, button_jwc, button_lib, button_shop, button_bank;
+	JButton button_info, button_jwc, button_lib, button_shop, button_bank,button_close;
 
 	JLabel label_lib_exit, label_jwc_exit;
 	JLabel label_blank1, label_blank2, label_blank3;
@@ -160,6 +160,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ImageIcon imageIcon_shop = new ImageIcon(resource_shop);
 		URL resource_bank = FunctionFrame.class.getResource("bank-normal.jpg");
 		ImageIcon imageIcon_bank = new ImageIcon(resource_bank);
+		URL resource_close= FunctionFrame.class.getResource("close-normal.jpg");
+		ImageIcon imageIcon_close = new ImageIcon(resource_close);
 		// 个人信息=================个人信息按钮==================================
 		button_info = new JButton();
 		button_info.setBounds(0, 64, 64, 64);
@@ -195,6 +197,14 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		buttonSet(button_bank);
 		button_bank.addMouseListener(this);
 		contentPane.add(button_bank, new Integer(10)); // 银行系统按钮设置在10层
+		// 关机===========关机按钮==================================
+		button_close=new JButton();
+		button_close.setBounds(0, 500, 64, 64);
+		button_close.setIcon(imageIcon_close);
+		buttonSet(button_close);
+		button_close.addMouseListener(this);
+		contentPane.add(button_close, new Integer(10)); // 关机按钮设置在10层
+		
 
 		// 提示面板
 		// 个人信息提示面板==========================个人信息提示面板===========================================
@@ -521,9 +531,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_1", panel_bank_save_withdraw);
 
-		panel_bank_remain = new BankRemain();
-		panel_bank_remain.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_2", panel_bank_remain);
+		//panel_bank_remain = new BankRemain(token);
+		//panel_bank_remain.setBackground(new Color(255, 255, 255));
+		//panel_right.add("bank_2", panel_bank_remain);
 
 		panel_bank_turn_money = new BankTurnMoney(token);
 		panel_bank_turn_money.setBackground(new Color(255, 255, 255));
@@ -647,7 +657,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			} else if (e.getSource() == label_jwc_manager) {
 				cardLayout.show(panel_right, "jwc_5");
 				HideAllMessagePanel();
-			} else if (e.getSource() == button_shop) {
+			} /*
+			else if (e.getSource() == button_shop) {
 				cardLayout.show(panel_right, "4");
 				panel_message_info.setVisible(false);
 				panel_message_jwc.setVisible(false);
@@ -656,10 +667,10 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				panel_message_bank.setVisible(false);
 				contentPane.setLayer(panel_message_shop, new Integer(11));
 
-			} else if (e.getSource() == label_bank_save_withdraw) {
+			} */
+			else if (e.getSource() == label_bank_save_withdraw) {
+				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
-
-				
 			}	else if (e.getSource() == label_shop_select) {
 					cardLayout.show(panel_right, "shop_1");
 					HideAllMessagePanel();
@@ -714,22 +725,27 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				HideAllMessagePanel();
 
 			} else if (e.getSource() == label_bank_save_withdraw) {
-
 				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_bank_remain) {
-				String payPassword = "123456";
-				// TODO 需要把用户消费密码传递过来
 				JPasswordField pwd = new JPasswordField();
 				Object[] message = { "请输入账号密码：", pwd };
 				JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				String passStr = pwd.getText();// 获取输入对话框中的密码
-				if (passStr.equals(payPassword)) {
+				System.out.println(passStr);
+				Client.Request request = new Request();
+				request.setPath("bank/checkPassword");
+				request.setToken(token);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
+				Response response = Client.fetch(request);
+
+				if (response.getSuccess()) {
 					cardLayout.show(panel_right, "bank_2");
 					HideAllMessagePanel();
 				} else {
 					JOptionPane.showMessageDialog(null, "密码错误！", "Tips", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 			} else if (e.getSource() == label_bank_turn_money) {
 				cardLayout.show(panel_right, "bank_3");
@@ -744,31 +760,27 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				Client.Request request = new Request();
 				request.setPath("bank/checkPassword");
 				request.setToken(token);
-				request.getParams().put("secretPassword", passStr);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
 				Response response = Client.fetch(request);
+
 				if (response.getSuccess()) {
 					cardLayout.show(panel_right, "bank_4");
 					HideAllMessagePanel();
 				} else {
 					JOptionPane.showMessageDialog(null, "密码错误！", "Tips", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 			} else if (e.getSource() == label_bank_modify_pass) {
 
-				String originalPass = null;// TODO 每次点击这个label,要把用户支付密码传递给我
-				if (originalPass != null) {
-					cardLayout.show(panel_right, "bank_5");// 如果密码非空，就可以修改
-					HideAllMessagePanel();
-				} else {
-					cardLayout.show(panel_right, "bank_6");// 如果密码是空，就新建密码
 
 					Client.Request request = new Request();
-					request.setPath("bank/register");
+					request.setPath("bank/checkBankUser");
 					request.setToken(token);
-
-					Boolean ifRegister = (Boolean) Client.fetch(request).getBody().get("registerPanel");// TODO
+					Response response = Client.fetch(request);
+					Boolean ifRegister = (Boolean) response.getBody().get("registerPanel");// TODO
 																										// 每次点击这个label,要把用户支付密码传递给我
 					if (ifRegister) {
-						cardLayout.show(panel_right, "bank_4");
+						cardLayout.show(panel_right, "bank_6");
 						HideAllMessagePanel();
 					} else {
 						cardLayout.show(panel_right, "bank_5");
@@ -776,9 +788,11 @@ public class FunctionFrame extends JFrame implements MouseListener {
 						HideAllMessagePanel();
 					}
 				}
+			}else if (e.getSource() == button_close) {
+				System.exit(0);
 			}
 		}
-	}
+	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -805,6 +819,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ImageIcon imageIcon_shop_active = new ImageIcon(resource_shop_active);
 		URL resource_bank_active = FunctionFrame.class.getResource("bank-active.jpg");
 		ImageIcon imageIcon_bank_active = new ImageIcon(resource_bank_active);
+		URL resource_close_active = FunctionFrame.class.getResource("close-active.jpg");
+		ImageIcon imageIcon_close_active = new ImageIcon(resource_close_active);
 		if (e.getSource() == button_info) {
 			button_info.setIcon(imageIcon_info_active);
 			contentPane.add(button_info);
@@ -855,6 +871,14 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			panel_message_bank.setVisible(true);
 			contentPane.setLayer(panel_message_bank, new Integer(11));
 
+		} else if (e.getSource() == button_close) {
+			button_close.setIcon(imageIcon_close_active);
+			contentPane.add(button_close);
+			panel_message_info.setVisible(false);
+			panel_message_jwc.setVisible(false);
+			panel_message_lib.setVisible(false);
+			panel_message_shop.setVisible(false);
+			panel_message_bank.setVisible(false);
 		}
 		if (e.getSource() == label_info_main) {
 			label_info_main.setOpaque(true);
@@ -979,6 +1003,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ImageIcon imageIcon_shop = new ImageIcon(resource_shop);
 		URL resource_bank = FunctionFrame.class.getResource("bank-normal.jpg");
 		ImageIcon imageIcon_bank = new ImageIcon(resource_bank);
+		URL resource_close = FunctionFrame.class.getResource("close-normal.jpg");
+		ImageIcon imageIcon_close = new ImageIcon(resource_close);
 		if (e.getSource() == button_info) {
 			button_info.setIcon(imageIcon_info);
 			contentPane.add(button_info);
@@ -994,6 +1020,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		} else if (e.getSource() == button_bank) {
 			button_bank.setIcon(imageIcon_bank);
 			contentPane.add(button_bank);
+		}else if (e.getSource() == button_close) {
+			button_close.setIcon(imageIcon_close);
+			contentPane.add(button_close);
 		}
 		if (e.getSource() == label_info_main) {
 			label_info_main.setOpaque(true);
@@ -1134,6 +1163,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		return borrowRecord;
 
 	}
+	
+
 
 	public static HashMap<String, Object> courseAll(String token) {
 		HashMap<String, Object> cao = new HashMap<>();
@@ -1143,18 +1174,29 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		Response response = Client.fetch(request);
 		ArrayList<LinkedTreeMap<String, Object>> coursemaplist = (ArrayList<LinkedTreeMap<String, Object>>) response
 				.getBody().get("courseMaplist");
+		ArrayList<LinkedTreeMap<String, Object>> selectedCourse = 
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("selectedCourse");
+		int rows= selectedCourse==null?0:selectedCourse.size();
 		int row = coursemaplist.size();
-		String[][] valuetable = new String[row][6];
+		String[][] valuetable = new String[row][7];
 		// private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间"," "," "}
 		for (int i = 0; i < row; i++) {
 			LinkedTreeMap<String, Object> coursemap = coursemaplist.get(i);
-			valuetable[i][0] = (String) coursemap.get("name");
-			valuetable[i][1] = (String) coursemap.get("lecturer");
-			valuetable[i][2] = (String) coursemap.get("location");
-			valuetable[i][3] = (String) coursemap.get("classtime");
-			valuetable[i][4] = (String) coursemap.get(" ");
-			valuetable[i][5] = (String) coursemap.get("   ");
-
+			valuetable[i][0] = (String)coursemap.get("uuid");
+			valuetable[i][1] = (String) coursemap.get("name");
+			valuetable[i][2] = (String) coursemap.get("lecturer");
+			valuetable[i][3] = (String) coursemap.get("location");
+			valuetable[i][4] = (String)coursemap.get("week")+(String) coursemap.get("classtime");
+			for(int j=0;j<rows;j++ ) {
+				LinkedTreeMap<String, Object> selectedcourse = selectedCourse.get(j);
+				if(valuetable[i][0].equals(selectedcourse.get("uuid"))) {
+					valuetable[i][5] = "可选择";
+					valuetable[i][6] ="不可取消";
+				}else {
+					valuetable[i][5] = "不可选择";
+					valuetable[i][6] = "可取消";
+				}		
+			}
 		}
 		cao.put("tablevalue", valuetable);
 		cao.put("name", response.getBody().get("username"));
@@ -1213,7 +1255,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		Response response = Client.fetch(request);
 		ArrayList<LinkedTreeMap<String, Object>>buyRecord =
 				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("buyRecordmaplist");
-		int row = buyRecord.size();
+		int row =buyRecord==null?0: buyRecord.size();
 		String[][] tablevalue = new String [row][5];
 		for(int i=0;i<row;i++) {
 			LinkedTreeMap<String,Object> recordmap = buyRecord.get(i);

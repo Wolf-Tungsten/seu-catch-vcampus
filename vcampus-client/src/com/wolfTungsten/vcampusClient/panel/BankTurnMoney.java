@@ -99,6 +99,7 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 			// TODO Auto-generated method stub
 			String toAccountStr=textField_to_account.getText();
 			String amountStr=textField_amount.getText();
+			double value = Double.valueOf(amountStr);
 			String passStr=textField_pass.getText();
 			if(toAccountStr.equals("")||toAccountStr==null) {
 				JOptionPane.showMessageDialog(null, "转入账户不可为空！", "Tips",JOptionPane.ERROR_MESSAGE);
@@ -115,7 +116,7 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 			request.setToken(token);
 			request.getParams().put("secretPassword", Client.getMD5(passStr));
 			request.getParams().put("to", toAccountStr);//to这里是传的卡号，和后端的uuid对不上
-			request.getParams().put("value", amountStr);
+			request.getParams().put("value", value);
 			Response response = Client.fetch(request);
 			if(response.getSuccess()) {
 				JOptionPane.showMessageDialog(null, "转账成功！", "Tips",JOptionPane.ERROR_MESSAGE);

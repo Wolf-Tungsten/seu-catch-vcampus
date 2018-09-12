@@ -1,9 +1,12 @@
 //“账单明细“面板
 package com.wolfTungsten.vcampusClient.panel;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -14,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
@@ -29,7 +33,7 @@ public class BankBill extends JPanel implements ItemListener{
 	JScrollPane scrollPane;
 	String[] columnNames= {"时间","对方姓名","对方账号","金额"};//定义表格列名的数组
 	//TODO 传数据给tableValues
-	String[][] tableValues= {{"09-06 06:09","梅花餐厅","123455","-10.50"},{"09-06 12:08","东南大学","321282","+1000.00"}};;
+	String[][] tableValues= {};
 	DefaultTableModel tableModel;
 	JTable table;
 
@@ -107,117 +111,475 @@ public class BankBill extends JPanel implements ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
-				Client.Request request = new Request();
+				
 				if(comboBox_time.getSelectedIndex()==0) {
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
 						request.getParams().put("period", 259200);
 						Response response = Client.fetch(request);
+						HashMap<String, Object> bill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("bill");
+						
+						int rowcount = bill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> billMap = billList.get(i);
+							if (billMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) billMap.get("createtime");
+							rowValue[1] = (String) billMap.get("otherName");
+							rowValue[2] = (String) billMap.get("otherCardnum");
+							rowValue[3] = (String) billMap.get("value");
+							tableModel.addRow(rowValue);
+						}
+						
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String)response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+
 					     //TODO 三天内总账单
 						//eg.传数据给rowValue,"时间","对方姓名","对方账号","金额"
-						String []rowValue= {};
-						tableModel.addRow(rowValue);
+		
+							
+						}
+						
+						
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						Client.Request request = new Request();
 						request.setPath("bank/toBill");
 						request.setToken(token);
 						request.getParams().put("period", 259200);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> toBill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("toBill");
+						
+						int rowcount = toBill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
+							if (toBillMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) toBillMap.get("createtime");
+							rowValue[1] = (String) toBillMap.get("fromName");
+							rowValue[2] = (String) toBillMap.get("fromCardnum");
+							rowValue[3] = (String) toBillMap.get("value");
+							tableModel.addRow(rowValue);
+						}
+						
+
 					     //TODO 三天内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
-						 request.setPath("bank/fromBill");
+						    Client.Request request = new Request();
+						    request.setPath("bank/fromBill");
 							request.setToken(token);
 							request.getParams().put("period", 259200);
 							Response response = Client.fetch(request);
+							String myName=(String)response.getBody().get("myName");
+							textField_name.setText(myName);
+							String myCardNum=(String) response.getBody().get("myCardnum");
+							textField_cardNum.setText(myCardNum);
+							HashMap<String, Object> fromBill = new HashMap<>();
+							ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+									.getBody().get("fromBill");
+							
+							int rowcount = fromBill.size();
+							
+							for (int i = 0; i < rowcount; i++) {
+								LinkedTreeMap<String, Object> fromBillMap = fromBillList.get(i);
+								if (fromBillMap == null)
+									System.out.println("sssss");
+
+								String []rowValue = new String[4];
+								rowValue[0] = (String) fromBillMap.get("createtime");
+								rowValue[1] = (String) fromBillMap.get("toName");
+								rowValue[2] = (String) fromBillMap.get("toCardnum");
+								rowValue[3] = (String) fromBillMap.get("value");
+								tableModel.addRow(rowValue);
+							}
+			
 					     //TODO 三天内支出账单
 						 
 					}
 				}else if(comboBox_time.getSelectedIndex()==1) {	
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
 						request.getParams().put("period", 2592000);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> bill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("bill");
+						
+						int rowcount = bill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> billMap = billList.get(i);
+							if (billMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) billMap.get("createtime");
+							rowValue[1] = (String) billMap.get("otherName");
+							rowValue[2] = (String) billMap.get("otherCardnum");
+							rowValue[3] = (String) billMap.get("value");
+							tableModel.addRow(rowValue);
+						}
 					     //TODO 一月内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						Client.Request request = new Request();
 						request.setPath("bank/toBill");
 						request.setToken(token);
 						request.getParams().put("period", 2592000);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> toBill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("toBill");
+						
+						int rowcount = toBill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
+							if (toBillMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) toBillMap.get("createtime");
+							rowValue[1] = (String) toBillMap.get("fromName");
+							rowValue[2] = (String) toBillMap.get("fromCardnum");
+							rowValue[3] = (String) toBillMap.get("value");
+							tableModel.addRow(rowValue);
+						}
 					     //TODO 一月内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 Client.Request request = new Request();
 						 request.setPath("bank/fromBill");
 							request.setToken(token);
 							request.getParams().put("period", 2592000);
 							Response response = Client.fetch(request);
+							String myName=(String)response.getBody().get("myName");
+							textField_name.setText(myName);
+							String myCardNum=(String) response.getBody().get("myCardnum");
+							textField_cardNum.setText(myCardNum);
+							HashMap<String, Object> fromBill = new HashMap<>();
+							ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+									.getBody().get("fromBill");
+							
+							int rowcount = fromBill.size();
+							
+							for (int i = 0; i < rowcount; i++) {
+								LinkedTreeMap<String, Object> fromBillMap = fromBillList.get(i);
+								if (fromBillMap == null)
+									System.out.println("sssss");
+
+								String []rowValue = new String[4];
+								rowValue[0] = (String) fromBillMap.get("createtime");
+								rowValue[1] = (String) fromBillMap.get("toName");
+								rowValue[2] = (String) fromBillMap.get("toCardnum");
+								rowValue[3] = (String) fromBillMap.get("value");
+								tableModel.addRow(rowValue);
+							}
 					     //TODO一月内 支出账单
 						 
 					}
 				 }else if(comboBox_time.getSelectedIndex()==2) {
 					 if(comboBox_bill_type.getSelectedIndex()==0) {
+						 Client.Request request = new Request();
 						 request.setPath("bank/bill");
 							request.setToken(token);
 							request.getParams().put("period", 7776000);
 							Response response = Client.fetch(request);
+							String myName=(String)response.getBody().get("myName");
+							textField_name.setText(myName);
+							String myCardNum=(String) response.getBody().get("myCardnum");
+							textField_cardNum.setText(myCardNum);
+							HashMap<String, Object> bill = new HashMap<>();
+							ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
+									.getBody().get("bill");
+							
+							int rowcount = bill.size();
+							
+							for (int i = 0; i < rowcount; i++) {
+								LinkedTreeMap<String, Object> billMap = billList.get(i);
+								if (billMap == null)
+									System.out.println("sssss");
+
+								String []rowValue = new String[4];
+								rowValue[0] = (String) billMap.get("createtime");
+								rowValue[1] = (String) billMap.get("otherName");
+								rowValue[2] = (String) billMap.get("otherCardnum");
+								rowValue[3] = (String) billMap.get("value");
+								tableModel.addRow(rowValue);
+							}
 					     //TODO 三月内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						Client.Request request = new Request();
 						request.setPath("bank/toBill");
 						request.setToken(token);
 						request.getParams().put("period", 7776000);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> toBill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("toBill");
+						
+						int rowcount = toBill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
+							if (toBillMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) toBillMap.get("createtime");
+							rowValue[1] = (String) toBillMap.get("fromName");
+							rowValue[2] = (String) toBillMap.get("fromCardnum");
+							rowValue[3] = (String) toBillMap.get("value");
+							tableModel.addRow(rowValue);
+						}
 					     //TODO 三月内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 Client.Request request = new Request();
 						 request.setPath("bank/fromBill");
 							request.setToken(token);
 							request.getParams().put("period", 7776000);
 							Response response = Client.fetch(request);
+							String myName=(String)response.getBody().get("myName");
+							textField_name.setText(myName);
+							String myCardNum=(String) response.getBody().get("myCardnum");
+							textField_cardNum.setText(myCardNum);
+							HashMap<String, Object> fromBill = new HashMap<>();
+							ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+									.getBody().get("fromBill");
+							
+							int rowcount = fromBill.size();
+							
+							for (int i = 0; i < rowcount; i++) {
+								LinkedTreeMap<String, Object> fromBillMap = fromBillList.get(i);
+								if (fromBillMap == null)
+									System.out.println("sssss");
+
+								String []rowValue = new String[4];
+								rowValue[0] = (String) fromBillMap.get("createtime");
+								rowValue[1] = (String) fromBillMap.get("toName");
+								rowValue[2] = (String) fromBillMap.get("toCardnum");
+								rowValue[3] = (String) fromBillMap.get("value");
+								tableModel.addRow(rowValue);
+							}
+						
 					     //TODO 三月内支出账单
 						 
 					}
 				}else if(comboBox_time.getSelectedIndex()==3) {
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
 						request.getParams().put("period", 15552000);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> bill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("bill");
+						
+						int rowcount = bill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> billMap = billList.get(i);
+							if (billMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) billMap.get("createtime");
+							rowValue[1] = (String) billMap.get("otherName");
+							rowValue[2] = (String) billMap.get("otherCardnum");
+							rowValue[3] = (String) billMap.get("value");
+							tableModel.addRow(rowValue);
+						}
+						
 					     //TODO 半年内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						Client.Request request = new Request();
 						request.setPath("bank/toBill");
 						request.setToken(token);
 						request.getParams().put("period", 15552000);
 						Response response = Client.fetch(request);
-					     //TODO 半年内收入账单		 
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> toBill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("toBill");
+						
+						int rowcount = toBill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
+							if (toBillMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) toBillMap.get("createtime");
+							rowValue[1] = (String) toBillMap.get("fromName");
+							rowValue[2] = (String) toBillMap.get("fromCardnum");
+							rowValue[3] = (String) toBillMap.get("value");
+							tableModel.addRow(rowValue);
+						}
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 Client.Request request = new Request();
 						 request.setPath("bank/fromBill");
 							request.setToken(token);
 							request.getParams().put("period", 15552000);
 							Response response = Client.fetch(request);
+							String myName=(String)response.getBody().get("myName");
+							textField_name.setText(myName);
+							String myCardNum=(String) response.getBody().get("myCardnum");
+							textField_cardNum.setText(myCardNum);
+							HashMap<String, Object> fromBill = new HashMap<>();
+							ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+									.getBody().get("fromBill");
+							
+							int rowcount = fromBill.size();
+							
+							for (int i = 0; i < rowcount; i++) {
+								LinkedTreeMap<String, Object> fromBillMap = fromBillList.get(i);
+								if (fromBillMap == null)
+									System.out.println("sssss");
+
+								String []rowValue = new String[4];
+								rowValue[0] = (String) fromBillMap.get("createtime");
+								rowValue[1] = (String) fromBillMap.get("toName");
+								rowValue[2] = (String) fromBillMap.get("toCardnum");
+								rowValue[3] = (String) fromBillMap.get("value");
+								tableModel.addRow(rowValue);
+							}
+						
 					     //TODO 半年内支出账单
 						 
 					}
 				}else if(comboBox_time.getSelectedIndex()==4) {
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
 						request.getParams().put("period", 31536000);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> bill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("bill");
+						
+						int rowcount = bill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> billMap = billList.get(i);
+							if (billMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) billMap.get("createtime");
+							rowValue[1] = (String) billMap.get("otherName");
+							rowValue[2] = (String) billMap.get("otherCardnum");
+							rowValue[3] = (String) billMap.get("value");
+							tableModel.addRow(rowValue);
+						}
+						
 					     //TODO 一年内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						Client.Request request = new Request();
 						request.setPath("bank/toBill");
 						request.setToken(token);
 						request.getParams().put("period", 31536000);
 						Response response = Client.fetch(request);
+						String myName=(String)response.getBody().get("myName");
+						textField_name.setText(myName);
+						String myCardNum=(String) response.getBody().get("myCardnum");
+						textField_cardNum.setText(myCardNum);
+						HashMap<String, Object> toBill = new HashMap<>();
+						ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+								.getBody().get("toBill");
+						
+						int rowcount = toBill.size();
+						
+						for (int i = 0; i < rowcount; i++) {
+							LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
+							if (toBillMap == null)
+								System.out.println("sssss");
+
+							String []rowValue = new String[4];
+							rowValue[0] = (String) toBillMap.get("createtime");
+							rowValue[1] = (String) toBillMap.get("fromName");
+							rowValue[2] = (String) toBillMap.get("fromCardnum");
+							rowValue[3] = (String) toBillMap.get("value");
+							tableModel.addRow(rowValue);
+						}
 					     //TODO 一年内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 Client.Request request = new Request();
 						 request.setPath("bank/fromBill");
 							request.setToken(token);
 							request.getParams().put("period", 31536000);
 							Response response = Client.fetch(request);
+							String myName=(String)response.getBody().get("myName");
+							textField_name.setText(myName);
+							String myCardNum=(String) response.getBody().get("myCardnum");
+							textField_cardNum.setText(myCardNum);
+							HashMap<String, Object> fromBill = new HashMap<>();
+							ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+									.getBody().get("fromBill");
+							
+							int rowcount = fromBill.size();
+							
+							for (int i = 0; i < rowcount; i++) {
+								LinkedTreeMap<String, Object> fromBillMap = fromBillList.get(i);
+								if (fromBillMap == null)
+									System.out.println("sssss");
+
+								String []rowValue = new String[4];
+								rowValue[0] = (String) fromBillMap.get("createtime");
+								rowValue[1] = (String) fromBillMap.get("toName");
+								rowValue[2] = (String) fromBillMap.get("toCardnum");
+								rowValue[3] = (String) fromBillMap.get("value");
+								tableModel.addRow(rowValue);
+							}
 					     //TODO 一年内支出账单
 						 
 					}
 				 }	  
 				 
 		 }
-	}
+	
+
+
 }
