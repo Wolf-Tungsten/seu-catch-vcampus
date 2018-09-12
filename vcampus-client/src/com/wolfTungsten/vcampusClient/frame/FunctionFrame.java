@@ -1184,7 +1184,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		ArrayList<LinkedTreeMap<String, Object>> selectedCourse = 
 				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("selectedCourse");
 		int rows= selectedCourse==null?0:selectedCourse.size();
-		int row = coursemaplist.size();
+		int row = coursemaplist==null?0:coursemaplist.size();
 		String[][] valuetable = new String[row][7];
 		// private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间"," "," "}
 		for (int i = 0; i < row; i++) {
@@ -1194,15 +1194,23 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			valuetable[i][2] = (String) coursemap.get("lecturer");
 			valuetable[i][3] = (String) coursemap.get("location");
 			valuetable[i][4] = (String)coursemap.get("week")+(String) coursemap.get("classtime");
+			if(rows==0) {
+				valuetable[i][5] = "未选择";
+				valuetable[i][6] = "未选择";
+			}else {
 			for(int j=0;j<rows;j++ ) {
 				LinkedTreeMap<String, Object> selectedcourse = selectedCourse.get(j);
+				
 				if(valuetable[i][0].equals(selectedcourse.get("uuid"))) {
-					valuetable[i][5] = "可选择";
-					valuetable[i][6] ="不可取消";
+					System.out.println(valuetable[i][0] +"=="+ selectedcourse.get("uuid") );
+					valuetable[i][5] = "已选择";
+					valuetable[i][6] = "已选择";
+					break;
 				}else {
-					valuetable[i][5] = "不可选择";
-					valuetable[i][6] = "可取消";
+					valuetable[i][5] = "未选择";
+					valuetable[i][6] = "未选择";
 				}		
+			}
 			}
 		}
 		cao.put("tablevalue", valuetable);

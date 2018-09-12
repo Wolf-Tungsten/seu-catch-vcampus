@@ -392,13 +392,14 @@ public class JwcManager extends JPanel implements ActionListener, FocusListener,
 			examRequest.setPath("EduAdmin/studentlist");
 			examRequest.getParams().put("lecturer", exam_lecture);
 			examRequest.getParams().put("name", exam_name);
+			
 			Response response = Client.fetch(examRequest);
 			tableModel2.setRowCount(0);
 			this.examUuid = new ArrayList<String>();
 			for (LinkedTreeMap<String, Object> student : (ArrayList<LinkedTreeMap<String, Object>>) response.getBody()
 					.get("studentMaplist")) {
 				tableModel2.addRow(new String[] { exam_name, exam_lecture, (String) student.get("username"),
-						(String) student.get("cardnum"), "", null });
+						(String) student.get("cardnum"), "", String.valueOf((int)(double)student.get("score")) });
 				this.examUuid.add((String) student.get("uuid"));
 			}
 
