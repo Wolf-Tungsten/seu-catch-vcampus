@@ -53,7 +53,7 @@ public class ORM {
     	
     	DatabaseType databaseType = new AccessDatabaseType();
 		try {
-			conn = new JdbcConnectionSource("jdbc:ucanaccess://E:/vCampus.accdb;memory=false", databaseType);
+			conn = new JdbcConnectionSource("jdbc:ucanaccess://D:/vCampus.accdb;memory=false", databaseType);
 			// initialize repositories
 			userRepository = new UserRepository(conn);	
 			tokenRepository = new TokenRepository(conn);
@@ -67,6 +67,7 @@ public class ORM {
 			examRepository = new ExamRepository(conn);
 			experimentRepository = new ExperimentRepository(conn);
 			userXExperimentRepository = new UserXExperimentRepository(conn);
+			userXGoodsRepository = new UserXGoodsRepository(conn);
 
 			courseRepository = new CourseRepository(conn);
 

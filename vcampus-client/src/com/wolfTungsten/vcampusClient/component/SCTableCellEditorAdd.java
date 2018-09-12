@@ -22,7 +22,9 @@ public class SCTableCellEditorAdd extends DefaultCellEditor{
 
 	public SCTableCellEditorAdd() {
 		super(new JTextField());
+
 		// TODO 自动生成的构造函数存根
+
 		this.setClickCountToStart(1);
 		this.initButton();
 		this.initPanel();
@@ -30,21 +32,30 @@ public class SCTableCellEditorAdd extends DefaultCellEditor{
 		}
 
 		private void initButton() {
+
 		// TODO 自动生成的方法存根
+
 		this.button = new JButton();  
 		this.button.setBounds(0,0,100,20);
+		
+		
+		
 		
 		this.button.addActionListener(new ActionListener()
         {  
 			@Override
 			//==========================================================================================��������ӡ��γ�ѡ�񡱰�ť���¼�
 			public void actionPerformed(ActionEvent e) {
+
+				SCTableCellEditorAdd.this.fireEditingCanceled();  
+       
 				// TODO 自动生成的方法存根
 				//触发取消编辑的事件，不会调用tableModel的setValue方法
 				SCTableCellEditorAdd.this.fireEditingCanceled();  
                 //从这里开始其他操作 
 				
 				
+
 			} ;
         });
 		}

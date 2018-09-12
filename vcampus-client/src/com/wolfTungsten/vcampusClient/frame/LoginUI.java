@@ -37,7 +37,7 @@ import com.wolfTungsten.vcampusClient.component.RButton2;
 import com.wolfTungsten.vcampusClient.component.RoundBorder;
 
 import java.awt.Font;
-
+import java.lang.*;
 public class LoginUI extends JFrame implements ActionListener, MouseListener, FocusListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -238,7 +238,7 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 			request.getParams().put("cardnum", userStr);
 			request.getParams().put("hash_password", Client.getMD5(passStr));
 			
-			// fetch
+			// fetchs
 			Client.Response response = Client.fetch(request);
 			System.out.println(String.format("token-%s", (String)response.getBody().get("token")));
 			if (response.getSuccess()) {

@@ -18,10 +18,17 @@ public class ShoppingHistory extends JPanel {
 	JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum;
 	private JTextField textField_name;
+	String token;
+	String cardnum;
+	String name;
 	/**
 	 * Create the panel.
 	 */
-	public ShoppingHistory() {
+	public ShoppingHistory(String Token,String[][] tb,String Name,String cardNum) {
+		tableValues = tb;
+		token = Token;
+		cardnum = cardNum;
+		name =Name;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -44,16 +51,20 @@ public class ShoppingHistory extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		label_cardNum = new JLabel("一卡通号：");
+	
 		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		label_cardNum.setBounds(292, 36, 77, 30);
 		add(label_cardNum);
 		
 		label_name = new JLabel("姓名:");
+		
 		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		label_name.setBounds(548, 36, 54, 30);
 		add(label_name);
 		
 		textField_cardNum = new JTextField();
+		textField_cardNum.setText(cardnum);
+		
 		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		textField_cardNum.setBounds(403, 39, 96, 30);
 		textField_cardNum.setEditable(false);
@@ -62,6 +73,7 @@ public class ShoppingHistory extends JPanel {
 		textField_cardNum.setColumns(10);
 		
 		textField_name = new JTextField();
+		textField_name.setText(name);
 		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		textField_name.setBounds(627, 39, 89, 30);
 		textField_name.setEditable(false);

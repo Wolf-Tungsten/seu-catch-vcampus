@@ -6,6 +6,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
+import com.google.gson.internal.LinkedTreeMap;
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -13,6 +18,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -46,10 +53,13 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 	 JTextArea []textArea_description=new JTextArea[len];
 	 JButton []button_buy=new JButton[len];
 	 JButton []button_add=new JButton[len];
-     int gap=130;
+     int gap=120;
      int []bounds= {10,10,677,120};
      int count=4;//检索到几件商品
-     
+     String [][]goodstable ;
+     String token;
+     ArrayList<LinkedTreeMap<String,Object>> goodinfomaplist ;
+     ArrayList<String> good_uuidlist = new ArrayList<>();
 	public void NewGoodPanel (JPanel panel,int []bounds,int gap,
 			//商品照片，名字，单价，描述，购买数量
    		 JLabel label_photo,JLabel label_good_name,JLabel label_price,JTextField textField_number,JTextArea textArea_description,
@@ -62,7 +72,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		label_photo.setBounds(10, 10, 100, 100);
 		panel.add(label_photo);
 		
-		label_good_name = new JLabel(goods[1]);//商品名称
+		label_good_name.setText(goods[1]);//商品名称
 		label_good_name.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		label_good_name.setBounds(136, 10, 120, 15);
 		panel.add(label_good_name);
@@ -107,7 +117,8 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		
 	}
 
-	public ShopSelect() {
+	public ShopSelect(String Token) {
+		token = Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -163,40 +174,38 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		scrollPane = new JScrollPane(panel,//在滚动面板上加入panel放置商品
 			                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 			                ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		String [][]goods=new String[][]{{"photo","袁皓东牌大猪蹄子","100","","鲜嫩肥美，活有余罪，罪不可赦，秀色可餐，项目组长，是个好人！\n免邮快递，送货上门，断货ing"},
-			{"photo","高睿昊牌大猪蹄子","100","","鲜嫩肥美，秀色可餐，是个好人！"},{"photo","skk牌鸽子","100","","鲜嫩肥美，活有余罪，罪不可赦，秀色可餐，大鸽鸽，是个好人！"},{"photo","skk牌鸽子汤","100","","鲜嫩肥美，活有余罪，罪不可赦，秀色可餐，小鸽鸽，是个好人！"}}; //商品照片，名字，单价，购买数量，描述
 		
 		int i=0;
-	    for(i=0;i<count;i++) {    //count:检索到几件商品
-	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
-			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
-			   		 goods[i] ) ;    
-		    panel.add(goodPanel[i]);
-	    }
-		panel.setPreferredSize(new Dimension(716,130+120*i));//panel的高度必须高于滚动面板
+//	    for(i=0;i<count;i++) {    //count:检索到几件商品
+//	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
+//			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
+//			   		 goodstable[i] ) ;    
+//		    panel.add(goodPanel[i]);
+//	    }
+		
 		
 		scrollPane.setBounds(10, 90, 716, 500);
 		add(scrollPane);
 		
-		button_1 = new JButton("日用品");
+		button_1 = new JButton("生活百货");
 		button_1.addActionListener(this);
 		button_1.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_1.setBounds(10, 57, 80, 23);
 		add(button_1);
 		
-		button_2 = new JButton("零食");
+		button_2 = new JButton("手机数码");
 		button_2.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_2.addActionListener(this);
 		button_2.setBounds(100, 57, 57, 23);
 		add(button_2);
 		
-		button_3 = new JButton("衣物");
+		button_3 = new JButton("服饰配件");
 		button_3.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_3.addActionListener(this);
 		button_3.setBounds(167, 57, 57, 23);
 		add(button_3);
 		
-		button_4 = new JButton("美妆");
+		button_4 = new JButton("零食美味");
 		button_4.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_4.addActionListener(this);
 		button_4.setBounds(234, 57, 57, 23);
@@ -205,9 +214,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		comboBox = new JComboBox();
 		comboBox.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		comboBox.setBounds(625, 50, 101, 30);
-		comboBox.addItem("综合");
-		comboBox.addItem("信用");
-		comboBox.addItem("销量");
+		
 		comboBox.addItem("价格降序");
 		comboBox.addItem("价格升序");
 		comboBox.addItemListener(this);
@@ -217,28 +224,20 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getSource()==button_select_goods) {
-			//TODO 搜索
-			/*
-			 * 
-		    String [][]goods=new String[][]{};
-		    int i=0;
-		    for(i=0;i<count;i++) {    //count:检索到几件商品
-		    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
-				   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
-				   		 goods[i] ) ;    
-			    panel.add(goodPanel[i]);
-		    }
-			panel.setPreferredSize(new Dimension(716,130+120*i));//panel的高度必须高于滚动面板
-			 */
+			selectGood();
 		}
 		if(e.getSource()==button_1) {
-			textField_select.setText("日用品");
+			queryByType("生活百货");
+		
 		}else if(e.getSource()==button_2) {
-			textField_select.setText("零食");
+			queryByType("手机数码");
+			
 		}else if(e.getSource()==button_3) {
-			textField_select.setText("衣物");
+			queryByType("服饰配件");
+		
 		}else if(e.getSource()==button_4) {
-			textField_select.setText("美妆");
+			queryByType("零食美味");
+			
 		}
 		for(int i=0;i<count;i++) {
 			if(e.getSource()==button_buy[i]) {  //点击”立即购买“按钮
@@ -248,17 +247,28 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 				   double y=Double.parseDouble(textField_number[i].getText());
 				   cost=x*y;
 				   String money=String.valueOf(cost);
-				   String payPassword="123456";
+				  
 				   //TODO 需要把用户消费密码传递过来
 				   JPasswordField pwd = new JPasswordField();
 				   Object[] message = {"本次消费共计"+money+"元\n请输入支付密码：", pwd};
 				   JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
 		           String passStr=pwd.getText();//获取输入对话框中的密码
+		           String gooduuid = good_uuidlist.get(i);
+    
+		           Client.Request request = new Request();
+			       request.setToken(token);
+			       request.setPath("shop/purchaseNow");
+			       request.getParams().put("uuid", gooduuid);
+			       request.getParams().put("secretPassword", Client.getMD5(pwd.getText()));
+			       request.getParams().put("amount", y);
+			       request.getParams().put("price", x);
+			       Response response = Client.fetch(request);
+	           
 		           //判断消费密码是否正确
-		           if(passStr.equals(payPassword)) {
+		           if(response.getSuccess()) {
 					    JOptionPane.showMessageDialog(null, "支付成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);  
-				   }else if (!passStr.equals(payPassword)&&!passStr.equals("")&&passStr!=null){
-					   JOptionPane.showMessageDialog(null, "支付密码错误！", "Tips",JOptionPane.ERROR_MESSAGE);  
+				   }else if (!response.getSuccess()){
+					   JOptionPane.showMessageDialog(null, response.getBody().get("result"), "Tips",JOptionPane.ERROR_MESSAGE);  
 				   }else if (passStr.equals("")||passStr==null){
 					   JOptionPane.showMessageDialog(null, "支付失败！", "Tips",JOptionPane.ERROR_MESSAGE);  
 				   }
@@ -266,28 +276,176 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 					JOptionPane.showMessageDialog(null, "请输入有效的购买数量！", "Tips",JOptionPane.ERROR_MESSAGE);  
 				}
 			}else if(e.getSource()==button_add[i]) {   //点击”添加到购物车“按钮
-				String nameStr=label_good_name[i].getText();
-				String priceStr=label_price[i].getText();
-				String numberStr=textField_number[i].getText();
+					addpurchaseCart(i);
 				//TODO 添加到购物车
 			}
 		}				
 	}
 	public void itemStateChanged(ItemEvent e) {
-		  if (e.getStateChange() == ItemEvent.SELECTED) {
- //             comboBox.getSelectedIndex() ;
+		if (e.getStateChange() == ItemEvent.SELECTED)
+		{
+			// comboBox.getSelectedIndex() ;
 //              comboBox.getSelectedItem());
-			  if(comboBox.getSelectedIndex()==0) {
-				//TODO 综合排序
-			  }else if(comboBox.getSelectedIndex()==1) {
-				  //TODO 信用排序			 
-			  }else if(comboBox.getSelectedIndex()==2) {
-				  //TODO 销量
-			  }else if(comboBox.getSelectedIndex()==3) {
-				//TODO 价格降序
-			  }else if(comboBox.getSelectedIndex()==4) {
-				//TODO 价格升序
-			  }	  
-          }
+			if (comboBox.getSelectedIndex() == 0)
+			{
+				sort(0);
+			} else if (comboBox.getSelectedIndex() == 1)
+			{
+				sort(1);
+			}
+
+		}
 	}
+	public void selectGood() {
+		Client.Request request = new Request();
+		request.setPath("shop/queryBySel");
+		request.setToken(token);
+		request.getParams().put("name", textField_select.getText());
+		Response response = Client.fetch(request);
+		goodinfomaplist = (ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("goodsinfomaplist");
+		int row = goodinfomaplist==null?0:goodinfomaplist.size();
+		if(response.getSuccess()&&row!=0) {		
+		count = row;
+		String[][] goodinfo = new String[row][5];
+		for(int i=0;i<goodinfomaplist.size();i++) {
+			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
+			goodinfo[i][0] = (String)goodinfomap.get("image");
+			goodinfo[i][1] = (String)goodinfomap.get("name");
+			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
+			goodinfo[i][3] = "";
+			goodinfo[i][4] = (String) goodinfomap.get("description");
+			good_uuidlist.add((String)goodinfomap.get("uuid"));
+		}
+		goodstable = goodinfo;
+		panel.removeAll();
+		panel.updateUI();
+	    for(int i=0;i<count;i++) {    //count:检索到几件商品
+	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
+			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
+			   		 goodstable[i] ) ;    
+		    panel.add(goodPanel[i]);
+	    }
+	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
+		}
+		else 
+			JOptionPane.showMessageDialog(null, "没有找到该商品", "Tips",JOptionPane.ERROR_MESSAGE);
+	}
+	//根据类型返回商品
+	public void queryByType(String type) {
+		Client.Request request = new Request();
+		request.setPath("shop/queryByFlag");
+		request.getParams().put("type", type);
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		goodinfomaplist =(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("Goodinfomaplist");
+		int row = goodinfomaplist==null?0:goodinfomaplist.size();
+	
+		if(response.getSuccess()&&row!=0) {
+		count = row;
+		System.out.println(row+"/"+count);
+		String[][] goodinfo = new String[row][5];
+		for(int i=0;i<row;i++) {
+			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
+			goodinfo[i][0] = (String)goodinfomap.get("image");
+			goodinfo[i][1] = (String)goodinfomap.get("name");
+			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
+			goodinfo[i][3] = "";
+			goodinfo[i][4] = (String) goodinfomap.get("description");
+			good_uuidlist.add((String)goodinfomap.get("uuid"));
+		}
+		
+		goodstable = goodinfo;
+		panel.removeAll();
+		panel.updateUI();
+	    for(int i=0;i<count;i++) {    //count:检索到几件商品
+	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
+			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
+			   		 goodstable[i] ) ;    
+		    panel.add(goodPanel[i]);
+	    }
+	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
+		}
+		else 
+			JOptionPane.showMessageDialog(null, "没有找到该商品", "Tips",JOptionPane.ERROR_MESSAGE);
+	}
+	class sortdown implements Comparator{
+
+		@Override
+		public int compare(Object o1, Object o2)
+		{
+			LinkedTreeMap<String,Object> a = (LinkedTreeMap<String,Object>) o1;
+			LinkedTreeMap<String,Object> b = (LinkedTreeMap<String,Object>) o2;
+			if((double)a.get("price")<(double)b.get("price"))
+				return 1;
+			return -1;
+		}
+		
+	}
+	class sortup implements Comparator{
+
+		@Override
+		public int compare(Object o1, Object o2)
+		{
+			LinkedTreeMap<String,Object> a = (LinkedTreeMap<String,Object>) o1;
+			LinkedTreeMap<String,Object> b = (LinkedTreeMap<String,Object>) o2;
+			if((double)a.get("price")>(double)b.get("price"))
+				return 1;
+			return -1;
+		}
+		
+	}
+	
+	public void sort(int flag) {
+		if(flag==0) {
+		Collections.sort(goodinfomaplist, new sortdown());
+		}else if(flag==1) {
+			Collections.sort(goodinfomaplist, new sortup());
+		}
+		String[][] goodinfo = new String[count][5];
+		for(int i=0;i<count;i++) {
+			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
+			goodinfo[i][0] = (String)goodinfomap.get("image");
+			goodinfo[i][1] = (String)goodinfomap.get("name");
+			goodinfo[i][2] = String.valueOf((double)goodinfomap.get("price"));
+			goodinfo[i][3] = "";
+			goodinfo[i][4] = (String) goodinfomap.get("description");
+			good_uuidlist.add((String)goodinfomap.get("uuid"));
+			
+		}
+		
+		goodstable = goodinfo;
+		panel.removeAll();
+		panel.updateUI();
+	    for(int i=0;i<count;i++) {    //count:检索到几件商品
+	    	 NewGoodPanel (goodPanel[i],bounds,gap*i,		
+			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
+			   		 goodstable[i] ) ;    
+		    panel.add(goodPanel[i]);
+		
+	}
+	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
+	
+	}	
+	public void addpurchaseCart(int i) {
+		LinkedTreeMap<String,Object> goodinfo = goodinfomaplist.get(i);
+		String gooduuid = (String) goodinfo.get("uuid");
+		
+		String nameStr=label_good_name[i].getText();
+		String priceStr=label_price[i].getText();
+		String numberStr=textField_number[i].getText();
+		Client.Request request = new Request();
+		request.setPath("shop/addCart");
+		request.getParams().put("good_id", gooduuid);
+		request.getParams().put("cost", Double.valueOf(priceStr));
+		request.getParams().put("amount", Integer.valueOf(numberStr));	
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		if(response.getSuccess())
+			JOptionPane.showMessageDialog(null, "添加成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
+		else
+			JOptionPane.showMessageDialog(null, "添加失败", "Tips",JOptionPane.ERROR_MESSAGE);	
+	}
+	
+	
+//	{"photo","袁皓东牌大猪蹄子","100","","鲜嫩肥美，活有余罪，罪不可赦，秀色可餐，项目组长，是个好人！\n免邮快递，送货上门，断货ing"}
 }

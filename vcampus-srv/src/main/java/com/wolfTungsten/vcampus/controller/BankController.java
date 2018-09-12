@@ -14,6 +14,7 @@ import com.wolfTungsten.vcampus.entity.User;
 public class BankController extends BaseController{
 	public BankController() {
 		super();
+		this.addHandle("checkPassword", checkHandle);
 		this.addHandle("register", registerHandle);//注册银行账户（设置支付密码）
 		this.addHandle("trade", tradeHandle);//取款，转账
 		this.addHandle("balance", balanceHandle);//查询余额
@@ -22,8 +23,35 @@ public class BankController extends BaseController{
 		this.addHandle("toBill", toBillHandle);//查询收入账单
 		this.addHandle("secretPassword", secretPasswordHandle);//修改支付密码
 		this.addHandle("deposit", depositHandle);
+		this.addHandle("withdraw", withdrawHandle);
 	}
 
+
+	private BaseController.BaseHandle checkHandle = new BaseController.BaseHandle() {
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
+			String token = request.getToken();
+			try
+			{
+				String user_id=checkToken(token);
+				if(orm.accountBalanceRepository.check(user_id, secretPassword))//检测是否存在该卡号
+				{
+					response.setSuccess(true);
+				}		
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "注册失败,"+e.getMessage());
+				return response;
+			
+			}
+		}
+	};
 	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle() {
 		@Override
 		public Response work(Request request)
@@ -32,11 +60,13 @@ public class BankController extends BaseController{
 			String cardnum=(String)request.getParams().get(AccountBalance.CARDNUM);
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
 			String idcardNum=(String)request.getParams().get(AccountBalance.IDCARDNUM);
-			String user_id=(String)request.getParams().get(User.UUID);
+			
 			String token = request.getToken();
 			try
 			{
-				checkToken(token);
+				String user_id=checkToken(token);
+				Boolean registerCheck=orm.accountBalanceRepository.checkBankUser(user_id);
+				response.getBody().put("registerPanel", registerCheck);
 				if(orm.userRepository.checkExist(cardnum, idcardNum))//检测是否存在该卡号
 				{
 					orm.accountBalanceRepository.addAccountBalance(user_id,cardnum, idcardNum, secretPassword);
@@ -61,9 +91,40 @@ public class BankController extends BaseController{
 		public Response work(Request request)
 		{
 			Response response = new Response();
-			String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+			
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
-			String from=(String)request.getParams().get(TradingRecord.FROM);
+			long createTime = System.currentTimeMillis() / 1000;//时间戳
+			String token = request.getToken();
+			double value=(double)request.getParams().get(TradingRecord.VALUE);
+			value=value*100;
+			try
+			{
+				String userid=checkToken(token);
+				if(orm.accountBalanceRepository.check(userid, secretPassword))
+				{
+					orm.tradingRecordRepository.deposit("",userid,value,createTime);
+				    response.setSuccess(true);		
+				}
+				return response;	
+			} catch (SQLException e)
+			{	
+				e.printStackTrace();
+				response.setSuccess(false);
+				response.getBody().put("result", "交易失败,"+e.getMessage());
+				return response;
+			
+			}
+		}
+		
+	
+	};
+	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
+		@Override
+		public Response work(Request request)
+		{
+			Response response = new Response();
+
+			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
 			String to=(String)request.getParams().get(TradingRecord.TO);
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
@@ -71,12 +132,12 @@ public class BankController extends BaseController{
 			value=value*100;
 			try
 			{
-				checkToken(token);
+				String userid=checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-					if(orm.userRepository.checkTrade(from)&&orm.userRepository.checkTrade(to))
+					if(orm.userRepository.checkTrade(to))
 					{
-					  orm.tradingRecordRepository.deposit(from,to,value,createTime);
+					  orm.tradingRecordRepository.addTradingRecord(userid,to,value,createTime);
 					}
 				   response.setSuccess(true);		
 				}
@@ -92,29 +153,24 @@ public class BankController extends BaseController{
 		}
 		
 	};
-	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
+	private BaseController.BaseHandle withdrawHandle = new BaseController.BaseHandle() {
 		@Override
 		public Response work(Request request)
 		{
 			Response response = new Response();
-			String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+			
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
-			String from=(String)request.getParams().get(TradingRecord.FROM);
-			String to=(String)request.getParams().get(TradingRecord.TO);
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
 			value=value*100;
 			try
 			{
-				checkToken(token);
+				String userid=checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-					if(orm.userRepository.checkTrade(from)&&orm.userRepository.checkTrade(to))
-					{
-					  orm.tradingRecordRepository.addTradingRecord(from,to,value,createTime);
-					}
-				   response.setSuccess(true);		
+					orm.tradingRecordRepository.deposit(userid,"",value,createTime);
+				    response.setSuccess(true);		
 				}
 				return response;	
 			} catch (SQLException e)
@@ -126,7 +182,6 @@ public class BankController extends BaseController{
 			
 			}
 		}
-		
 	};
 	
 	private BaseController.BaseHandle balanceHandle = new BaseController.BaseHandle() {
@@ -134,7 +189,7 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+    		
     		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long createTime = System.currentTimeMillis() / 1000;//时间戳
@@ -144,7 +199,7 @@ public class BankController extends BaseController{
     		double balance=0;
 			try
 			{
-				checkToken(token);
+				String userid=checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
 				  balance=orm.tradingRecordRepository.calculateBalance(userid);
@@ -168,8 +223,6 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
-    		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long currentTime = System.currentTimeMillis() / 1000;//时间戳
     		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -178,10 +231,9 @@ public class BankController extends BaseController{
     		ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
     		try
 			{
-    			checkToken(token);
-    			if(orm.accountBalanceRepository.check(userid,secretPassword))
-    			{
-    				toBill=orm.tradingRecordRepository.getToBill(userid,currentTime-period);
+    			String userid=checkToken(token);
+    		
+    			toBill=orm.tradingRecordRepository.getToBill(userid,currentTime-period);
     				for(TradingRecord b:toBill) {
     		    		Date date=new Date(b.getCreateTime()*1000);
     					User userFrom=orm.userRepository.inquireById(b.getFrom());
@@ -201,7 +253,6 @@ public class BankController extends BaseController{
     				}
     		        response.getBody().put("toBill", tradingRecordList);
 				    response.setSuccess(true);	
-    			}
 				return response;	
 			} catch (SQLException e)
 			{	
@@ -219,8 +270,6 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
-    		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long currentTime = System.currentTimeMillis() / 1000;//时间戳
     		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -230,11 +279,10 @@ public class BankController extends BaseController{
     		ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
     		try
 			{
-    			checkToken(token);
-    			if(orm.accountBalanceRepository.check(userid,secretPassword))
-    			{
-    				fromBill=orm.tradingRecordRepository.getFromBill(userid,currentTime-period);
-    				for(TradingRecord b:fromBill) {
+    			String userid=checkToken(token);
+    		
+    			fromBill=orm.tradingRecordRepository.getFromBill(userid,currentTime-period);
+    			for(TradingRecord b:fromBill) {
     					Date date=new Date(b.getCreateTime()*1000);
     					User userFrom=orm.userRepository.inquireById(b.getFrom());
     					User userTo=orm.userRepository.inquireById(b.getTo());
@@ -253,8 +301,7 @@ public class BankController extends BaseController{
     				}
     			    response.getBody().put("fromBill", tradingRecordList);
 				    response.setSuccess(true);	
-				}	
-				return response;	
+				 return response;	
 			} catch (SQLException e)
 			{	
 				e.printStackTrace();
@@ -271,8 +318,6 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
-    		String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
     		String token = request.getToken();
     		long currentTime = System.currentTimeMillis() / 1000;//时间戳
     		SimpleDateFormat time = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -281,10 +326,9 @@ public class BankController extends BaseController{
     		ArrayList<HashMap<String,Object>> tradingRecordList=new ArrayList();
     		try
 			{
-    			checkToken(token);
-    			if(orm.accountBalanceRepository.check(userid, secretPassword))
-    			{
-    			    bill=orm.tradingRecordRepository.getBill(userid,currentTime-period);
+    			String userid=checkToken(token);
+    
+    			bill=orm.tradingRecordRepository.getBill(userid,currentTime-period);
     				for(TradingRecord b:bill) {
     		    		Date date=new Date(b.getCreateTime()*1000);
     					User userFrom=orm.userRepository.inquireById(b.getFrom());
@@ -304,7 +348,6 @@ public class BankController extends BaseController{
     				}
     			    response.getBody().put("bill", tradingRecordList);
 				    response.setSuccess(true);	
-    			}
 				return response;	
 			} catch (SQLException e)
 			{	
@@ -322,13 +365,13 @@ public class BankController extends BaseController{
     	public Response work(Request request)
 		{
     		Response response = new Response();
-    		String userid=(String)request.getParams().get(AccountBalance.USER_ID);
+    		
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
 			String newPassword=(String)request.getParams().get("newSecretPassword");
 			String token = request.getToken();
 			try
 			{
-				checkToken(token);
+				String userid=checkToken(token);
 				if(orm.accountBalanceRepository.check(userid,secretPassword))
     			{
 					orm.accountBalanceRepository.changeSecretPassword(userid,newPassword);

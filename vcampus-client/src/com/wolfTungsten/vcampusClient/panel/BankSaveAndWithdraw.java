@@ -11,22 +11,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
 
-public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusListener{
+public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusListener,ItemListener{
 	private JTextField textField_amount;
 	private JPasswordField textField_account_pass;
+	private String token;
 	JRadioButton radioButton_save,radioButton_withdraw;
 	JButton okButton,cancelButton;
+	boolean isSave=true;
 	/**
 	 * Create the panel.
 	 */
-	public BankSaveAndWithdraw() {
+	public BankSaveAndWithdraw(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		//label横坐标x为158
@@ -41,6 +51,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		radioButton_save.setBounds(316, 107, 84, 23);
 		radioButton_save.setContentAreaFilled(false);
 		radioButton_save.setFocusPainted(false);
+		radioButton_save.addItemListener(this);
 		add(radioButton_save);
 	    //“取款”按钮
 		radioButton_withdraw = new JRadioButton("取款");
@@ -48,6 +59,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		radioButton_withdraw.setBounds(476, 107, 84, 23);
 		radioButton_withdraw.setContentAreaFilled(false);
 		radioButton_withdraw.setFocusPainted(false);
+		radioButton_withdraw.addItemListener(this);
 		add(radioButton_withdraw);
 		//把两个单选按钮加到同一个组
 		ButtonGroup typeGroup=new ButtonGroup();
@@ -115,6 +127,32 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 				JOptionPane.showMessageDialog(null, "请输入六位支付密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
+			if(isSave==true) {
+				Client.Request request = new Request();
+				request.setPath("bank/deposit");
+				request.setToken(token);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
+				request.getParams().put("value", amountStr);
+				Response response = Client.fetch(request);
+				if(response.getSuccess()) {
+					JOptionPane.showMessageDialog(null, "存款成功！", "Tips",JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "支付密码错误！", "Tips",JOptionPane.ERROR_MESSAGE);
+				}
+			}else {
+				Client.Request request = new Request();
+				request.setPath("bank/withdraw");
+				request.setToken(token);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
+				request.getParams().put("value", amountStr);
+				Response response = Client.fetch(request);
+				if(response.getSuccess()) {
+					JOptionPane.showMessageDialog(null, "取款成功！", "Tips",JOptionPane.ERROR_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "支付密码错误或余额不足！", "Tips",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
 			// TODO确认密码，存钱或取钱
 			//JOptionPane.showMessageDialog(null, "账户密码错误！", "提示",JOptionPane.ERROR_MESSAGE);
 			//JOptionPane.showMessageDialog(null, "存款成功！", "提示",JOptionPane.INFORMATION_MESSAGE);
@@ -134,5 +172,15 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 	public void focusLost(FocusEvent arg0) {
 		// TODO Auto-generated method stub
 
+	}
+	@Override
+	public void itemStateChanged(ItemEvent e) {
+		// TODO Auto-generated method stub
+		if(radioButton_save.isSelected()) {
+			isSave=true;
+		}else if(radioButton_withdraw.isSelected()) {
+			isSave=false;
+		}
+		
 	}
 }

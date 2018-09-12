@@ -34,17 +34,29 @@ public class JwcSelectCourses extends JPanel {
 	private JLabel label_cardNum,label_name;
 	private JTextField textField_cardNum ;
 	private JTextField textField_name;
-	
+	private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间","  ","   "}; //表格列名 第五列空出来放置选课退课按钮
+	private String token;
+	String[][]tableValues;
+	String name;
+	String cardNum;
 	/**
 	 * Create the panel.
 	 * @param textField_name 
 	 * @param <ActionPanelEditorRenderer>
 	 */
-	public  JwcSelectCourses() {
+	public  JwcSelectCourses(String Token,String[][] Table,String Name,String CardNum) {
+		token = Token;
+		name = Name;
+		cardNum = CardNum;
 		setSize(736,600);
 		setLayout(null);
+
+		tableValues=Table;												   //表格数据数组
+		
+
 		String[][]tableValues= {};												   //表格数据数组
 		String[] columnNames = {"课程编号","课程名称","任课老师","上课地点","上课时间","  ","   "}; //表格列名 倒数两列列空出来放置选课退课按钮
+
 		model = new DefaultTableModel(tableValues, columnNames);
 		table = new JTable(model);
 		DefaultTableCellRenderer er = new DefaultTableCellRenderer();
@@ -67,7 +79,7 @@ public class JwcSelectCourses extends JPanel {
 		add(label_cardNum);
 		
 		textField_cardNum  = new JTextField();
-		textField_cardNum.setText("");
+		textField_cardNum.setText(cardNum);
 		textField_cardNum.setOpaque(false);
 		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		textField_cardNum.setEditable(false);
@@ -76,12 +88,13 @@ public class JwcSelectCourses extends JPanel {
 		add(textField_cardNum);
 		
 		label_name = new JLabel("姓名:");
+		
 		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		label_name.setBounds(533, 52, 54, 15);
 		add(label_name);
 		
 		textField_name = new JTextField();
-		textField_name.setText("");
+		textField_name.setText(name);
 		textField_name.setOpaque(false);
 		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
 		textField_name.setEditable(false);
@@ -106,6 +119,16 @@ public class JwcSelectCourses extends JPanel {
 		//“取消选择按钮” 在 com.wolfTungsten.vcampusClient.component 的SCTableCellEditorCancel.java里面
 
 //在这里虚假的加了两个用于测试=============================================================================================
+
+//		model.addRow(new String[] {"计组","","","","",""});
+//		model.addRow(new String[] {"信号","","","","",""});
+//		model.addRow(new String[] {"计组","","","","",""});
+//		model.addRow(new String[] {"信号","","","","",""});
+//		model.addRow(new String[] {"计组","","","","",""});
+//		model.addRow(new String[] {"信号","","","","",""});
+//		model.addRow(new String[] {"高数","","","","",""});
+//		model.addRow(new String[] {"体育","","","","",""});
+
 		model.addRow(new String[] {"01","计组","任国林","","",""});
 		model.addRow(new String[] {"02","计组","徐造林","","",""});
 		model.addRow(new String[] {"03","信号","王世杰","","",""});
@@ -118,6 +141,7 @@ public class JwcSelectCourses extends JPanel {
 //上面两个标签 用于显示用户 姓名 和 一卡通号码
 		String username = textField_name.getText();
 		String cardNum  = textField_cardNum.getText();
+
 
 	}
 }
