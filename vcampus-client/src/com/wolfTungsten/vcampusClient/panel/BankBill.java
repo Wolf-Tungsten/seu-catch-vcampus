@@ -14,6 +14,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.TableReBorButtonEditor;
 import javax.swing.JComboBox;
 
@@ -35,7 +38,8 @@ public class BankBill extends JPanel implements ItemListener{
 	 * Create the panel.
 	 */
 
-	public BankBill() {
+	public BankBill(String Token) {
+		token=Token;
 		setSize(736,600);
 		setLayout(null);//绝对布局
 		
@@ -103,51 +107,112 @@ public class BankBill extends JPanel implements ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 			if (e.getStateChange() == ItemEvent.SELECTED) {
+				Client.Request request = new Request();
 				if(comboBox_time.getSelectedIndex()==0) {
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						request.setPath("bank/bill");
+						request.setToken(token);
+						request.getParams().put("period", 259200);
+						Response response = Client.fetch(request);
 					     //TODO 三天内总账单
 						//eg.传数据给rowValue,"时间","对方姓名","对方账号","金额"
 						String []rowValue= {};
 						tableModel.addRow(rowValue);
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						request.setPath("bank/toBill");
+						request.setToken(token);
+						request.getParams().put("period", 259200);
+						Response response = Client.fetch(request);
 					     //TODO 三天内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 request.setPath("bank/fromBill");
+							request.setToken(token);
+							request.getParams().put("period", 259200);
+							Response response = Client.fetch(request);
 					     //TODO 三天内支出账单
 						 
 					}
 				}else if(comboBox_time.getSelectedIndex()==1) {	
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						request.setPath("bank/bill");
+						request.setToken(token);
+						request.getParams().put("period", 2592000);
+						Response response = Client.fetch(request);
 					     //TODO 一月内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						request.setPath("bank/toBill");
+						request.setToken(token);
+						request.getParams().put("period", 2592000);
+						Response response = Client.fetch(request);
 					     //TODO 一月内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 request.setPath("bank/fromBill");
+							request.setToken(token);
+							request.getParams().put("period", 2592000);
+							Response response = Client.fetch(request);
 					     //TODO一月内 支出账单
 						 
 					}
 				 }else if(comboBox_time.getSelectedIndex()==2) {
 					 if(comboBox_bill_type.getSelectedIndex()==0) {
+						 request.setPath("bank/bill");
+							request.setToken(token);
+							request.getParams().put("period", 7776000);
+							Response response = Client.fetch(request);
 					     //TODO 三月内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						request.setPath("bank/toBill");
+						request.setToken(token);
+						request.getParams().put("period", 7776000);
+						Response response = Client.fetch(request);
 					     //TODO 三月内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 request.setPath("bank/fromBill");
+							request.setToken(token);
+							request.getParams().put("period", 7776000);
+							Response response = Client.fetch(request);
 					     //TODO 三月内支出账单
 						 
 					}
 				}else if(comboBox_time.getSelectedIndex()==3) {
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						request.setPath("bank/bill");
+						request.setToken(token);
+						request.getParams().put("period", 15552000);
+						Response response = Client.fetch(request);
 					     //TODO 半年内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						request.setPath("bank/toBill");
+						request.setToken(token);
+						request.getParams().put("period", 15552000);
+						Response response = Client.fetch(request);
 					     //TODO 半年内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 request.setPath("bank/fromBill");
+							request.setToken(token);
+							request.getParams().put("period", 15552000);
+							Response response = Client.fetch(request);
 					     //TODO 半年内支出账单
 						 
 					}
 				}else if(comboBox_time.getSelectedIndex()==4) {
 					if(comboBox_bill_type.getSelectedIndex()==0) {
+						request.setPath("bank/bill");
+						request.setToken(token);
+						request.getParams().put("period", 31536000);
+						Response response = Client.fetch(request);
 					     //TODO 一年内总账单
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
+						request.setPath("bank/toBill");
+						request.setToken(token);
+						request.getParams().put("period", 31536000);
+						Response response = Client.fetch(request);
 					     //TODO 一年内收入账单		 
 					 }else if(comboBox_bill_type.getSelectedIndex()==2) {
+						 request.setPath("bank/fromBill");
+							request.setToken(token);
+							request.getParams().put("period", 31536000);
+							Response response = Client.fetch(request);
 					     //TODO 一年内支出账单
 						 
 					}

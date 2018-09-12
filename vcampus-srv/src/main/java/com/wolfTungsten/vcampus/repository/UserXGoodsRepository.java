@@ -9,6 +9,7 @@ import java.util.UUID;
 import javax.swing.text.html.parser.Entity;
 
 import com.wolfTungsten.vcampus.entity.*;
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.stmt.QueryBuilder;
@@ -99,6 +100,18 @@ public class UserXGoodsRepository extends CurdRepository<UserXGoods>
 		upd.where().eq(UserXGoods.UUID, UUID.fromString(uxguuid));
 		upd.updateColumnValue(column, value);
 		upd.update();
+		
+	}
+	
+	public UserXGoods queryOne (String uuid) throws SQLException {
+		List<UserXGoods> uxg = dao.queryForEq(UserXGoods.UUID, UUID.fromString(uuid));
+		if(uxg.size()==0)throw new SQLException("发生了不知名的错误");
+		return uxg.get(0);
+	}
+	public void deleteById(String uuid) throws SQLException {
+		DeleteBuilder<UserXGoods, String>dlb = dao.deleteBuilder();
+		dlb.where().eq(UserXGoods.UUID, UUID.fromString(uuid));
+		dlb.delete();
 		
 	}
 	

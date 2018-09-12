@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 
+import com.wolfTungsten.vcampus.entity.UserXGoods;
+
 
 
 import com.j256.ormlite.field.DatabaseField;
@@ -74,9 +76,9 @@ public class GoodsRepository extends CurdRepository<Goods>
 
 	public Goods inquireById(String uuid) throws SQLException
 	{
-		Goods goods = new Goods();
+		
 		List<Goods> goodslist = dao.queryForEq(Goods.UUID, UUID.fromString(uuid));
-		if(goodslist==null)throw new SQLException("没找到这本书");
+		if(goodslist==null)throw new SQLException("没找到此商品");
 		
 		return goodslist.get(0);
 	}
@@ -99,7 +101,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 		return goodsinfolist;
 	}//end
 	
-	
+	/*
 	private void updateGoods(HashMap<String, Object> goodsinfo) throws SQLException {
 		//修改商品信息，通过传一个HashMap
 		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
@@ -108,6 +110,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 	}
 	
 	//更改商品的信息？
+	
 	private void updateGoods(LinkedTreeMap<String, Object> goodsinfo) throws SQLException {
 		
 		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
@@ -122,7 +125,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 			updateBuilder.updateColumnValue(columnName, goodsinfo.get(columnName));
 		}
 	}
-	
+	*/
 	//那么前端怎么传给我这个uuid呢(用户登录后获取他的uuid）
 	public void deleteGoodsByUuid(String uuid) throws SQLException {
 		UUID goodsUuid = UUID.fromString(uuid);
@@ -142,11 +145,12 @@ public class GoodsRepository extends CurdRepository<Goods>
 	public void updateGoods2(LinkedTreeMap<String, Object> goodsinfo) throws SQLException {
 		UpdateBuilder<Goods, String> updateBuilder = dao.updateBuilder();
 		String goodsUuid = (String)goodsinfo.get("uuid");
-		updateBuilder.where().eq("uuid", goodsUuid);
+		updateBuilder.where().eq("uuid", UUID.fromString(goodsUuid));
 		goodsinfo.remove("uuid");
 		for(String columnName:goodsinfo.keySet())
-		{		
+		{	
 			updateBuilder.updateColumnValue(columnName, goodsinfo.get(columnName)).update();
+		
 		}
 		
 	}
@@ -179,6 +183,7 @@ public class GoodsRepository extends CurdRepository<Goods>
 			goodinfomap.put(Goods.SELLER,good.getSeller());
 			goodinfomap.put(Goods.DESCRIPTION, good.getDescription());
 			goodinfomap.put(Goods.UUID, good.getUuid().toString());
+			goodinfomap.put(Goods.AMOUNT, good.getAmount());
 			goodinfomap.put(Goods.TYPE, good.getType());	
 			goodinfomaplist.add(goodinfomap);
 		}

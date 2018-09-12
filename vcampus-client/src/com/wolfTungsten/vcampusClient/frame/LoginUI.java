@@ -37,7 +37,7 @@ import com.wolfTungsten.vcampusClient.component.RButton2;
 import com.wolfTungsten.vcampusClient.component.RoundBorder;
 
 import java.awt.Font;
-
+import java.lang.*;
 public class LoginUI extends JFrame implements ActionListener, MouseListener, FocusListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

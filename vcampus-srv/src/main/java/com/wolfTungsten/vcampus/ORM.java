@@ -67,6 +67,7 @@ public class ORM {
 			examRepository = new ExamRepository(conn);
 			experimentRepository = new ExperimentRepository(conn);
 			userXExperimentRepository = new UserXExperimentRepository(conn);
+			userXGoodsRepository = new UserXGoodsRepository(conn);
 
 			courseRepository = new CourseRepository(conn);
 
