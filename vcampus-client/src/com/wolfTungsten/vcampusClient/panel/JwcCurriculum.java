@@ -249,90 +249,90 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		courseMonMorning = new JLabel();		 
 		courseMonMorning.setHorizontalAlignment(SwingConstants.CENTER);
 		courseMonMorning.setText("\u6D4B\u8BD5\u5927\u5C0F\u989C\u8272");
-		courseMonMorning.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseMonMorning.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseMonMorning.setSize(120, 185);
 		
 		courseMonAfternoon = new JLabel();
 		courseMonAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
-		courseMonAfternoon.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseMonAfternoon.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseMonAfternoon.setSize(120, 185);
 		courseMonAfternoon.setLocation(0, 185);
 		
 		courseMonNight = new JLabel();
-		courseMonNight.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseMonNight.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseMonNight.setHorizontalAlignment(SwingConstants.CENTER);
 		courseMonNight.setSize(120, 74);
 		courseMonNight.setLocation(0, 370);
 		
 		courseTueMorning = new JLabel();
 		courseTueMorning.setHorizontalAlignment(SwingConstants.CENTER);
-		courseTueMorning.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseTueMorning.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseTueMorning.setSize(120, 185);
 		courseTueMorning.setLocation(120, 0);
 
 		courseTueAfternoon = new JLabel();
-		courseTueAfternoon.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseTueAfternoon.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseTueAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
 		courseTueAfternoon.setSize(120, 185);
 		courseTueAfternoon.setLocation(120, 185);
 		
 		courseTueNight = new JLabel();
 		courseTueNight.setHorizontalAlignment(SwingConstants.CENTER);
-		courseTueNight.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseTueNight.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseTueNight.setSize(120, 74);
 		courseTueNight.setLocation(120, 370);
 		
 		courseWedMorning = new JLabel();
 		courseWedMorning.setHorizontalAlignment(SwingConstants.CENTER);
-		courseWedMorning.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseWedMorning.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseWedMorning.setSize(120, 185);
 		courseWedMorning.setLocation(240, 0);
 		
 		courseWedAfternoon = new JLabel();
 		courseWedAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
-		courseWedAfternoon.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseWedAfternoon.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseWedAfternoon.setSize(120, 185);
 		courseWedAfternoon.setLocation(240, 185);
 		
 		courseWedNight = new JLabel();
 		courseWedNight.setHorizontalAlignment(SwingConstants.CENTER);
-		courseWedNight.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseWedNight.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseWedNight.setSize(120, 74);
 		courseWedNight.setLocation(240, 370);
 		
 		courseThuMorning = new JLabel();
 		courseThuMorning.setHorizontalAlignment(SwingConstants.CENTER);
-		courseThuMorning.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 15));
+		courseThuMorning.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseThuMorning.setSize(120, 185);
 		courseThuMorning.setLocation(360, 0);
 		
 		courseThuAfternoon = new JLabel();
 		courseThuAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
-		courseThuAfternoon.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseThuAfternoon.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseThuAfternoon.setSize(120, 185);
 		courseThuAfternoon.setLocation(360, 185);
 
 		courseThuNight = new JLabel();
 		courseThuNight.setHorizontalAlignment(SwingConstants.CENTER);
-		courseThuNight.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseThuNight.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseThuNight.setSize(120, 74);
 		courseThuNight.setLocation(360, 370);
 		
 		courseFriMorning = new JLabel();
 		courseFriMorning.setHorizontalAlignment(SwingConstants.CENTER);
-		courseFriMorning.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.ITALIC, 14));
+		courseFriMorning.setFont(new Font("Microsoft YaHei Light", Font.ITALIC, 12));
 		courseFriMorning.setSize(120, 185);
 		courseFriMorning.setLocation(480, 0);
 		
 		courseFriAfternoon = new JLabel();
 		courseFriAfternoon.setHorizontalAlignment(SwingConstants.CENTER);
-		courseFriAfternoon.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseFriAfternoon.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseFriAfternoon.setSize(120, 185);
 		courseFriAfternoon.setLocation(480, 185);
 		
 		courseFriNight = new JLabel();
 		courseFriNight.setHorizontalAlignment(SwingConstants.CENTER);
-		courseFriNight.setFont(new Font("Î¢ÈíÑÅºÚ Light", Font.BOLD, 14));
+		courseFriNight.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 12));
 		courseFriNight.setSize(120, 74);
 		courseFriNight.setLocation(480, 370);		
 		

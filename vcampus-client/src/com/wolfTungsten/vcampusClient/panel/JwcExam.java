@@ -2,6 +2,13 @@
 package com.wolfTungsten.vcampusClient.panel;
 
 import java.awt.Font;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
+import com.google.gson.internal.LinkedTreeMap;
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -10,19 +17,23 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class JwcExam extends JPanel {
+
+public class JwcExam extends JPanel{
 
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private DefaultTableModel tableModel;
+	String token;
 
 	/**
 	 * Create the panel.
 	 */
-	public JwcExam() {
+	public JwcExam(String Token) {
+		token = Token;
 		setSize(736,600);
 		setLayout(null);
 		String[][]tableValues= {};												   //表格数据数组
@@ -44,6 +55,34 @@ public class JwcExam extends JPanel {
 		//添加表格列的函数
 		//tableModel.addRow(new String[]{}); 
 		tableModel.addRow(new String[] {"信号","王世杰","J2-404","14：00-16：00","1",null});
+		showExam();
+	}
+	
+	public void showExam() {
+		Request request = new Request();
+		request.setPath("helper/showStuExam");
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		if(response.getSuccess())
+		{
+			
+			ArrayList<LinkedTreeMap<String, Object>> examList = 
+					(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("examMaplist");
+			for(LinkedTreeMap<String, Object> examInfo:examList)
+			{
+				String name = (String)examInfo.get("name");
+				String lecturer = (String)examInfo.get("lecturer");
+				String location = (String)examInfo.get("location");
+				//duration是考试经过的时间
+				String duration = (String)examInfo.get("duration");
+				long starttime = (long)(double)examInfo.get("startTime");
+				
+				long time = (starttime-System.currentTimeMillis())/3600/1000/24;
+				String lastTime = Long.toString(time);			
+				//这里没有加成绩信息，
+				tableModel.addRow(new String[] {name,lecturer,location,duration,lastTime,null});					
+			}
+		}
 	}
 
 }
