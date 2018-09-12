@@ -1,6 +1,10 @@
 //教务处——课表查询面板
 package com.wolfTungsten.vcampusClient.panel;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
+
 import java.awt.Color;
 import java.awt.Font;
 
@@ -12,6 +16,8 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.awt.SystemColor;
 import javax.swing.SwingConstants;
+
+//import com.sun.deploy.util.SessionState.Client;
 
 public class JwcCurriculum extends JPanel implements MouseListener  {
 
@@ -357,10 +363,13 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 			else if(week == "周五" && day == "上午") courseFriMorning.setText(     );
 			else if(week == "周五" && day == "下午") courseFriAfternoon.setText(     );
 			else if(week == "周五" && day == "晚上") courseFriNight.setText(    );
-	  }
- */
+	  }*/
+ 
 
-
+	public void showCourse() {
+		Client.Request request = new Request();
+		
+	}
 
 
 

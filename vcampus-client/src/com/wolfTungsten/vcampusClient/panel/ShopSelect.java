@@ -68,7 +68,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		
 		panel.setBounds(bounds[0],bounds[1]+gap,bounds[2],bounds[3]);
 		
-		label_photo.setText(goods[0]);//商品照片
+		label_photo.setText("<html><img src=\"http://static.wolf-tungsten.com/vcampus/QQ%E5%9B%BE%E7%89%8720180911211804.jpg\" /><html>");//商品照片
 		label_photo.setBounds(10, 10, 100, 100);
 		panel.add(label_photo);
 		
@@ -307,6 +307,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		if(response.getSuccess()&&row!=0) {		
 		count = row;
 		String[][] goodinfo = new String[row][5];
+		good_uuidlist = new ArrayList<>();
 		for(int i=0;i<goodinfomaplist.size();i++) {
 			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
 			goodinfo[i][0] = (String)goodinfomap.get("image");
@@ -344,6 +345,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		count = row;
 		System.out.println(row+"/"+count);
 		String[][] goodinfo = new String[row][5];
+		good_uuidlist = new ArrayList<>();
 		for(int i=0;i<row;i++) {
 			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
 			goodinfo[i][0] = (String)goodinfomap.get("image");
@@ -402,6 +404,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			Collections.sort(goodinfomaplist, new sortup());
 		}
 		String[][] goodinfo = new String[count][5];
+		good_uuidlist = new ArrayList<>();
 		for(int i=0;i<count;i++) {
 			LinkedTreeMap<String,Object> goodinfomap = goodinfomaplist.get(i);
 			goodinfo[i][0] = (String)goodinfomap.get("image");

@@ -89,4 +89,6 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 
 		return bill;
 	}
+	
+	
 }
