@@ -47,6 +47,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "注册失败,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -74,6 +79,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "注册失败,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -105,6 +115,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "注册失败,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -140,6 +155,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "交易失败,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 		
@@ -183,6 +203,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "交易失败,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 		
@@ -216,6 +241,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "交易失败,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -246,6 +276,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "查询余额出错,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -291,6 +326,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "查询收入账单出错,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -340,6 +380,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "查询支出账单出错,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -393,6 +438,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "查询总账单出错,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -425,6 +475,11 @@ public class BankController extends BaseController{
 				response.getBody().put("result", "修改密码出错,"+e.getMessage());
 				return response;
 			
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
