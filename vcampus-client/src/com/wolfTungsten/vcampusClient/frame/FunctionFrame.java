@@ -481,7 +481,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		// panel_jwc_select.setBackground(new Color(255, 255, 255));
 		// panel_right.add("jwc_1", panel_jwc_select);
 
-		panel_jwc_curriculum = new JwcCurriculum();
+		panel_jwc_curriculum = new JwcCurriculum(token);
 		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
 		panel_right.add("jwc_2", panel_jwc_curriculum);
 
@@ -788,8 +788,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 						HideAllMessagePanel();
 					}
 				}
-			}else if (e.getSource() == button_close) {
+			else if (e.getSource() == button_close) {
 				System.exit(0);
+			}
 			}
 		}
 	

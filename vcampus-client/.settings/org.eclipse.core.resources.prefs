@@ -1,4 +1,8 @@
+=\=\=\=\=\=\=
+<<<<<<<=HEAD
+>>>>>>>=fbd794e451fd04a8308bdf7f9ac9a5e13ef63a74
 eclipse.preferences.version=1
+<<<<<<< HEAD
 <<<<<<< HEAD
 encoding//src/com/wolfTungsten/vcampusClient/client/Client.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/component/DateChooser.java=UTF-8
@@ -10,11 +14,14 @@ encoding//src/com/wolfTungsten/vcampusClient/component/TableDeleteButtonEditor.j
 encoding//src/com/wolfTungsten/vcampusClient/component/TableReBorButtonEditor.java=UTF-8
 =======
 >>>>>>> 1eb429f6604252195ba1626360a4564e8b9c1038
+=======
+encoding//src/com/wolfTungsten/vcampusClient/client/Client.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/component/SCTableCellRendererAdd.java=UTF-8
+encoding//src/com/wolfTungsten/vcampusClient/component/SCTableCellRendererCancel.java=UTF-8
+>>>>>>> cd64c8fcb16417a4baf06686609283443f981c81
 encoding//src/com/wolfTungsten/vcampusClient/frame/FunctionFrame.java=UTF-8
-<<<<<<< HEAD
 encoding//src/com/wolfTungsten/vcampusClient/frame/LoginUI.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/frame/RegisterFrame.java=UTF-8
-=======
 encoding//src/com/wolfTungsten/vcampusClient/panel/BankBill.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/panel/BankModifyPass.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/panel/BankSaveAndWithdraw.java=UTF-8
@@ -29,5 +36,6 @@ encoding//src/com/wolfTungsten/vcampusClient/panel/JwcSelectCourses.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/panel/LibFindBooksPanel.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/panel/LibManager.java=UTF-8
 encoding//src/com/wolfTungsten/vcampusClient/panel/LibMessage.java=UTF-8
->>>>>>> fbd794e451fd04a8308bdf7f9ac9a5e13ef63a74
 encoding//src/com/wolfTungsten/vcampusClient/panel/ShopSelect.java=UTF-8
+encoding/<project>=UTF-8
+separateDerivedEncodings=true
