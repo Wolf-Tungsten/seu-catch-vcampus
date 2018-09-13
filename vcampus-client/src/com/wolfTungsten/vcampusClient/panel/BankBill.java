@@ -87,6 +87,10 @@ public class BankBill extends JPanel implements ItemListener{
 		textField_name.setColumns(10);
 		
 		comboBox_time = new JComboBox();
+		comboBox_time.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+			}
+		});
 		comboBox_time.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		comboBox_time.setBounds(10, 17, 80, 23);
 		comboBox_time.addItem("三天内");

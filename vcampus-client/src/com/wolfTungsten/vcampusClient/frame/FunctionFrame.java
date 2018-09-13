@@ -667,12 +667,13 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				panel_message_bank.setVisible(false);
 				contentPane.setLayer(panel_message_shop, new Integer(11));
 
-			} */
-			else if (e.getSource() == label_bank_save_withdraw) {
+			} */else if (e.getSource() == label_bank_save_withdraw) {
+				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
 
 				
-			}	else if (e.getSource() == label_shop_select) {
+			}	
+			else if (e.getSource() == label_shop_select) {
 					cardLayout.show(panel_right, "shop_1");
 					HideAllMessagePanel();
 				} else if (e.getSource() == label_shop_cart) {
@@ -791,8 +792,9 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			}else if (e.getSource() == button_close) {
 				System.exit(0);
 			}
-		}
+			}
 	}
+	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
