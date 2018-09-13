@@ -1,3 +1,10 @@
+/**
+ * Classname ：ShopController.java
+ * 
+ * Date:2018/9/14
+ * 
+ * @author 袁皓东
+ */
 package com.wolfTungsten.vcampus.controller;
 
 import java.sql.SQLException;
@@ -34,7 +41,9 @@ public class ShopController extends BaseController
 	//ok
 	private BaseController.BaseHandle addGoodsHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 新增商品
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -73,7 +82,9 @@ public class ShopController extends BaseController
 	//从前端接受一个删除商品的uuid列表
 	private BaseController.BaseHandle deleteGoodsHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 从前端接受一个删除商品的uuid列表，删除商品
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -106,7 +117,9 @@ public class ShopController extends BaseController
 		}
 	};
 	private BaseController.BaseHandle updateGoodHandle = new BaseHandle() {
-		
+		/**
+		 * 更新商品信息
+		 */
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();
@@ -145,7 +158,9 @@ public class ShopController extends BaseController
 	
 	private BaseController.BaseHandle updateGoodsHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 更新商品信息
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -179,7 +194,9 @@ public class ShopController extends BaseController
 	//未测试 
 	private BaseController.BaseHandle queryByFlagHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 按flag查询商品
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -211,7 +228,9 @@ public class ShopController extends BaseController
 	};
 	private BaseController.BaseHandle queryGoodsByselHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 按选中查询商品
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -248,7 +267,9 @@ public class ShopController extends BaseController
 	//待改
 	private BaseController.BaseHandle purchaseNowHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 立即购买
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -298,7 +319,9 @@ public class ShopController extends BaseController
 	//传商品购买信息ArrayList<LinkedTreeMap<String,Object>>
 	private BaseController.BaseHandle purchaseBycart = new BaseHandle()
 	{
-		
+		/**
+		 * 购物车总购买
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -357,7 +380,9 @@ public class ShopController extends BaseController
 	//前端传token 商品uuid  
 	private BaseController.BaseHandle addCartHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 添加购物车
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -394,7 +419,9 @@ public class ShopController extends BaseController
 	//查看购物车
 	private BaseController.BaseHandle inqueryCart = new BaseHandle()
 	{
-		
+		/**
+		 * 查询购物车内容
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -448,7 +475,9 @@ public class ShopController extends BaseController
 	//查看购买记录
 	private BaseController.BaseHandle buyRecordHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 查看购买记录
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -500,7 +529,9 @@ public class ShopController extends BaseController
 	};
 	
 	private BaseController.BaseHandle cartremoveHandle = new BaseHandle() {
-		
+		/**
+		 * 删除购物车商品
+		 */
 		@Override
 		public Response work(Request request) {
 			Response response = new Response();

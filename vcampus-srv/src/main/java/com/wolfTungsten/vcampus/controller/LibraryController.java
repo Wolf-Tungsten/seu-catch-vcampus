@@ -1,3 +1,10 @@
+/**
+ * Classname:LibraryController.java
+ * 
+ * Date:2018/9/14
+ * 
+ * @author 袁皓东
+ */
 package com.wolfTungsten.vcampus.controller;
 
 import java.sql.SQLException;
@@ -35,7 +42,9 @@ public class LibraryController extends BaseController
 
 	private BaseController.BaseHandle addBookHandle = new BaseHandle()
 	{
-
+		/**
+		 * 添加图书
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -109,7 +118,9 @@ public class LibraryController extends BaseController
 	};
 	private BaseController.BaseHandle updateBookHandle = new BaseHandle()
 	{
-
+		/**
+		 * 修改图书信息
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -145,9 +156,10 @@ public class LibraryController extends BaseController
 	};
 	
 	private BaseController.BaseHandle queryAllHandle = new BaseHandle()
-
 	{
-
+		/**
+		 * 查询所有图书
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -180,7 +192,9 @@ public class LibraryController extends BaseController
 	};
 	private BaseController.BaseHandle queryByFlagHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 按某个标志查询图书
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -197,6 +211,9 @@ public class LibraryController extends BaseController
 
 	private BaseController.BaseHandle queryByNameHandle = new BaseHandle()
 	{
+		/**
+		 * 按名字查询图书
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -232,7 +249,9 @@ public class LibraryController extends BaseController
 
 	private BaseController.BaseHandle queryByAuthorHandle = new BaseHandle()
 	{
-
+		/**
+		 * 按作者查询图书
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -265,14 +284,13 @@ public class LibraryController extends BaseController
 
 		}
 	};
-	/**
-	 * 借书
-	 */
 	
 	//重写
 	private BaseController.BaseHandle borrowBookHandle = new BaseHandle()
 	{
-
+		/**
+		 * 借书
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -308,13 +326,12 @@ public class LibraryController extends BaseController
 
 		}
 	};
-	// 已测试
-	/**
-	 * 还书,前端借阅记录的uuid即可,还有token
-	 */
+
 	private BaseController.BaseHandle returnBookHandle = new BaseHandle()
 	{
-
+		/**
+		 * 还书,前端借阅记录的uuid即可,还有token
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -344,13 +361,13 @@ public class LibraryController extends BaseController
 
 		}
 	};
-	/**
-	 * 续借,前端传借阅记录的uuid
-	 */
+
 	// 已测试
 	private BaseController.BaseHandle renewBookHandle = new BaseHandle()
 	{
-
+		/**
+		 * 续借,前端传借阅记录的uuid
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -374,13 +391,13 @@ public class LibraryController extends BaseController
 
 		}
 	};
-	/**
-	 * 返回用户借阅记录 前端传token
-	 */
+
 	// 已测试
 	private BaseController.BaseHandle borrowRecordHandle = new BaseHandle()
 	{
-
+		/**
+		 * 返回用户借阅记录 前端传token
+		 */
 		@Override
 		public Response work(Request request)
 		{

@@ -1,3 +1,8 @@
+/*
+ * ClassName :BankController.java
+ * 
+ * Date:2018/9/13
+ */
 package com.wolfTungsten.vcampus.controller;
 
 import java.sql.Date;
@@ -11,6 +16,10 @@ import com.wolfTungsten.vcampus.entity.TradingRecord;
 import com.wolfTungsten.vcampus.entity.AccountBalance;
 import com.wolfTungsten.vcampus.entity.User;
 
+/*
+ * 银行模块的控制类，用于接受客户端请求并作出相应响应
+ * @author 申池冉 
+ */
 public class BankController extends BaseController{
 	public BankController() {
 		super();
@@ -28,6 +37,9 @@ public class BankController extends BaseController{
 	}
 
 	private BaseController.BaseHandle bankUserHandle = new BaseController.BaseHandle() {
+		/*
+		 * 这个Handle提供了银行用户的注册功能
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -56,6 +68,9 @@ public class BankController extends BaseController{
 		}
 	};
 	private BaseController.BaseHandle checkHandle = new BaseController.BaseHandle() {
+		/**
+		 * 这个Handle用于检测用户状态
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -88,6 +103,9 @@ public class BankController extends BaseController{
 		}
 	};
 	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle() {
+		/**
+		 * 注册银行账户，设置支付密码
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -128,6 +146,9 @@ public class BankController extends BaseController{
 	//000001为中国银行账户卡号
 
 	private BaseController.BaseHandle depositHandle = new BaseController.BaseHandle() {
+		/**
+		 * 这个Handle是干啥的我们要问一下原作者
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -168,6 +189,9 @@ public class BankController extends BaseController{
 	
 	};
 	private BaseController.BaseHandle tradeHandle = new BaseController.BaseHandle() {
+		/**
+		 * 取款和转账
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -215,6 +239,9 @@ public class BankController extends BaseController{
 		
 	};
 	private BaseController.BaseHandle withdrawHandle = new BaseController.BaseHandle() {
+		/**
+		 * 验证用户状态
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -253,6 +280,9 @@ public class BankController extends BaseController{
 	};
 	
 	private BaseController.BaseHandle balanceHandle = new BaseController.BaseHandle() {
+		/**
+		 * 查询余额
+		 */
     	@Override
     	public Response work(Request request)
 		{
@@ -290,6 +320,9 @@ public class BankController extends BaseController{
 		}
 	};
 	private BaseController.BaseHandle toBillHandle = new BaseController.BaseHandle() {
+		/**
+		 * 查询收入账单
+		 */
     	@Override
     	public Response work(Request request)
 		{
@@ -341,6 +374,9 @@ public class BankController extends BaseController{
 	};
 	
 	private BaseController.BaseHandle fromBillHandle = new BaseController.BaseHandle() {
+		/**
+		 * 查询支出账单
+		 */
     	@Override
     	public Response work(Request request)
 		{
@@ -395,6 +431,9 @@ public class BankController extends BaseController{
 	};
 	
 	private BaseController.BaseHandle billHandle = new BaseController.BaseHandle() {
+		/**
+		 * 查询所有账单
+		 */
     	@Override
     	public Response work(Request request)
 		{
@@ -455,6 +494,9 @@ public class BankController extends BaseController{
 	};
 	
 	private BaseController.BaseHandle secretPasswordHandle = new BaseController.BaseHandle() {
+		/**
+		 * 修改支付密码
+		 */
     	@Override
     	public Response work(Request request)
 		{

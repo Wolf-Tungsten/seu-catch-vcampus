@@ -46,7 +46,7 @@
     		<version>4.0.4</version>
 		</dependency>
 		
-
+	
 		 
 		<dependency>
   		  <groupId>org.slf4j</groupId>
@@ -76,6 +76,15 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			<plugin>
+   				 <groupId>org.apache.maven.plugins</groupId>
+  				  <artifactId>maven-javadoc-plugin</artifactId>
+    				<configuration>
+       			 <additionalparam>-Xdoclint:none</additionalparam>
+   					 </configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 

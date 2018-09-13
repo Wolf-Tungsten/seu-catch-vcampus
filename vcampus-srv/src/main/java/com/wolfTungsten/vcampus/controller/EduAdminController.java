@@ -1,3 +1,9 @@
+/**
+ * Classname : EduAdminController.java
+ * 
+ * 
+ * @author 袁皓东
+ */
 package com.wolfTungsten.vcampus.controller;
 
 import java.sql.SQLException;
@@ -32,7 +38,9 @@ public class EduAdminController extends BaseController
 	//已测试//时间字符串 2018-8-16/9:00-12:00
 	private BaseController.BaseHandle addCourseHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 增加新的课程
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -77,7 +85,10 @@ public class EduAdminController extends BaseController
 	//前端传 token 
 	private BaseController.BaseHandle queryAllCourse = new BaseHandle()
 	{
-		
+		/**
+		 * 查询所有的课程
+		 *
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -124,15 +135,13 @@ public class EduAdminController extends BaseController
 			}
 		}
 	};
-	//未测试
-	/**
-	 * 搜索课程信息
-	 */
-	
+
 	
 	private BaseController.BaseHandle queryByNameHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 按照名字查询课程
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -181,12 +190,12 @@ public class EduAdminController extends BaseController
 		}
 	};
 	
-	//删除课程 管理端功能
-	//已测试
-	//前端传token 课程的uuid 
+
 	private BaseController.BaseHandle deleteCourseHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 删除商品
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -221,7 +230,9 @@ public class EduAdminController extends BaseController
 	//前端传token  ArrayList<LinkedTreeMap<String, Object>> courseMaplist
 	private BaseController.BaseHandle updateCourse = new BaseHandle()
 	{
-		
+		/**
+		 * 删除掉一门课
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -258,7 +269,9 @@ public class EduAdminController extends BaseController
 	//已测试
 	private BaseController.BaseHandle selCourseHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 选课
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -291,7 +304,9 @@ public class EduAdminController extends BaseController
 	//退课
 	private BaseController.BaseHandle dropCourseHandle = new BaseHandle()
 	{
-		
+		/**
+		 *退课
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -326,7 +341,9 @@ public class EduAdminController extends BaseController
 	//已测试
 	private BaseController.BaseHandle scheduleHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 查学生课表
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -373,7 +390,9 @@ public class EduAdminController extends BaseController
 	//学生名单
 	private BaseController.BaseHandle studentlistHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 显示学生名单
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -427,7 +446,9 @@ public class EduAdminController extends BaseController
 	//前端传token 和课程 userXcourse的uuid
 	private BaseController.BaseHandle markHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 为成绩打分
+		 */
 		@Override
 		public Response work(Request request)
 		{

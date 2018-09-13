@@ -1,4 +1,8 @@
-﻿package com.wolfTungsten.vcampus;
+﻿/**
+ * ORM类
+ * 
+ */
+package com.wolfTungsten.vcampus;
 
 import java.sql.SQLException;
 

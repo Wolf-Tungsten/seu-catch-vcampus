@@ -1,3 +1,12 @@
+/**
+ * Classname :UserController.java
+ * 
+ * 用户管理模块负责管理用户注册，身份认证，登入登出，用户身份信息的增加，删除，查询和更改。
+ * 
+ * Date:2018/9/14
+ * 
+ * @author 袁皓东
+ */
 package com.wolfTungsten.vcampus.controller;
 
 import java.io.UnsupportedEncodingException;
@@ -26,7 +35,9 @@ public class UserController extends BaseController{
 	}
 	
 	private BaseController.BaseHandle addUserHandle = new BaseController.BaseHandle() {
-		
+		/**
+		 * 添加用户
+		 */
 		@Override//覆写报错
 		//重载
 		public Response work(Request request) {
@@ -56,7 +67,9 @@ public class UserController extends BaseController{
 	//注册
 	private BaseController.BaseHandle registerHandle = new BaseController.BaseHandle()
 	{
-				
+		/**
+		 * 用户注册
+		 */		
 		@Override
 		public Response work(Request request)
 		{
@@ -95,7 +108,9 @@ public class UserController extends BaseController{
 	
 	private BaseController.BaseHandle loginHandle = new BaseController.BaseHandle() 
 	{
-		
+		/**
+		 * 用户登录验证
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -141,7 +156,9 @@ public class UserController extends BaseController{
 	};
 	
 	private BaseController.BaseHandle updateHandle = new BaseController.BaseHandle() {
-		
+		/**
+		 * 更改用户信息
+		 */
 		@Override
 		public Response work(Request request) {
 			String uuid = (String)request.getParams().get("uuid");
@@ -181,7 +198,9 @@ public class UserController extends BaseController{
 	//前端传token 和旧密码
 	private BaseController.BaseHandle modifyPwdHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 修改登录密码
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -223,7 +242,9 @@ public class UserController extends BaseController{
 	
 	private BaseController.BaseHandle userinfoHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 展示用户信息
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -261,7 +282,9 @@ public class UserController extends BaseController{
 	
 	private BaseController.BaseHandle modifyUserinfo = new BaseHandle()
 	{
-		
+		/**
+		 * 修改用户信息
+		 */
 		@Override
 		public Response work(Request request)
 		{

@@ -1,3 +1,11 @@
+/**
+ * Classname:HelperController.java
+ * 
+ * Date:2018/9/14
+ * 
+ * 用于显示课程的类
+ * @author 袁皓东
+ */
 package com.wolfTungsten.vcampus.controller;
 
 import java.sql.SQLException;
@@ -28,7 +36,9 @@ public class HelperController extends BaseController
 	//已测试
 	private BaseController.BaseHandle addExperimentController = new BaseHandle()
 	{
-		
+		/**
+		 * 
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -175,7 +185,9 @@ public class HelperController extends BaseController
 	//未测试
 	private BaseController.BaseHandle addExamHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 添加考试
+		 */
 		@Override
 		public Response work(Request request)
 		{
@@ -210,7 +222,9 @@ public class HelperController extends BaseController
 	};
 	private BaseController.BaseHandle deleteExamHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 删除考试
+		 */	
 		@Override
 		public Response work(Request request)
 		{
@@ -241,7 +255,9 @@ public class HelperController extends BaseController
 	//学生考试表
 	public BaseController.BaseHandle showExamHandle = new BaseHandle()
 	{
-		
+		/**
+		 * 展示所有考试
+		 */
 		@Override
 		public Response work(Request request)
 		{
