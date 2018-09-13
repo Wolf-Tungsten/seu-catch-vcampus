@@ -37,6 +37,7 @@ public class VCampusServer {
 	public static void main(String[] args) {
 		// 服务端在20006端口监听客户端请求的TCP连接
 		ServerSocket serverSocket = null;
+		new Thread(new VCampusUdpServer()).start(); // 使用UDP广播使得客户端可以自动获取服务器地址
 		VCampusServer server = new VCampusServer();
 		try {
 			serverSocket = new ServerSocket(20006);
