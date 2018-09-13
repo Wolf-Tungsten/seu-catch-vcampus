@@ -1,5 +1,6 @@
 package com.wolfTungsten.vcampusClient.panel;
 
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.JLabel;
@@ -9,6 +10,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 public class ShoppingHistory extends JPanel {
 	String[] columnNames= {"订单号","交易物品","时间","数量","交易金额"};//定义表格列名的数组
@@ -47,6 +49,11 @@ public class ShoppingHistory extends JPanel {
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		table.setDefaultRenderer(Object.class, cr);
+		table.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		JTableHeader head = table.getTableHeader(); // 创建表格标题对象
+        head.setPreferredSize(new Dimension(head.getWidth(), 25));// 设置表头大小
+        head.setFont(new Font("微软雅黑", Font.BOLD, 14));// 设置表格字体
+       table.setRowHeight(28);// 设置表格行宽
 	
 		scrollPane.setViewportView(table);
 		

@@ -1,6 +1,7 @@
 package com.wolfTungsten.vcampusClient.component;
 
 import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,7 +24,8 @@ public class MyButtonRender implements TableCellRenderer{
 	private void initButton() {
 		// TODO Auto-generated method stub
 		this.button=new JButton();
-		this.button.setBounds(0,0,112,25);
+		this.button.setBounds(0,0,112,27);
+		this.button.setFont(new Font("微软雅黑", Font.BOLD, 14));
 	}
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,

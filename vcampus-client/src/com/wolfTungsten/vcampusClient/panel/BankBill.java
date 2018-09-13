@@ -2,6 +2,7 @@
 package com.wolfTungsten.vcampusClient.panel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -16,6 +17,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampusClient.client.Client;
@@ -53,6 +55,7 @@ public class BankBill extends JPanel implements ItemListener{
 		add(scrollPane);
 	
 		tableModel=new DefaultTableModel(tableValues,columnNames);//创建指定列名和数据的表格	
+		
 		table=new JTable(tableModel) {
 		public boolean isCellEditable(int row, int column)
         {
@@ -60,44 +63,50 @@ public class BankBill extends JPanel implements ItemListener{
 		}
 		};
 		 //设置表数据居中显示
+		table.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		JTableHeader head = table.getTableHeader(); // 创建表格标题对象
+        head.setPreferredSize(new Dimension(head.getWidth(), 25));// 设置表头大小
+        head.setFont(new Font("微软雅黑", Font.BOLD, 14));// 设置表格字体
+        table.setRowHeight(28);// 设置表格行宽
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		table.setDefaultRenderer(Object.class, cr);
 		scrollPane.setViewportView(table);
 		
 		label_cardNum = new JLabel("一卡通号：");
-		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_cardNum.setBounds(352, 13, 77, 30);
+		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		label_cardNum.setBounds(312, 13, 77, 30);
 		add(label_cardNum);
 		
 		label_name = new JLabel("姓名:");
-		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		label_name.setBounds(573, 13, 54, 30);
+		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		label_name.setBounds(553, 13, 43, 30);
 		add(label_name);
 		
 		textField_cardNum = new JTextField();
-		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_cardNum.setBounds(439, 14, 109, 30);
+		textField_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		textField_cardNum.setBounds(399, 13, 120, 30);
 		textField_cardNum.setEditable(false);
 		textField_cardNum.setOpaque(false);
 		add(textField_cardNum);
 		textField_cardNum.setColumns(10);
 		
 		textField_name = new JTextField();
-		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
-		textField_name.setBounds(637, 14, 89, 30);
+		textField_name.setFont(new Font("微软雅黑", Font.PLAIN, 13));
+		textField_name.setBounds(606, 14, 120, 30);
 		textField_name.setEditable(false);
 		textField_name.setOpaque(false);
 		add(textField_name);
 		textField_name.setColumns(10);
 		
 		comboBox_time = new JComboBox();
+		comboBox_time.setFocusable(false);
 		comboBox_time.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
 			}
 		});
-		comboBox_time.setFont(new Font("微软雅黑", Font.BOLD, 12));
-		comboBox_time.setBounds(10, 17, 80, 23);
+		comboBox_time.setFont(new Font("微软雅黑", Font.BOLD, 13));
+		comboBox_time.setBounds(10, 12, 80, 30);
 		comboBox_time.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -140,8 +149,8 @@ public class BankBill extends JPanel implements ItemListener{
 		add(comboBox_time);
 		
 		comboBox_bill_type = new JComboBox();
-		comboBox_bill_type.setFont(new Font("微软雅黑", Font.BOLD, 12));
-		comboBox_bill_type.setBounds(100, 17, 80, 23);
+		comboBox_bill_type.setFont(new Font("微软雅黑", Font.BOLD, 13));
+		comboBox_bill_type.setBounds(96, 12, 80,30);
 		comboBox_bill_type.addItemListener(new ItemListener() {
 
 			@Override

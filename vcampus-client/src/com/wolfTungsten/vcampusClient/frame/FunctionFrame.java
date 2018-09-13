@@ -401,7 +401,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_message_bank.add(label_bank_bill);
 
 		// ”修改账户密码“按钮，关联BankModifyPass面板
-		label_bank_modify_pass = new JLabel("修改账户密码", JLabel.CENTER);
+		label_bank_modify_pass = new JLabel("设置支付密码", JLabel.CENTER);
 		label_bank_modify_pass.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_bank_modify_pass.setForeground(new Color(59, 120, 103));
 		label_bank_modify_pass.setBounds(0, 240, 150, 50);

@@ -198,19 +198,19 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		button_2 = new JButton("手机数码");
 		button_2.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_2.addActionListener(this);
-		button_2.setBounds(100, 57, 57, 23);
+		button_2.setBounds(100, 57, 80, 23);
 		add(button_2);
 		
 		button_3 = new JButton("服饰配件");
 		button_3.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_3.addActionListener(this);
-		button_3.setBounds(167, 57, 57, 23);
+		button_3.setBounds(190, 57, 80, 23);
 		add(button_3);
 		
 		button_4 = new JButton("零食美味");
 		button_4.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		button_4.addActionListener(this);
-		button_4.setBounds(234, 57, 57, 23);
+		button_4.setBounds(280, 57, 80, 23);
 		add(button_4);
 		
 		comboBox = new JComboBox();

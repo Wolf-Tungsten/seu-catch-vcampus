@@ -9,8 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-
+import javax.swing.table.JTableHeader;
 
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
@@ -18,6 +17,8 @@ import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.MyDeleteButtonRender;
 import com.wolfTungsten.vcampusClient.component.TableButtonEditor;
 import com.wolfTungsten.vcampusClient.component.TableReBorButtonEditor;
+
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -69,6 +70,11 @@ public class LibMessage extends JPanel {
             }
 		};
 		 //设置表数据居中显示
+		table.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		JTableHeader head = table.getTableHeader(); // 创建表格标题对象
+        head.setPreferredSize(new Dimension(head.getWidth(), 25));// 设置表头大小
+        head.setFont(new Font("微软雅黑", Font.BOLD, 14));// 设置表格字体
+       table.setRowHeight(28);// 设置表格行宽
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		 table.setDefaultRenderer(Object.class, cr);
@@ -96,12 +102,12 @@ public class LibMessage extends JPanel {
 		scrollPane.setViewportView(table);
 		
 		label_cardNum = new JLabel("一卡通号：");
-		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		label_cardNum.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		label_cardNum.setBounds(292, 30, 77, 32);
 		add(label_cardNum);
 		
 		label_name = new JLabel("姓名:");
-		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 12));
+		label_name.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		label_name.setBounds(548, 30, 54, 32);
 		add(label_name);
 		
