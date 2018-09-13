@@ -2,7 +2,7 @@
 package com.wolfTungsten.vcampusClient.panel;
 
 import com.google.gson.internal.LinkedTreeMap;
-import com.sun.source.tree.NewArrayTree;
+//import com.sun.source.tree.NewArrayTree;
 //import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
@@ -80,7 +80,7 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBounds(18, 20, 700, 570);
-		panel.setBackground(Color.PINK);
+		panel.setBackground(Color.CYAN);
 		add(panel);
 		
 		//panel面板的设置 添加info和main

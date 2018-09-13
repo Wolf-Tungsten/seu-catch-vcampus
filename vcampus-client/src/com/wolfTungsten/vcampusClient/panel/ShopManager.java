@@ -278,7 +278,7 @@ public class ShopManager extends JPanel implements ActionListener {
 			 if(op==JOptionPane.YES_OPTION) {//Goodinfomaplist
 				 ArrayList<LinkedTreeMap<String,Object>> updateMaplist = new ArrayList<>();
 				 for(int i=0;i<count;i++) {
-					 updatelist() ;
+					 
 					Client.Request request = new Request();
 					request.setPath("shop/updateGood");
 					request.setToken(token);

@@ -16,6 +16,9 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 
+import com.wolfTungsten.vcampusClient.client.Client;
+import com.wolfTungsten.vcampusClient.client.Client.Request;
+import com.wolfTungsten.vcampusClient.client.Client.Response;
 import com.wolfTungsten.vcampusClient.component.SCTableCellEditorAdd;
 import com.wolfTungsten.vcampusClient.component.SCTableCellEditorCancel;
 import com.wolfTungsten.vcampusClient.component.SCTableCellRendererAdd;
@@ -58,7 +61,11 @@ public class JwcSelectCourses extends JPanel implements MouseListener {
 												
 		String[] columnNames = {"课程编号","课程名称","任课老师","上课地点","上课时间","  ","   "}; //表格列名 倒数两列列空出来放置选课退课按钮
 
-		model = new DefaultTableModel(tableValues, columnNames);
+		model = new DefaultTableModel(new String[][] {}, columnNames);
+		
+		for(int i=0;i<tableValues.length;i++)
+			model.addRow(tableValues[i]);
+			
 		table = new JTable(model) {
 			public boolean isCellEditable(int row,int column){
                 if(column == table.getColumnCount()-1 && column == table.getColumnCount()-2)return true;
@@ -111,6 +118,7 @@ public class JwcSelectCourses extends JPanel implements MouseListener {
 		
 
 		
+		
 		SCTableCellRendererAdd renderer1 = new SCTableCellRendererAdd();
 		SCTableCellRendererCancel renderer2 = new SCTableCellRendererCancel();
 
@@ -136,15 +144,7 @@ public class JwcSelectCourses extends JPanel implements MouseListener {
 //		model.addRow(new String[] {"信号","","","","",""});
 //		model.addRow(new String[] {"高数","","","","",""});
 //		model.addRow(new String[] {"体育","","","","",""});
-
-		model.addRow(new String[] {"01","计组","任国林","","","已选择","已选择"});
-		model.addRow(new String[] {"02","计组","徐造林","","","已选择","已选择"});
-		model.addRow(new String[] {"03","信号","王世杰","","","已选择","已选择"});
-		model.addRow(new String[] {"04","信号","123","","","已选择","已选择"});
-		model.addRow(new String[] {"05","高数","213","","","已选择","已选择"});
-		model.addRow(new String[] {"06","几代","321","","","未选择","未选择"});
-		model.addRow(new String[] {"07","离散","李凯","","","未选择","未选择"});
-		model.addRow(new String[] {"08","算法","方效林","","","未选择","未选择"});
+//
 		
 //上面两个标签 用于显示用户 姓名 和 一卡通号码
 
@@ -166,12 +166,19 @@ public class JwcSelectCourses extends JPanel implements MouseListener {
 				//此时只有未选择时才可以点击
 				int isOK = JOptionPane.showConfirmDialog(null, "确定选择该课程？", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
 				if(isOK == JOptionPane.YES_OPTION) {
-				   table.setValueAt("已选择", row, column);
-				   table.setValueAt("已选择", row, column+1); //此时column和column是倒数第二和倒数第一列
+
 				   //从这里开始 ---------------------- 课程选择
-				   
-				   
-				   
+				   Client.Request request = new Request();
+				   request.setPath("EduAdmin/selCourse");
+				   request.setToken(token);
+				   request.getParams().put("uuid", tableValues[row][0]);
+				   Response response = Client.fetch(request);
+				   if(response.getSuccess()) {
+					   table.setValueAt("已选择", row, column);
+					   table.setValueAt("已选择", row, column+1); //此时column和column是倒数第二和倒数第一列
+				   }else {
+					   JOptionPane.showConfirmDialog(null, "选择失败！", "失败", JOptionPane.ERROR_MESSAGE);
+				   }
 				   
 				}
 			}
@@ -180,11 +187,19 @@ public class JwcSelectCourses extends JPanel implements MouseListener {
 			if(column == table.getColumnCount()-1 && String.valueOf(table.getValueAt(row, column)).equals("已选择")) {
 				//从这里开始 只有已选择才可以点击
 				int isCancel = JOptionPane.showConfirmDialog(null, "确定取消选择该课程？", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
-				if(isCancel == JOptionPane.YES_OPTION){			
+				if(isCancel == JOptionPane.YES_OPTION){		
+					Client.Request request = new Request();
+					request.setPath("EduAdmin/dropCourse");
+					request.setToken(token);
+					request.getParams().put("uuid", tableValues[row][0]);
+					Response response = Client.fetch(request);
+					if(response.getSuccess()) {
 					table.setValueAt("未选择",row,column-1);
 					table.setValueAt("未选择", row, column); //此时column-1和column是倒数第二和倒数第一列
 					//从这里开始----------------------------取消选择
-					
+					}else {
+						JOptionPane.showConfirmDialog(null, "退课失败！", "失败", JOptionPane.ERROR_MESSAGE);
+					}
 					
 				}
 			}

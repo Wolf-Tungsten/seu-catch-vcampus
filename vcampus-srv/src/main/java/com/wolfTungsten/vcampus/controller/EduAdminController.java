@@ -399,7 +399,7 @@ public class EduAdminController extends BaseController
 					student.put(User.USERNAME, user.getUsername());
 					student.put(User.CARDNUM, user.getCardnum());
 					student.put(UserXCourse.UUID,(String)record.get(UserXCourse.UUID));
-					
+					student.put(UserXCourse.SCORE, (int)record.get(UserXCourse.SCORE));
 					studentMaplist.add(student);
 				}
 				response.getBody().put("studentMaplist", studentMaplist);

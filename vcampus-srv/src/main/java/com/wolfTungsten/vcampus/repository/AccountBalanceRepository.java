@@ -77,7 +77,6 @@ public class AccountBalanceRepository	extends CurdRepository<AccountBalance>
 	}
 	
 	public AccountBalance findUserid(String toCardNum)throws SQLException {
-		String userid;
 		List<AccountBalance> userlist = dao.queryForEq(AccountBalance.CARDNUM, toCardNum);
 		return userlist.get(0);
 	}

@@ -261,6 +261,7 @@ public class HelperController extends BaseController
 					Course course = orm.courseRepository.inquireById(uxc.getCourse_id());//得到该课程实体
 					for(HashMap<String,Object> expmap:expMaplist2) {
 						expmap.put(Course.LECTURER, course.getLecturer());//为该课程下每个考试赋上教师
+						expmap.put(UserXCourse.SCORE, uxc.getScore());
 					}
 					examMaplist.addAll(expMaplist2);//该课程下对应的考试信息全并起来 
 				}

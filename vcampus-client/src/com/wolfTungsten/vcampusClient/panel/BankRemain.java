@@ -66,7 +66,10 @@ public class BankRemain extends JPanel {
 		Response response = Client.fetch(request);
 		double balance=(double)response.getBody().get("remain");
 		String balanceText=Double.toString(balance);
-		
+		String name = (String) response.getBody().get("username");
+		String cardnum = (String) response.getBody().get("cardnum");
+		textField_name.setText(name);
+		textField_cardNum.setText(cardnum);
 		textField_remain = new JTextField();
 		textField_remain.setText(balanceText);
 		textField_remain.setFont(new Font("微软雅黑", Font.BOLD, 30));
@@ -96,8 +99,20 @@ public class BankRemain extends JPanel {
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		add(textArea);
-		
-	
 
+	}
+	public void showRemain() {
+		Client.Request request = new Request();
+		request.setPath("bank/balance");
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		if(response.getSuccess()) {
+			double balance = (double)response.getBody().get("remain");
+			String b_str = String.valueOf(balance);
+			textField_remain.setText(b_str);
+		}
+		else {
+			textField_remain.setText("查询余额失败!");
+		}
 	}
 }

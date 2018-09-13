@@ -36,7 +36,7 @@ public class BankBill extends JPanel implements ItemListener{
 	//TODO 传数据给tableValues
 	String[][] tableValues= {};
 	DefaultTableModel tableModel;
-	JTable table;
+	JTable table=new JTable(tableModel);
 
 	private String token;
 	/**
@@ -92,6 +92,10 @@ public class BankBill extends JPanel implements ItemListener{
 		textField_name.setColumns(10);
 		
 		comboBox_time = new JComboBox();
+		comboBox_time.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+			}
+		});
 		comboBox_time.setFont(new Font("微软雅黑", Font.BOLD, 12));
 		comboBox_time.setBounds(10, 17, 80, 23);
 		comboBox_time.addItemListener(new ItemListener() {
@@ -101,20 +105,29 @@ public class BankBill extends JPanel implements ItemListener{
 				if (e.getStateChange() == ItemEvent.SELECTED) {		
 					if(comboBox_time.getSelectedIndex()==0) {
 						time=0;
+						typeBill(type,duration(time));
+						
+						System.out.println("time:"+time);
 					}else if(comboBox_time.getSelectedIndex()==1) {
 						time=1;
+						System.out.println("time:"+time);
+						typeBill(type,duration(time));
 					}else if(comboBox_time.getSelectedIndex()==2) {
 						System.out.println("yhddsb1");
 						time=2;
+						System.out.println("time:"+time);
+						typeBill(type,duration(time));
 					}else if(comboBox_time.getSelectedIndex()==3) {
 						time=3;
+						System.out.println("time:"+time);
+						typeBill(type,duration(time));
 					}else if(comboBox_time.getSelectedIndex()==4) {
 						time=4;
+						System.out.println("time:"+time);
+						typeBill(type,duration(time));
 					}
 				}
-				if(type==2&&time==2) {
-					System.out.println("yhddsb2");
-				}
+				
 			}
 			
 		});
@@ -137,16 +150,22 @@ public class BankBill extends JPanel implements ItemListener{
 				if (e.getStateChange() == ItemEvent.SELECTED) {		
 					if(comboBox_bill_type.getSelectedIndex()==0) {
 						type=0;
+						System.out.println("type:"+type);
+						typeBill(type,duration(time));
 					}else if(comboBox_bill_type.getSelectedIndex()==1) {
 						type=1;
+						
+						System.out.println("type:"+type);
+						typeBill(type,duration(time));
 					}else if(comboBox_bill_type.getSelectedIndex()==2) {
-						System.out.println("yhddsb3");
+						
 						type=2;
+						int a =time;
+						System.out.println("type:"+type);
+						typeBill(type,duration(time));
 					}
 				}
-				if(type==2&&time==2) {
-					System.out.println("yhddsb4");
-				}
+				
 			}
 			
 		});
@@ -165,10 +184,10 @@ public class BankBill extends JPanel implements ItemListener{
 	/*		if (e.getStateChange() == ItemEvent.SELECTED) {
 				
 				if(comboBox_time.getSelectedIndex()==0) {
-					System.out.println("sssss");
+					
 					if(comboBox_bill_type ==null) System.out.println("null");
 					if(comboBox_bill_type.getSelectedIndex()==0) {
-						System.out.println("sss33");
+						
 						Client.Request request = new Request();
 						request.setPath("bank/bill");
 						request.setToken(token);
@@ -182,8 +201,7 @@ public class BankBill extends JPanel implements ItemListener{
 						
 						for (int i = 0; i < rowcount; i++) {
 							LinkedTreeMap<String, Object> billMap = billList.get(i);
-							if (billMap == null)
-								System.out.println("sssss");
+						
 
 							String []rowValue = new String[4];
 							rowValue[0] = (String) billMap.get("createtime");
@@ -635,6 +653,124 @@ public class BankBill extends JPanel implements ItemListener{
 				 
 		 }
 	
+	public void showBill(long duration) {
+		Client.Request request = new Request();
+		request.setPath("bank/bill");
+		request.setToken(token);
+		request.getParams().put("period", 31536000);
+		Response response = Client.fetch(request);
+		String myName=(String)response.getBody().get("myName");
+		textField_name.setText(myName);
+		String myCardNum=(String) response.getBody().get("myCardNum");
+		textField_cardNum.setText(myCardNum);
+		HashMap<String, Object> bill = new HashMap<>();
+		ArrayList<LinkedTreeMap<String, Object>> billList = (ArrayList<LinkedTreeMap<String, Object>>) response
+				.getBody().get("bill");
+		
+		int rowcount =billList==null?0: billList.size();
+		tableModel.setRowCount(0);
+		for (int i = 0; i < rowcount; i++) {
+			LinkedTreeMap<String, Object> billMap = billList.get(i);
+			if (billMap == null)
+				break;
 
+			String []rowValue = new String[4];
+			rowValue[0] = (String) billMap.get("createTime");
+			rowValue[1] = (String) billMap.get("otherName");
+			rowValue[2] = (String) billMap.get("otherCardnum");
+			rowValue[3] = (String)billMap.get("value");
+			tableModel.addRow(rowValue);
+		}
+		
+		
+		
+		
+	}
+	
+	public void showfrombill(long duration) {
+		Client.Request request = new Request();
+		 request.setPath("bank/fromBill");
+			request.setToken(token);
+			request.getParams().put("period", duration);
+			Response response = Client.fetch(request);
+			String myName=(String)response.getBody().get("myName");
+			textField_name.setText(myName);
+			String myCardNum=(String) response.getBody().get("myCardnum");
+			textField_cardNum.setText(myCardNum);
+			HashMap<String, Object> fromBill = new HashMap<>();
+			ArrayList<LinkedTreeMap<String, Object>> fromBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+					.getBody().get("fromBill");
+			tableModel.setRowCount(0);
+			int rowcount = fromBillList==null?0:fromBillList.size();
+			System.out.println(rowcount);
+			for (int i = 0; i < rowcount; i++) {
+				LinkedTreeMap<String, Object> fromBillMap = fromBillList.get(i);
+				if (fromBillMap == null)
+					break;
 
+				String []rowValue = new String[4];
+				rowValue[0] = (String) fromBillMap.get("createTime");
+				rowValue[1] = (String) fromBillMap.get("toName");
+				rowValue[2] = (String) fromBillMap.get("toCardnum");
+				rowValue[3] =String.valueOf((double)fromBillMap.get("value"));
+				System.out.println(rowValue[0]+","+rowValue[1]+","+rowValue[2]+","+rowValue[3]);
+				tableModel.addRow(rowValue);
+			}
+			
+		
+	}
+	public void showtobill(long duration) {
+		Client.Request request = new Request();
+		request.setPath("bank/toBill");
+		request.setToken(token);
+		request.getParams().put("period", duration);
+		Response response = Client.fetch(request);
+		String myName=(String)response.getBody().get("myName");
+		textField_name.setText(myName);
+		String myCardNum=(String) response.getBody().get("myCardnum");
+		textField_cardNum.setText(myCardNum);
+		HashMap<String, Object> toBill = new HashMap<>();
+		ArrayList<LinkedTreeMap<String, Object>> toBillList = (ArrayList<LinkedTreeMap<String, Object>>) response
+				.getBody().get("toBill");
+		
+		int rowcount = toBillList==null?0:toBillList.size();
+		tableModel.setRowCount(0);
+		for (int i = 0; i < rowcount; i++) {
+			LinkedTreeMap<String, Object> toBillMap = toBillList.get(i);
+			if (toBillMap == null)
+				break;
+
+			String []rowValue = new String[4];
+			rowValue[0] = (String) toBillMap.get("createTime");
+			rowValue[1] = (String) toBillMap.get("fromName");
+			rowValue[2] = (String) toBillMap.get("fromCardnum");
+			rowValue[3] =String.valueOf((double)toBillMap.get("value"));;	
+			tableModel.addRow(rowValue);
+		
+	}
+		
+		
+	}
+	public long duration(int time) {
+		if(time==0) {
+			return 3*24*3600;
+		}else if(time==1) {
+			return 30*24*3600;
+		}else if(time==2) {
+			return 3*30*24*3600;
+		}else if(time==3) {
+			return 6*30*24*3600;
+		}else if(time==4) {
+			return 12*30*3600;
+		}
+		return 3*24*3600;
+	}
+	public void typeBill(int type,long duration) {
+		if(type==0) {
+			showBill(duration);
+		}else if(type==1){
+			showtobill(duration);
+		}else
+			showfrombill(duration);
+	}
 }
