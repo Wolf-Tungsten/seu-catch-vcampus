@@ -127,7 +127,7 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			request.getParams().put("newSecretPassword", Client.getMD5(newPassStr));
 			Response response = Client.fetch(request);
 			if(response.getSuccess()) {
-				 JOptionPane.showMessageDialog(null, "修改密码成功", "Tips",JOptionPane.ERROR_MESSAGE); 
+				 JOptionPane.showMessageDialog(null, "修改密码成功", "Tips",JOptionPane.OK_OPTION); 
 				 return;
 			}else {
 				 JOptionPane.showMessageDialog(null, "修改密码失败，请检查原始密码是否正确", "Tips",JOptionPane.ERROR_MESSAGE); 

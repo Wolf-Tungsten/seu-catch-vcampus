@@ -286,6 +286,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 		}
 		if (e.getSource() == registerButton) {
 			this.hide();
+			Client.host = textField_IP.getText();
 			RegisterFrame register_frame = new RegisterFrame();
 			register_frame.setVisible(true);
 		}

@@ -253,7 +253,7 @@ public class RegisterFrame extends JFrame implements ActionListener,KeyListener{
 
 		JLabel bgLabel = new JLabel();
 		bgLabel.setBounds(0, 0, 800, 600);
-		URL resource=LoginUI.class.getResource("registerBG0.JPG");
+		URL resource=LoginUI.class.getResource("registerBG0.jpg");
 		ImageIcon imageIcon=new ImageIcon(resource);
 		bgLabel.setIcon(imageIcon);
 		getLayeredPane().add(bgLabel, new Integer(Integer.MIN_VALUE));

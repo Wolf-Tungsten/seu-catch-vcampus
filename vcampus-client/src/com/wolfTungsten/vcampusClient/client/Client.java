@@ -15,7 +15,7 @@ import java.io.*;
 public class Client {
 
 
-	public static String host = "223.3.122.105";
+	public static String host = "0";
 
 
 	public static int port = 20006;
