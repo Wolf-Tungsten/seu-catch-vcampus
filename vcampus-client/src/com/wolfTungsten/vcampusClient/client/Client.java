@@ -1,8 +1,11 @@
 package com.wolfTungsten.vcampusClient.client;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.net.Socket;
 import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -174,21 +177,47 @@ public class Client {
 		public void run() {
 			// TODO Auto-generated method stub
 			try {
-				DatagramSocket datagramSocket = new DatagramSocket();
+				InetAddress inetAddress = getLocalHostLANAddress();
+				
+				DatagramSocket datagramSocket = new DatagramSocket(7942);
 	            byte[] receBuf = new byte[1024];
 	            DatagramPacket recePacket = new DatagramPacket(receBuf, receBuf.length);
+	            System.out.println(inetAddress.getHostAddress());
 	            datagramSocket.receive(recePacket);
 	            String receStr = new String(recePacket.getData(), 0 , recePacket.getLength());
-	            if (receStr.equals("seu-catch-vcampus-server")) {
-	            	Client.host = recePacket.getAddress().toString();
-	            	System.out.println("嗅探到服务器在" + Client.host);
-	            }
-			} catch ( IOException e) {
+	            Client.host = recePacket.getAddress().toString();
+	            System.out.println("嗅探到服务器在" + Client.host);
+	            
+			} catch ( Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
 		}
+		
+		public InetAddress getLocalHostLANAddress() throws Exception {
+		    try {
+		        InetAddress candidateAddress = null;
+		        // 遍历所有的网络接口
+		        for (Enumeration ifaces = NetworkInterface.getNetworkInterfaces(); ifaces.hasMoreElements(); ) {
+		            NetworkInterface iface = (NetworkInterface) ifaces.nextElement();
+		            // 在所有的接口下再遍历IP
+		            for (Enumeration inetAddrs = iface.getInetAddresses(); inetAddrs.hasMoreElements(); ) {
+		                InetAddress inetAddr = (InetAddress) inetAddrs.nextElement();
+		                if (inetAddr.getHostAddress().startsWith("223")) {
+		                	return inetAddr;
+		                }
+		            }
+		        }
+		        // 如果没有发现 non-loopback地址.只能用最次选的方案
+		        InetAddress jdkSuppliedAddress = InetAddress.getLocalHost();
+		        return jdkSuppliedAddress;
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		    return null;
+		}
+		
 		
 	}
 	public static void main(String[] args) {
