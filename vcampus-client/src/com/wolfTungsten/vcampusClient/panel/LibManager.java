@@ -4,6 +4,7 @@ package com.wolfTungsten.vcampusClient.panel;
 import javax.swing.JPanel;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
@@ -16,6 +17,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampusClient.client.Client;
@@ -120,6 +122,11 @@ public class LibManager extends JPanel implements ActionListener {
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		table.setDefaultRenderer(Object.class, cr);
+		table.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		JTableHeader head = table.getTableHeader(); // 创建表格标题对象
+        head.setPreferredSize(new Dimension(head.getWidth(), 25));// 设置表头大小
+        head.setFont(new Font("微软雅黑", Font.BOLD, 14));// 设置表格字体
+       table.setRowHeight(28);// 设置表格行宽
 		
 		scrollPane = new JScrollPane(table);
 		scrollPane.setBounds(20, 68, 696, 443);
@@ -286,6 +293,11 @@ public class LibManager extends JPanel implements ActionListener {
             }
 		};
 		 //设置表数据居中显示
+		table_1.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		JTableHeader head_1 = table_1.getTableHeader(); // 创建表格标题对象
+        head_1.setPreferredSize(new Dimension(head_1.getWidth(), 25));// 设置表头大小
+        head_1.setFont(new Font("微软雅黑", Font.BOLD, 14));// 设置表格字体
+       table_1.setRowHeight(28);// 设置表格行宽
 		DefaultTableCellRenderer cr_1 = new DefaultTableCellRenderer();
 		cr_1.setHorizontalAlignment(JLabel.CENTER);
 		 table_1.setDefaultRenderer(Object.class, cr_1);
@@ -304,19 +316,19 @@ public class LibManager extends JPanel implements ActionListener {
 		//显示所有在库图书信息的按钮
 		button_all = new JButton("在库图书");
 		button_all.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_all.setBounds(75, 12, 100, 26);
+		button_all.setBounds(155, 12, 100, 26);
 		button_all.addActionListener(this);
 		panel_top.add(button_all);
 		//添加图书按钮
 		button_add = new JButton("图书入库");
 		button_add.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_add.setBounds(331, 12, 100, 26);
+		button_add.setBounds(328, 12, 100, 26);
 		button_add.addActionListener(this);
 		panel_top.add(button_add);
 		//删除图书按钮
 		button_delete = new JButton("图书出库");
 		button_delete.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		button_delete.setBounds(542, 12, 100, 26);
+		button_delete.setBounds(486, 12, 100, 26);
 		button_delete.addActionListener(this);
 		panel_top.add(button_delete);
 	}

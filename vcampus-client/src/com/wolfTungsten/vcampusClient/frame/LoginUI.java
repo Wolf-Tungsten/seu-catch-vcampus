@@ -56,6 +56,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 	private JLabel label_1;
 	private JLabel lblNewLabel;
 	private JButton btnNewButton;
+	private JTextField textField_IP;
 
 	public void textSet(JTextField field) {
 		field.setOpaque(false);
@@ -90,6 +91,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 
 	// Launch the application.
 	public static void main(String[] args) {
+		new Thread(new Client.UdpListener()).start();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -178,14 +180,14 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 		cp.setLayout(null);
 		((JPanel) cp).setOpaque(false);
 
-		label = new JLabel("\u8EAB\u4EFD\u8BA4\u8BC1\u767B\u5F55");
+		label = new JLabel("身份认证登录");
 		label.setBackground(Color.WHITE);
 		label.setForeground(new Color(0, 102, 51));
 		label.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label.setBounds(522, 204, 108, 26);
 		contentPane.add(label);
 
-		label_1 = new JLabel("\u865A\u62DF\u6821\u56ED\u4FE1\u606F\u7CFB\u7EDF");
+		label_1 = new JLabel("虚拟校园信息系统");
 		label_1.setForeground(Color.WHITE);
 		label_1.setFont(new Font("微软雅黑", Font.BOLD, 44));
 		label_1.setBounds(77, 252, 381, 51);
@@ -209,6 +211,16 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 		minButton.setBounds(692, 10, 44, 23);
 		minButton.addActionListener(this);
 		contentPane.add(minButton);
+		
+		textField_IP = new JTextField("IP");
+		textField_IP.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		textField_IP.setForeground(Color.DARK_GRAY);
+		textField_IP.setBounds(10, 569, 155, 30);
+		contentPane.add(textField_IP);
+		textField_IP.setColumns(10);
+	//	textField_IP.addFocusListener(this);
+		textField_IP.setOpaque(false);
+
 
 		//实现鼠标拖拽窗口的功能
 				this.addMouseListener(new MouseAdapter(){
@@ -251,8 +263,8 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 		if (e.getSource() == loginButton) {
 			String userStr = textField_card.getText();
 			String passStr = new String(passwordField.getPassword());
-			System.out.println(String.format("用户名-%s-密码-%s", userStr, passStr));
-			
+			Client.host= textField_IP.getText();
+			System.out.println(String.format("用户名-%s-密码-%s", userStr, passStr));	
 			// construct request object
 			Client.Request request = new Client.Request();
 			request.setPath("user/login");
@@ -308,14 +320,14 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 	public void focusGained(FocusEvent e) {
 		String userStr = textField_card.getText();
 		String passStr = new String(passwordField.getPassword());
-		
+		String IPaddress=textField_IP.getText();
 		if (userStr.equals("用户名/一卡通号")) {
 			textField_card.setText("");
 		}
 		if (passStr.equals("********")) {
 			passwordField.setText("");
 		}
-
+		
 	}
 
 	@Override
@@ -345,12 +357,13 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
+	public void keyTyped(KeyEvent e) {//键盘事件
 		// TODO Auto-generated method stub
 		int k=e.getKeyCode();
 		if(k==e.VK_ENTER) {
 			String userStr = textField_card.getText();
 			String passStr = new String(passwordField.getPassword());
+			Client.host= textField_IP.getText();
 			System.out.println(String.format("用户名-%s-密码-%s", userStr, passStr));
 			
 			// construct request object
@@ -371,5 +384,4 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 			}			
 		}
 	}
-
 }
