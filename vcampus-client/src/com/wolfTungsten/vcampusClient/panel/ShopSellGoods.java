@@ -41,12 +41,11 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 	private JTextField textField_goodName,textField_price,textField_number;
 	JComboBox<String> comboBox_type; 
 	JComboBox<String> comboBox_change;
-	private JTextField textField_postage;
 	JTextField textField_photo;
 	JTextArea textArea ;
 	JButton addButton,cancelButton;
 	String goodTypeStr,changeType;
-	private JLabel label_2;
+
 	
 	
 	
@@ -165,17 +164,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
-		  if (e.getStateChange() == ItemEvent.SELECTED) {
- //             System.out.println("选中: " + comboBox_type.getSelectedIndex() + " = " + comboBox_type.getSelectedItem());
-//              System.out.println("选中: " + comboBox_change.getSelectedIndex() + " = " + comboBox_change.getSelectedItem());
-			  if(comboBox_change.getSelectedIndex()==0) {
-				  textField_postage.setText("0");
-				  textField_postage.setEditable(false);
-			  }
-			  if(comboBox_change.getSelectedIndex()==1||comboBox_change.getSelectedIndex()==2) {
-				  textField_postage.setEditable(true);
-			  }
-          }
+	
 	}
 	@Override
 	public void focusGained(FocusEvent e) {
@@ -197,9 +186,8 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 			String goodTypeStr=(String)comboBox_type.getSelectedItem();
 			String priceStr=textField_price.getText();
 			String numberStr=textField_number.getText();
-			String changeTypeStr=(String)comboBox_change.getSelectedItem();
-			String postageStr=textField_postage.getText();
 			String descriptionStr=textArea.getText();
+			String photo = textField_photo.getText();
 			if(goodNameStr.equals("")||goodNameStr==null) {
 				JOptionPane.showMessageDialog(null, "请输商品名称！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
@@ -209,8 +197,8 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 			}else if(numberStr.equals("")||numberStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入上架件数！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}else if(postageStr.equals("")||postageStr==null) {
-				JOptionPane.showMessageDialog(null, "请输入转手所需经费！", "Tips",JOptionPane.ERROR_MESSAGE);
+			}else if(photo.equals("")||photo==null) {
+				JOptionPane.showMessageDialog(null, "请输入图片链接数！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 			else if(descriptionStr.equals("请输入对该物品的描述、出手理由或者使用体验。")) {
@@ -225,7 +213,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 			request.getParams().put("price", Double.valueOf(priceStr));
 			request.getParams().put("amount", Integer.valueOf(numberStr));
 			request.getParams().put("description", descriptionStr);
-			request.getParams().put("image", "待定");			
+			request.getParams().put("image", photo);			
 			request.getParams().put("type", goodTypeStr);
 			Response response = Client.fetch(request);
 			
@@ -233,7 +221,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 				JOptionPane.showMessageDialog(null, "添加成功!", "成功",JOptionPane.INFORMATION_MESSAGE); 
 				textField_goodName.setText("");
 	        	textField_price.setText("");
-	        	textField_postage.setText("0");
+	        	textField_photo.setText("");
 	        	textField_number.setText("");
 	        	textArea.setText("请输入对该物品的描述、出手理由或者使用体验。");
 			}
@@ -247,8 +235,8 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
         if(e.getSource()==cancelButton) {
         	textField_goodName.setText("");
         	textField_price.setText("");
-        	textField_postage.setText("0");
         	textField_number.setText("");
+        	textField_photo.setText("");
         	textArea.setText("请输入对该物品的描述、出手理由或者使用体验。");
 		}  	     
 	}
