@@ -90,6 +90,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 
 	// Launch the application.
 	public static void main(String[] args) {
+		new Thread(new Client.UdpListener()).start();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

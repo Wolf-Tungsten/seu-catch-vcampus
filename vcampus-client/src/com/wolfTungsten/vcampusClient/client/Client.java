@@ -1,7 +1,9 @@
 package com.wolfTungsten.vcampusClient.client;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
-import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import com.google.gson.Gson;
@@ -166,7 +168,29 @@ public class Client {
 		return null ;
 		
 	}
-	
+	public static class UdpListener implements Runnable {
+
+		@Override
+		public void run() {
+			// TODO Auto-generated method stub
+			try {
+				DatagramSocket datagramSocket = new DatagramSocket();
+	            byte[] receBuf = new byte[1024];
+	            DatagramPacket recePacket = new DatagramPacket(receBuf, receBuf.length);
+	            datagramSocket.receive(recePacket);
+	            String receStr = new String(recePacket.getData(), 0 , recePacket.getLength());
+	            if (receStr.equals("seu-catch-vcampus-server")) {
+	            	Client.host = recePacket.getAddress().toString();
+	            	System.out.println("嗅探到服务器在" + Client.host);
+	            }
+			} catch ( IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+		}
+		
+	}
 	public static void main(String[] args) {
 			System.out.println("<html><img src=\\"+"\""+"http://img3.imgtn.bdimg.com/it/u=2474890579,1126776362&fm=15&gp=0.jpg"+"\\"+"\""+"/"+"><html>");	
 		
