@@ -91,7 +91,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 
 	// Launch the application.
 	public static void main(String[] args) {
-		new Thread(new Client.UdpListener()).start();
+		//new Thread(new Client.UdpListener()).start();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -171,7 +171,9 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 
 		JLabel bgLabel = new JLabel();
 		bgLabel.setBounds(0, 0, 640, 480);
-		URL resource = LoginUI.class.getResource("Beauty.JPG");
+		URL resource = LoginUI.class.getResource("Beauty.jpg");
+		
+		if(resource==null)System.out.println("resource为空");
 		ImageIcon imageIcon = new ImageIcon(resource);
 		bgLabel.setIcon(imageIcon);
 		getLayeredPane().add(bgLabel, new Integer(Integer.MIN_VALUE));
@@ -201,7 +203,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 
 		JLabel lblNewLabel_1 = new JLabel("New label");
 		lblNewLabel_1.setBounds(497, 168, 218, 240);
-		URL resource_1 = LoginUI.class.getResource("white.JPG");
+		URL resource_1 = LoginUI.class.getResource("white.jpg");
 		ImageIcon imageIcon_1 = new ImageIcon(resource_1);
 		lblNewLabel_1.setIcon(imageIcon_1);
 		contentPane.add(lblNewLabel_1);
@@ -284,6 +286,7 @@ public class LoginUI extends JFrame implements ActionListener, KeyListener,Mouse
 		}
 		if (e.getSource() == registerButton) {
 			this.hide();
+			Client.host = textField_IP.getText();
 			RegisterFrame register_frame = new RegisterFrame();
 			register_frame.setVisible(true);
 		}

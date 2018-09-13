@@ -568,9 +568,9 @@ public class JwcManager extends JPanel implements ActionListener, FocusListener,
 				 Response response = Client.fetch(request);
 				 
 				 if(response.getSuccess())
-					 JOptionPane.showConfirmDialog(null, "删除成功!", "提示", JOptionPane.INFORMATION_MESSAGE);
+					 JOptionPane.showConfirmDialog(null, "删除成功!", "提示", JOptionPane.OK_OPTION);
 				 else
-					 JOptionPane.showConfirmDialog(null, "删除失败!", "提示", JOptionPane.YES_NO_CANCEL_OPTION);
+					 JOptionPane.showConfirmDialog(null, "删除失败!", "提示", JOptionPane.ERROR_MESSAGE);
 				 
 				 
 				 //具体从这里开始 添加 

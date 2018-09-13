@@ -119,7 +119,7 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 			request.getParams().put("value", value);
 			Response response = Client.fetch(request);
 			if(response.getSuccess()) {
-				JOptionPane.showMessageDialog(null, "转账成功！", "Tips",JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "转账成功！", "Tips",JOptionPane.OK_OPTION);
 			}else {
 				JOptionPane.showMessageDialog(null, "转账失败，可能：①支付密码错误；②余额不足；③对方账户错误", "Tips",JOptionPane.ERROR_MESSAGE);
 			}

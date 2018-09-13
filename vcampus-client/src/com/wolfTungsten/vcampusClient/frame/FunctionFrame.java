@@ -134,7 +134,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 
 		JLabel bgLabel_left = new JLabel();// ==========================左侧绿色标签=============================
 		bgLabel_left.setBounds(0, 0, 64, 600);
-		URL resource_left = FunctionFrame.class.getResource("siderbar-background0.JPG");
+		URL resource_left = FunctionFrame.class.getResource("siderbar-background0.jpg");
 		ImageIcon imageIcon_left = new ImageIcon(resource_left);
 		bgLabel_left.setIcon(imageIcon_left);
 		contentPane.add(bgLabel_left, new Integer(Integer.MIN_VALUE));

@@ -150,7 +150,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 				request.getParams().put("value", amountDouble);
 				Response response = Client.fetch(request);
 				if(response.getSuccess()) {
-					JOptionPane.showMessageDialog(null, "取款成功！", "Tips",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "取款成功！", "Tips",JOptionPane.OK_OPTION);
 				}else {
 					JOptionPane.showMessageDialog(null, "支付密码错误或余额不足！", "Tips",JOptionPane.ERROR_MESSAGE);
 				}

@@ -402,33 +402,33 @@ public class JwcCurriculum extends JPanel implements MouseListener  {
 				shwoText = String.format("<html><p>%s<br>%s<br>%s<br>%s</p></html>", courseName,lecturer,time,week);
 				if(week.equals("周一") && day.equals("上午"))
 					courseMonMorning.setText(shwoText);
-				else if(week.equals("周一") && day.equals("中午")) 
+				else if(week.equals("周一") && day.equals("下午")) 
 					courseMonAfternoon.setText(shwoText);
-				else if(week.equals("周一") && day.equals("下午"))
+				else if(week.equals("周一") && day.equals("晚上"))
 					courseMonNight.setText(shwoText);
 				else if(week.equals("周二") && day.equals("上午")) 
 					courseTueMorning.setText(shwoText);
-				else if(week.equals("周二") && day.equals("中午")) 
+				else if(week.equals("周二") && day.equals("下午")) 
 					courseTueAfternoon.setText(shwoText);
-				else if(week.equals("周二") && day.equals("下午"))
+				else if(week.equals("周二") && day.equals("晚上"))
 					courseTueNight.setText(shwoText);
 				else if(week.equals("周三") && day.equals("上午")) 
 					courseWedMorning.setText(shwoText);
-				else if(week.equals("周三") && day.equals("中午")) 
-					courseWedAfternoon.setText(shwoText);
 				else if(week.equals("周三") && day.equals("下午")) 
+					courseWedAfternoon.setText(shwoText);
+				else if(week.equals("周三") && day.equals("晚上")) 
 					courseWedNight.setText(shwoText);
 				else if(week.equals("周四") && day.equals("上午"))
 					courseThuMorning.setText(shwoText);
-				else if(week.equals("周四") && day.equals("中午")) 
-					courseThuAfternoon.setText(shwoText);
 				else if(week.equals("周四") && day.equals("下午")) 
+					courseThuAfternoon.setText(shwoText);
+				else if(week.equals("周四") && day.equals("晚上")) 
 					courseThuNight.setText(shwoText);
 				else if(week.equals("周五") && day.equals("上午")) 
 					courseFriMorning.setText(shwoText);
-				else if(week.equals("周五") && day.equals("中午"))
+				else if(week.equals("周五") && day.equals("下午"))
 					courseFriAfternoon.setText(shwoText);
-				else if(week.equals("周五") && day.equals("下午")) 
+				else if(week.equals("周五") && day.equals("晚上")) 
 					courseFriNight.setText(shwoText);
 						
 			}

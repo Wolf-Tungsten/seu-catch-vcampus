@@ -115,10 +115,10 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		 table.setDefaultRenderer(Object.class, cr);
 		//遍历所有行
 //		 测试用，可以删了
-		 String []rowValues= {"12356","高等数学","东野圭吾","嫌疑人X的献身","九龙湖","借阅"};
+		
 		 table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));
 		 this.table.getColumnModel().getColumn(5).setCellRenderer(new MyButtonRender());
-	 tableModel.addRow(rowValues);
+	
 		//我这里无法获取更改后的“状态”列里的信息，界面上点击借阅后“借阅”按钮会变为不可点击的“已借出”按钮，但我这里怎么接受返回的信息呢？
 		 //在TablerButtonEditor()里有返回
 		scrollPane.setViewportView(table);

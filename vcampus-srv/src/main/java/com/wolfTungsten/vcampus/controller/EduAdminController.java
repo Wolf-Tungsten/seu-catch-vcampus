@@ -208,6 +208,7 @@ public class EduAdminController extends BaseController
 				checkToken(token);
 				orm.courseRepository.deleteCourse(courseuuid);
 				orm.userXCourseRepository.deleteUXGbycourseid(courseuuid);
+				orm.examRepository.deleteExam(courseuuid);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)

@@ -250,14 +250,17 @@ public class BankController extends BaseController{
 			String secretPassword=(String)request.getParams().get(AccountBalance.SECRETPASSWORD);
 			long createTime = System.currentTimeMillis() / 1000;//时间戳
 			String token = request.getToken();
+			
 			double value=(double)request.getParams().get(TradingRecord.VALUE);
 			value=value*100;
 			try
 			{
+				
+				User bankadmin = orm.userRepository.inquireByCardnum("000001");
 				String userid=checkToken(token);
 				if(orm.accountBalanceRepository.check(userid, secretPassword))
 				{
-					orm.tradingRecordRepository.deposit(userid,"",value,createTime);
+					orm.tradingRecordRepository.deposit(userid,bankadmin.getUuid().toString(),value,createTime);
 				    response.setSuccess(true);		
 				}else {
 					response.setSuccess(false);

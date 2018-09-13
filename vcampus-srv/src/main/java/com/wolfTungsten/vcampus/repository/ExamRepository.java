@@ -49,6 +49,12 @@ public class ExamRepository extends CurdRepository<Exam>
 				.where().eq(Exam.UUID, UUID.fromString(examUuid)).prepare());
 
 	}
+	public void deleteExam2(String courseUuid) throws SQLException {
+		UUID examuuid =UUID.fromString(courseUuid);
+		dao.delete((PreparedDelete<Exam>)dao.deleteBuilder()
+				.where().eq(Exam.COURSE_UUID, courseUuid).prepare());
+
+	}
 	public ArrayList<HashMap<String,Object>>queryByFlag(String columnname,Object value) throws SQLException{
 		ArrayList<Exam> examList = new ArrayList<>();
 		ArrayList<HashMap<String,Object>> examinfoList = new ArrayList<>();
