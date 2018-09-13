@@ -52,6 +52,11 @@ public class HelperController extends BaseController
 				response.getBody().put("resulst:", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		
 		}
@@ -78,6 +83,11 @@ public class HelperController extends BaseController
 				response.setSuccess(false);
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 		}
@@ -102,6 +112,11 @@ public class HelperController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -149,6 +164,11 @@ public class HelperController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		}
 	};
@@ -170,12 +190,17 @@ public class HelperController extends BaseController
 			try
 			{
 				checkToken(token);
-				orm.examRepository.addExam(name, courseUUID, startTime, duration, location);
+				//orm.examRepository.addExam(name, courseUUID, startTime, duration, location);
 				response.setSuccess(true);
 				return response;
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -201,6 +226,11 @@ public class HelperController extends BaseController
 			} catch (SQLException e)
 			{
 				response.setSuccess(false);
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
 			}
@@ -231,6 +261,7 @@ public class HelperController extends BaseController
 					Course course = orm.courseRepository.inquireById(uxc.getCourse_id());//得到该课程实体
 					for(HashMap<String,Object> expmap:expMaplist2) {
 						expmap.put(Course.LECTURER, course.getLecturer());//为该课程下每个考试赋上教师
+						expmap.put(UserXCourse.SCORE, uxc.getScore());
 					}
 					examMaplist.addAll(expMaplist2);//该课程下对应的考试信息全并起来 
 				}
@@ -240,6 +271,11 @@ public class HelperController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();

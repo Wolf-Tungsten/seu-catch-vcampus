@@ -105,49 +105,36 @@ public class BankModifyPass extends JPanel implements ActionListener{
 			String orPassStr=textField_originalPass.getText();
 			String newPassStr=textField_newPass.getText();
 			String rePassStr=textField_rePass.getText();
-			//TODO 传给客户端的用户信息
-			String myCardNum=null;//“我”的一卡通号
-			String myID=null;//“我”的身份证号
-			String myPass=null;//“我”的原始密码
-			 if(orPassStr.equals("")||orPassStr==null) {
 
-	//		String orPassStr=textField_originalPass.getText();
-	//		String newPassStr=textField_newPass.getText();
-	//		String rePassStr=textField_rePass.getText();
 			if(orPassStr.equals("")||orPassStr==null) {
-
 				JOptionPane.showMessageDialog(null, "请输入原始密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
 			}else if(newPassStr.equals("")||newPassStr==null) {
 				JOptionPane.showMessageDialog(null, "请输入新密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}
-			else if(rePassStr.equals("")||rePassStr==null) {
+			}else if(rePassStr.equals("")||rePassStr==null) {
 				JOptionPane.showMessageDialog(null, "请确认新密码！", "Tips",JOptionPane.ERROR_MESSAGE);
 				return;
-			}  else if(!newPassStr.equals(rePassStr)) {
+			}else if(!newPassStr.equals(rePassStr)) {
 		    	 JOptionPane.showMessageDialog(null, "两次输入密码不一致~", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
-
-			}else if(!orPassStr.equals(myPass )) {
-				JOptionPane.showMessageDialog(null, "原始密码输入不正确", "Tips",JOptionPane.ERROR_MESSAGE); 
-		    	 return;
-
-
+		    	return;
 			}
 			
 			Client.Request request = new Request();
 			request.setPath("bank/secretPassword");
 			request.setToken(token);
-			request.getParams().put("secretPassword", orPassStr);
-			request.getParams().put("newSecretPassword", newPassStr);
+			request.getParams().put("secretPassword", Client.getMD5(orPassStr));
+			request.getParams().put("newSecretPassword", Client.getMD5(newPassStr));
 			Response response = Client.fetch(request);
 			if(response.getSuccess()) {
 				 JOptionPane.showMessageDialog(null, "修改密码成功", "Tips",JOptionPane.ERROR_MESSAGE); 
+				 return;
 			}else {
 				 JOptionPane.showMessageDialog(null, "修改密码失败，请检查原始密码是否正确", "Tips",JOptionPane.ERROR_MESSAGE); 
+				 return;
 			}
 		}
+		
 		if(e.getSource()==cancelButton) {
 			textField_originalPass.setText("");
 			textField_newPass.setText("");
@@ -155,4 +142,4 @@ public class BankModifyPass extends JPanel implements ActionListener{
 		}
 		}
 	}
-}
+

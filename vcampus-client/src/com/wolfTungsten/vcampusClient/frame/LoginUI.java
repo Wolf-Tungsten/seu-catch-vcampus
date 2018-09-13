@@ -11,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -38,13 +40,14 @@ import com.wolfTungsten.vcampusClient.component.RoundBorder;
 
 import java.awt.Font;
 import java.lang.*;
-public class LoginUI extends JFrame implements ActionListener, MouseListener, FocusListener {
+public class LoginUI extends JFrame implements ActionListener, KeyListener,MouseListener, FocusListener {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 
 	JButton loginButton;
 	JButton registerButton;
 	JButton exitButton;
+	JButton minButton;
 
 	static Point origin = new Point();
 	private JTextField textField_card;
@@ -52,6 +55,7 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 	private JLabel label;
 	private JLabel label_1;
 	private JLabel lblNewLabel;
+	private JButton btnNewButton;
 
 	public void textSet(JTextField field) {
 		field.setOpaque(false);
@@ -120,6 +124,8 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
+		this.getRootPane().setDefaultButton(this.loginButton);
+		loginButton.addKeyListener(this);
 		contentPane.add(loginButton);
 
 		registerButton = new RButton2("注册");
@@ -131,8 +137,8 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 		});
 		contentPane.add(registerButton);
 
-		exitButton = new JButton("×");
-		exitButton.setBounds(724, 10, 66, 23);
+		exitButton = new RButton2("×");
+		exitButton.setBounds(746, 10, 44, 23);
 		exitButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		exitButton.setForeground(Color.WHITE);
 		exitButton.addActionListener(this);
@@ -163,7 +169,7 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 
 		JLabel bgLabel = new JLabel();
 		bgLabel.setBounds(0, 0, 640, 480);
-		URL resource = LoginUI.class.getResource("Stars.JPG");
+		URL resource = LoginUI.class.getResource("Beauty.JPG");
 		ImageIcon imageIcon = new ImageIcon(resource);
 		bgLabel.setIcon(imageIcon);
 		getLayeredPane().add(bgLabel, new Integer(Integer.MIN_VALUE));
@@ -197,6 +203,12 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 		ImageIcon imageIcon_1 = new ImageIcon(resource_1);
 		lblNewLabel_1.setIcon(imageIcon_1);
 		contentPane.add(lblNewLabel_1);
+		
+		minButton = new RButton2("-");
+		minButton.setFont(new Font("微软雅黑", Font.BOLD, 20));
+		minButton.setBounds(692, 10, 44, 23);
+		minButton.addActionListener(this);
+		contentPane.add(minButton);
 
 		//实现鼠标拖拽窗口的功能
 				this.addMouseListener(new MouseAdapter(){
@@ -224,8 +236,17 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==minButton)
+		{		
+			setExtendedState(JFrame.ICONIFIED);
+		}
 		if (e.getActionCommand().equals("×")) {
-			System.exit(0);
+			 int op = JOptionPane.showConfirmDialog(null,"请问是否要退出系统？", "提示",JOptionPane.YES_NO_OPTION); 
+             if(op==JOptionPane.YES_OPTION){  
+			         System.exit(0);
+             }else {
+            	 return;
+             }
 		}
 		if (e.getSource() == loginButton) {
 			String userStr = textField_card.getText();
@@ -308,6 +329,46 @@ public class LoginUI extends JFrame implements ActionListener, MouseListener, Fo
 		if ((userStr.equals("用户名/一卡通号") && passStr.equals("********")) || (userStr.equals("") && passStr.equals(""))) {
 			textField_card.setText("用户名/一卡通号");
 			passwordField.setText("********");
+		}
+	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		int k=e.getKeyCode();
+		if(k==e.VK_ENTER) {
+			String userStr = textField_card.getText();
+			String passStr = new String(passwordField.getPassword());
+			System.out.println(String.format("用户名-%s-密码-%s", userStr, passStr));
+			
+			// construct request object
+			Client.Request request = new Client.Request();
+			request.setPath("user/login");
+			request.getParams().put("cardnum", userStr);
+			request.getParams().put("hash_password", Client.getMD5(passStr));
+			
+			// fetchs
+			Client.Response response = Client.fetch(request);
+			System.out.println(String.format("token-%s", (String)response.getBody().get("token")));
+			if (response.getSuccess()) {
+				this.dispose();
+				FunctionFrame frame_1 = new FunctionFrame((String)response.getBody().get("token"));
+				frame_1.setVisible(true);
+			} else {
+				 JOptionPane.showMessageDialog(null, "登录失败，请检查用户名和密码是否正确", "登录失败",JOptionPane.ERROR_MESSAGE);  
+			}			
 		}
 	}
 

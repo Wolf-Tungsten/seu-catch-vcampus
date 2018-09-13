@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedUpdate;
 import com.j256.ormlite.support.ConnectionSource;
@@ -33,15 +34,21 @@ public class UserXCourseRepository extends CurdRepository<UserXCourse>
 	}
 	//更新 更新成绩吧- -大概也用不到
 	public void updateUserXCourse(String uuid ,String column,Object i) throws SQLException {
-		dao.update((UserXCourse)dao.updateBuilder()
-				.updateColumnValue(column, i)
-				.where().eq(UserXCourse.UUID,UUID.fromString(uuid) ).prepare());
+		
+		dao.update((PreparedUpdate<UserXCourse>)dao.updateBuilder().updateColumnValue(column, i)
+				.where().eq(UserXCourse.UUID, UUID.fromString(uuid)).prepare());
+		
 	}
 	
 	public void deleteUserXCourse(String userUuid,String courseUuid) throws SQLException {
 		dao.delete((PreparedDelete<UserXCourse>)dao.deleteBuilder()
 				.where().eq(UserXCourse.USER_ID, userUuid)
 				.and().eq(UserXCourse.COURSE_ID, courseUuid).prepare());
+	}
+	public void deleteUXGbycourseid(String uuid) throws SQLException {
+		DeleteBuilder<UserXCourse, String> dbl =dao.deleteBuilder();
+		dbl.where().eq(UserXCourse.COURSE_ID, uuid);
+		dbl.delete();
 	}
 	
 	//查

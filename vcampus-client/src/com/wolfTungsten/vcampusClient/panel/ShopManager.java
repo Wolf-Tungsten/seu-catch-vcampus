@@ -278,7 +278,7 @@ public class ShopManager extends JPanel implements ActionListener {
 			 if(op==JOptionPane.YES_OPTION) {//Goodinfomaplist
 				 ArrayList<LinkedTreeMap<String,Object>> updateMaplist = new ArrayList<>();
 				 for(int i=0;i<count;i++) {
-					 updatelist() ;
+					 
 					Client.Request request = new Request();
 					request.setPath("shop/updateGood");
 					request.setToken(token);
@@ -381,7 +381,7 @@ public class ShopManager extends JPanel implements ActionListener {
 		 request.setPath("shop/updateGoods");
 		 request.setToken(token);
 		 request.getParams().put("Goodinfomaplist", updateMaplist);
-		 Client.Response response = Client.fetch(request);
+		 Response response = Client.fetch(request);
 		 if(response.getSuccess())
 			 JOptionPane.showMessageDialog(null, "修改成功", "Tips",JOptionPane.INFORMATION_MESSAGE);
 		 else

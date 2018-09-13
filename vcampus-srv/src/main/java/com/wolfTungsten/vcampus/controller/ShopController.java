@@ -52,11 +52,16 @@ public class ShopController extends BaseController
 				String userid = checkToken(token);
 				User u = orm.userRepository.inquireById(userid);
 				String seller = u.getUsername();
-				orm.goodsRepository.addGoods(name, description, seller, price, amount, image,type);
+				orm.goodsRepository.addGoods(name, description, seller, price, amount, image,type,0);
 				response.setSuccess(true);
 				return response;
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -80,11 +85,18 @@ public class ShopController extends BaseController
 			try {
 				checkToken(token);
 			for(String uuid:goodidlist) {
-				orm.goodsRepository.deleteGoodsByUuid(uuid);			
+				orm.goodsRepository.updateGoodsByfalg(uuid, Goods.DELETE, 1);
+				
+				
 			}
 			response.setSuccess(true);
 			return response;
 			}catch(SQLException e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -120,6 +132,11 @@ public class ShopController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 			
 			
@@ -144,6 +161,11 @@ public class ShopController extends BaseController
 			response.setSuccess(true);
 			return response;
 			}catch(SQLException e){
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -179,6 +201,11 @@ public class ShopController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}	
 		}
 	};
@@ -206,6 +233,11 @@ public class ShopController extends BaseController
 				response.setSuccess(false);
 				e.printStackTrace();
 				response.getBody().put("result", e.getMessage());
+				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
 				return response;
 			}
 			
@@ -236,7 +268,7 @@ public class ShopController extends BaseController
 				orm.userXGoodsRepository.addUXG(useruuid, good_uuid, amount
 						, price, 0,1,System.currentTimeMillis()/1000);
 				orm.tradingRecordRepository.addTradingRecord(useruuid, shopuseruuid,
-						price*amount, System.currentTimeMillis()/1000);
+						price*amount*100, System.currentTimeMillis()/1000);
 				Goods good = orm.goodsRepository.inquireById(good_uuid);
 				if(good.getAmount()-amount<0)throw new SQLException("库存不足，请减少购买数量");
 				orm.goodsRepository.updateGoodsByfalg(good_uuid, Goods.AMOUNT, good.getAmount()-amount);
@@ -252,6 +284,11 @@ public class ShopController extends BaseController
 			{
 				response.setSuccess(false);
 				response.getBody().put("result",e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
 			}			
@@ -287,7 +324,7 @@ public class ShopController extends BaseController
 					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.WHETHERBUY, 1);
 					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.CREATETIME, System.currentTimeMillis()/1000);
 					orm.tradingRecordRepository.addTradingRecord(userid,
-							shop_userid, price*amount,System.currentTimeMillis()/1000 );	
+							shop_userid, price*amount*100,System.currentTimeMillis()/1000 );	
 					Goods good = orm.goodsRepository.inquireById(gooduuid);
 					if(good.getAmount()-amount<0)throw new SQLException("库存不足，请减少购买数量");
 					orm.goodsRepository.updateGoodsByfalg(gooduuid, Goods.AMOUNT, good.getAmount()-amount);
@@ -306,6 +343,11 @@ public class ShopController extends BaseController
 				e.printStackTrace();
 				return response;
 				
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		
 		}
@@ -335,6 +377,11 @@ public class ShopController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -382,6 +429,11 @@ public class ShopController extends BaseController
 				
 			} catch (SQLException e)
 			{
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
@@ -437,6 +489,11 @@ public class ShopController extends BaseController
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();
 				return response;
+			}catch(Exception e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
 			}
 		
 		}
@@ -459,6 +516,11 @@ public class ShopController extends BaseController
 			response.setSuccess(true);
 			return response;
 			}catch(SQLException e) {
+				response.setSuccess(false);
+				response.getBody().put("result", e.getMessage());
+				e.printStackTrace();
+				return response;
+			}catch(Exception e) {
 				response.setSuccess(false);
 				response.getBody().put("result", e.getMessage());
 				e.printStackTrace();

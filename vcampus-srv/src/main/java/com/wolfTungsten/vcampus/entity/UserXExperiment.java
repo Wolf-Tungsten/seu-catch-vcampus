@@ -20,9 +20,11 @@ public class UserXExperiment
 	@DatabaseField(columnName = UserXExperiment.EXPERIMENT_ID)
 	private String experiment_id;
 	
+	
 	public UserXExperiment() {
 		
 	}
+
 
 	public UUID getUuid()
 	{

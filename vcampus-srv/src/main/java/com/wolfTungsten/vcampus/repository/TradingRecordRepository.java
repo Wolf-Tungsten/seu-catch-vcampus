@@ -29,7 +29,7 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 	
 	public void addTradingRecord(String from, String to,double value,long createTime )throws SQLException {
 		
-			if(calculateBalance(from)>=value)
+			if(calculateBalance(from)>=value/100)
 			{
 				TradingRecord tradingRecord=new TradingRecord();
 			    tradingRecord.setFrom(from);
@@ -89,4 +89,6 @@ public class TradingRecordRepository extends CurdRepository<TradingRecord>
 
 		return bill;
 	}
+	
+	
 }

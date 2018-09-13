@@ -302,7 +302,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 
 
 		// ”管理者“按钮（标签），关联JwcManager面板 ------------------------------权限
-		label_jwc_manager = new JLabel("管理者", JLabel.CENTER);
+		label_jwc_manager = new JLabel("教务管理员", JLabel.CENTER);
 		label_jwc_manager.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		label_jwc_manager.setForeground(new Color(59, 120, 103));
 		label_jwc_manager.setBounds(0, 190, 150, 50);
@@ -481,13 +481,13 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		// panel_jwc_select.setBackground(new Color(255, 255, 255));
 		// panel_right.add("jwc_1", panel_jwc_select);
 
-		panel_jwc_curriculum = new JwcCurriculum();
-		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_2", panel_jwc_curriculum);
+//		panel_jwc_curriculum = new JwcCurriculum(token);
+//		panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
+//		panel_right.add("jwc_2", panel_jwc_curriculum);
 
-		panel_jwc_exam = new JwcExam();
-		panel_jwc_exam.setBackground(new Color(255, 255, 255));
-		panel_right.add("jwc_3", panel_jwc_exam);
+//		panel_jwc_exam = new JwcExam(token);
+//		panel_jwc_exam.setBackground(new Color(255, 255, 255));
+//		panel_right.add("jwc_3", panel_jwc_exam);
 
 
 		panel_jwc_manager = new JwcManager(token);
@@ -531,17 +531,17 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		panel_bank_save_withdraw.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_1", panel_bank_save_withdraw);
 
-		panel_bank_remain = new BankRemain();
-		panel_bank_remain.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_2", panel_bank_remain);
+//		panel_bank_remain = new BankRemain(token);
+//		panel_bank_remain.setBackground(new Color(255, 255, 255));
+//		panel_right.add("bank_2", panel_bank_remain);
 
 		panel_bank_turn_money = new BankTurnMoney(token);
 		panel_bank_turn_money.setBackground(new Color(255, 255, 255));
 		panel_right.add("bank_3", panel_bank_turn_money);
 
-		panel_bank_bill = new BankBill(token);
-		panel_bank_bill.setBackground(new Color(255, 255, 255));
-		panel_right.add("bank_4", panel_bank_bill);
+//		panel_bank_bill = new BankBill(token);
+//		panel_bank_bill.setBackground(new Color(255, 255, 255));
+//		panel_right.add("bank_4", panel_bank_bill);
 
 		panel_bank_modify_pass = new BankModifyPass(token);
 		panel_bank_modify_pass.setBackground(new Color(255, 255, 255));
@@ -646,9 +646,15 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				cardLayout.show(panel_right, "jwc_1");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_curriculum) {
+				panel_jwc_curriculum = new JwcCurriculum(token);
+				panel_jwc_curriculum.setBackground(new Color(255, 255, 255));
+				panel_right.add("jwc_2", panel_jwc_curriculum);			
 				cardLayout.show(panel_right, "jwc_2");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_exam) {
+				panel_jwc_exam = new JwcExam(token);
+				panel_jwc_exam.setBackground(new Color(255, 255, 255));
+				panel_right.add("jwc_3", panel_jwc_exam);	
 				cardLayout.show(panel_right, "jwc_3");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_jwc_experiment) {
@@ -667,13 +673,13 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				panel_message_bank.setVisible(false);
 				contentPane.setLayer(panel_message_shop, new Integer(11));
 
-			} */else if (e.getSource() == label_bank_save_withdraw) {
+
+			} */
+			else if (e.getSource() == label_bank_save_withdraw) {
 				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
+			}	else if (e.getSource() == label_shop_select) {
 
-				
-			}	
-			else if (e.getSource() == label_shop_select) {
 					cardLayout.show(panel_right, "shop_1");
 					HideAllMessagePanel();
 				} else if (e.getSource() == label_shop_cart) {
@@ -727,22 +733,30 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				HideAllMessagePanel();
 
 			} else if (e.getSource() == label_bank_save_withdraw) {
-
 				cardLayout.show(panel_right, "bank_1");
 				HideAllMessagePanel();
 			} else if (e.getSource() == label_bank_remain) {
-				String payPassword = "123456";
-				// TODO 需要把用户消费密码传递过来
 				JPasswordField pwd = new JPasswordField();
 				Object[] message = { "请输入账号密码：", pwd };
 				JOptionPane.showConfirmDialog(null, message, "Tips", JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.QUESTION_MESSAGE);
 				String passStr = pwd.getText();// 获取输入对话框中的密码
-				if (passStr.equals(payPassword)) {
+				System.out.println(passStr);
+				Client.Request request = new Request();
+				request.setPath("bank/checkPassword");
+				request.setToken(token);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
+				Response response = Client.fetch(request);
+
+				if (response.getSuccess()) {
+					panel_bank_remain = new BankRemain(token);
+					panel_bank_remain.setBackground(new Color(255, 255, 255));
+					panel_right.add("bank_2", panel_bank_remain);	
 					cardLayout.show(panel_right, "bank_2");
 					HideAllMessagePanel();
 				} else {
 					JOptionPane.showMessageDialog(null, "密码错误！", "Tips", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 			} else if (e.getSource() == label_bank_turn_money) {
 				cardLayout.show(panel_right, "bank_3");
@@ -757,31 +771,30 @@ public class FunctionFrame extends JFrame implements MouseListener {
 				Client.Request request = new Request();
 				request.setPath("bank/checkPassword");
 				request.setToken(token);
-				request.getParams().put("secretPassword", passStr);
+				request.getParams().put("secretPassword", Client.getMD5(passStr));
 				Response response = Client.fetch(request);
+				
 				if (response.getSuccess()) {
+					panel_bank_bill = new BankBill(token);
+					panel_bank_bill.setBackground(new Color(255, 255, 255));
+					panel_right.add("bank_4", panel_bank_bill);
 					cardLayout.show(panel_right, "bank_4");
 					HideAllMessagePanel();
 				} else {
 					JOptionPane.showMessageDialog(null, "密码错误！", "Tips", JOptionPane.ERROR_MESSAGE);
+					return;
 				}
 			} else if (e.getSource() == label_bank_modify_pass) {
 
-				String originalPass = null;// TODO 每次点击这个label,要把用户支付密码传递给我
-				if (originalPass != null) {
-					cardLayout.show(panel_right, "bank_5");// 如果密码非空，就可以修改
-					HideAllMessagePanel();
-				} else {
-					cardLayout.show(panel_right, "bank_6");// 如果密码是空，就新建密码
 
 					Client.Request request = new Request();
-					request.setPath("bank/register");
+					request.setPath("bank/checkBankUser");
 					request.setToken(token);
-
-					Boolean ifRegister = (Boolean) Client.fetch(request).getBody().get("registerPanel");// TODO
+					Response response = Client.fetch(request);
+					Boolean ifRegister = (Boolean) response.getBody().get("registerPanel");// TODO
 																										// 每次点击这个label,要把用户支付密码传递给我
 					if (ifRegister) {
-						cardLayout.show(panel_right, "bank_4");
+						cardLayout.show(panel_right, "bank_6");
 						HideAllMessagePanel();
 					} else {
 						cardLayout.show(panel_right, "bank_5");
@@ -789,12 +802,17 @@ public class FunctionFrame extends JFrame implements MouseListener {
 						HideAllMessagePanel();
 					}
 				}
-			}else if (e.getSource() == button_close) {
-				System.exit(0);
+			else if (e.getSource() == button_close) {
+				 int op = JOptionPane.showConfirmDialog(null,"请问是否要退出系统？", "提示",JOptionPane.YES_NO_OPTION); 
+                 if(op==JOptionPane.YES_OPTION){  
+				         System.exit(0);
+                 }else {
+                	 return;
+                 }
 			}
 			}
+
 	}
-	
 
 	@Override
 	public void mousePressed(MouseEvent e) {
@@ -1165,6 +1183,8 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		return borrowRecord;
 
 	}
+	
+
 
 	public static HashMap<String, Object> courseAll(String token) {
 		HashMap<String, Object> cao = new HashMap<>();
@@ -1174,18 +1194,37 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		Response response = Client.fetch(request);
 		ArrayList<LinkedTreeMap<String, Object>> coursemaplist = (ArrayList<LinkedTreeMap<String, Object>>) response
 				.getBody().get("courseMaplist");
-		int row = coursemaplist.size();
-		String[][] valuetable = new String[row][6];
+		ArrayList<LinkedTreeMap<String, Object>> selectedCourse = 
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("selectedCourse");
+		int rows= selectedCourse==null?0:selectedCourse.size();
+		int row = coursemaplist==null?0:coursemaplist.size();
+		String[][] valuetable = new String[row][7];
 		// private String[] columnNames = {"课程名称","任课老师","上课地点","上课时间"," "," "}
 		for (int i = 0; i < row; i++) {
 			LinkedTreeMap<String, Object> coursemap = coursemaplist.get(i);
-			valuetable[i][0] = (String) coursemap.get("name");
-			valuetable[i][1] = (String) coursemap.get("lecturer");
-			valuetable[i][2] = (String) coursemap.get("location");
-			valuetable[i][3] = (String) coursemap.get("classtime");
-			valuetable[i][4] = (String) coursemap.get(" ");
-			valuetable[i][5] = (String) coursemap.get("   ");
-
+			valuetable[i][0] = (String)coursemap.get("uuid");
+			valuetable[i][1] = (String) coursemap.get("name");
+			valuetable[i][2] = (String) coursemap.get("lecturer");
+			valuetable[i][3] = (String) coursemap.get("location");
+			valuetable[i][4] = (String)coursemap.get("week")+(String) coursemap.get("classtime");
+			if(rows==0) {
+				valuetable[i][5] = "未选择";
+				valuetable[i][6] = "未选择";
+			}else {
+			for(int j=0;j<rows;j++ ) {
+				LinkedTreeMap<String, Object> selectedcourse = selectedCourse.get(j);
+				
+				if(valuetable[i][0].equals(selectedcourse.get("uuid"))) {
+					System.out.println(valuetable[i][0] +"=="+ selectedcourse.get("uuid") );
+					valuetable[i][5] = "已选择";
+					valuetable[i][6] = "已选择";
+					break;
+				}else {
+					valuetable[i][5] = "未选择";
+					valuetable[i][6] = "未选择";
+				}		
+			}
+			}
 		}
 		cao.put("tablevalue", valuetable);
 		cao.put("name", response.getBody().get("username"));
@@ -1244,7 +1283,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 		Response response = Client.fetch(request);
 		ArrayList<LinkedTreeMap<String, Object>>buyRecord =
 				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("buyRecordmaplist");
-		int row = buyRecord.size();
+		int row =buyRecord==null?0: buyRecord.size();
 		String[][] tablevalue = new String [row][5];
 		for(int i=0;i<row;i++) {
 			LinkedTreeMap<String,Object> recordmap = buyRecord.get(i);
