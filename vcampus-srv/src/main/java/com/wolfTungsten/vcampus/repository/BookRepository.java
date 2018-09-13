@@ -13,6 +13,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.stmt.PreparedDelete;
 import com.j256.ormlite.stmt.PreparedQuery;
 import com.j256.ormlite.stmt.PreparedUpdate;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.support.ConnectionSource;
 import com.wolfTungsten.vcampus.entity.Book;
@@ -81,8 +82,12 @@ public class BookRepository extends CurdRepository<Book>
 	//根据字段和值找对应书籍
 	public ArrayList<HashMap<String,Object>> inquireByFlag(String flag, Object value) throws SQLException {
 		ArrayList<Book> booksList = new ArrayList<>();
+		QueryBuilder<Book, String> qbd = dao.queryBuilder();
+		qbd.where().like(flag, "%"+value+"%");
+		
+		
 		ArrayList<HashMap<String,Object>> booksinfoList = new ArrayList<>();
-		booksList = (ArrayList<Book>)dao.queryForEq(flag,value);
+		booksList = (ArrayList<Book>) qbd.query();//(ArrayList<Book>)dao.queryForEq(flag,value);
 		for(Book b:booksList) {
 			HashMap<String,Object>bookinfo = new HashMap<>();
 			bookinfo.put(Book.UUID, b.getUuid().toString());

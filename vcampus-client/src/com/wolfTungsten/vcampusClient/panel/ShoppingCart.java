@@ -6,6 +6,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.wolfTungsten.vcampusClient.client.Client;
 import com.wolfTungsten.vcampusClient.client.Client.Request;
 import com.wolfTungsten.vcampusClient.client.Client.Response;
@@ -60,8 +61,8 @@ public class ShoppingCart extends JPanel implements ActionListener{
     		 checkBox.setBounds(9, 45, 150,30);
     		 checkBox.setFont(new Font("微软雅黑", Font.BOLD, 12));
     		 panel.add(checkBox);
-    		 
-    		 label_photo.setText(result[1]);
+    		// label_photo.setText("<html><img src=\\"+"\""+goods[0]+"\\"+"\""+"/"+"><html>");
+    		 label_photo.setText("<html><img src=\""+result[1]+"\""+" /></html>");
 //    		JLabel label_photo = new JLabel(image);//商品图片
     		 //TODO 亲，图片怎么过来呢
     		 label_photo.setBounds(160, 10, 100, 100);//(140, 10, 100, 100),像素100x100可以不
@@ -76,7 +77,7 @@ public class ShoppingCart extends JPanel implements ActionListener{
     		 label_yuan.setBounds(278, 49, 30, 30);
     		 panel.add(label_yuan);
     		 
-    		 label_price.setText(result[2]);//"（价格）"
+    		 label_price.setText(result[3]);//"（价格）"
     		 label_price.setFont(new Font("微软雅黑", Font.BOLD, 12));
     		 label_price.setBounds(308, 49, 54, 30);
     		 panel.add(label_price);
@@ -239,6 +240,8 @@ public class ShoppingCart extends JPanel implements ActionListener{
             	 if(response.getSuccess()) {
             	 for(int i=0;i<count;i++) {	
      				if(checkBox[i].isSelected()) {
+     					
+     					
      					checkBox[i].setSelected(false);
      					checkBox[i].setEnabled(false);
      					textField_number[i].setFont(new Font("微软雅黑", Font.BOLD, 16));
@@ -247,7 +250,8 @@ public class ShoppingCart extends JPanel implements ActionListener{
      					textField_number[i].setOpaque(false);		
      				}
      			}
-            	 JOptionPane.showMessageDialog(null, "删除成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
+            	 JOptionPane.showMessageDialog(null, "移除成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
+            	 
             	 return;
             	 
             	 }
@@ -258,4 +262,35 @@ public class ShoppingCart extends JPanel implements ActionListener{
 		}
 	
 	}	
+	public  void showshopcart(String token){
+		Client.Request request = new Request();
+		request.setPath("shop/queryCart");
+		request.setToken(token);
+		Response response = Client.fetch(request);
+		ArrayList<LinkedTreeMap<String,Object>> cartinfomaplist = 
+				(ArrayList<LinkedTreeMap<String, Object>>) response.getBody().get("cartinfomaplist");
+		int row = cartinfomaplist!=null?cartinfomaplist.size():0;
+		String[][] tablevalue = new String[row][4];
+		String[] UXGuuidList = new String[row];
+		for(int i =0;i<row;i++) {
+			LinkedTreeMap<String,Object> cartinfomap = cartinfomaplist.get(i);
+			String name = (String) cartinfomap.get("name");
+			int amount = (int)(double) cartinfomap.get("amount");
+			double price = (double) cartinfomap.get("price");
+			System.out.println("showcart:pirce:"+price);
+			String image = (String) cartinfomap.get("image");
+			tablevalue [i][0]= name;
+			tablevalue[i][1] = image;
+			tablevalue [i][2] =String.valueOf(amount);
+			tablevalue[i][3] = String.valueOf(price);
+			UXGuuidList[i] = (String)cartinfomap.get("uuid");
+			
+		}
+		HashMap<String,Object> cart = new HashMap<>();
+		cart.put("tablevalue", tablevalue);
+		cart.put("UXGuuidlist", UXGuuidList);
+		result=tablevalue;
+		UXGuuidlist = UXGuuidList;
+		
+	}
 }

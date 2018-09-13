@@ -10,7 +10,7 @@ import java.io.*;
 public class Client {
 
 
-	public static String host = "223.3.102.53";
+	public static String host = "223.3.112.108";
 
 
 	public static int port = 20006;
@@ -168,7 +168,8 @@ public class Client {
 	}
 	
 	public static void main(String[] args) {
-				
+			System.out.println("<html><img src=\\"+"\""+"http://img3.imgtn.bdimg.com/it/u=2474890579,1126776362&fm=15&gp=0.jpg"+"\\"+"\""+"/"+"><html>");	
+		
 	}
 	
 }

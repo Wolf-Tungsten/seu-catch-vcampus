@@ -68,7 +68,9 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		
 		panel.setBounds(bounds[0],bounds[1]+gap,bounds[2],bounds[3]);
 		
-		label_photo.setText("<html><img src=\"http://static.wolf-tungsten.com/vcampus/QQ%E5%9B%BE%E7%89%8720180911211804.jpg\" /><html>");//商品照片
+		label_photo.setText("<html><img src=\""+goods[0]+"\""+" /></html>");
+		
+		
 		label_photo.setBounds(10, 10, 100, 100);
 		panel.add(label_photo);
 		
@@ -325,6 +327,7 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 			   		 label_photo[i],label_good_name[i],label_price[i],textField_number[i],textArea_description[i],button_buy[i],button_add[i],
 			   		 goodstable[i] ) ;    
 		    panel.add(goodPanel[i]);
+		    
 	    }
 	    panel.setPreferredSize(new Dimension(716,130+gap*count));//panel的高度必须高于滚动面板
 		}
@@ -438,8 +441,9 @@ public class ShopSelect extends JPanel implements ActionListener,ItemListener{
 		String numberStr=textField_number[i].getText();
 		Client.Request request = new Request();
 		request.setPath("shop/addCart");
-		request.getParams().put("good_id", gooduuid);
+		request.getParams().put("good_id", good_uuidlist.get(i));
 		request.getParams().put("cost", Double.valueOf(priceStr));
+		System.out.println(priceStr);
 		request.getParams().put("amount", Integer.valueOf(numberStr));	
 		request.setToken(token);
 		Response response = Client.fetch(request);

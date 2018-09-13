@@ -1255,6 +1255,7 @@ public class FunctionFrame extends JFrame implements MouseListener {
 			String name = (String) cartinfomap.get("name");
 			int amount = (int)(double) cartinfomap.get("amount");
 			double price = (double) cartinfomap.get("price");
+			System.out.println("Showcart  pirce:"+price);
 			String image = (String) cartinfomap.get("image");
 			tablevalue [i][0]= name;
 			tablevalue[i][1] = image;
