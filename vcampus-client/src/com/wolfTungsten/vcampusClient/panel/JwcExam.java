@@ -54,7 +54,7 @@ public class JwcExam extends JPanel{
 		//大概{"名字","老师","地点","时间","天数",""} 开始
 		//添加表格列的函数
 		//tableModel.addRow(new String[]{}); 
-		tableModel.addRow(new String[] {"信号","王世杰","J2-404","14：00-16：00","1",null});
+		//tableModel.addRow(new String[] {"信号","王世杰","J2-404","14：00-16：00","1",null});
 		showExam();
 	}
 	
