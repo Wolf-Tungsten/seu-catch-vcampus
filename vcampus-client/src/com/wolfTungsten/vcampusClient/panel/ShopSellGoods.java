@@ -42,6 +42,7 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 	JComboBox<String> comboBox_type; 
 	JComboBox<String> comboBox_change;
 	private JTextField textField_postage;
+	JTextField textField_photo;
 	JTextArea textArea ;
 	JButton addButton,cancelButton;
 	String goodTypeStr,changeType;
@@ -79,15 +80,11 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		lblNewLabel_5.setBounds(119, 226, 82, 15);
 		add(lblNewLabel_5);
 		
-		JLabel lblNewLabel_1 = new JLabel("交易方式：");
+		JLabel lblNewLabel_1 = new JLabel("图片链接：");
 		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		lblNewLabel_1.setBounds(119, 286, 82, 15);
 		add(lblNewLabel_1);
 		
-		JLabel lblNewLabel_4 = new JLabel("邮费：");
-		lblNewLabel_4.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_4.setBounds(119, 346, 54, 15);
-		add(lblNewLabel_4);
 		
 		JLabel label = new JLabel("描述：");
 		label.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -112,6 +109,12 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		add(textField_number);
 		textField_number.setColumns(10);
 		
+		textField_photo = new JTextField();//YHD图片往这里传！
+		textField_photo.setFont(new Font("微软雅黑", Font.BOLD, 12));
+		textField_photo.setBounds(234,280, 306, 30);
+		add(textField_photo);
+		textField_photo.setColumns(10);
+		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("微软雅黑", Font.BOLD, 13));
 		textArea.addFocusListener(this);
@@ -132,26 +135,8 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		comboBox_type.addItemListener(this);
 		add(comboBox_type);
 		
-		comboBox_change = new JComboBox<String>();
-		comboBox_change.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		comboBox_change.setBounds(234, 283, 114, 23);
-		comboBox_change.addItem("当面交易");
-		comboBox_change.addItem("同城速递");
-		comboBox_change.addItem("其他");
-		comboBox_change.addItemListener(this);
-		add(comboBox_change);
 		
-		textField_postage = new JTextField("0");
-		textField_postage.setFont(new Font("微软雅黑", Font.BOLD, 12));
-		textField_postage.setBounds(234, 344, 306, 30);
-		textField_postage.setEditable(false);
-		add(textField_postage);
-		textField_postage.setColumns(10);
 		
-		JLabel label_1 = new JLabel("元");
-		label_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_1.setBounds(361, 360, 54, 30);
-		add(label_1);
 		
 		addButton = new JButton("确认添加");
 		addButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
@@ -165,15 +150,6 @@ public class ShopSellGoods extends JPanel implements ItemListener,FocusListener,
 		cancelButton.addActionListener(this);
 		add(cancelButton);
 		
-		label_2 = new JLabel("元");
-		label_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		label_2.setBounds(361, 180, 54, 24);
-		add(label_2);
-		
-		JLabel lblNewLabel_6 = new JLabel("元");
-		lblNewLabel_6.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_6.setBounds(550, 346, 30, 27);
-		add(lblNewLabel_6);
 		
 		JLabel lblNewLabel_7 = new JLabel("元");
 		lblNewLabel_7.setFont(new Font("微软雅黑", Font.BOLD, 14));

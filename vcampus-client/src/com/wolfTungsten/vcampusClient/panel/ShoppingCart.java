@@ -249,6 +249,7 @@ public class ShoppingCart extends JPanel implements ActionListener{
      			}
             	 JOptionPane.showMessageDialog(null, "删除成功！", "Tips",JOptionPane.INFORMATION_MESSAGE);
             	 return;
+            	 
             	 }
             	 
              }else{
