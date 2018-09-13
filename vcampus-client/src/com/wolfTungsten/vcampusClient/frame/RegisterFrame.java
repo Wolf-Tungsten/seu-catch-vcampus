@@ -102,10 +102,10 @@ public class RegisterFrame extends JFrame implements ActionListener,KeyListener{
 		cardNumLabel.setBounds(219, 100, 76, 30);
 		contentPane.add(cardNumLabel);
 		
-		JLabel identityLabel = new JLabel("姓名");
+		JLabel identityLabel = new JLabel("姓       名");
 		identityLabel.setForeground(Color.DARK_GRAY);
 		identityLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		identityLabel.setBounds(219, 150, 54, 30);
+		identityLabel.setBounds(219, 150, 76, 30);
 		contentPane.add(identityLabel);
 		
 		JLabel idCardNumLabel = new JLabel("身份证号");
@@ -120,16 +120,16 @@ public class RegisterFrame extends JFrame implements ActionListener,KeyListener{
 		birthdateLabel.setBounds(219, 250, 76, 30);
 		contentPane.add(birthdateLabel);
 		
-		JLabel addressLabel = new JLabel("地址");
+		JLabel addressLabel = new JLabel("地       址");
 		addressLabel.setForeground(Color.DARK_GRAY);
 		addressLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		addressLabel.setBounds(219, 300, 76, 30);
 		contentPane.add(addressLabel);
 		
-		JLabel passwordLabel = new JLabel("密码");
+		JLabel passwordLabel = new JLabel("密       码");
 		passwordLabel.setForeground(Color.DARK_GRAY);
 		passwordLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		passwordLabel.setBounds(219, 350, 54, 30);
+		passwordLabel.setBounds(219, 350, 63, 30);
 		contentPane.add(passwordLabel);
 		
 		JLabel rePassLabel = new JLabel("确认密码");

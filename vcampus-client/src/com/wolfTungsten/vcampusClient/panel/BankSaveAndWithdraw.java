@@ -42,12 +42,12 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		//label横坐标x为158
 		//textField横坐标为328，宽250
 		JLabel label = new JLabel("业务选择：");
-		label.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label.setBounds(158, 105, 84, 30);
 		add(label);
 		//“存款”按钮
 		radioButton_save = new JRadioButton("存款");
-		radioButton_save.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		radioButton_save.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		radioButton_save.setBounds(316, 107, 84, 23);
 		radioButton_save.setContentAreaFilled(false);
 		radioButton_save.setFocusPainted(false);
@@ -55,7 +55,7 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		add(radioButton_save);
 	    //“取款”按钮
 		radioButton_withdraw = new JRadioButton("取款");
-		radioButton_withdraw.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		radioButton_withdraw.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		radioButton_withdraw.setBounds(476, 107, 84, 23);
 		radioButton_withdraw.setContentAreaFilled(false);
 		radioButton_withdraw.setFocusPainted(false);
@@ -69,11 +69,13 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		
 		//输入金额
 		textField_amount = new JTextField();
+		textField_amount.setFont(new Font("宋体", Font.PLAIN, 14));
 		textField_amount.setBounds(328, 163, 250, 30);
 		add(textField_amount);
 		textField_amount.setColumns(10);
 		//输入账号密码
 		textField_account_pass = new JPasswordField();
+		textField_account_pass.setFont(new Font("宋体", Font.PLAIN, 14));
 		textField_account_pass.setBounds(328, 228, 250, 30);
 		textField_account_pass.addFocusListener(this);
 		add(textField_account_pass);
@@ -81,23 +83,23 @@ public class BankSaveAndWithdraw extends JPanel implements ActionListener,FocusL
 		
 		//“确认”按钮
 		okButton = new JButton("确认");
-		okButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		okButton.setBounds(158, 302, 111, 31);
+		okButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		okButton.setBounds(158, 302, 120, 31);
 		okButton.addActionListener(this);
 		add(okButton);
 		//“取消”按钮
 		cancelButton = new JButton("取消");
-		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		cancelButton.setBounds(467, 301, 111, 32);
+		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		cancelButton.setBounds(467, 301, 120, 32);
 		cancelButton.addActionListener(this);
 		add(cancelButton);
 		//标签们，忽略吧
 		JLabel label_1 = new JLabel("金额：");
-		label_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_1.setBounds(158, 163, 73, 30);
 		add(label_1);
 		JLabel label_2 = new JLabel("账号密码：");
-		label_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_2.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_2.setBounds(158, 228, 84, 30);
 		add(label_2);
 		JLabel lblTips = new JLabel("Tips:");

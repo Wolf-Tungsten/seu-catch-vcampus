@@ -35,46 +35,46 @@ public class BankTurnMoney extends JPanel implements ActionListener{
 		//label横坐标x为158
 		//textField横坐标为328，宽250
 		JLabel label = new JLabel("转入账号：");
-		label.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label.setBounds(158, 96, 82, 30);
 		add(label);
 		
 		JLabel lblNewLabel = new JLabel("转入金额：");
-		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		lblNewLabel.setBounds(158, 163, 82, 30);
 		add(lblNewLabel);
 		
 		JLabel label_1 = new JLabel("账号密码：");
-		label_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_1.setBounds(158, 228, 82, 30);
 		add(label_1);
 		
 		textField_to_account = new JTextField();
-		textField_to_account.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		textField_to_account.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_to_account.setBounds(328, 97, 250, 30);
 		add(textField_to_account);
 		textField_to_account.setColumns(10);
 		
 		textField_amount = new JTextField();
-		textField_amount.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		textField_amount.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_amount.setBounds(328, 164, 250, 30);
 		add(textField_amount);
 		textField_amount.setColumns(10);
 		
 		textField_pass = new JPasswordField();
-		textField_pass.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		textField_pass.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textField_pass.setBounds(328, 229, 250, 30);
 		add(textField_pass);
 		textField_pass.setColumns(10);
 		
 		okButton = new JButton("确认");
-		okButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		okButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		okButton.setBounds(158, 300, 111, 30);
 		okButton.addActionListener(this);
 		add(okButton);
 		
 		cancelButton = new JButton("取消");
-		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		cancelButton.setBounds(467, 300, 111, 30);
 		cancelButton.addActionListener(this);
 		add(cancelButton);

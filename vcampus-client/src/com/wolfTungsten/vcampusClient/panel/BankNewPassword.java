@@ -30,25 +30,20 @@ public class BankNewPassword extends JPanel implements ActionListener{
 	public BankNewPassword(String Token) {
 		token=Token;
 		setSize(736,600);
-		setLayout(null);//绝对布局
-		
-		JLabel lblNewLabel = new JLabel("新建支付密码");
-		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel.setBounds(10, 10, 94, 26);
-		add(lblNewLabel);
+		setLayout(null);
 		
 		JLabel label = new JLabel("一卡通号：");
-		label.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label.setBounds(158, 100 ,100, 30);
 		add(label);
 		
 		JLabel lblNewLabel1 = new JLabel("支付密码：");
-		lblNewLabel1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		lblNewLabel1.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		lblNewLabel1.setBounds(158, 230, 100, 30);
 		add(lblNewLabel1);
 		
 		JLabel lblNewLabel_1 = new JLabel("确认新密码：");
-		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		lblNewLabel_1.setBounds(158, 300, 100, 30);
 		add(lblNewLabel_1);
 		
@@ -72,34 +67,34 @@ public class BankNewPassword extends JPanel implements ActionListener{
 		
 		//“确认”按钮
 		okButton = new JButton("确认");
-		okButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		okButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		okButton.setBounds(158, 387, 111, 31);
 		okButton.addActionListener(this);
 		add(okButton);
 		//“取消”按钮
 		cancelButton = new JButton("取消");
-		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		cancelButton.setBounds(447, 386, 111, 32);
 		cancelButton.addActionListener(this);
 		add(cancelButton);
 		
 		JLabel lblTips = new JLabel("Tips:");
 		lblTips.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblTips.setBounds(158, 494, 54, 15);
+		lblTips.setBounds(158, 486, 54, 15);
 		add(lblTips);
 		//tips文本域
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textArea.setText("账户密码将自动保存在本地浏览器，请勿在公共设备上使用此功能。");
-		textArea.setBounds(158, 534, 420, 31);
+		textArea.setBounds(158, 526, 420, 31);
 		textArea.setOpaque(false);
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
 		add(textArea);
 		
-		JLabel lblNewLabel_2 = new JLabel("身份证号：");
-		lblNewLabel_2.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(158, 165, 70, 15);
+		JLabel lblNewLabel_2 = new JLabel("身份证号");
+		lblNewLabel_2.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		lblNewLabel_2.setBounds(157, 162, 88, 30);
 		add(lblNewLabel_2);
 		
 		textField_ID = new JTextField();//身份证号

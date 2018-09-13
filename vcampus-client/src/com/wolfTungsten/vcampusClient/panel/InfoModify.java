@@ -38,33 +38,33 @@ public class InfoModify extends JPanel implements ActionListener{
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		modifyButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		modifyButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		modifyButton.setBounds(80, 60, 162, 30);
 		modifyButton.addActionListener(this);
 		add(modifyButton);
 		
 		JLabel label_cardNum = new JLabel("一卡通号：");
-		label_cardNum.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_cardNum.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_cardNum.setBounds(80, 120, 81, 30);
 		add(label_cardNum);
 		
 		JLabel label_name = new JLabel("姓名：");
-		label_name.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_name.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_name.setBounds(80, 180, 81, 30);
 		add(label_name);
 		
 		JLabel label_IDnum = new JLabel("身份证号：");
-		label_IDnum.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_IDnum.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_IDnum.setBounds(80, 240, 81, 30);
 		add(label_IDnum);
 		
 		JLabel label_birthdate = new JLabel("出生日期：");
-		label_birthdate.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_birthdate.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_birthdate.setBounds(80, 300, 81, 30);
 		add(label_birthdate);
 		
 		JLabel label_address = new JLabel("地址：");
-		label_address.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_address.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_address.setBounds(80, 360, 81, 30);
 		add(label_address);
 		
@@ -114,14 +114,14 @@ public class InfoModify extends JPanel implements ActionListener{
 		textField_address.setColumns(10);
 		
 		okButton = new JButton("确认修改");
-		okButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		okButton.setBounds(80, 434, 93, 30);
+		okButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		okButton.setBounds(80, 434, 120, 30);
 		okButton.addActionListener(this);
 		add(okButton);
 		
 		cancelButton = new JButton("取消");
-		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		cancelButton.setBounds(454, 435, 93, 30);
+		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		cancelButton.setBounds(427, 434, 120, 30);
 		cancelButton.addActionListener(this);
 		add(cancelButton);
 	}

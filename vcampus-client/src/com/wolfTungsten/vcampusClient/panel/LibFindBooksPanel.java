@@ -16,6 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 
 import com.google.gson.internal.LinkedTreeMap;
@@ -59,10 +60,10 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		token = Token;
 		//按书名/作者检索的输入文本框
 		textField_select= new JTextField();
-		textField_select.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		textField_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
 		textField_select.setForeground(Color.LIGHT_GRAY);
 		textField_select.setText("书名/作者");
-		textField_select.setBounds(20, 20, 560, 36);
+		textField_select.setBounds(20, 20, 565, 30);
 		textField_select.addFocusListener(this);
 		textField_select.addMouseListener(this);
 		
@@ -72,12 +73,12 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 		button_select = new JButton("搜索");
 		button_select.setFont(new Font("微软雅黑", Font.BOLD, 14));
 
-		button_select.setBounds(590, 20, 126, 36);
+		button_select.setBounds(616, 18, 100, 30);
 		button_select.addActionListener(this);
 		add(button_select);		
 		
 		scrollPane = new JScrollPane();//创建显示表格的滚动面板
-		scrollPane.setBounds(20, 76, 696, 514);
+		scrollPane.setBounds(20, 72, 696, 518);
 		add(scrollPane);
 		
 		scrollPane.addMouseListener(this);
@@ -103,16 +104,21 @@ public class LibFindBooksPanel extends JPanel implements FocusListener,ActionLis
 					return true;
             }
 		};
+		table.setFont(new Font("微软雅黑", Font.PLAIN, 14));
+		JTableHeader head = table.getTableHeader(); // 创建表格标题对象
+        head.setPreferredSize(new Dimension(head.getWidth(), 25));// 设置表头大小
+        head.setFont(new Font("微软雅黑", Font.BOLD, 14));// 设置表格字体
+       table.setRowHeight(28);// 设置表格行宽
 		 //设置表数据居中显示
 		DefaultTableCellRenderer cr = new DefaultTableCellRenderer();
 		cr.setHorizontalAlignment(JLabel.CENTER);
 		 table.setDefaultRenderer(Object.class, cr);
 		//遍历所有行
 //		 测试用，可以删了
-//		 String []rowValues= {"12356","高等数学","东野圭吾","嫌疑人X的献身","九龙湖","借阅"};
-//		 table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));
-//		 this.table.getColumnModel().getColumn(5).setCellRenderer(new MyButtonRender());
-//		 tableModel.addRow(rowValues);
+		 String []rowValues= {"12356","高等数学","东野圭吾","嫌疑人X的献身","九龙湖","借阅"};
+		 table.getColumn("状态").setCellEditor(new TableButtonEditor(new JCheckBox(),token));
+		 this.table.getColumnModel().getColumn(5).setCellRenderer(new MyButtonRender());
+	 tableModel.addRow(rowValues);
 		//我这里无法获取更改后的“状态”列里的信息，界面上点击借阅后“借阅”按钮会变为不可点击的“已借出”按钮，但我这里怎么接受返回的信息呢？
 		 //在TablerButtonEditor()里有返回
 		scrollPane.setViewportView(table);

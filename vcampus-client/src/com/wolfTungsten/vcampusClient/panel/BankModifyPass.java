@@ -38,18 +38,18 @@ public class BankModifyPass extends JPanel implements ActionListener{
 		setLayout(null);
 		
 		JLabel label_1 = new JLabel("原始密码：");
-		label_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		label_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		label_1.setBounds(158, 100, 100, 30);
 		add(label_1);
 		
 		JLabel lblNewLabel = new JLabel("新密码：");
-		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel.setBounds(158, 170, 100, 30);
+		lblNewLabel.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		lblNewLabel.setBounds(158, 176, 100, 30);
 		add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("确认新密码：");
-		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(158, 240, 100, 30);
+		lblNewLabel_1.setFont(new Font("微软雅黑", Font.BOLD, 16));
+		lblNewLabel_1.setBounds(158, 246, 100, 30);
 		add(lblNewLabel_1);
 		
 		textField_originalPass = new JPasswordField();
@@ -72,26 +72,26 @@ public class BankModifyPass extends JPanel implements ActionListener{
 		
 		//“确认”按钮
 		okButton = new JButton("确认");
-		okButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		okButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		okButton.setBounds(158, 317, 111, 31);
 		okButton.addActionListener(this);
 		add(okButton);
 		//“取消”按钮
 		cancelButton = new JButton("取消");
-		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 14));
+		cancelButton.setFont(new Font("微软雅黑", Font.BOLD, 16));
 		cancelButton.setBounds(447, 316, 111, 32);
 		cancelButton.addActionListener(this);
 		add(cancelButton);
 		
 		JLabel lblTips = new JLabel("Tips:");
 		lblTips.setFont(new Font("微软雅黑", Font.BOLD, 14));
-		lblTips.setBounds(158, 384, 54, 15);
+		lblTips.setBounds(158, 386, 54, 15);
 		add(lblTips);
 		//tips文本域
 		JTextArea textArea = new JTextArea();
 		textArea.setFont(new Font("微软雅黑", Font.PLAIN, 14));
 		textArea.setText("账户密码将自动保存在本地浏览器，请勿在公共设备上使用此功能。");
-		textArea.setBounds(158, 424, 420, 31);
+		textArea.setBounds(158, 426, 420, 31);
 		textArea.setOpaque(false);
 		textArea.setEditable(false);
 		textArea.setLineWrap(true);
