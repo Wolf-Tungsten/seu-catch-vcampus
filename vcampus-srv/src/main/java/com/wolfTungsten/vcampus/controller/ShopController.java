@@ -265,12 +265,15 @@ public class ShopController extends BaseController
 				
 				User shopuser = orm.userRepository.inquireByCardnum("000000");//商店管理员
 				String shopuseruuid = shopuser.getUuid().toString();
-				orm.userXGoodsRepository.addUXG(useruuid, good_uuid, amount
-						, price, 0,1,System.currentTimeMillis()/1000);
-				orm.tradingRecordRepository.addTradingRecord(useruuid, shopuseruuid,
-						price*amount*100, System.currentTimeMillis()/1000);
+				
+				
 				Goods good = orm.goodsRepository.inquireById(good_uuid);
 				if(good.getAmount()-amount<0)throw new SQLException("库存不足，请减少购买数量");
+				orm.userXGoodsRepository.addUXG(useruuid, good_uuid, amount
+						, price, 0,1,System.currentTimeMillis()/1000);
+				
+				orm.tradingRecordRepository.addTradingRecord(useruuid, shopuseruuid,
+						price*amount*100, System.currentTimeMillis()/1000);
 				orm.goodsRepository.updateGoodsByfalg(good_uuid, Goods.AMOUNT, good.getAmount()-amount);
 				response.setSuccess(true);
 				return response;
@@ -318,16 +321,22 @@ public class ShopController extends BaseController
 					
 					String uxguuid = (String) goodinfo.get(UserXGoods.UUID);
 					UserXGoods uxg = orm.userXGoodsRepository.queryOne(uxguuid);
-					String gooduuid = uxg.getGood_id();					
+					
+					
+					String gooduuid = uxg.getGood_id();	
+					
 					int amount =(int)(double) goodinfo.get(UserXGoods.AMOUNT);
 					double price = (double) goodinfo.get(UserXGoods.COST);
-					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.WHETHERBUY, 1);
-					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.CREATETIME, System.currentTimeMillis()/1000);
-					orm.tradingRecordRepository.addTradingRecord(userid,
-							shop_userid, price*amount*100,System.currentTimeMillis()/1000 );	
 					Goods good = orm.goodsRepository.inquireById(gooduuid);
 					if(good.getAmount()-amount<0)throw new SQLException("库存不足，请减少购买数量");
+					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.WHETHERBUY, 1);
+					orm.userXGoodsRepository.updateUXGbyFlag(uxguuid, UserXGoods.CREATETIME, System.currentTimeMillis()/1000);				
+					
+					
 					orm.goodsRepository.updateGoodsByfalg(gooduuid, Goods.AMOUNT, good.getAmount()-amount);
+					orm.tradingRecordRepository.addTradingRecord(userid,
+							shop_userid, price*amount*100,System.currentTimeMillis()/1000 );
+					
 				}
 				response.setSuccess(true);
 				return response;
